@@ -1,7 +1,13 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/schlucht/fhxreader/pkg/fhx"
+)
 
 func main() {
-  fmt.Println("Hallo Lothar")
+	p := "./files/deltaV.fhx"
+	fhx.New(p)
+	fmt.Println("Hallo Lothar", p)
 }
