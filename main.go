@@ -1,13 +1,13 @@
 package main
 
 import (
-	"fmt"
-
-	"github.com/schlucht/fhxreader/pkg/fhx"
+	"github.com/schlucht/fhxreader/pkg/database"
+	"github.com/schlucht/fhxreader/pkg/fhxModels"
 )
 
 func main() {
-	p := "./files/deltaV.fhx"
-	fhx.New(p)
-	fmt.Println("Hallo Lothar", p)
+	p := "./files/UP_Q2800_Up.fhx"
+	f := fhxModels.New(p)
+	database.WriteFhx(f, f.Unit.Name)
+
 }
