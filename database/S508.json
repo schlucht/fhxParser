@@ -1,0 +1,253 @@
+{
+    "desc": "Alle Standard Units vom der Unit",
+    "unitname": "S508",
+    "unitprocedure": [
+        {
+            "name": "UP_S508_ENTL_TR",
+            "time": 0,
+            "author": "",
+            "params": [
+                {
+                    "name": "FP_LL_FSB_1",
+                    "desc": "",
+                    "value": {
+                        "stringvalue": "",
+                        "set": "",
+                        "high": "",
+                        "low": "",
+                        "cv": "",
+                        "unit": ""
+                    }
+                },
+                {
+                    "name": "FP_LL_FSB_2",
+                    "desc": "",
+                    "value": {
+                        "stringvalue": "",
+                        "set": "",
+                        "high": "",
+                        "low": "",
+                        "cv": "",
+                        "unit": ""
+                    }
+                },
+                {
+                    "name": "FP_RÜHRER_W_1",
+                    "desc": "",
+                    "value": {
+                        "stringvalue": "",
+                        "set": "",
+                        "high": "",
+                        "low": "",
+                        "cv": "",
+                        "unit": ""
+                    }
+                },
+                {
+                    "name": "FP_RÜHRER_W_2",
+                    "desc": "",
+                    "value": {
+                        "stringvalue": "",
+                        "set": "",
+                        "high": "",
+                        "low": "",
+                        "cv": "",
+                        "unit": ""
+                    }
+                },
+                {
+                    "name": "FP_TR_EMPF",
+                    "desc": "",
+                    "value": {
+                        "stringvalue": "",
+                        "set": "",
+                        "high": "",
+                        "low": "",
+                        "cv": "",
+                        "unit": ""
+                    }
+                },
+                {
+                    "name": "FP_TR_EMPF_LAH",
+                    "desc": "",
+                    "value": {
+                        "stringvalue": "",
+                        "set": "",
+                        "high": "",
+                        "low": "",
+                        "cv": "",
+                        "unit": ""
+                    }
+                },
+                {
+                    "name": "FP_TR_MANSTART",
+                    "desc": "",
+                    "value": {
+                        "stringvalue": "",
+                        "set": "",
+                        "high": "",
+                        "low": "",
+                        "cv": "",
+                        "unit": ""
+                    }
+                },
+                {
+                    "name": "FP_TR_SEND_WEG",
+                    "desc": "",
+                    "value": {
+                        "stringvalue": "",
+                        "set": "",
+                        "high": "",
+                        "low": "",
+                        "cv": "",
+                        "unit": ""
+                    }
+                },
+                {
+                    "name": "FP_TR_EMPF_WEG",
+                    "desc": "",
+                    "value": {
+                        "stringvalue": "",
+                        "set": "",
+                        "high": "",
+                        "low": "",
+                        "cv": "",
+                        "unit": ""
+                    }
+                },
+                {
+                    "name": "FP_TR_SPUEL",
+                    "desc": "",
+                    "value": {
+                        "stringvalue": "",
+                        "set": "",
+                        "high": "",
+                        "low": "",
+                        "cv": "",
+                        "unit": ""
+                    }
+                },
+                {
+                    "name": "FP_TR_SPUELZEIT",
+                    "desc": "",
+                    "value": {
+                        "stringvalue": "",
+                        "set": "",
+                        "high": "",
+                        "low": "",
+                        "cv": "",
+                        "unit": ""
+                    }
+                },
+                {
+                    "name": "FP_TR_TSH",
+                    "desc": "",
+                    "value": {
+                        "stringvalue": "",
+                        "set": "",
+                        "high": "",
+                        "low": "",
+                        "cv": "",
+                        "unit": ""
+                    }
+                },
+                {
+                    "name": "FP_TR_TSL",
+                    "desc": "",
+                    "value": {
+                        "stringvalue": "",
+                        "set": "",
+                        "high": "",
+                        "low": "",
+                        "cv": "",
+                        "unit": ""
+                    }
+                },
+                {
+                    "name": "FP_TR_PUMPE",
+                    "desc": "",
+                    "value": {
+                        "stringvalue": "",
+                        "set": "",
+                        "high": "",
+                        "low": "",
+                        "cv": "",
+                        "unit": ""
+                    }
+                },
+                {
+                    "name": "FP_LL_N2_ENDE",
+                    "desc": "",
+                    "value": {
+                        "stringvalue": "",
+                        "set": "",
+                        "high": "",
+                        "low": "",
+                        "cv": "",
+                        "unit": ""
+                    }
+                },
+                {
+                    "name": "FP_N2_ZU",
+                    "desc": "",
+                    "value": {
+                        "stringvalue": "",
+                        "set": "",
+                        "high": "",
+                        "low": "",
+                        "cv": "",
+                        "unit": ""
+                    }
+                },
+                {
+                    "name": "FP_N2_AUF",
+                    "desc": "",
+                    "value": {
+                        "stringvalue": "",
+                        "set": "",
+                        "high": "",
+                        "low": "",
+                        "cv": "",
+                        "unit": ""
+                    }
+                },
+                {
+                    "name": "FP_TR_UNTERB_MST",
+                    "desc": "",
+                    "value": {
+                        "stringvalue": "",
+                        "set": "",
+                        "high": "",
+                        "low": "",
+                        "cv": "",
+                        "unit": ""
+                    }
+                },
+                {
+                    "name": "FP_TR_UNTERB_SH",
+                    "desc": "",
+                    "value": {
+                        "stringvalue": "",
+                        "set": "",
+                        "high": "",
+                        "low": "",
+                        "cv": "",
+                        "unit": ""
+                    }
+                },
+                {
+                    "name": "FP_TR_UNTERB_SL",
+                    "desc": "",
+                    "value": {
+                        "stringvalue": "",
+                        "set": "",
+                        "high": "",
+                        "low": "",
+                        "cv": "",
+                        "unit": ""
+                    }
+                }
+            ]
+        }
+    ]
+}

@@ -18,7 +18,7 @@ import (
 	Liest einen ganzen Block aus einer fhx Datei. Es wird alles zwischen einem öffnenden und Schliessenden {} in ein Array gelesen.
 
 Return ist ein Array mit dem Blocknamen und dann mit allen Zeilen als Array.
-Parameter1 ein String zum identifizieren des Blocks und den zu durchsuchenden Text als Arra
+Parameter ein String zum identifizieren des Blocks und den zu durchsuchenden Text als Arra
 */
 func ReadBlock(startString string, lines []string) ([][]string, error) {
 
@@ -112,6 +112,20 @@ func ReadRegex(regex string, txt string) (string, error) {
 	}
 	return res, nil
 }
+func ReadRegexSubexp(regex string, txt string) (map[string]string, error) {
+	res := make(map[string]string)
+	if regex == "" {
+		return res, errors.New("no regexpattern for search")
+	}
+	compile := regexp.MustCompile(regex)
+	matches := compile.FindStringSubmatch(txt)
+	if len(matches) > 0 {
+		for _, s := range compile.SubexpNames() {
+			res[s] = matches[compile.SubexpIndex(s)]
+		}
+	}
+	return res, nil
+}
 
 /* Liest ein fhx File im UTF16L in ein Array ein*/
 func ReadFhxFile16(filePath string) ([]string, error) {
@@ -132,11 +146,31 @@ func ReadFhxFile16(filePath string) ([]string, error) {
 }
 
 /* Testet ein fhx Pfad ob es ein*/
-func IsFhxFile(pathStr string) bool {
+func IsFhxFile(pathStr string) string {
 	ext := path.Ext(pathStr)
-	return strings.ToUpper(ext) != ".FHX"
+
+	return strings.ToUpper(ext)
 }
 
+/* Splittet ein Text beim Zeilen Umbruch*/
 func SplitLines(text string) []string {
 	return strings.Split(text, "\n")
+}
+
+/*
+	Matcht den Wert aus einem einer Liste mit fhx Zeilen
+
+Parameter: lines ein Array mit den Zeilen
+regex ein Regex Suchstring
+Rückgabe alle Wert die auf das Regex gepasst haben
+*/
+func ReadParam(lines []string, regex string) []string {
+	var results []string
+	for _, l := range lines {
+		u, _ := ReadRegex(regex, l)
+		if u != "" {
+			results = append(results, u)
+		}
+	}
+	return results
 }

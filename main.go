@@ -7,7 +7,7 @@ import (
 
 func main() {
 	p := "./files/UP_Q2800_Up.fhx"
-	f := fhxModels.New(p)
-	database.WriteFhx(f, f.Unit.Name)
+	f := fhxModels.NewFhx(p)
+	database.WriteFhx(f, "units")
 
 }
