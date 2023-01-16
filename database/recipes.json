@@ -1,0 +1,27 @@
+[
+    {
+        "desc": "Alle Standard Units vom der Unit",
+        "unitname": "",
+        "unitprocedure": [
+            {
+                "name": "RP_REIN_IODOS-Q2800-P105_WA",
+                "time": 1596611912,
+                "author": "LSCHMID1",
+                "params": [
+                    {
+                        "name": "FP_ANZAHL_DEST",
+                        "desc": "",
+                        "value": {
+                            "stringvalue": "",
+                            "set": "",
+                            "high": "255",
+                            "low": "0",
+                            "cv": "3",
+                            "unit": "            "
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+]

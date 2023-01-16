@@ -1,7 +1,6 @@
 package fhxModels
 
 import (
-	"fmt"
 	"log"
 	"strconv"
 	"strings"
@@ -10,8 +9,8 @@ import (
 )
 
 var regFhx = map[string]string{
-	"Author":      `user="(?P<s>.*)" t`,
-	"Time":        `time=(?P<i>\d{10})/*`,
+	"Author":      `AUTHOR="(?P<s>.*)"`,
+	"Time":        `.*time=(?P<s>\d{10})/*`,
 	"VERSION":     `VERSION="(?P<s>.*)"`,
 	"Recipe":      `BATCH_RECIPE NAME="(?P<s>.*)" T`,
 	"Params":      `FORMULA_PARAMETER NAME="(?P<s>.*)" T`,
@@ -63,7 +62,6 @@ func (m *Fhx) readFhx(path string) []Fhx {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(strings.Repeat("%", 100))
 
 	for _, b := range block {
 		// Names of Unit
@@ -71,7 +69,7 @@ func (m *Fhx) readFhx(path string) []Fhx {
 		if len(unitName) > 0 {
 			fhx.Unitname = unitName[0]
 		}
-		fhx.Procedures = m.ReadUps(b)
+		fhx.Procedures = fhx.ReadUps(b)
 		fhxs = append(fhxs, fhx)
 	}
 	return fhxs
@@ -89,14 +87,16 @@ func (m *Fhx) ReadUps(lines []string) []Procedure {
 		if err != nil {
 			log.Fatal("ReadUps():", err)
 		}
-		up.Name = u
+		if u != "" {
+			up.Name = u
+		}
 
 		time, err := fhxReader.ReadRegex(regFhx["Time"], l)
 		if err != nil {
 			log.Fatal("ReadUps():", err)
 		}
 		if time != "" {
-			t, err := strconv.ParseInt(time, 2, 12)
+			t, err := strconv.Atoi(time)
 			if err != nil {
 				log.Fatal("ReadUps():", err)
 			}
@@ -106,7 +106,9 @@ func (m *Fhx) ReadUps(lines []string) []Procedure {
 		if err != nil {
 			log.Fatal("ReadUps():", err)
 		}
-		up.Author = author
+		if author != "" {
+			up.Author = author
+		}
 	}
 
 	paramBlocks, err := fhxReader.ReadBlock("FORMULA_PARAMETER", lines)
@@ -135,14 +137,18 @@ func (m *Fhx) ReadParameters(paramBlock [][]string, attrBlock [][]string) []Para
 			if err != nil {
 				log.Fatal("ReadParameters():", err)
 			}
-			param.Name = name
-			param.Value = m.ReadAttribute(attrBlock, name)
+			if name != "" {
+				param.Name = name
+				param.Value = m.ReadAttribute(attrBlock, name)
+			}
 
 			desc, err := fhxReader.ReadRegex(regFhx["Desc"], l)
 			if err != nil {
 				log.Fatal("ReadParameters():", err)
 			}
-			param.Description = desc
+			if desc != "" {
+				param.Description = desc
+			}
 
 		}
 		params = append(params, param)

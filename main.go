@@ -9,9 +9,9 @@ import (
 
 func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
-	
-	p := "./files/UP_Q2800_Up.fhx"
+
+	p := "./files/deltaV.fhx"
 	f := fhxModels.NewFhx(p)
-	database.WriteFhx(f, "units")
+	database.WriteFhx(f, "recipes")
 
 }
