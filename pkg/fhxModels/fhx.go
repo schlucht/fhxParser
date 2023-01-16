@@ -10,7 +10,7 @@ import (
 )
 
 var regFhx = map[string]string{
-	"Autor":       `user="(?P<s>.*)" t`,
+	"Author":      `user="(?P<s>.*)" t`,
 	"Time":        `time=(?P<i>\d{10})/*`,
 	"VERSION":     `VERSION="(?P<s>.*)"`,
 	"Recipe":      `BATCH_RECIPE NAME="(?P<s>.*)" T`,
@@ -69,52 +69,58 @@ func (m *Fhx) readFhx(path string) []Fhx {
 		// Names of Unit
 		unitName := fhxReader.ReadParam(b, regFhx["Unit"])
 		if len(unitName) > 0 {
-			m.Unitname = unitName[0]
+			fhx.Unitname = unitName[0]
 		}
-		fhx.ReadUps(b)
+		fhx.Procedures = m.ReadUps(b)
 		fhxs = append(fhxs, fhx)
 	}
 	return fhxs
-}
-func (m *Fhx) readJson(path string) {
-	// ToDo
 }
 
 /*
 Liest die Unit Proceduren aus der FHX Datei
 */
-func (m *Fhx) ReadUps(lines []string) {
+func (m *Fhx) ReadUps(lines []string) []Procedure {
 	var ups = []Procedure{}
 	up := Procedure{}
 	// Names of UP
-	upName := fhxReader.ReadParam(lines, regFhx["Recipe"])
-	if len(upName) > 0 {
-		up.Name = upName[0]
-	}
-	time := fhxReader.ReadParam(lines, regFhx["Time"])
-	if len(time) > 0 {
-		t, err := strconv.ParseInt(time[0], 2, 12)
+	for _, l := range lines {
+		u, err := fhxReader.ReadRegex(regFhx["Recipe"], l)
 		if err != nil {
-			log.Fatal(err)
+			log.Fatal("ReadUps():", err)
 		}
-		up.Time = t
+		up.Name = u
+
+		time, err := fhxReader.ReadRegex(regFhx["Time"], l)
+		if err != nil {
+			log.Fatal("ReadUps():", err)
+		}
+		if time != "" {
+			t, err := strconv.ParseInt(time, 2, 12)
+			if err != nil {
+				log.Fatal("ReadUps():", err)
+			}
+			up.Time = t
+		}
+		author, err := fhxReader.ReadRegex(regFhx["Author"], l)
+		if err != nil {
+			log.Fatal("ReadUps():", err)
+		}
+		up.Author = author
 	}
-	author := fhxReader.ReadParam(lines, regFhx["Author"])
-	if len(author) > 0 {
-		up.Author = author[0]
-	}
+
 	paramBlocks, err := fhxReader.ReadBlock("FORMULA_PARAMETER", lines)
 	if err != nil {
-		log.Fatal((err))
+		log.Fatal("ReadUps():", err)
 	}
 	attrBlocks, err := fhxReader.ReadBlock("ATTRIBUTE_INSTANCE", lines)
 	if err != nil {
-		log.Fatal((err))
+		log.Fatal("ReadUps():", err)
 	}
 	up.Parameters = m.ReadParameters(paramBlocks, attrBlocks)
 
 	ups = append(ups, up)
-	m.Procedures = ups
+	return ups
 }
 
 /*
@@ -125,17 +131,20 @@ func (m *Fhx) ReadParameters(paramBlock [][]string, attrBlock [][]string) []Para
 	var param = Parameter{}
 	for _, b := range paramBlock {
 		for _, l := range b {
-			u, _ := fhxReader.ReadRegex(regFhx["Params"], l)
-			if u != "" {
-				param.Name = u
-				param.Value = m.ReadAttribute(attrBlock, u)
+			name, err := fhxReader.ReadRegex(regFhx["Params"], l)
+			if err != nil {
+				log.Fatal("ReadParameters():", err)
 			}
-			u, _ = fhxReader.ReadRegex(regFhx["Desc"], l)
-			if u != "" {
-				param.Description = u
-			}
-		}
+			param.Name = name
+			param.Value = m.ReadAttribute(attrBlock, name)
 
+			desc, err := fhxReader.ReadRegex(regFhx["Desc"], l)
+			if err != nil {
+				log.Fatal("ReadParameters():", err)
+			}
+			param.Description = desc
+
+		}
 		params = append(params, param)
 	}
 	return params
@@ -147,31 +156,48 @@ Auslesen der Wert aus der ATTRIBUTE_INSTANCE die Werte werden den Parameter hinz
 func (m *Fhx) ReadAttribute(block [][]string, paramName string) Value {
 	var val = Value{}
 	for _, b := range block {
-		for i, l := range b {
+		for _, l := range b {
 			// Wenn der Name vom Parameter gefunden wir
 			if strings.Contains(l, paramName) {
 				// Auslesen ob ein Set vorhanden ist
-				u, _ := fhxReader.ReadRegex(regFhx["ValueSet"], l)
-				if u != "" {
-					val.Set = u
-					strVal, _ := fhxReader.ReadRegex(regFhx["ValueString"], b[i+1])
-					val.StringValue = strVal
-					return val // Beenden da Wert gefunden
-				} else {
-					// Nur bei Texten wie Melden
-					d, _ := fhxReader.ReadRegex(regFhx["ValueDesc"], l)
-					if d != "" {
-						val.Cv = d
-						return val // Beenden da Wert gefunden
+				if len(b) > 4 {
+					u, err := fhxReader.ReadRegex(regFhx["ValueSet"], b[4])
+					if err != nil {
+						log.Fatal("ReadAttribute():", err)
 					}
-					// Werte für Zahlen
-					v, _ := fhxReader.ReadRegexSubexp(regFhx["Value"], l)
-					val.High = v["s1"]
-					val.Low = v["s2"]
-					val.Cv = v["s3"]
-					val.Unit = v["s4"]
-					return val // Beenden da Wert gefunden
+					val.Set = u
+					strVal, err := fhxReader.ReadRegex(regFhx["ValueString"], b[5])
+					if err != nil {
+						log.Fatal("ReadAttribute():", err)
+					}
+					val.StringValue = strVal
+					return val
 				}
+
+				// Nur bei Texten wie Melden
+				//fmt.Println(len(b), i+2)
+
+				parseLine := b[2]
+
+				d, err := fhxReader.ReadRegex(regFhx["ValueDesc"], parseLine)
+				if err != nil {
+					log.Fatal("ReadAttribute():", err)
+				}
+				if d != "" {
+					val.Cv = d
+					return val
+				}
+
+				// Werte für Zahlen
+				v, err := fhxReader.ReadRegexSubexp(regFhx["Value"], parseLine)
+				if err != nil {
+					log.Fatal("ReadAttribute():", err)
+				}
+				val.High = v["s1"]
+				val.Low = v["s2"]
+				val.Cv = v["s3"]
+				val.Unit = v["s4"]
+				return val
 			}
 		}
 	}

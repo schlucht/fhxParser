@@ -119,9 +119,12 @@ func ReadRegexSubexp(regex string, txt string) (map[string]string, error) {
 	}
 	compile := regexp.MustCompile(regex)
 	matches := compile.FindStringSubmatch(txt)
+
 	if len(matches) > 0 {
 		for _, s := range compile.SubexpNames() {
-			res[s] = matches[compile.SubexpIndex(s)]
+			if s != "" {
+				res[s] = matches[compile.SubexpIndex(s)]
+			}
 		}
 	}
 	return res, nil

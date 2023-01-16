@@ -1,19 +1,19 @@
 [
     {
         "desc": "Alle Standard Units vom der Unit",
-        "unitname": "",
+        "unitname": "Q2800",
         "unitprocedure": [
             {
-                "name": "UP_Q2800_START",
+                "name": "",
                 "time": 0,
                 "author": "",
                 "params": [
                     {
-                        "name": "FP_HK_OPT",
-                        "desc": "Option Mantel oder Innentemp",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
                             "high": "",
                             "low": "",
                             "cv": "",
@@ -21,11 +21,11 @@
                         }
                     },
                     {
-                        "name": "FP_HK_OPT_HO",
-                        "desc": "Option Mantel oder Innentemp bei SS",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
                             "high": "",
                             "low": "",
                             "cv": "",
@@ -33,11 +33,11 @@
                         }
                     },
                     {
-                        "name": "FP_HK_TCW",
-                        "desc": "Sollwert HKK für die HK Option",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
                             "high": "",
                             "low": "",
                             "cv": "",
@@ -45,11 +45,11 @@
                         }
                     },
                     {
-                        "name": "FP_HK_TCW_HO",
-                        "desc": "Sollwert HKK für die HK Option  bei SS",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
                             "high": "",
                             "low": "",
                             "cv": "",
@@ -57,11 +57,11 @@
                         }
                     },
                     {
-                        "name": "FP_KK_TCW",
-                        "desc": "Temp. Sollwert Kühler",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
                             "high": "",
                             "low": "",
                             "cv": "",
@@ -69,11 +69,11 @@
                         }
                     },
                     {
-                        "name": "FP_KK_OPT",
-                        "desc": "Ein- Ausschalten KK Kreislauf",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
                             "high": "",
                             "low": "",
                             "cv": "",
@@ -81,11 +81,11 @@
                         }
                     },
                     {
-                        "name": "FP_KK_TAH",
-                        "desc": "Temp. Alarm H Kühler",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
                             "high": "",
                             "low": "",
                             "cv": "",
@@ -93,11 +93,11 @@
                         }
                     },
                     {
-                        "name": "FP_KK_TAHH",
-                        "desc": "Temp. Alarm HH Kühler",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
                             "high": "",
                             "low": "",
                             "cv": "",
@@ -105,11 +105,11 @@
                         }
                     },
                     {
-                        "name": "FP_APP_SOLE",
-                        "desc": "Umschaltpunkt kalter zu warmer Sole vom HKK",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
                             "high": "",
                             "low": "",
                             "cv": "",
@@ -117,11 +117,11 @@
                         }
                     },
                     {
-                        "name": "FP_ABGAS_TAH",
-                        "desc": "Austrittstemp. Abgas H",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
                             "high": "",
                             "low": "",
                             "cv": "",
@@ -129,11 +129,11 @@
                         }
                     },
                     {
-                        "name": "FP_ABGAS_TAHH",
-                        "desc": "Austrittstemp. Abgas HH Alarm löst SS aus",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
                             "high": "",
                             "low": "",
                             "cv": "",
@@ -141,11 +141,11 @@
                         }
                     },
                     {
-                        "name": "FP_SIS_EIN",
-                        "desc": "TRUE kontrolliert ob richtiger SIS Parameter eingestellt ist.",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
                             "high": "",
                             "low": "",
                             "cv": "",
@@ -153,11 +153,11 @@
                         }
                     },
                     {
-                        "name": "FP_SIS_PRODUKT",
-                        "desc": "SIS Parameter Produkt  (Wenn kein SIS leer lassen)",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
                             "high": "",
                             "low": "",
                             "cv": "",
@@ -165,11 +165,11 @@
                         }
                     },
                     {
-                        "name": "FP_APP_ABLUFT_1",
-                        "desc": "Wäscher bei Störung vom Wäscher geht RW in SS",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
                             "high": "",
                             "low": "",
                             "cv": "",
@@ -177,11 +177,11 @@
                         }
                     },
                     {
-                        "name": "FP_APP_ABLUFT_2",
-                        "desc": "Wäscher bei Störung vom Wäscher geht RW in SS",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
                             "high": "",
                             "low": "",
                             "cv": "",
@@ -194,575 +194,575 @@
     },
     {
         "desc": "Alle Standard Units vom der Unit",
-        "unitname": "",
+        "unitname": "Q2800",
         "unitprocedure": [
             {
-                "name": "UP_Q2800_DEST_N",
+                "name": "",
                 "time": 0,
                 "author": "",
                 "params": [
                     {
-                        "name": "FP_HK_HEIZEN_TCW",
-                        "desc": "Sollwert Temperatur",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_HK_HEIZEN_TCW_HO",
-                        "desc": "Sollwerttemperaur wenn SS",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_HK_HEIZEN_TAH_IN",
-                        "desc": "Temperatur Hochalarm Innen",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_HK_HEIZEN_TAHH_IN",
-                        "desc": "Temperatur HOCH HOCH Alarm Innen [SS]",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_HK_HEIZEN_OPT",
-                        "desc": "Option Innen oder Mantel auch bei SS",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_HK_HEIZEN_TSH",
-                        "desc": "Fortschaltbedingung Temp \u003c Eingabewert",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_HK_HEIZEN_TSL",
-                        "desc": "Fortschaltbedingung Temp \u003e Eingabewert",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_DEST_MENGE",
-                        "desc": "Destillatmenge vom eingebauten Zähler",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_DEST_ZAEHL",
-                        "desc": "Destillatzähler Position",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_DEST_WEG",
-                        "desc": "Destillatventil vom Sender",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_DEST_EMPF",
-                        "desc": "Empfänger UNIT oder Tank",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_DEST_LAH",
-                        "desc": "Niveau Hoch Schalter Empfänger",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_DEST_EMPF_WEG",
-                        "desc": "Destillat Empfängerweg",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_DEST_EMPF_LDS",
-                        "desc": "Empfänger Niveau Diffenz",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_MELDEN_JA1_NEIN2",
-                        "desc": "Option ob das Melden angezeigt wird oder nicht",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_MEDLEN_BESCHREI",
-                        "desc": "Meldung zum Starten der Destillation",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_MELDEN_TEXT",
-                        "desc": "Meldetext",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_DEST_TS_BRUED",
-                        "desc": "Temperaturschalter Brüdentemperatur",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_WARTEN_MSTELLE",
-                        "desc": "Messtelle für Bedingung beim Meldien",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_WARTEN_UBR_SH",
-                        "desc": "Istwert \u003e Eingegeben Wert Unterbruch Wartezeit",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_WARTEN_UBR_SL",
-                        "desc": "Istwert \u003c Eingegeben Wert Unterbruch Wartezeit",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_WARTE_ZEIT",
-                        "desc": "Wartenzeit bis Destillation beendet werden soll",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_DEST_TR_OPT",
-                        "desc": "Abbruchotion von der Destillation",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_DRUCK_OPT",
-                        "desc": "Option Vakuum oder Abluft",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_DRUCK_PCW",
-                        "desc": "Druck Sollwert. Bei Vakuum den der Vakummpumpe",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_HK_HEIZEN_BGR_H",
-                        "desc": "Begrenzung HKK Temperatur HOCH",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_HK_HEIZEN_BGR_D_H",
-                        "desc": "Differenzbegrenzung Innen- zu HKK Temperatur",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_DRUCK_PSH",
-                        "desc": "Druck Schalter HOCH Druch muss \u003c als Wert sein",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_DRUCK_PSL",
-                        "desc": "Druck Schalter TIEF Druch muss \u003e als Wert sein",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_DRUCK_PAH",
-                        "desc": "Druck Alarm Hoch",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_DRUCK_PAHH",
-                        "desc": "Druckalarm HOCH HOCH [SS]",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_DRUCK_PAL",
-                        "desc": "Druck Alarm TIEF",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_DRUCK_PALL",
-                        "desc": "Druck Alarm TIEF TIEF [SS]",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_KK_TAH",
-                        "desc": "Kondensator Temp Alaram HOCH",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_KK_TAHH",
-                        "desc": "Kondensator Temp Alaram HOCH HOCH [SS]",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_KK_TAL",
-                        "desc": "Kondensator Temp Alaram TIEF",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_KK_TCW",
-                        "desc": "Kondensator Temperatursollwert",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_BEGAS_OPT",
-                        "desc": "Überdruck oder Vakuum dann AUS",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_HK_KUHLEN_TSH",
-                        "desc": "Fortschaltbedingung Temp \u003c Eingabewert",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_HK_KUHLEN_TSL",
-                        "desc": "Fortschaltbedingung Temp \u003e Eingabewert",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_HK_KUHLEN_OPT",
-                        "desc": "Option Innen oder Mantel auch bei SS",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_HK_KUHLEN_TAH_IN",
-                        "desc": "Temperatur Hochalarm Innen",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_HK_KUHLEN_TAHH_IN",
-                        "desc": "Temperatur HOCH HOCH Alarm Innen [SS]",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_HK_KUHLEN_TCW",
-                        "desc": "Temperatursollwert zum Kühlen",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_HK_KUHLEN_TCW_HO",
-                        "desc": "Temperatursollwert für SS beim Kühlen",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_KUHLEN_BGR_D_H",
-                        "desc": "Zurückstellen der Bergerenzung HOCH",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     },
                     {
-                        "name": "FP_KUHLEN_BGR_H",
-                        "desc": "Zurück Stellen der Temperturbegrenzung HKK",
+                        "name": "",
+                        "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "MANTELTEMP",
+                            "set": "LGF_HK_OPT",
+                            "high": "180",
+                            "low": "-20",
+                            "cv": "110",
+                            "unit": "°C"
                         }
                     }
                 ]
@@ -771,251 +771,251 @@
     },
     {
         "desc": "Alle Standard Units vom der Unit",
-        "unitname": "",
+        "unitname": "S508",
         "unitprocedure": [
             {
-                "name": "UP_S508_ENTL_TR",
+                "name": "",
                 "time": 0,
                 "author": "",
                 "params": [
                     {
-                        "name": "FP_LL_FSB_1",
+                        "name": "",
                         "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "no UNIT",
+                            "set": "LP_UNITS",
+                            "high": "120",
+                            "low": "-10",
+                            "cv": "30",
+                            "unit": "RPM"
                         }
                     },
                     {
-                        "name": "FP_LL_FSB_2",
+                        "name": "",
                         "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "no UNIT",
+                            "set": "LP_UNITS",
+                            "high": "120",
+                            "low": "-10",
+                            "cv": "30",
+                            "unit": "RPM"
                         }
                     },
                     {
-                        "name": "FP_RÜHRER_W_1",
+                        "name": "",
                         "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "no UNIT",
+                            "set": "LP_UNITS",
+                            "high": "120",
+                            "low": "-10",
+                            "cv": "30",
+                            "unit": "RPM"
                         }
                     },
                     {
-                        "name": "FP_RÜHRER_W_2",
+                        "name": "",
                         "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "no UNIT",
+                            "set": "LP_UNITS",
+                            "high": "120",
+                            "low": "-10",
+                            "cv": "30",
+                            "unit": "RPM"
                         }
                     },
                     {
-                        "name": "FP_TR_EMPF",
+                        "name": "",
                         "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "no UNIT",
+                            "set": "LP_UNITS",
+                            "high": "120",
+                            "low": "-10",
+                            "cv": "30",
+                            "unit": "RPM"
                         }
                     },
                     {
-                        "name": "FP_TR_EMPF_LAH",
+                        "name": "",
                         "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "no UNIT",
+                            "set": "LP_UNITS",
+                            "high": "120",
+                            "low": "-10",
+                            "cv": "30",
+                            "unit": "RPM"
                         }
                     },
                     {
-                        "name": "FP_TR_MANSTART",
+                        "name": "",
                         "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "no UNIT",
+                            "set": "LP_UNITS",
+                            "high": "120",
+                            "low": "-10",
+                            "cv": "30",
+                            "unit": "RPM"
                         }
                     },
                     {
-                        "name": "FP_TR_SEND_WEG",
+                        "name": "",
                         "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "no UNIT",
+                            "set": "LP_UNITS",
+                            "high": "120",
+                            "low": "-10",
+                            "cv": "30",
+                            "unit": "RPM"
                         }
                     },
                     {
-                        "name": "FP_TR_EMPF_WEG",
+                        "name": "",
                         "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "no UNIT",
+                            "set": "LP_UNITS",
+                            "high": "120",
+                            "low": "-10",
+                            "cv": "30",
+                            "unit": "RPM"
                         }
                     },
                     {
-                        "name": "FP_TR_SPUEL",
+                        "name": "",
                         "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "no UNIT",
+                            "set": "LP_UNITS",
+                            "high": "120",
+                            "low": "-10",
+                            "cv": "30",
+                            "unit": "RPM"
                         }
                     },
                     {
-                        "name": "FP_TR_SPUELZEIT",
+                        "name": "",
                         "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "no UNIT",
+                            "set": "LP_UNITS",
+                            "high": "120",
+                            "low": "-10",
+                            "cv": "30",
+                            "unit": "RPM"
                         }
                     },
                     {
-                        "name": "FP_TR_TSH",
+                        "name": "",
                         "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "no UNIT",
+                            "set": "LP_UNITS",
+                            "high": "120",
+                            "low": "-10",
+                            "cv": "30",
+                            "unit": "RPM"
                         }
                     },
                     {
-                        "name": "FP_TR_TSL",
+                        "name": "",
                         "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "no UNIT",
+                            "set": "LP_UNITS",
+                            "high": "120",
+                            "low": "-10",
+                            "cv": "30",
+                            "unit": "RPM"
                         }
                     },
                     {
-                        "name": "FP_TR_PUMPE",
+                        "name": "",
                         "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "no UNIT",
+                            "set": "LP_UNITS",
+                            "high": "120",
+                            "low": "-10",
+                            "cv": "30",
+                            "unit": "RPM"
                         }
                     },
                     {
-                        "name": "FP_LL_N2_ENDE",
+                        "name": "",
                         "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "no UNIT",
+                            "set": "LP_UNITS",
+                            "high": "120",
+                            "low": "-10",
+                            "cv": "30",
+                            "unit": "RPM"
                         }
                     },
                     {
-                        "name": "FP_N2_ZU",
+                        "name": "",
                         "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "no UNIT",
+                            "set": "LP_UNITS",
+                            "high": "120",
+                            "low": "-10",
+                            "cv": "30",
+                            "unit": "RPM"
                         }
                     },
                     {
-                        "name": "FP_N2_AUF",
+                        "name": "",
                         "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "no UNIT",
+                            "set": "LP_UNITS",
+                            "high": "120",
+                            "low": "-10",
+                            "cv": "30",
+                            "unit": "RPM"
                         }
                     },
                     {
-                        "name": "FP_TR_UNTERB_MST",
+                        "name": "",
                         "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "no UNIT",
+                            "set": "LP_UNITS",
+                            "high": "120",
+                            "low": "-10",
+                            "cv": "30",
+                            "unit": "RPM"
                         }
                     },
                     {
-                        "name": "FP_TR_UNTERB_SH",
+                        "name": "",
                         "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "no UNIT",
+                            "set": "LP_UNITS",
+                            "high": "120",
+                            "low": "-10",
+                            "cv": "30",
+                            "unit": "RPM"
                         }
                     },
                     {
-                        "name": "FP_TR_UNTERB_SL",
+                        "name": "",
                         "desc": "",
                         "value": {
-                            "stringvalue": "",
-                            "set": "",
-                            "high": "",
-                            "low": "",
-                            "cv": "",
-                            "unit": ""
+                            "stringvalue": "no UNIT",
+                            "set": "LP_UNITS",
+                            "high": "120",
+                            "low": "-10",
+                            "cv": "30",
+                            "unit": "RPM"
                         }
                     }
                 ]
