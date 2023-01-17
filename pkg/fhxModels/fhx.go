@@ -1,6 +1,7 @@
 package fhxModels
 
 import (
+	"fmt"
 	"log"
 	"strconv"
 	"strings"
@@ -14,7 +15,7 @@ var regFhx = map[string]string{
 	"VERSION":     `VERSION="(?P<s>.*)"`,
 	"Recipe":      `BATCH_RECIPE NAME="(?P<s>.*)" T`,
 	"Params":      `FORMULA_PARAMETER NAME="(?P<s>.*)" T`,
-	"TYPE":        `TYPE=(?P<s>.*) C`,
+	"Type":        `.*TYPE=(?P<s>.*) C`,
 	"CATEGORY":    `CATEGORY="(?P<s>.*)"`,
 	"Desc":        `DESCRIPTION="(?P<s>.*)"`,
 	"Unit":        `EQUIPMENT_UNIT="(?P<s>.*)"`,
@@ -81,8 +82,10 @@ Liest die Unit Proceduren aus der FHX Datei
 func (m *Fhx) ReadUps(lines []string) []Procedure {
 	var ups = []Procedure{}
 	up := Procedure{}
+	var fhxType string
 	// Names of UP
 	for _, l := range lines {
+
 		u, err := fhxReader.ReadRegex(regFhx["Recipe"], l)
 		if err != nil {
 			log.Fatal("ReadUps():", err)
@@ -90,11 +93,18 @@ func (m *Fhx) ReadUps(lines []string) []Procedure {
 		if u != "" {
 			up.Name = u
 		}
+		if fhxType == "" {
+			fhxType, err = fhxReader.ReadRegex(regFhx["Type"], l)
+		}
+		if err != nil {
+			log.Fatal("ReadUps():", err)
+		}
 
 		time, err := fhxReader.ReadRegex(regFhx["Time"], l)
 		if err != nil {
 			log.Fatal("ReadUps():", err)
 		}
+
 		if time != "" {
 			t, err := strconv.Atoi(time)
 			if err != nil {
@@ -102,6 +112,7 @@ func (m *Fhx) ReadUps(lines []string) []Procedure {
 			}
 			up.Time = t
 		}
+
 		author, err := fhxReader.ReadRegex(regFhx["Author"], l)
 		if err != nil {
 			log.Fatal("ReadUps():", err)
@@ -109,6 +120,15 @@ func (m *Fhx) ReadUps(lines []string) []Procedure {
 		if author != "" {
 			up.Author = author
 		}
+
+	}
+	if strings.Trim(fhxType, " ") == "PROCEDURE" {
+		stepBlocks, err := fhxReader.ReadBlock("STEP NAME", lines)
+		if err != nil {
+			log.Fatal("ReadUps():", err)
+		}
+		steps := m.ReadSteps(stepBlocks)
+		fmt.Println(steps)
 	}
 
 	paramBlocks, err := fhxReader.ReadBlock("FORMULA_PARAMETER", lines)
@@ -123,6 +143,18 @@ func (m *Fhx) ReadUps(lines []string) []Procedure {
 
 	ups = append(ups, up)
 	return ups
+}
+
+/*
+Liest die Steps aus einer Unitprozedure. Parameters ein Array mit Steps Block. Return ein Array von Steps
+*/
+func (m *Fhx) ReadSteps(paramBlock [][]string) []Step {
+	var step = Step{}
+	var steps = []Step{}
+
+	steps = append(steps, step)
+
+	return steps
 }
 
 /*

@@ -1,0 +1,16 @@
+{
+    "editor.fontFamily": "'Fira Code',  'Courier New', Consolas, monospace",
+    "editor.fontSize": 16,
+    "editor.lineHeight": 0,
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "**/*.crswap": true,
+        "go.mod": true,
+        "go.sum": true,
+    }
+}
