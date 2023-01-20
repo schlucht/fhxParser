@@ -1,1 +1,36 @@
-$red: red;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&family=Spectral:ital,wght@1,200&display=swap');
+
+:root {
+  $white: white;
+  $black: black;
+  $blue: rgba(0, 0, 255, 1);
+  $blue-75: lighten($blue, 25);
+  $blue-50: lighten($blue, 50);
+  $blue-25: lighten($blue, 75);
+
+  $light-gray: rgba(219, 219, 219, 1);
+  $light-gray-75: rgba(219, 219, 219, .75);
+  $light-gray-50: rgba(219, 219, 219, .5);
+  $light-gray-25: rgba(219, 219, 219, 0.25);
+  $mid-blue: hsl(217, 81%, 62%);
+  $mid-blue-75: hsla(217, 81%, 77%);
+  $mid-blue-50: hsl(217, 81%, 88%);
+  $mid-blue-25: hsl(217, 81%, 90%);
+  $pale-blue: rgba(171,207,227,1);
+  $pale-blue-75: rgba(171,207,227,.75);
+  $pale-blue-50: rgba(171,207,227,.50);
+  $pale-blue-25: rgba(171,207,227,.25);
+  $acc-orange: rgba(255,107,51,1);
+  $acc-orange-75: rgba(255,107,51,.75);
+  $acc-orange-50: rgba(255,107,51,.50);
+  $acc-orange-25: rgba(255,107,51,.25);
+  $mint: rgba(119,238,223,1);
+  $mint-75: rgba(119,238,223,.75);
+  $mint-50: rgba(119,238,223,.50);
+  $mint-25: rgba(119,238,223,.25);
+  $font-regular:'Inter', 'Arial Roman',sans-serif;
+  $font-italic: 'Sectral', Georgia, italic;
+
+}
+
+$white: var(--white);
