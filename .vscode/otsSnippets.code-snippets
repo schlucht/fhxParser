@@ -65,11 +65,38 @@
 	},
 	"Ots Golang Struct": {
 		"scope": "go",
-		"prefix": "otsStuct",
+		"prefix": "otsStruct",
 		"body": [		
 			"type ${1:name} struct {",
 			"\t${2:variable}\t${3:type}",
 			"}"
+		]
+	},
+	"Ots Golang Struct JSON": {
+		"scope": "go",
+		"prefix": "otsStructJS",
+		"body": [		
+			"type ${1:name} struct {",
+			"\t${2:variable}\t${3:string}\t`json:\"name\"`",
+			"}"
+		]
+	},
+	"Ots Golang range": {
+		"scope": "go",
+		"prefix": "otsFor",
+		"body": [		
+			"for ${1:_}, ${2:val} := range ${3:list} {",
+			"\t${0}",
+			"}"
+		]
+	},
+	"Ots Error": {
+		"scope": "go",
+		"prefix": "otsErr",
+		"body": [		
+			"if err != nil {",
+			"\tlog.Fatal(\"${1}\")",
+			"}",
 		]
 	},
 }
