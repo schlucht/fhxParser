@@ -4,26 +4,35 @@
     "editor.lineHeight": 0,
     "files.exclude": {
         "**/.git": true,
+        "**/.gitignore": true,
         "**/.svn": true,
         "**/.hg": true,
+        "**/.npmrc": true,
+        "**/.nuxt": true,
         "**/CVS": true,
         "**/.DS_Store": true,
         "**/Thumbs.db": true,
         "**/*.crswap": true,
         "go.mod": true,
         "go.sum": true,
+        "**/package*": true,        
+        "**/node_modules": true
     },
     "editor.tokenColorCustomizations": {
-        "[Oceanside]": {
-            "comments": "#aca6ad",
-            "variables": "#ffaa00",
-            "numbers": "#ff2222"
+        "[Visual Studio Light]": {
+            "comments": "#058318",
+            "functions": "#0077ff",
+            "numbers": "#ff9900",
+            "strings": "#9b0606",
+            "keywords": "#0000ff",
+            "types": "#0587af",
+            "variables": "#000000",
+            "textMateRules": []
         },
-        "[*Dark*]": {
-            "variables": "#229977"
-        },
-        "[Abyss][Red]": {
-            "keywords": "#f00"
-        }
+        "[Solarized Light]": {
+            "comments": "#058318",
+            "keywords": "#a50a0a",            
+        }       
+
     }
 }
