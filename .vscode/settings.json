@@ -12,5 +12,18 @@
         "**/*.crswap": true,
         "go.mod": true,
         "go.sum": true,
+    },
+    "editor.tokenColorCustomizations": {
+        "[Oceanside]": {
+            "comments": "#aca6ad",
+            "variables": "#ffaa00",
+            "numbers": "#ff2222"
+        },
+        "[*Dark*]": {
+            "variables": "#229977"
+        },
+        "[Abyss][Red]": {
+            "keywords": "#f00"
+        }
     }
 }

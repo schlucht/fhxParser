@@ -137,7 +137,7 @@ func ReadFhxFile16(filePath string) ([]string, error) {
 		return res, errors.New("filePath is empty")
 	}
 	file, err := os.Open(filePath)
-	if err != nil {
+	if err != nil {!
 		return res, err
 	}
 
