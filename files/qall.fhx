@@ -1,0 +1,1992 @@
+/* Version: 14.3.1.7332.xr */
+/* "17-Jan-2023 09:25:13" */
+
+SCHEMA
+ user="BEDIENER" time=1673943814/* "17-Jan-2023 09:23:34" */
+{
+  /* Database last updated on "30-Jul-2019 03:07:54" */
+  VERSION=1564448874/* "30-Jul-2019 03:07:54" */
+  MAJOR_VERSION=14
+  MINOR_VERSION=3
+  MAINTENANCE_VERSION=1
+  BUILD_VERSION=7332
+  BUILD_ID="xr"
+  VERSION_STR="14.3.1.7332.xr"
+  ONLINE_UPGRADE=F
+}
+LOCALE
+ user="BEDIENER" time=1673943814/* "17-Jan-2023 09:23:34" */
+{
+  LOCALE="English_United States.1252"
+}
+BATCH_RECIPE NAME="RP_FORAM_Q2000_Q2200" TYPE=PROCEDURE CATEGORY="Recipes/Procedures/PRODUKTION_FORAM"
+ user="LSCHMID1" time=1673942639/* "17-Jan-2023 09:03:59" */
+{
+  DESCRIPTION="Foramsulfuron rein in Q2000 und Q2200"
+  USE_EQUIPMENT_TRAINS=F
+  ENFORCED_FORMULA_SELECTION_ENABLED=F
+  DEFAULT_SELECTED_FORMULA=""
+  PARAMETERS_LOCKED_BY_DEFAULT=F
+  AUTHOR="Schmid Lothar"
+  ABSTRACT=""
+  BATCH_UNITS=""
+  BATCH_LENGTH=""
+  DEFAULT_BATCH_SIZE=100
+  MINIMUM_BATCH_SIZE=1
+  MAXIMUM_BATCH_SIZE=100
+  PRODUCT_CODE=""
+  PRODUCT_NAME="Foramsulfuron"
+  RECIPE_APPROVAL_INFO=""
+  VERSION="1.0"
+  PFC_ALGORITHM
+  {
+    STEP NAME="START" DEFINITION=""
+    {
+      DESCRIPTION=""
+      RECTANGLE= { X=290 Y=10 H=40 W=100 }
+      KEY_PARAMETER=""
+    }
+    STEP NAME="UP_DUMMY:1" DEFINITION="UP_DUMMY"
+    {
+      DESCRIPTION=""
+      RECTANGLE= { X=20 Y=1640 H=30 W=200 }
+      ACQUIRE_UNIT=F
+      RETAIN_UNIT=F
+      KEY_PARAMETER=""
+    }
+    STEP NAME="UP_DUMMY:2" DEFINITION="UP_DUMMY"
+    {
+      DESCRIPTION=""
+      RECTANGLE= { X=460 Y=1640 H=30 W=200 }
+      ACQUIRE_UNIT=F
+      RETAIN_UNIT=F
+      KEY_PARAMETER=""
+    }
+    STEP NAME="UP_FORAM_Q2000_DOS_Z4100:1" DEFINITION="UP_FORAM_Q2000_DOS_Z4100"
+    {
+      DESCRIPTION="Bezug MeO-Na 30%"
+      RECTANGLE= { X=20 Y=380 H=30 W=200 }
+      ACQUIRE_UNIT=F
+      RETAIN_UNIT=T
+      KEY_PARAMETER=""
+    }
+    STEP NAME="UP_FORAM_Q2000_IMPFEN:1" DEFINITION="UP_FORAM_Q2000_IMPFEN"
+    {
+      DESCRIPTION="Bezug MeO-Na 30%"
+      RECTANGLE= { X=240 Y=380 H=30 W=200 }
+      ACQUIRE_UNIT=F
+      RETAIN_UNIT=T
+      KEY_PARAMETER=""
+    }
+    STEP NAME="UP_Q2000_DUMMY:1" DEFINITION="UP_Q2000_DUMMY"
+    {
+      DESCRIPTION=""
+      RECTANGLE= { X=20 Y=1550 H=30 W=200 }
+      ACQUIRE_UNIT=F
+      RETAIN_UNIT=F
+      KEY_PARAMETER=""
+    }
+    STEP NAME="UP_Q2000_ENDE:1" DEFINITION="UP_Q2000_ENDE"
+    {
+      DESCRIPTION="Reaktion"
+      RECTANGLE= { X=20 Y=1460 H=30 W=200 }
+      ACQUIRE_UNIT=F
+      RETAIN_UNIT=T
+      KEY_PARAMETER=""
+    }
+    STEP NAME="UP_Q2000_ENTL:1" DEFINITION="UP_Q2000_ENTL"
+    {
+      DESCRIPTION="Entleeren"
+      RECTANGLE= { X=20 Y=860 H=30 W=200 }
+      ACQUIRE_UNIT=F
+      RETAIN_UNIT=T
+      STEP_PARAMETER NAME="FP_LL_FSB_1"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_LL_FSB_2"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_LL_N2_ENDE"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_N2_AUF"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_N2_ZU"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_RÜHRER_W_1"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_RÜHRER_W_2"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_LL_FSB_2"
+      {
+        VALUE { CV=3000 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_N2_ZU"
+      {
+        VALUE { CV=300 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_N2_AUF"
+      {
+        VALUE { CV=250 }
+      }
+      KEY_PARAMETER=""
+    }
+    STEP NAME="UP_Q2000_FEST:1" DEFINITION="UP_Q2000_FEST"
+    {
+      DESCRIPTION="Einfüllen Amidosulfuron"
+      RECTANGLE= { X=20 Y=290 H=30 W=200 }
+      ACQUIRE_UNIT=F
+      RETAIN_UNIT=T
+      STEP_PARAMETER NAME="FP_FEST_MANENDE"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_FEST_MANSTART"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_FEST_TSH"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_FEST_TSL"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_NACH_OPT"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_NACH_TAH"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_NACH_TAHH"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_NACH_TCW"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_NACH_TCW_HO"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_VOR_BGR_H"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_VOR_OPT"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_VOR_TAH"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_VOR_TAHH"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_VOR_TCW"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_VOR_TSH"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_MELDEN_JA1_NEIN2"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_MELDEN_TEXT"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_RUHRER_OPT"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_RUHRER_W"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_HK_NACH_TCW"
+      {
+        VALUE { CV=35 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_HK_NACH_TCW_HO"
+      {
+        VALUE { CV=35 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_HK_VOR_TCW"
+      {
+        VALUE { CV=5 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_FEST_MANENDE"
+      {
+        VALUE
+        {
+          SET="L_JA_NEIN"
+          STRING_VALUE="NEIN"
+          CHANGEABLE=F
+        }
+      }
+      KEY_PARAMETER=""
+    }
+    STEP NAME="UP_Q2000_PROBE:1" DEFINITION="UP_Q2000_PROBE"
+    {
+      DESCRIPTION="probe"
+      RECTANGLE= { X=20 Y=570 H=30 W=200 }
+      ACQUIRE_UNIT=F
+      RETAIN_UNIT=T
+      STEP_PARAMETER NAME="FP_N2_AUF"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_N2_ZU"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_PC_W"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_PROBE_FRAGE"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_PROBE_MANSTART"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_WÄHLEN_TEXT"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Configuration"
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_PROBE_FRAGE"
+      {
+        VALUE { CV="Probe wiederholen?" }
+      }
+      KEY_PARAMETER=""
+    }
+    STEP NAME="UP_Q2000_REAKTION:1" DEFINITION="UP_Q2000_REAKTION"
+    {
+      DESCRIPTION="Nachreaktion"
+      RECTANGLE= { X=20 Y=480 H=30 W=200 }
+      ACQUIRE_UNIT=F
+      RETAIN_UNIT=T
+      STEP_PARAMETER NAME="FP_BEGAS_VOR_PSH"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_BEGAS_VOR_PSL"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_DRUCK_VOR_PCW"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_DRUCK_VOR_PSH"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_HEIZEN_BGR_D_H"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HEIZEN_BGR_H"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HEIZEN_OPT"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HEIZEN_TAH_IN"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HEIZEN_TAHH_IN"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HEIZEN_TCW"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HEIZEN_TCW_HO"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HEIZEN_TSH"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HEIZEN_TSL"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_KUHLEN_BGR_D_H"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_KUHLEN_BGR_H"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_KUHLEN_OPT"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_KUHLEN_TCW"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_KUHLEN_TCW_HO"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_KUHLEN_TSH"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_KUHLEN_TSL"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_N2_ZU"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_NZ_AUF"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_RUEHREN_NACH_W"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_RUEHRER_VOR_W"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_WARTEN_MANENDE"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_WARTEN_MSTELLE"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_WARTEN_SH"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_WARTEN_SL"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_WARTEZEIT"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_WARTEZEIT"
+      {
+        VALUE { CV=10800 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_HEIZEN_TCW"
+      {
+        VALUE { CV=53 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_HEIZEN_TCW_HO"
+      {
+        VALUE { CV=53 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_HEIZEN_TAH_IN"
+      {
+        VALUE { CV=70 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_HEIZEN_TAHH_IN"
+      {
+        VALUE { CV=75 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_HEIZEN_OPT"
+      {
+        VALUE
+        {
+          SET="LGF_HK_OPT"
+          STRING_VALUE="INNENTEMP"
+          CHANGEABLE=F
+        }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_HEIZEN_TSH"
+      {
+        VALUE { CV=45 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_KUHLEN_TCW"
+      {
+        VALUE { CV=53 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_KUHLEN_TCW_HO"
+      {
+        VALUE { CV=53 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_WARTEN_SH"
+      {
+        VALUE { CV=70 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_WARTEN_SL"
+      {
+        VALUE { CV=45 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_WARTEN_MSTELLE"
+      {
+        VALUE { CV="Q2000TC0030" }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_HEIZEN_BGR_D_H"
+      {
+        VALUE { CV=40 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_RUEHREN_NACH_W"
+      {
+        VALUE { CV=80 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_RUEHRER_VOR_W"
+      {
+        VALUE { CV=80 }
+      }
+      KEY_PARAMETER=""
+    }
+    STEP NAME="UP_Q2000_START:1" DEFINITION="UP_Q2000_START"
+    {
+      DESCRIPTION="Starten und Konrlolle Q2200"
+      RECTANGLE= { X=20 Y=110 H=30 W=200 }
+      ACQUIRE_UNIT=F
+      RETAIN_UNIT=T
+      STEP_PARAMETER NAME="FP_APP_ABLUFT_1"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_APP_ABLUFT_2"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_APP_SOLE"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_OPT"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_OPT_HO"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_TCW"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_TCW_HO"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_KK_OPT"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_KK_TAH"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_KK_TAHH"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_KK_TCW"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_PH_AHH"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_PH_ALL"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_SIS_AKTIV"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_SIS_PRODUKT"
+      {
+        ORIGIN=CONSTANT
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_APP_SOLE"
+      {
+        VALUE { CV=45 }
+      }
+      KEY_PARAMETER=""
+    }
+    STEP NAME="UP_Q2000_TR:1" DEFINITION="UP_Q2000_TR"
+    {
+      DESCRIPTION="Bezug Spülaceton"
+      RECTANGLE= { X=20 Y=950 H=30 W=200 }
+      ACQUIRE_UNIT=F
+      RETAIN_UNIT=T
+      STEP_PARAMETER NAME="FP_MELDEN_JA1_NEIN2"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_MELDEN_TEXT"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_TR_BESCHREI"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR_EMPF_WEG"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR_FSB_FQ"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR_MANUNTERBR"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR_OPT"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR_PSH"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR_PUMPE"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR_REGEL_STRAT"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_TR_REGLER_AH"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_TR_REGLER_AL"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_TR_REGLER_W"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR_SEND_LS"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_TR_SENDER"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR_SENDER_WEG"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR_SPUEL"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_TR_SPUELZEIT"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR_START"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR_TSH"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR_TSL"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR_ZAEHL_ST"
+      {
+        ORIGIN=CONSTANT
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_TR_EMPF_WEG"
+      {
+        VALUE
+        {
+          SET="LGF_WEG"
+          STRING_VALUE="W9"
+          CHANGEABLE=F
+        }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_TR_FSB_FQ"
+      {
+        VALUE { CV=250 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_TR_OPT"
+      {
+        VALUE
+        {
+          SET="LGF_TR_FSB_OPT"
+          STRING_VALUE="MENGE ZAEHLER"
+          CHANGEABLE=F
+        }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_TR_START"
+      {
+        VALUE
+        {
+          SET="LGF_TR_MANSTART"
+          STRING_VALUE="NEIN"
+          CHANGEABLE=F
+        }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_TR_BESCHREI"
+      {
+        VALUE { CV="Spülen mit Aceton" }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_TR_TSH"
+      {
+        VALUE { CV=65 }
+      }
+      KEY_PARAMETER=""
+    }
+    STEP NAME="UP_Q2000_TR2_START:2" DEFINITION="UP_Q2000_TR2_START"
+    {
+      DESCRIPTION="Bezug Aceton"
+      RECTANGLE= { X=20 Y=200 H=30 W=200 }
+      ACQUIRE_UNIT=F
+      RETAIN_UNIT=T
+      STEP_PARAMETER NAME="FP_FSB_LI"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_HK_OPTION"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_OPTION_HO"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_TAH_INNEN"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_TAHH_INNEN"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_TC_W"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_TC_W_HO"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_MELDEN_JA1_NEIN2"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_MELDEN_TEXT"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_RÜHRER_H"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_RÜHRER_HH"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_RÜHRER_L"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_RÜHRER_LL"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_RÜHRER_OPT"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_RÜHRER_SC_W"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_TR1_BESCHREI"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR1_EMPF_WEG"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR1_FSB_FQ"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR1_OPTION"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_TR1_PUMPE"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR1_SEND"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR1_SEND_WEG"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR1_SPUEL"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_TR1_SPUELZEIT"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR1_START"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_TR1_TSH"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR1_TSL"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR1_UNTBR_PSH"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR1_ZAEHL_ST"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR2_BESCHREI"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR2_EMPF_WEG"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR2_FSB_FQ"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR2_FSB_OPTION"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_TR2_PUMPE"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR2_SEND"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR2_SEND_WEG"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR2_SPUEL"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_TR2_SPUELZEIT"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR2_START"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_TR2_UNTBR_PSH"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR2_UNTBR_TSH"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR2_UNTBR_TSL"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR2_ZAEHL"
+      {
+        ORIGIN=CONSTANT
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_TR1_FSB_FQ"
+      {
+        VALUE { CV=1500 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_TR1_SEND"
+      {
+        VALUE
+        {
+          SET="LP_UNITS"
+          STRING_VALUE="P125"
+          CHANGEABLE=F
+        }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_TR1_EMPF_WEG"
+      {
+        VALUE
+        {
+          SET="LGF_WEG"
+          STRING_VALUE="W5"
+          CHANGEABLE=F
+        }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_TR1_TSL"
+      {
+        VALUE { CV=-20 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_RÜHRER_SC_W"
+      {
+        VALUE { CV=85 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_HK_TAH_INNEN"
+      {
+        VALUE { CV=45 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_HK_TAHH_INNEN"
+      {
+        VALUE { CV=60 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_HK_TC_W"
+      {
+        VALUE { CV=10 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_HK_TC_W_HO"
+      {
+        VALUE { CV=10 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_TR2_EMPF_WEG"
+      {
+        VALUE
+        {
+          SET="LGF_WEG"
+          STRING_VALUE="W3"
+          CHANGEABLE=F
+        }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_TR2_FSB_FQ"
+      {
+        VALUE { CV=6000 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_TR2_FSB_OPTION"
+      {
+        VALUE
+        {
+          SET="LGF_TR_FSB_OPT"
+          STRING_VALUE="MENGE ZAEHLER"
+          CHANGEABLE=F
+        }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_TR2_SEND"
+      {
+        VALUE
+        {
+          SET="LP_UNITS"
+          STRING_VALUE="Z1130"
+          CHANGEABLE=F
+        }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_TR2_UNTBR_TSH"
+      {
+        VALUE { CV=60 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_TR1_BESCHREI"
+      {
+        VALUE { CV="Waschaceton" }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_TR1_START"
+      {
+        VALUE
+        {
+          SET="LGF_TR_MANSTART"
+          STRING_VALUE="JA MIT MAN FSB"
+          CHANGEABLE=F
+        }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_TR2_BESCHREI"
+      {
+        VALUE { CV="Aceton rein" }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_TR2_START"
+      {
+        VALUE
+        {
+          SET="LGF_TR_MANSTART"
+          STRING_VALUE="JA MIT MAN FSB"
+          CHANGEABLE=F
+        }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_RÜHRER_L"
+      {
+        VALUE { CV=50 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_RÜHRER_LL"
+      {
+        VALUE { CV=40 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_MELDEN_JA1_NEIN2"
+      {
+        VALUE { CV=2 }
+      }
+      KEY_PARAMETER=""
+    }
+    STEP NAME="UP_Q2000_VOR_ENTL:1" DEFINITION="UP_Q2000_VOR_ENTL"
+    {
+      DESCRIPTION=""
+      RECTANGLE= { X=20 Y=660 H=30 W=200 }
+      ACQUIRE_UNIT=F
+      RETAIN_UNIT=T
+      STEP_PARAMETER NAME="FP_BEGAS_PSL"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_DRUCK_PCW"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_HK_OPT"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_OPT_HO"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_TAH_IN"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_TAHH_IN"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_TAL_IN"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_TALL_IN"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_TCW"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_TCW_HO"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_TSH"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_TSL"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_MELDEN_JA1_NEIN2"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_MELDETEXT"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_N2_AUF"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_N2_ZU"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_RÜHRER_SCW"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_HK_TCW"
+      {
+        VALUE { CV=-10 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_HK_TCW_HO"
+      {
+        VALUE { CV=-10 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_MELDETEXT"
+      {
+        VALUE { CV="Q2200 bereit zum Bezug?" }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_N2_ZU"
+      {
+        VALUE { CV=350 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_N2_AUF"
+      {
+        VALUE { CV=300 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_BEGAS_PSL"
+      {
+        VALUE { CV=200 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_HK_TAH_IN"
+      {
+        VALUE { CV=65 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_HK_TAHH_IN"
+      {
+        VALUE { CV=70 }
+      }
+      KEY_PARAMETER=""
+    }
+    STEP NAME="UP_Q2000_WART_U:1" DEFINITION="UP_Q2000_WART_U"
+    {
+      DESCRIPTION=""
+      RECTANGLE= { X=20 Y=750 H=30 W=200 }
+      ACQUIRE_UNIT=F
+      RETAIN_UNIT=T
+      STEP_PARAMETER NAME="FP_BESCHREI_TEXT"
+      {
+        ORIGIN=CONSTANT
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_BESCHREI_TEXT"
+      {
+        VALUE { CV="Q2200" }
+      }
+      KEY_PARAMETER=""
+    }
+    STEP NAME="UP_Q2000_WART_U:2" DEFINITION="UP_Q2000_WART_U"
+    {
+      DESCRIPTION=""
+      RECTANGLE= { X=20 Y=1040 H=30 W=200 }
+      ACQUIRE_UNIT=F
+      RETAIN_UNIT=T
+      STEP_PARAMETER NAME="FP_BESCHREI_TEXT"
+      {
+        ORIGIN=CONSTANT
+      }
+      KEY_PARAMETER=""
+    }
+    STEP NAME="UP_Q2200_DUMMY:1" DEFINITION="UP_Q2200_DUMMY"
+    {
+      DESCRIPTION=""
+      RECTANGLE= { X=460 Y=1550 H=30 W=200 }
+      ACQUIRE_UNIT=F
+      RETAIN_UNIT=F
+      KEY_PARAMETER=""
+    }
+    STEP NAME="UP_Q2200_ENDE:1" DEFINITION="UP_Q2200_ENDE"
+    {
+      DESCRIPTION=""
+      RECTANGLE= { X=460 Y=1460 H=30 W=200 }
+      ACQUIRE_UNIT=F
+      RETAIN_UNIT=T
+      STEP_PARAMETER NAME="FP_HKK_OPTION"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HKK_TCW"
+      {
+        ORIGIN=CONSTANT
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_HKK_OPTION"
+      {
+        VALUE
+        {
+          SET="LGF_HK_OPT"
+          STRING_VALUE="MANTELTEMP"
+          CHANGEABLE=F
+        }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_HKK_TCW"
+      {
+        VALUE { CV=-5 }
+      }
+      KEY_PARAMETER=""
+    }
+    STEP NAME="UP_Q2200_START:1" DEFINITION="UP_Q2200_START"
+    {
+      DESCRIPTION=""
+      RECTANGLE= { X=460 Y=110 H=30 W=200 }
+      ACQUIRE_UNIT=F
+      RETAIN_UNIT=T
+      STEP_PARAMETER NAME="FP_APP_ABLUFT_1"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_APP_ABLUFT_2"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_APP_SOLE"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_OPT"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_OPT_HO"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_TCW"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_TCW_HO"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_KK_OPT"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_KK_TAH"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_KK_TAHH"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_KK_TCW"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_HK_TCW"
+      {
+        VALUE { CV=-10 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_HK_TCW_HO"
+      {
+        VALUE { CV=-10 }
+      }
+      KEY_PARAMETER=""
+    }
+    STEP NAME="UP_Q2200_TR1_START:1" DEFINITION="UP_Q2200_TR1_START"
+    {
+      DESCRIPTION=""
+      RECTANGLE= { X=460 Y=860 H=30 W=200 }
+      ACQUIRE_UNIT=F
+      RETAIN_UNIT=T
+      STEP_PARAMETER NAME="FP_FSB_LI"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_HK_BGR_D_H"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_BGR_H"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_OPT"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_OPT_HO"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_TAH_IN"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_TAHH_IN"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_TAL_IN"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_TALL_IN"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_TCW"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_TCW_HO"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_MELDEN_JA1_NEIN2"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_MELDEN_TEXT"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_RÜHRER_H"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_RÜHRER_HH"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_RÜHRER_L"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_RÜHRER_LL"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_RÜHRER_OPT"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_RÜHRER_W"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_TR_BESCHREI"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR_EMPF_WEG"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR_MENGE"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR_OPTION"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR_PUMPE"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR_SENDER"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR_SENDER_WEG"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR_SPUEL"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_TR_SPUELZEIT"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR_START"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR_UTBR_MST"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_TR_UTBR_MST_SH"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_TR_UTBR_MST_SL"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_TR_UTBR_PSH"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR_UTBR_PSL"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR_UTBR_TSH"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR_UTBR_TSL"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_TR_ZAEHL_ST"
+      {
+        ORIGIN=CONSTANT
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_RÜHRER_W"
+      {
+        VALUE { CV=80 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_RÜHRER_OPT"
+      {
+        VALUE
+        {
+          SET="L_EIN_AUS"
+          STRING_VALUE="EIN"
+          CHANGEABLE=F
+        }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_HK_TCW"
+      {
+        VALUE { CV=-10 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_HK_TCW_HO"
+      {
+        VALUE { CV=-10 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_HK_TAH_IN"
+      {
+        VALUE { CV=60 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_HK_TAHH_IN"
+      {
+        VALUE { CV=70 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_HK_TAL_IN"
+      {
+        VALUE { CV=-10 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_HK_TALL_IN"
+      {
+        VALUE { CV=-15 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_HK_OPT"
+      {
+        VALUE
+        {
+          SET="LGF_HK_OPT"
+          STRING_VALUE="INNENTEMP"
+          CHANGEABLE=F
+        }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_HK_OPT_HO"
+      {
+        VALUE
+        {
+          SET="LGF_HK_OPT"
+          STRING_VALUE="INNENTEMP"
+          CHANGEABLE=F
+        }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_TR_EMPF_WEG"
+      {
+        VALUE
+        {
+          SET="LGF_WEG"
+          STRING_VALUE="W7"
+          CHANGEABLE=F
+        }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_TR_SENDER"
+      {
+        VALUE
+        {
+          SET="LP_UNITS"
+          STRING_VALUE="Q2000"
+          CHANGEABLE=F
+        }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_TR_BESCHREI"
+      {
+        VALUE { CV="Bezug Q2000" }
+      }
+      KEY_PARAMETER=""
+    }
+    STEP NAME="UP_Q2200_VOR_ENTL:1" DEFINITION="UP_Q2200_VOR_ENTL"
+    {
+      DESCRIPTION=""
+      RECTANGLE= { X=460 Y=1280 H=30 W=200 }
+      ACQUIRE_UNIT=F
+      RETAIN_UNIT=T
+      STEP_PARAMETER NAME="FP_BEGAS_PSL"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_DRUCK_PCW"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_HK_OPT"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_OPT_HO"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_TAH_IN"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_TAHH_IN"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_TAL_IN"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_TALL_IN"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_TCW"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_TCW_HO"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_TSH"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_TSL"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_MELDEN_JA1_NEIN2"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_MELDETEXT"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_N2_AUF"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_N2_ZU"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_RÜHREN_SCW"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_HK_TSH"
+      {
+        VALUE { CV=0 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_HK_TCW"
+      {
+        VALUE { CV=-10 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_HK_TCW_HO"
+      {
+        VALUE { CV=-10 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_MELDETEXT"
+      {
+        VALUE { CV="Bereit zum Zentrifugieren?" }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_DRUCK_PCW"
+      {
+        VALUE { CV=1000 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_N2_AUF"
+      {
+        VALUE { CV=800 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_N2_ZU"
+      {
+        VALUE { CV=900 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_RÜHREN_SCW"
+      {
+        VALUE { CV=80 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_HK_TAH_IN"
+      {
+        VALUE { CV=60 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_HK_TAHH_IN"
+      {
+        VALUE { CV=70 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_BEGAS_PSL"
+      {
+        VALUE { CV=-150 }
+      }
+      KEY_PARAMETER=""
+    }
+    STEP NAME="UP_Q2200_WART_U:1" DEFINITION="UP_Q2200_WART_U"
+    {
+      DESCRIPTION=""
+      RECTANGLE= { X=460 Y=750 H=30 W=200 }
+      ACQUIRE_UNIT=F
+      RETAIN_UNIT=T
+      STEP_PARAMETER NAME="FP_BESCHREI_TEXT"
+      {
+        ORIGIN=CONSTANT
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_BESCHREI_TEXT"
+      {
+        VALUE { CV="Q2000" }
+      }
+      KEY_PARAMETER=""
+    }
+    STEP NAME="UP_Q2200_WART_U:2" DEFINITION="UP_Q2200_WART_U"
+    {
+      DESCRIPTION=""
+      RECTANGLE= { X=460 Y=1040 H=30 W=200 }
+      ACQUIRE_UNIT=F
+      RETAIN_UNIT=T
+      STEP_PARAMETER NAME="FP_BESCHREI_TEXT"
+      {
+        ORIGIN=CONSTANT
+      }
+      KEY_PARAMETER=""
+    }
+    STEP NAME="UP_Q2200_WARTEN:1" DEFINITION="UP_Q2200_WARTEN"
+    {
+      DESCRIPTION=""
+      RECTANGLE= { X=460 Y=1190 H=30 W=200 }
+      ACQUIRE_UNIT=F
+      RETAIN_UNIT=T
+      STEP_PARAMETER NAME="FP_BESCHREI_TEXT"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_MANENDE"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_UNTBR_MSTELLE"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_UNTERBR_SH"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_UNTERBR_SL"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_WARTEZEIT"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_UNTBR_MSTELLE"
+      {
+        VALUE { CV="Q2200TC0030" }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_UNTERBR_SH"
+      {
+        VALUE { CV=0 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_WARTEZEIT"
+      {
+        VALUE { CV=3600 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_BESCHREI_TEXT"
+      {
+        VALUE { CV="Nachreaktion" }
+      }
+      KEY_PARAMETER=""
+    }
+    STEP NAME="UP_Q2200_ZF:1" DEFINITION="UP_Q2200_ZF"
+    {
+      DESCRIPTION=""
+      RECTANGLE= { X=460 Y=1370 H=30 W=200 }
+      ACQUIRE_UNIT=F
+      RETAIN_UNIT=T
+      STEP_PARAMETER NAME="FP_HK_BGR_H"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_FSB_TSH"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_FSB_TSL"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_OPTION"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_OPTION_HO"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_TAH_INNEN"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_TAHH_INNEN"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_TC_W"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_HK_TC_W_HO"
+      {
+        ORIGIN=CONSTANT
+      }
+      STEP_PARAMETER NAME="FP_RÜHRER_SC_W"
+      {
+        ORIGIN=CONSTANT
+        GROUP="Operating"
+      }
+      STEP_PARAMETER NAME="FP_UNTERBR_TSH"
+      {
+        ORIGIN=CONSTANT
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_HK_FSB_TSH"
+      {
+        VALUE { CV=0 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_HK_TAH_INNEN"
+      {
+        VALUE { CV=65 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_HK_TAHH_INNEN"
+      {
+        VALUE { CV=70 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_HK_TC_W"
+      {
+        VALUE { CV=-10 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_HK_TC_W_HO"
+      {
+        VALUE { CV=-10 }
+      }
+      ATTRIBUTE_INSTANCE NAME="FP_RÜHRER_SC_W"
+      {
+        VALUE { CV=80 }
+      }
+      KEY_PARAMETER=""
+    }
+    INITIAL_STEP="START"
+    TRANSITION NAME="T1"
+    {
+      POSITION= { X=330 Y=60 }
+      TERMINATION=F
+      EXPRESSION="TRUE"
+    }
+    TRANSITION NAME="T10"
+    {
+      POSITION= { X=550 Y=150 }
+      TERMINATION=F
+      EXPRESSION="'UP_Q2200_START:1/BSTATUS' = '$recipe_state:Complete'"
+    }
+    TRANSITION NAME="T11"
+    {
+      POSITION= { X=330 Y=810 }
+      TERMINATION=F
+      EXPRESSION="TRUE"
+    }
+    TRANSITION NAME="T12"
+    {
+      POSITION= { X=550 Y=900 }
+      TERMINATION=F
+      EXPRESSION="'UP_Q2200_TR1_START:1/BSTATUS' = '$recipe_state:Complete'"
+    }
+    TRANSITION NAME="T13"
+    {
+      POSITION= { X=330 Y=1100 }
+      TERMINATION=F
+      EXPRESSION="TRUE"
+    }
+    TRANSITION NAME="T14"
+    {
+      POSITION= { X=550 Y=1420 }
+      TERMINATION=F
+      EXPRESSION="'UP_Q2200_ZF:1/BSTATUS' = '$recipe_state:Complete'"
+    }
+    TRANSITION NAME="T15"
+    {
+      POSITION= { X=110 Y=1510 }
+      TERMINATION=F
+      EXPRESSION="'UP_Q2000_ENDE:1/BSTATUS' = '$recipe_state:Complete'"
+    }
+    TRANSITION NAME="T16"
+    {
+      POSITION= { X=550 Y=1510 }
+      TERMINATION=F
+      EXPRESSION="'UP_Q2200_ENDE:1/BSTATUS' = '$recipe_state:Complete'"
+    }
+    TRANSITION NAME="T17"
+    {
+      POSITION= { X=110 Y=1600 }
+      TERMINATION=F
+      EXPRESSION="'UP_Q2000_DUMMY:1/BSTATUS' = '$recipe_state:Complete'"
+    }
+    TRANSITION NAME="T18"
+    {
+      POSITION= { X=550 Y=1600 }
+      TERMINATION=F
+      EXPRESSION="'UP_Q2200_DUMMY:1/BSTATUS' = '$recipe_state:Complete'"
+    }
+    TRANSITION NAME="T19"
+    {
+      POSITION= { X=330 Y=1700 }
+      TERMINATION=T
+      EXPRESSION="'UP_DUMMY:1/BSTATUS' = '$recipe_state:Complete' AND 'UP_DUMMY:2/BSTATUS' = '$recipe_state:Complete'"
+    }
+    TRANSITION NAME="T2"
+    {
+      POSITION= { X=110 Y=160 }
+      TERMINATION=F
+      EXPRESSION="'UP_Q2000_START:1/BSTATUS' = '$recipe_state:Complete'"
+    }
+    TRANSITION NAME="T20"
+    {
+      POSITION= { X=110 Y=710 }
+      TERMINATION=F
+      EXPRESSION="'UP_Q2000_VOR_ENTL:1/BSTATUS' = '$recipe_state:Complete'"
+    }
+    TRANSITION NAME="T21"
+    {
+      POSITION= { X=110 Y=1000 }
+      TERMINATION=F
+      EXPRESSION="'UP_Q2000_TR:1/BSTATUS' = '$recipe_state:Complete'"
+    }
+    TRANSITION NAME="T22"
+    {
+      POSITION= { X=550 Y=1240 }
+      TERMINATION=F
+      EXPRESSION="'UP_Q2200_WARTEN:1/BSTATUS' = '$recipe_state:Complete'"
+    }
+    TRANSITION NAME="T3"
+    {
+      POSITION= { X=110 Y=250 }
+      TERMINATION=F
+      EXPRESSION="'UP_Q2000_TR2_START:2/BSTATUS' = '$recipe_state:Complete'"
+    }
+    TRANSITION NAME="T4"
+    {
+      POSITION= { X=110 Y=330 }
+      TERMINATION=F
+      EXPRESSION="'UP_Q2000_FEST:1/BSTATUS' = '$recipe_state:Complete'"
+    }
+    TRANSITION NAME="T5"
+    {
+      POSITION= { X=110 Y=440 }
+      TERMINATION=F
+      EXPRESSION="'UP_FORAM_Q2000_IMPFEN:1/BSTATUS' = '$recipe_state:Complete' AND 'UP_FORAM_Q2000_DOS_Z4100:1/BSTATUS' = '$recipe_state:Complete'"
+    }
+    TRANSITION NAME="T6"
+    {
+      POSITION= { X=110 Y=530 }
+      TERMINATION=F
+      EXPRESSION="'UP_Q2000_REAKTION:1/BSTATUS' = '$recipe_state:Complete'"
+    }
+    TRANSITION NAME="T7"
+    {
+      POSITION= { X=110 Y=620 }
+      TERMINATION=F
+      EXPRESSION="'UP_Q2000_PROBE:1/BSTATUS' = '$recipe_state:Complete'"
+    }
+    TRANSITION NAME="T8"
+    {
+      POSITION= { X=550 Y=1330 }
+      TERMINATION=F
+      EXPRESSION="'UP_Q2200_VOR_ENTL:1/BSTATUS' = '$recipe_state:Complete'"
+    }
+    TRANSITION NAME="T9"
+    {
+      POSITION= { X=110 Y=910 }
+      TERMINATION=F
+      EXPRESSION="'UP_Q2000_ENTL:1/BSTATUS' = '$recipe_state:Complete'"
+    }
+    STEP_TRANSITION_CONNECTION STEP="START" TRANSITION="T1" { }
+    STEP_TRANSITION_CONNECTION STEP="UP_DUMMY:1" TRANSITION="T19" { }
+    STEP_TRANSITION_CONNECTION STEP="UP_DUMMY:2" TRANSITION="T19" { }
+    STEP_TRANSITION_CONNECTION STEP="UP_FORAM_Q2000_DOS_Z4100:1" TRANSITION="T5" { }
+    STEP_TRANSITION_CONNECTION STEP="UP_FORAM_Q2000_IMPFEN:1" TRANSITION="T5" { }
+    STEP_TRANSITION_CONNECTION STEP="UP_Q2000_DUMMY:1" TRANSITION="T17" { }
+    STEP_TRANSITION_CONNECTION STEP="UP_Q2000_ENDE:1" TRANSITION="T15" { }
+    STEP_TRANSITION_CONNECTION STEP="UP_Q2000_ENTL:1" TRANSITION="T9" { }
+    STEP_TRANSITION_CONNECTION STEP="UP_Q2000_FEST:1" TRANSITION="T4" { }
+    STEP_TRANSITION_CONNECTION STEP="UP_Q2000_PROBE:1" TRANSITION="T7" { }
+    STEP_TRANSITION_CONNECTION STEP="UP_Q2000_REAKTION:1" TRANSITION="T6" { }
+    STEP_TRANSITION_CONNECTION STEP="UP_Q2000_START:1" TRANSITION="T2" { }
+    STEP_TRANSITION_CONNECTION STEP="UP_Q2000_TR:1" TRANSITION="T21" { }
+    STEP_TRANSITION_CONNECTION STEP="UP_Q2000_TR2_START:2" TRANSITION="T3" { }
+    STEP_TRANSITION_CONNECTION STEP="UP_Q2000_VOR_ENTL:1" TRANSITION="T20" { }
+    STEP_TRANSITION_CONNECTION STEP="UP_Q2000_WART_U:1" TRANSITION="T11" { }
+    STEP_TRANSITION_CONNECTION STEP="UP_Q2000_WART_U:2" TRANSITION="T13" { }
+    STEP_TRANSITION_CONNECTION STEP="UP_Q2200_DUMMY:1" TRANSITION="T18" { }
+    STEP_TRANSITION_CONNECTION STEP="UP_Q2200_ENDE:1" TRANSITION="T16" { }
+    STEP_TRANSITION_CONNECTION STEP="UP_Q2200_START:1" TRANSITION="T10" { }
+    STEP_TRANSITION_CONNECTION STEP="UP_Q2200_TR1_START:1" TRANSITION="T12" { }
+    STEP_TRANSITION_CONNECTION STEP="UP_Q2200_VOR_ENTL:1" TRANSITION="T8" { }
+    STEP_TRANSITION_CONNECTION STEP="UP_Q2200_WART_U:1" TRANSITION="T11" { }
+    STEP_TRANSITION_CONNECTION STEP="UP_Q2200_WART_U:2" TRANSITION="T13" { }
+    STEP_TRANSITION_CONNECTION STEP="UP_Q2200_WARTEN:1" TRANSITION="T22" { }
+    STEP_TRANSITION_CONNECTION STEP="UP_Q2200_ZF:1" TRANSITION="T14" { }
+    TRANSITION_STEP_CONNECTION TRANSITION="T1" STEP="UP_Q2000_START:1" { }
+    TRANSITION_STEP_CONNECTION TRANSITION="T1" STEP="UP_Q2200_START:1" { }
+    TRANSITION_STEP_CONNECTION TRANSITION="T10" STEP="UP_Q2200_WART_U:1" { }
+    TRANSITION_STEP_CONNECTION TRANSITION="T11" STEP="UP_Q2000_ENTL:1" { }
+    TRANSITION_STEP_CONNECTION TRANSITION="T11" STEP="UP_Q2200_TR1_START:1" { }
+    TRANSITION_STEP_CONNECTION TRANSITION="T12" STEP="UP_Q2200_WART_U:2" { }
+    TRANSITION_STEP_CONNECTION TRANSITION="T13" STEP="UP_Q2000_ENDE:1" { }
+    TRANSITION_STEP_CONNECTION TRANSITION="T13" STEP="UP_Q2200_WARTEN:1" { }
+    TRANSITION_STEP_CONNECTION TRANSITION="T14" STEP="UP_Q2200_ENDE:1" { }
+    TRANSITION_STEP_CONNECTION TRANSITION="T15" STEP="UP_Q2000_DUMMY:1" { }
+    TRANSITION_STEP_CONNECTION TRANSITION="T16" STEP="UP_Q2200_DUMMY:1" { }
+    TRANSITION_STEP_CONNECTION TRANSITION="T17" STEP="UP_DUMMY:1" { }
+    TRANSITION_STEP_CONNECTION TRANSITION="T18" STEP="UP_DUMMY:2" { }
+    TRANSITION_STEP_CONNECTION TRANSITION="T2" STEP="UP_Q2000_TR2_START:2" { }
+    TRANSITION_STEP_CONNECTION TRANSITION="T20" STEP="UP_Q2000_WART_U:1" { }
+    TRANSITION_STEP_CONNECTION TRANSITION="T21" STEP="UP_Q2000_WART_U:2" { }
+    TRANSITION_STEP_CONNECTION TRANSITION="T22" STEP="UP_Q2200_VOR_ENTL:1" { }
+    TRANSITION_STEP_CONNECTION TRANSITION="T3" STEP="UP_Q2000_FEST:1" { }
+    TRANSITION_STEP_CONNECTION TRANSITION="T4" STEP="UP_FORAM_Q2000_DOS_Z4100:1" { }
+    TRANSITION_STEP_CONNECTION TRANSITION="T4" STEP="UP_FORAM_Q2000_IMPFEN:1" { }
+    TRANSITION_STEP_CONNECTION TRANSITION="T5" STEP="UP_Q2000_REAKTION:1" { }
+    TRANSITION_STEP_CONNECTION TRANSITION="T6" STEP="UP_Q2000_PROBE:1" { }
+    TRANSITION_STEP_CONNECTION TRANSITION="T7" STEP="UP_Q2000_VOR_ENTL:1" { }
+    TRANSITION_STEP_CONNECTION TRANSITION="T8" STEP="UP_Q2200_ZF:1" { }
+    TRANSITION_STEP_CONNECTION TRANSITION="T9" STEP="UP_Q2000_TR:1" { }
+  }
+}

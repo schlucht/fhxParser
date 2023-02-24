@@ -54,7 +54,7 @@ func (m *Fhx) readFhx(path string) []Fhx {
 	}
 	var fhxs = []Fhx{}
 
-	fileText, err := fhxReader.ReadFhxFile16(path)
+	fileText, err := fhxReader.ReadFhx(path)
 	if err != nil {
 		log.Fatal("FHX: Line 48, readFhx()", err)
 	}

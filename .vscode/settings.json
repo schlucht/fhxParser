@@ -2,6 +2,12 @@
     "editor.fontFamily": "'Fira Code',  'Courier New', Consolas, monospace",
     "editor.fontSize": 16,
     "editor.lineHeight": 0,
+    "vim.smartRelativeLine": true,
+    "vim.easymotion": true,
+    "vim.incsearch": true,
+    "vim.useSystemClipboard": true,
+    "vim.useCtrlKeys": true,
+    "vim.hlsearch": true,
     "files.exclude": {
         "**/.git": true,
         "**/.gitignore": true,

@@ -137,7 +137,7 @@ func ReadFhxFile16(filePath string) ([]string, error) {
 		return res, errors.New("filePath is empty")
 	}
 	file, err := os.Open(filePath)
-	if err != nil {!
+	if err != nil {
 		return res, err
 	}
 
@@ -146,6 +146,21 @@ func ReadFhxFile16(filePath string) ([]string, error) {
 		res = append(res, (scanner.Text()))
 	}
 	return res, nil
+}
+
+/* Read fhx File in UTF-8 Format*/
+func ReadFhx(path string) ([]string, error) {
+	f, err := os.Open(path)
+	var lines []string
+	if err != nil {
+		return lines, err
+	}
+	r := bufio.NewScanner(f)
+	r.Split(bufio.ScanLines)
+	for r.Scan() {
+		lines = append(lines, r.Text())
+	}
+	return lines, nil
 }
 
 /* Testet ein fhx Pfad ob es ein*/
