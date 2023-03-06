@@ -1,5 +1,21 @@
 <template>
     <article class="unit">
-        <a href="#">UP_Q2000_BEDING</a>
+        <header>            
+            <a href="#">{{ ups.name }}</a>
+        </header>
+        <div class="body">   
+            <p>{{ ups.desc }}</p>
+            <p>Anzahl Parameter: <strong>{{  ups.params.length }}</strong></p>
+        </div>
     </article>
 </template>
+<script lang="ts" setup>
+import { UnitProcedure } from '~~/models/units';
+
+    defineProps({
+        ups: {
+            type: Object as PropType<UnitProcedure>,
+            default: null
+        }
+    })
+</script>

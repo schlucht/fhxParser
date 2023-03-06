@@ -1,0 +1,1 @@
+{"name":"UP_Q2200_ENDE","time":1665401910,"author":"Schmid Lothar","desc":"Q2200 Ende","params":[{"name":"FP_HKK_OPTION","desc":"","value":{"stringvalue":"AUS","set":"LGF_HK_OPT","high":"","low":"","cv":"","unit":""}},{"name":"FP_HKK_TCW","desc":"","value":{"stringvalue":"","set":"","high":"300","low":"-100","cv":"20","unit":"°C"}}]}

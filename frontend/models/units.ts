@@ -8,6 +8,7 @@ interface UnitProcedure {
     name: string
     time: number
     author: string
+    desc: string
     params: Parameter[]
 }
 
