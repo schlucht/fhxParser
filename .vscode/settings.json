@@ -21,7 +21,7 @@
         "**/*.crswap": true,
         "go.mod": true,
         "go.sum": true,
-        "**/package*": false,        
+        "**/package*": true,        
         "**/node_modules": true
     },
     "editor.tokenColorCustomizations": {

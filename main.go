@@ -10,8 +10,9 @@ import (
 func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
-	p := "./files/q2000.fhx"
+	p := "./files/qall.fhx"
 	f := fhxModels.NewFhx(p)
+
 	database.WriteFhx(f, "units")
 
 }
