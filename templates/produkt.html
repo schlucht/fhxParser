@@ -1,20 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Delta-V</title>
-</head>
-<body>
-    <header class="header container">
-        <h1>Iodosulfuron</h1>
-        <nav>            
-            <img src="https://pweulonza.azureedge.net/static/Fallback/Assets/header-logo-uX5g-bsbk3iAmJJ046vKCwsj0GsVpFJph4TkZ5lJzb41.png?sv=2017-04-17&sr=c&sig=HMIw05Ib%2BCIV%2FKqimaaYTq3vvzNsgoKKyDScO4veiKc%3D&se=2023-03-09T04%3A42%3A38Z&sp=r" />
-            <a href="./index.html"> Startseite <span class="icon">🏚</span></a>            
-        </nav>
-    </header>
+{{ template "header.html"}}
     <main class="container">
         <section class="wrapper">
             <form id="searchForm">
@@ -117,10 +101,4 @@
                 </ul>
         </section>      
     </main>
-    <footer class="footer container">
-        <!-- <img src="https://pweulonza.azureedge.net/static/Fallback/Assets/footer-logo-4w6DbYkeod9CHi_0VEJQ40Lsyu-Ji0ecKI71a4B8VFk1.png?sv=2017-04-17&sr=c&sig=HMIw05Ib%2BCIV%2FKqimaaYTq3vvzNsgoKKyDScO4veiKc%3D&se=2023-03-09T04%3A42%3A38Z&sp=r" /> -->
-        <p><strong>Autor: </strong>Schmid Lothar</p>
-        <p>&copy;<script>document.write(new Date().toLocaleDateString())</script></p>
-    </footer>
-</body>
-</html>
+    {{ template "footer.html" }}

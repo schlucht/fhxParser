@@ -1,9 +1,25 @@
 
-
+.up {
+    display: flex;
+    justify-content: center;
+    border: solid 5px yellow;
+}
+.sidebar {
+    flex: 1;
+}
+.sidebar a {
+    display: inline-block;
+    width: 100%;
+    text-decoration: none;
+    color: var(--light-gray);
+    padding: .5rem;
+}
 .upList {
+    flex: 2;
     padding-top: 10px;
     margin-right: 5px;
     min-width: 30rem;
+    
 }
 
 .upList h2 {
