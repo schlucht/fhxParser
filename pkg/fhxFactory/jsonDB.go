@@ -1,4 +1,4 @@
-package fhxfactory
+package fhxFactory
 
 import (
 	"encoding/json"
@@ -14,7 +14,7 @@ func WriteFhx(obj []fhxModels.Fhx, pathName string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	p := filepath.Join("./", "database", pathName+".json")
+	p := filepath.Join("./", "jsonDb", pathName+".json")
 	f, err := os.Create(p)
 	if err != nil {
 		log.Fatal(err)

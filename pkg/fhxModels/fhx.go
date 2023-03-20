@@ -114,7 +114,7 @@ func (m *Fhx) ReadStep(lines []string) []Step {
 			}
 			if name != "" {
 				step.Name = name
-				loadUP(name)
+				// loadUP(name)
 			}
 			key, err := fhxReader.ReadRegex(regFhx["Definition"], l)
 			if err != nil {

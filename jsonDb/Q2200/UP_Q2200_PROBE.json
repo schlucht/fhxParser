@@ -1,1 +1,0 @@
-{"name":"UP_Q2200_PROBE","time":1665467422,"author":"Kronig Daniel","desc":"Q2200 Probenahme","params":[{"name":"FP_WÄHLEN_PROBE","desc":"","value":{"stringvalue":"","set":"","high":"","low":"","cv":"Probe nehmen?","unit":""}},{"name":"FP_WÄHLEN_WIEDERHOLEN","desc":"","value":{"stringvalue":"","set":"","high":"","low":"","cv":"Wiederholen?","unit":""}}]}

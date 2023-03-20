@@ -1,18 +1,21 @@
 package main
 
 import (
-	_ "github.com/schlucht/fhxreader/pkg/fhxModels"
-	"github.com/schlucht/fhxreader/server"
+	"log"
+
+	"github.com/schlucht/fhxreader/pkg/fhxFactory"
+	"github.com/schlucht/fhxreader/pkg/fhxModels"
+	_ "github.com/schlucht/fhxreader/server"
 )
 
 func main() {
-	// log.SetFlags(log.LstdFlags | log.Lshortfile)
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
-	// p := "./files/qall.fhx"
-	// f := fhxModels.NewFhx(p)
+	p := "./files/q2000.fhx"
+	f := fhxModels.NewFhx(p)
 
-	// database.WriteFhx(f, "units")
+	fhxFactory.WriteFhx(f, "units")
 
-	server.Start()
+	// server.Start()
 
 }
