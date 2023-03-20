@@ -16,9 +16,6 @@ func Start() {
 	router.Static("/assets", "./assets")
 	router.LoadHTMLGlob("templates/*")
 
-	router.GET("/", ReadUnitName)
-	router.GET("/up", ReadUnitDetail)
-
 	// router.GET("/up", func(c *gin.Context) {
 	// 	c.HTML(http.StatusOK, "up.html", gin.H{
 	// 		"header": "Unit Procedures",
