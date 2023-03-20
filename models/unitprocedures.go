@@ -4,7 +4,7 @@ import (
 	"log"
 	"strings"
 
-	"github.com/schlucht/fhxreader/pkg/database"
+	fhxfactory "github.com/schlucht/fhxreader/pkg/fhxFactory"
 	"github.com/schlucht/fhxreader/pkg/fhxModels"
 )
 
@@ -17,7 +17,7 @@ type UnitList struct {
 
 func (m *UnitList) NewUnitList() {
 	var err error
-	list, err = database.LoadAllStandardFilename()
+	list, err = fhxfactory.LoadAllStandardFilename()
 	var names []string
 	if err != nil {
 		m.UnitNames = names

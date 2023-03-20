@@ -1,7 +1,6 @@
 package main
 
 import (
-	_ "github.com/schlucht/fhxreader/pkg/database"
 	_ "github.com/schlucht/fhxreader/pkg/fhxModels"
 	"github.com/schlucht/fhxreader/server"
 )
