@@ -1,4 +1,4 @@
-package fhxModels
+package fhx
 
 type Value struct {
 	StringValue string `json:"stringvalue"`

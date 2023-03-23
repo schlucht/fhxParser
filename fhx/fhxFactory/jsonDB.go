@@ -1,4 +1,4 @@
-package fhxFactory
+package fhx
 
 import (
 	"fmt"

@@ -1,4 +1,4 @@
-package fhxModels
+package fhx
 
 type Parameter struct {
 	Name        string `json:"name"`

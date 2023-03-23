@@ -1,11 +1,11 @@
-package fhxModels
+package fhx
 
 import (
 	"log"
 	"strconv"
 	"strings"
 
-	"github.com/schlucht/fhxreader/pkg/fhxReader"
+	"github.com/schlucht/fhxreader/fhx/fhxReader"
 )
 
 var regFhx = map[string]string{

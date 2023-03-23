@@ -1,4 +1,4 @@
-package fhxModels
+package fhx
 
 type Procedure struct {
 	Name        string      `json:"name"`

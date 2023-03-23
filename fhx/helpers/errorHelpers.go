@@ -1,4 +1,4 @@
-package helpers
+package fhx
 
 import (
 	"log"
@@ -11,6 +11,6 @@ func FatalError(err error) bool {
 	return true
 }
 
-func ErrFatal( linenumber string, module string, method string, err error) {
+func ErrFatal(linenumber string, module string, method string, err error) {
 	log.Fatalf("Error Message:\n%s: (%s: '%s'), %s\n", linenumber, module, method, err)
 }

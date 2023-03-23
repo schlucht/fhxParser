@@ -1,4 +1,4 @@
-package fhxModels
+package fhx
 
 type Step struct {
 	Name        string      `json:"name"`
