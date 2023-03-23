@@ -1,7 +1,6 @@
 package fhxModels
 
 import (
-	"fmt"
 	"log"
 	"strconv"
 	"strings"
@@ -40,30 +39,45 @@ type Fhx struct {
 /*
 Einstiegspunkt zum laden der Daten aus einer Fhx Datei
 */
-func NewFhx(path string) []Fhx {
+func NewFhxPath(path string) []Fhx {
 	ext := fhxReader.IsFhxFile(path)
 	var f = Fhx{}
 	var fs = []Fhx{}
-	if ext == ".FHX" {
-		fs = f.readFhx(path)
+	if ext != ".FHX" {
+		return fs
 	}
+	fileText, err := fhxReader.ReadFhx(path)
+	if err != nil {
+		log.Fatal("FHX: Line 48, readFhx()", err)
+	}
+	fs = f.readFhx(fileText)
+	return fs
+}
+
+// Ein FHX String einlesen
+func NewFhxString(fhxText string) []Fhx {
+	var f = Fhx{}
+	var fs = []Fhx{}
+	if fhxText == "" {
+		log.Fatal("Keine Daten vorhanden")
+	}
+	lines, err := fhxReader.ReadFhxText(fhxText)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fs = f.readFhx(lines)
 	return fs
 }
 
 /*
 Wird ausgeführt wenn ein FHX Datei eingelesen wird diese Eingelesen und neu gespeichert
 */
-func (m *Fhx) readFhx(path string) []Fhx {
+func (m *Fhx) readFhx(fileText []string) []Fhx {
 	var fhx = Fhx{
 		Unitname: "",
 		Type:     "",
 	}
 	var fhxs = []Fhx{}
-
-	fileText, err := fhxReader.ReadFhx(path)
-	if err != nil {
-		log.Fatal("FHX: Line 48, readFhx()", err)
-	}
 
 	block, err := fhxReader.ReadBlock("BATCH_RECIPE", fileText)
 	if err != nil {
@@ -94,9 +108,6 @@ func (m *Fhx) readFhx(path string) []Fhx {
 		fhxs = append(fhxs, fhx)
 	}
 	return fhxs
-}
-func loadUP(upName string) {
-	fmt.Println(upName)
 }
 
 func (m *Fhx) ReadStep(lines []string) []Step {

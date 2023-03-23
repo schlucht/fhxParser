@@ -163,6 +163,22 @@ func ReadFhx(path string) ([]string, error) {
 	return lines, nil
 }
 
+// Liest ein Text aus einer FHX Datei ein
+func ReadFhxText(text string) ([]string, error) {
+
+	var lines []string
+	if text == "" {
+		return lines, errors.New("file is empty")
+	}
+	lines = SplitLines(text)
+	
+	if len(lines) == 0 {
+		return lines, errors.New("file is empty")
+	}
+	
+	return lines, nil
+}
+
 /* Testet ein fhx Pfad ob es ein*/
 func IsFhxFile(pathStr string) string {
 	ext := path.Ext(pathStr)

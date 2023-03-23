@@ -1,3 +1,3 @@
 gorun:
 	clear
-	go run ./main.go
+	go run ./server/*.go
