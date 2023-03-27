@@ -9,8 +9,7 @@ type Fhx struct {
 }
 
 type Unit struct {
-	UnitId       int         `json:"unit_id"`
-	UnitName     string      `json:"unitname"`
+	UnitId       int         `json:"unit_id"`	
 	UnitPosition string      `json:"unitpositon"`
 	Procedures   []Procedure `json:"unitprocedure"`
 }

@@ -23,6 +23,6 @@ func Load(fileName string) *FhxFactory {
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println(fs)
+	ff.Fhx = fs
 	return ff
 }

@@ -2,7 +2,7 @@ package fhx
 
 import (
 	"errors"
-	"log"
+
 	"strconv"
 	"strings"
 
@@ -60,7 +60,7 @@ func NewFhxPath(path string) ([]Fhx, error) {
 }
 
 // Ein FHX String einlesen
-func NewFhxString(fhxText string) error {
+func NewFhxString(fhxText string) ([]Fhx, error) {
 	fhx = Fhx{
 		UnitName: "",
 		Recipes:  []Recipe{},
@@ -70,25 +70,17 @@ func NewFhxString(fhxText string) error {
 
 	var fs = []Fhx{}
 	if fhxText == "" {
-		return errors.New("file is empty")
+		return nil, errors.New("file is empty")
 	}
 	lines, err := fhxReader.ReadFhxText(fhxText)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	fs, err = fhx.readFhx(lines)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	fhx.saveFhx(fs)
-	return nil
-}
-
-/*
-Save Object in a json File Structur
-*/
-func (m *Fhx) saveFhx(lines []Fhx) {
-
+	return fs, nil
 }
 
 /*
@@ -141,13 +133,7 @@ func (m *Fhx) readUnit(fileText []string) ([]Unit, error) {
 
 	for _, b := range block {
 		var unit Unit
-		// Names of Unit
-		if unit.UnitName == "" {
-			unitName := fhxReader.ReadParam(b, m.regFhx["Recipe"])
-			if len(unitName) > 0 {
-				fhx.UnitName = unitName[0]
-			}
-		}
+
 		if unit.UnitPosition == "" {
 			unitPos := fhxReader.ReadParam(b, m.regFhx["Unit"])
 			if len(unitPos) > 0 {
@@ -198,7 +184,7 @@ func (m *Fhx) readStep(lines []string) ([]Step, error) {
 	step := Step{}
 	stepBlocks, err := fhxReader.ReadBlock("STEP", lines)
 	if err != nil {
-		log.Panicln("Read Step Block: ", err)
+		return nil, err
 	}
 	for _, b := range stepBlocks {
 		for _, l := range b {

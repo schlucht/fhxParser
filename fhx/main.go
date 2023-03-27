@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 
@@ -30,6 +31,17 @@ func main() {
 
 func (app *application) loadFile() error {
 	ff := fhxFactory.Load("./assets/files/q2000.fhx")
-	app.infoLog.Println(ff.File)
+	fmt.Println(ff.File)
+	for _, f := range ff.Fhx {
+		for _, u := range f.Units {
+			fmt.Println(u.UnitPosition)
+			for _, p := range u.Procedures {
+				fmt.Printf("\t%s\n", p.Name)
+				for _, pa := range p.Parameters {
+					fmt.Printf("\t\t%s\t|Value: %s\n", pa.Name, pa.Value.Cv)
+				}
+			}
+		}
+	}
 	return nil
 }
