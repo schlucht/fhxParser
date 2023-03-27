@@ -1,6 +1,7 @@
 package fhx
 
 import (
+	"errors"
 	"log"
 	"strconv"
 	"strings"
@@ -28,55 +29,68 @@ var regFhx = map[string]string{
 	"Rect":        `RECTANGLE= (?P<s>.*)`,
 	"StepParams":  `STEP_PARAMETER NAME="(?P<s>.*)"`,
 }
-
-type Fhx struct {
-	Unitname   string      `json:"unitname"`
-	Type       string      `json:"type"`
-	Procedures []Procedure `json:"unitprocedure,omitempty"`
-	Step       []Step      `json:"steps,omitempty"`
-}
+var fhx = Fhx{}
 
 /*
 Einstiegspunkt zum laden der Daten aus einer Fhx Datei
 */
-func NewFhxPath(path string) []Fhx {
-	ext := fhxReader.IsFhxFile(path)
-	var f = Fhx{}
-	var fs = []Fhx{}
-	if ext != ".FHX" {
-		return fs
+func NewFhxPath(path string) ([]Fhx, error) {
+	fhx = Fhx{
+		UnitName: "",
+		Recipes:  []Recipe{},
+		Units:    []Unit{},
+		regFhx:   regFhx,
 	}
+	var fs = []Fhx{}
+	err := fhxReader.IsFhxFile(path)
+
+	if err != nil {
+		return fs, err
+	}
+
 	fileText, err := fhxReader.ReadFhx(path)
 	if err != nil {
 		log.Fatal("FHX: Line 48, readFhx()", err)
 	}
-	fs = f.readFhx(fileText)
-	return fs
+	fs = fhx.readFhx(fileText)
+	return fs, nil
 }
 
 // Ein FHX String einlesen
-func NewFhxString(fhxText string) []Fhx {
-	var f = Fhx{}
+func NewFhxString(fhxText string) error {
+	fhx = Fhx{
+		UnitName: "",
+		Recipes:  []Recipe{},
+		Units:    []Unit{},
+		regFhx:   regFhx,
+	}
+
 	var fs = []Fhx{}
 	if fhxText == "" {
-		log.Fatal("Keine Daten vorhanden")
+		return errors.New("file is empty")
 	}
 	lines, err := fhxReader.ReadFhxText(fhxText)
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
-	fs = f.readFhx(lines)
-	return fs
+	fs = fhx.readFhx(lines)
+	fhx.saveFhx(fs)
+	return nil
+}
+
+/*
+Save Object in a json File Structur
+*/
+func (m *Fhx) saveFhx(lines []Fhx) {
+
 }
 
 /*
 Wird ausgeführt wenn ein FHX Datei eingelesen wird diese Eingelesen und neu gespeichert
 */
+
 func (m *Fhx) readFhx(fileText []string) []Fhx {
-	var fhx = Fhx{
-		Unitname: "",
-		Type:     "",
-	}
+
 	var fhxs = []Fhx{}
 
 	block, err := fhxReader.ReadBlock("BATCH_RECIPE", fileText)
@@ -87,30 +101,27 @@ func (m *Fhx) readFhx(fileText []string) []Fhx {
 	for _, b := range block {
 		// Names of Unit
 		if fhx.Unitname == "" {
-			unitName := fhxReader.ReadParam(b, regFhx["Unit"])
+			unitName := fhxReader.ReadParam(b, m.regFhx["Unit"])
 			if len(unitName) > 0 {
 				fhx.Unitname = unitName[0]
 			}
 		}
 		// Type der Datei PROCEDURE OPERATION UNITPROCEDURE
-		if fhx.Type == "" {
-			unitType := fhxReader.ReadParam(b, regFhx["Type"])
-			if len(unitType) > 0 {
-				fhx.Type = unitType[0]
+		
+		unitType := fhxReader.ReadParam(b, m.regFhx["Type"])
+		if unitType[1] != "" {
+			if unitType[1] == "UNIT_PROCEDURE" {
+				unitType[1] = fhx.readUps(b)
+			} else if unitType[1] == "PROCEDURE" {
+				fhx.Step = fhx.readStep(b)				
 			}
-		}
-		if fhx.Type == "UNIT_PROCEDURE" {
-			fhx.Procedures = fhx.ReadUps(b)
-		} else if fhx.Type == "PROCEDURE" {
-			fhx.Step = fhx.ReadStep(b)
-			// log.Println(fhx.Step)
-		}
+		}		}
 		fhxs = append(fhxs, fhx)
 	}
 	return fhxs
 }
 
-func (m *Fhx) ReadStep(lines []string) []Step {
+func (m *Fhx) readStep(lines []string) []Step {
 	var steps = []Step{}
 	step := Step{}
 	stepBlocks, err := fhxReader.ReadBlock("STEP", lines)
@@ -119,7 +130,7 @@ func (m *Fhx) ReadStep(lines []string) []Step {
 	}
 	for _, b := range stepBlocks {
 		for _, l := range b {
-			name, err := fhxReader.ReadRegex(regFhx["Step"], l)
+			name, err := fhxReader.ReadRegex(m.regFhx["Step"], l)
 			if err != nil {
 				log.Panic("ReadSteps Name: ", err)
 			}
@@ -127,7 +138,7 @@ func (m *Fhx) ReadStep(lines []string) []Step {
 				step.Name = name
 				// loadUP(name)
 			}
-			key, err := fhxReader.ReadRegex(regFhx["Definition"], l)
+			key, err := fhxReader.ReadRegex(m.regFhx["Definition"], l)
 			if err != nil {
 				log.Panic("ReadSteps Def: ", err)
 			}
@@ -135,7 +146,7 @@ func (m *Fhx) ReadStep(lines []string) []Step {
 				step.Key = key
 			}
 			if step.Description == "" {
-				desc, err := fhxReader.ReadRegex(regFhx["StepDesc"], l)
+				desc, err := fhxReader.ReadRegex(m.regFhx["StepDesc"], l)
 
 				if err != nil {
 					log.Panic("ReadSteps Desc: ", err)
@@ -145,7 +156,7 @@ func (m *Fhx) ReadStep(lines []string) []Step {
 				}
 			}
 			if step.Rect == "" {
-				rect, err := fhxReader.ReadRegex(regFhx["Rect"], l)
+				rect, err := fhxReader.ReadRegex(m.regFhx["Rect"], l)
 
 				if err != nil {
 					log.Panic("ReadSteps Rect: ", err)
@@ -154,19 +165,6 @@ func (m *Fhx) ReadStep(lines []string) []Step {
 					step.Description = rect
 				}
 			}
-			// stepParam, err := fhxReader.ReadRegex(regFhx["StepParams"], l)
-
-			// if err != nil {
-			// 	log.Panic("ReadSteps Paramname: ", err)
-			// }
-			// if stepParam != "" {
-			// 	p := Parameter{Name: stepParam}
-			// 	step.Parameters = append(step.Parameters, p)
-			// }
-			// Step die Parameter duchlaufen in der ATTRIBUTE INSTANCE
-			// Wenn der Name vorhanden ist, dann die Values auslesen
-			// Wenn die Parameter nicht vorhanden sind dann Muss mit dem STEP Namen die Units durchsucht
-			// Werden und dann die Values holen und anbinden.
 		}
 		steps = append(steps, step)
 		//
@@ -175,14 +173,14 @@ func (m *Fhx) ReadStep(lines []string) []Step {
 		if err != nil {
 			log.Fatal("ReadStep():", err)
 		}
-		step.Parameters = m.StepParameters(attrBlocks)
+		step.Parameters = m.stepParameters(attrBlocks)
 
 		// log.Println(steps)
 	}
 
 	return steps
 }
-func (m *Fhx) StepParameters(attrBlock [][]string) []Parameter {
+func (m *Fhx) stepParameters(attrBlock [][]string) []Parameter {
 	parameters := []Parameter{}
 
 	return parameters
@@ -191,13 +189,13 @@ func (m *Fhx) StepParameters(attrBlock [][]string) []Parameter {
 /*
 Liest die Unit Proceduren aus der FHX Datei
 */
-func (m *Fhx) ReadUps(lines []string) []Procedure {
+func (m *Fhx) readUps(lines []string) []Procedure {
 	var ups = []Procedure{}
 	up := Procedure{}
 
 	for _, l := range lines {
 		if up.Description == "" {
-			desc, err := fhxReader.ReadRegex(regFhx["Desc"], l)
+			desc, err := fhxReader.ReadRegex(m.regFhx["Desc"], l)
 			if err != nil {
 				log.Fatal("ReadUps():", err)
 			}
@@ -206,7 +204,7 @@ func (m *Fhx) ReadUps(lines []string) []Procedure {
 			}
 		}
 		if up.Name == "" {
-			u, err := fhxReader.ReadRegex(regFhx["Recipe"], l)
+			u, err := fhxReader.ReadRegex(m.regFhx["Recipe"], l)
 			if err != nil {
 				log.Fatal("ReadUps():", err)
 			}
@@ -215,7 +213,7 @@ func (m *Fhx) ReadUps(lines []string) []Procedure {
 			}
 		}
 		if up.Time == 0 {
-			time, err := fhxReader.ReadRegex(regFhx["Time"], l)
+			time, err := fhxReader.ReadRegex(m.regFhx["Time"], l)
 			if err != nil {
 				log.Fatal("ReadUps():", err)
 			}
@@ -230,7 +228,7 @@ func (m *Fhx) ReadUps(lines []string) []Procedure {
 		}
 
 		if up.Author == "" {
-			author, err := fhxReader.ReadRegex(regFhx["Author"], l)
+			author, err := fhxReader.ReadRegex(m.regFhx["Author"], l)
 			if err != nil {
 				log.Fatal("ReadUps():", err)
 			}
@@ -248,7 +246,7 @@ func (m *Fhx) ReadUps(lines []string) []Procedure {
 	if err != nil {
 		log.Fatal("ReadUps():", err)
 	}
-	up.Parameters = m.ReadParameters(paramBlocks, attrBlocks)
+	up.Parameters = m.readParameters(paramBlocks, attrBlocks)
 
 	ups = append(ups, up)
 	return ups
@@ -257,27 +255,26 @@ func (m *Fhx) ReadUps(lines []string) []Procedure {
 /*
 Auslesen der Parameter und hinzufügen ihrer Werte
 */
-func (m *Fhx) ReadParameters(paramBlock [][]string, attrBlock [][]string) []Parameter {
+func (m *Fhx) readParameters(paramBlock [][]string, attrBlock [][]string) []Parameter {
 	var params = []Parameter{}
 	var param = Parameter{}
 	for _, b := range paramBlock {
 		for _, l := range b {
-			name, err := fhxReader.ReadRegex(regFhx["Params"], l)
+			name, err := fhxReader.ReadRegex(m.regFhx["Params"], l)
 			if err != nil {
 				log.Fatal("ReadParameters():", err)
 			}
 			if name != "" {
 				param.Name = name
-				param.Value = m.ReadAttribute(attrBlock, name)
+				param.Value = m.readAttribute(attrBlock, name)
 			}
 			if param.Description == "" {
-				desc, err := fhxReader.ReadRegex(regFhx["Desc"], l)
+				desc, err := fhxReader.ReadRegex(m.regFhx["Desc"], l)
 				if err != nil {
 					log.Fatal("ReadParameters():", err)
 				}
 				param.Description = desc
 			}
-
 		}
 		params = append(params, param)
 	}
@@ -287,7 +284,7 @@ func (m *Fhx) ReadParameters(paramBlock [][]string, attrBlock [][]string) []Para
 /*
 Auslesen der Wert aus der ATTRIBUTE_INSTANCE die Werte werden den Parameter hinzugefügt.
 */
-func (m *Fhx) ReadAttribute(block [][]string, paramName string) Value {
+func (m *Fhx) readAttribute(block [][]string, paramName string) Value {
 	var val = Value{}
 	for _, b := range block {
 		for _, l := range b {
@@ -295,12 +292,12 @@ func (m *Fhx) ReadAttribute(block [][]string, paramName string) Value {
 			if strings.Contains(l, paramName) {
 				// Auslesen ob ein Set vorhanden ist
 				if len(b) > 4 {
-					u, err := fhxReader.ReadRegex(regFhx["ValueSet"], b[4])
+					u, err := fhxReader.ReadRegex(m.regFhx["ValueSet"], b[4])
 					if err != nil {
 						log.Fatal("ReadAttribute():", err)
 					}
 					val.Set = u
-					strVal, err := fhxReader.ReadRegex(regFhx["ValueString"], b[5])
+					strVal, err := fhxReader.ReadRegex(m.regFhx["ValueString"], b[5])
 					if err != nil {
 						log.Fatal("ReadAttribute():", err)
 					}
@@ -313,7 +310,7 @@ func (m *Fhx) ReadAttribute(block [][]string, paramName string) Value {
 
 				parseLine := b[2]
 
-				d, err := fhxReader.ReadRegex(regFhx["ValueDesc"], parseLine)
+				d, err := fhxReader.ReadRegex(m.regFhx["ValueDesc"], parseLine)
 				if err != nil {
 					log.Fatal("ReadAttribute():", err)
 				}
@@ -323,7 +320,7 @@ func (m *Fhx) ReadAttribute(block [][]string, paramName string) Value {
 				}
 
 				// Werte für Zahlen
-				v, err := fhxReader.ReadRegexSubexp(regFhx["Value"], parseLine)
+				v, err := fhxReader.ReadRegexSubexp(m.regFhx["Value"], parseLine)
 				if err != nil {
 					log.Fatal("ReadAttribute():", err)
 				}
