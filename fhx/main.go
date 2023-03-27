@@ -29,7 +29,7 @@ func main() {
 }
 
 func (app *application) loadFile() error {
-	ff := fhxFactory.Load("UP_Q2000_START")
+	ff := fhxFactory.Load("./assets/files/q2000.fhx")
 	app.infoLog.Println(ff.File)
 	return nil
 }

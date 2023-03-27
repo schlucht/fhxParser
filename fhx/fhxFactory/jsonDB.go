@@ -2,7 +2,6 @@ package fhxFactory
 
 import (
 	"fmt"
-	"path"
 
 	fhx "github.com/schlucht/fhxreader/fhx/fhxModels"
 )
@@ -19,6 +18,11 @@ func Load(fileName string) *FhxFactory {
 		File: fileName,
 		Fhx:  nil,
 	}
-	fmt.Println(path.Join(PATH, fileName+".json"))
+
+	fs, err := fhx.NewFhxPath(fileName)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(fs)
 	return ff
 }

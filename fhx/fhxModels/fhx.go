@@ -94,18 +94,17 @@ func (m *Fhx) saveFhx(lines []Fhx) {
 /*
 Wird ausgeführt wenn ein FHX Datei eingelesen wird diese Eingelesen und neu gespeichert
 */
-
 func (m *Fhx) readFhx(fileText []string) ([]Fhx, error) {
 
 	var fhxs = []Fhx{}
-	var fhx Fhx
+
 	block, err := fhxReader.ReadBlock("BATCH_RECIPE", fileText)
 	if err != nil {
 		return nil, err
 	}
 
 	for _, b := range block {
-
+		var fhx Fhx
 		// Type der Datei PROCEDURE OPERATION UNITPROCEDURE
 		unitType := fhxReader.ReadParam(b, m.regFhx["Type"])
 		if unitType[0] != "" {
@@ -114,30 +113,34 @@ func (m *Fhx) readFhx(fileText []string) ([]Fhx, error) {
 				if err != nil {
 					return nil, err
 				}
+				//log.Println("Anzahl:", units)
 				fhx.Units = units
+				fhxs = append(fhxs, fhx)
 			} else if unitType[0] == "PROCEDURE" {
 				recipes, err := m.readRecipe(b)
 				if err != nil {
 					return nil, err
 				}
 				fhx.Recipes = recipes
+				fhxs = append(fhxs, fhx)
 			}
+
 		}
 	}
-	fhxs = append(fhxs, fhx)
 	return fhxs, nil
 }
 
 func (m *Fhx) readUnit(fileText []string) ([]Unit, error) {
 
 	var units = []Unit{}
-	var unit Unit
+
 	block, err := fhxReader.ReadBlock("BATCH_RECIPE", fileText)
 	if err != nil {
 		return nil, err
 	}
 
 	for _, b := range block {
+		var unit Unit
 		// Names of Unit
 		if unit.UnitName == "" {
 			unitName := fhxReader.ReadParam(b, m.regFhx["Recipe"])
@@ -165,7 +168,6 @@ func (m *Fhx) readUnit(fileText []string) ([]Unit, error) {
 func (m *Fhx) readRecipe(fileText []string) ([]Recipe, error) {
 
 	var recipes = []Recipe{}
-	var recipe Recipe
 
 	block, err := fhxReader.ReadBlock("BATCH_RECIPE", fileText)
 	if err != nil {
@@ -173,6 +175,7 @@ func (m *Fhx) readRecipe(fileText []string) ([]Recipe, error) {
 	}
 
 	for _, b := range block {
+		var recipe Recipe
 		// Names of Unit
 		if recipe.RecipeName == "" {
 			recipeName := fhxReader.ReadParam(b, m.regFhx["Recipe"])
