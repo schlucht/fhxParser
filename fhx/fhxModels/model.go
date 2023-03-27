@@ -9,15 +9,16 @@ type Fhx struct {
 }
 
 type Unit struct {
-	UnitId    int         `json:"unit_id"`
-	UnitName  string      `json:"unitname"`
-	Procedure []Procedure `json:"unitprocedure"`
+	UnitId       int         `json:"unit_id"`
+	UnitName     string      `json:"unitname"`
+	UnitPosition string      `json:"unitpositon"`
+	Procedures   []Procedure `json:"unitprocedure"`
 }
 
 type Recipe struct {
-	RecipeId   int         `json:"recipe_id"`
-	RecipeName string      `json:"recipename"`
-	Step       []Procedure `json:"steps"`
+	RecipeId   int    `json:"recipe_id"`
+	RecipeName string `json:"recipename"`
+	Steps      []Step `json:"steps"`
 }
 
 type Parameter struct {
@@ -46,7 +47,7 @@ type Step struct {
 }
 
 type Value struct {
-	valueId     int    `json:"value_id"`
+	ValueId     int    `json:"value_id"`
 	StringValue string `json:"stringvalue,omitempty"`
 	Set         string `json:"set,omitempty"`
 	High        string `json:"high,omitempty"`
