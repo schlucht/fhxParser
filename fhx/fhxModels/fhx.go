@@ -36,10 +36,9 @@ Einstiegspunkt zum laden der Daten aus einer Fhx Datei
 */
 func NewFhxPath(path string) ([]Fhx, error) {
 	fhx = Fhx{
-		UnitName: "",
-		Recipes:  []Recipe{},
-		Units:    []Unit{},
-		regFhx:   regFhx,
+		Recipes: []Recipe{},
+		Units:   []Unit{},
+		regFhx:  regFhx,
 	}
 	var fs = []Fhx{}
 	err := fhxReader.IsFhxFile(path)
@@ -62,10 +61,9 @@ func NewFhxPath(path string) ([]Fhx, error) {
 // Ein FHX String einlesen
 func NewFhxString(fhxText string) error {
 	fhx = Fhx{
-		UnitName: "",
-		Recipes:  []Recipe{},
-		Units:    []Unit{},
-		regFhx:   regFhx,
+		Recipes: []Recipe{},
+		Units:   []Unit{},
+		regFhx:  regFhx,
 	}
 
 	var fs = []Fhx{}
@@ -145,7 +143,7 @@ func (m *Fhx) readUnit(fileText []string) ([]Unit, error) {
 		if unit.UnitName == "" {
 			unitName := fhxReader.ReadParam(b, m.regFhx["Recipe"])
 			if len(unitName) > 0 {
-				fhx.UnitName = unitName[0]
+				unit.UnitName = unitName[0]
 			}
 		}
 		if unit.UnitPosition == "" {
@@ -155,11 +153,13 @@ func (m *Fhx) readUnit(fileText []string) ([]Unit, error) {
 			}
 		}
 
-		procedures, err := m.readUps(b)
+		procedures, err := m.readUps(b, unit)
 		if err != nil {
 			return nil, err
 		}
-		unit.Procedures = procedures
+		unit = procedures
+		// unit.Procedures = procedures
+
 		units = append(units, unit)
 	}
 	return units, nil
@@ -266,70 +266,70 @@ func (m *Fhx) stepParameters(attrBlock [][]string) ([]Parameter, error) {
 /*
 Liest die Unit Proceduren aus der FHX Datei
 */
-func (m *Fhx) readUps(lines []string) ([]Procedure, error) {
-	var ups = []Procedure{}
-	up := Procedure{}
+func (m *Fhx) readUps(lines []string, unit Unit) (Unit, error) {
+	// var ups = []Procedure{}
+	up := Unit{}
 
 	for _, l := range lines {
-		if up.Description == "" {
+		if unit.Description == "" {
 			desc, err := fhxReader.ReadRegex(m.regFhx["Desc"], l)
 			if err != nil {
-				return nil, err
+				return Unit{}, err
 			}
 			if desc != "" {
 				up.Description = desc
 			}
 		}
-		if up.Name == "" {
-			u, err := fhxReader.ReadRegex(m.regFhx["Recipe"], l)
-			if err != nil {
-				return nil, err
-			}
-			if u != "" {
-				up.Name = u
-			}
-		}
-		if up.Time == 0 {
+		// if unit.Name == "" {
+		// 	u, err := fhxReader.ReadRegex(m.regFhx["Recipe"], l)
+		// 	if err != nil {
+		// 		return nil, err
+		// 	}
+		// 	if u != "" {
+		// 		up.Name = u
+		// 	}
+		// }
+		if unit.Time == 0 {
 			time, err := fhxReader.ReadRegex(m.regFhx["Time"], l)
 			if err != nil {
-				return nil, err
+				return Unit{}, err
 			}
 
 			if time != "" {
 				t, err := strconv.Atoi(time)
 				if err != nil {
-					return nil, err
+					return Unit{}, err
 				}
-				up.Time = t
+				unit.Time = t
 			}
 		}
 
-		if up.Author == "" {
+		if unit.Author == "" {
 			author, err := fhxReader.ReadRegex(m.regFhx["Author"], l)
 			if err != nil {
-				return nil, err
+				return Unit{}, err
 			}
 			if author != "" {
-				up.Author = author
+				unit.Author = author
 			}
 		}
 	}
 	paramBlocks, err := fhxReader.ReadBlock("FORMULA_PARAMETER", lines)
 	if err != nil {
-		return nil, err
+		return Unit{}, err
 	}
 	attrBlocks, err := fhxReader.ReadBlock("ATTRIBUTE_INSTANCE", lines)
 	if err != nil {
-		return nil, err
+		return Unit{}, err
 	}
 	params, err := m.readParameters(paramBlocks, attrBlocks)
 	if err != nil {
-		return nil, err
+		return Unit{}, err
 	}
-	up.Parameters = params
+	unit.Parameters = params
 
-	ups = append(ups, up)
-	return ups, nil
+	// ups = append(ups, up)
+	return unit, nil
 }
 
 /*

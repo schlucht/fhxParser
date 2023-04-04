@@ -1,8 +1,6 @@
 package fhxFactory
 
 import (
-	"fmt"
-
 	fhx "github.com/schlucht/fhxreader/fhx/fhxModels"
 )
 
@@ -13,16 +11,17 @@ type FhxFactory struct {
 	Fhx  []fhx.Fhx
 }
 
-func Load(fileName string) *FhxFactory {
+func Load(fileName string) (*FhxFactory, error) {
 	ff := &FhxFactory{
 		File: fileName,
 		Fhx:  nil,
 	}
-
 	fs, err := fhx.NewFhxPath(fileName)
 	if err != nil {
-		fmt.Println(err)
+		return ff, err
 	}
-	fmt.Println(fs)
-	return ff
+
+	ff.Fhx = fs
+
+	return ff, nil
 }

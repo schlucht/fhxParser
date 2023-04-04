@@ -1,18 +1,20 @@
 package fhx
 
 type Fhx struct {
-	FhxId    int               `json:"fhx_id"`
-	UnitName string            `json:"unitname"`
-	Recipes  []Recipe          `json:"recipes"`
-	Units    []Unit            `json:"units"`
-	regFhx   map[string]string `json:"-"`
+	FhxId   int               `json:"fhx_id"`
+	Recipes []Recipe          `json:"recipes,omitempty"`
+	Units   []Unit            `json:"units,omitempty"`
+	regFhx  map[string]string `json:"-"`
 }
 
 type Unit struct {
 	UnitId       int         `json:"unit_id"`
 	UnitName     string      `json:"unitname"`
 	UnitPosition string      `json:"unitpositon"`
-	Procedures   []Procedure `json:"unitprocedure"`
+	Time         int         `json:"time"`
+	Author       string      `json:"author"`
+	Description  string      `json:"desc"`
+	Parameters   []Parameter `json:"params"`
 }
 
 type Recipe struct {
@@ -28,14 +30,11 @@ type Parameter struct {
 	Value       Value  `json:"value"`
 }
 
-type Procedure struct {
-	ProcedureId int         `json:"procedure_id"`
-	Name        string      `json:"name"`
-	Time        int         `json:"time"`
-	Author      string      `json:"author"`
-	Description string      `json:"desc"`
-	Parameters  []Parameter `json:"params"`
-}
+// type Procedure struct {
+// 	ProcedureId int         `json:"procedure_id"`
+// 	Name        string      `json:"name"`
+
+// }
 
 type Step struct {
 	StepId      int         `json:"step_id"`

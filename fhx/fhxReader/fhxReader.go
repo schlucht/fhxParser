@@ -56,7 +56,6 @@ func ReadBlock(startString string, lines []string) ([][]string, error) {
 					}
 				}
 			}
-
 		} else {
 			start = regParam.MatchString(l)
 			if start {
@@ -111,6 +110,7 @@ func ReadRegex(regex string, txt string) (string, error) {
 	}
 	return res, nil
 }
+
 func ReadRegexSubexp(regex string, txt string) (map[string]string, error) {
 	res := make(map[string]string)
 	if regex == "" {

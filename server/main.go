@@ -5,6 +5,8 @@ import (
 	"log"
 	"net/http"
 	"os"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 type config struct {
@@ -20,9 +22,8 @@ type application struct {
 func main() {
 	var cfg config
 	cfg.port = 8081
-
-	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
-	errorLog := log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
+	infoLog := log.New(os.Stdout, "\033[0;34mINFO: \033[0m \t", log.Ldate|log.Ltime)
+	errorLog := log.New(os.Stdout, "\033[0;31mERROR: \033[0m \t", log.Ldate|log.Ltime|log.Lshortfile)
 
 	app := &application{
 		config:   cfg,
@@ -32,7 +33,7 @@ func main() {
 
 	err := app.serve()
 	if err != nil {
-		log.Fatal(err)
+		errorLog.Fatal(err)
 	}
 
 	// p := "./files/q2000.fhx"

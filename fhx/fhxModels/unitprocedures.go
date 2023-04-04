@@ -8,7 +8,6 @@ var list map[string][]string
 
 type UnitList struct {
 	UnitNames []string
-	Units     []Procedure
 }
 
 // func (m *UnitList) NewUnitList() {
