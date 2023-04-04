@@ -10,7 +10,7 @@
     "vim.hlsearch": true,
     "files.exclude": {
         "**/.git": true,
-        "**/.gitignore": true,
+        "**/.gitignore": false,
         "**/.svn": true,
         "**/.hg": true,
         "**/.npmrc": true,
