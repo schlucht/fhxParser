@@ -1,5 +1,7 @@
 package fhx
 
+import "time"
+
 type Fhx struct {
 	FhxId   int               `json:"fhx_id"`
 	Recipes []Recipe          `json:"recipes,omitempty"`
@@ -13,8 +15,26 @@ type Unit struct {
 	UnitPosition string      `json:"unitpositon"`
 	Time         int         `json:"time"`
 	Author       string      `json:"author"`
-	Description  string      `json:"desc"`
+	Description  string      `json:"description"`
 	Parameters   []Parameter `json:"params"`
+}
+
+type Parameter struct {
+	ParameterId int     `json:"parameter_id"`
+	Name        string  `json:"name"`
+	Description string  `json:"description"`
+	Value       []Value `json:"value"`
+}
+
+type Value struct {
+	ValueId     int       `json:"value_id"`
+	StringValue string    `json:"stringvalue,omitempty"`
+	Set         string    `json:"value_set,omitempty"`
+	High        int       `json:"high,omitempty"`
+	Low         int       `json:"low,omitempty"`
+	Cv          int       `json:"cv,omitempty"`
+	Unit        string    `json:"unit,omitempty"`
+	CreatedAt   time.Time `json:"created_at"`
 }
 
 type Recipe struct {
@@ -23,34 +43,11 @@ type Recipe struct {
 	Steps      []Step `json:"steps"`
 }
 
-type Parameter struct {
-	ParameterId int    `json:"parameter_id"`
-	Name        string `json:"name"`
-	Description string `json:"desc"`
-	Value       Value  `json:"value"`
-}
-
-// type Procedure struct {
-// 	ProcedureId int         `json:"procedure_id"`
-// 	Name        string      `json:"name"`
-
-// }
-
 type Step struct {
 	StepId      int         `json:"step_id"`
 	Name        string      `json:"name"`
 	Key         string      `json:"key"`
-	Description string      `json:"desc"`
+	Description string      `json:"description"`
 	Rect        string      `json:"rec"`
 	Parameters  []Parameter `json:"parameters"`
-}
-
-type Value struct {
-	ValueId     int    `json:"value_id"`
-	StringValue string `json:"stringvalue,omitempty"`
-	Set         string `json:"set,omitempty"`
-	High        string `json:"high,omitempty"`
-	Low         string `json:"low,omitempty"`
-	Cv          string `json:"cv,omitempty"`
-	Unit        string `json:"unit,omitempty"`
 }

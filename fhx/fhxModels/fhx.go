@@ -267,9 +267,6 @@ func (m *Fhx) stepParameters(attrBlock [][]string) ([]Parameter, error) {
 Liest die Unit Proceduren aus der FHX Datei
 */
 func (m *Fhx) readUps(lines []string, unit Unit) (Unit, error) {
-	// var ups = []Procedure{}
-	up := Unit{}
-
 	for _, l := range lines {
 		if unit.Description == "" {
 			desc, err := fhxReader.ReadRegex(m.regFhx["Desc"], l)
@@ -277,18 +274,10 @@ func (m *Fhx) readUps(lines []string, unit Unit) (Unit, error) {
 				return Unit{}, err
 			}
 			if desc != "" {
-				up.Description = desc
+				unit.Description = desc
 			}
 		}
-		// if unit.Name == "" {
-		// 	u, err := fhxReader.ReadRegex(m.regFhx["Recipe"], l)
-		// 	if err != nil {
-		// 		return nil, err
-		// 	}
-		// 	if u != "" {
-		// 		up.Name = u
-		// 	}
-		// }
+
 		if unit.Time == 0 {
 			time, err := fhxReader.ReadRegex(m.regFhx["Time"], l)
 			if err != nil {
@@ -338,6 +327,7 @@ Auslesen der Parameter und hinzufügen ihrer Werte
 func (m *Fhx) readParameters(paramBlock [][]string, attrBlock [][]string) ([]Parameter, error) {
 	var params = []Parameter{}
 	var param = Parameter{}
+
 	for _, b := range paramBlock {
 		for _, l := range b {
 			name, err := fhxReader.ReadRegex(m.regFhx["Params"], l)
@@ -350,7 +340,7 @@ func (m *Fhx) readParameters(paramBlock [][]string, attrBlock [][]string) ([]Par
 				if err != nil {
 					return nil, err
 				}
-				param.Value = val
+				param.Value = append(param.Value, val)
 			}
 			if param.Description == "" {
 				desc, err := fhxReader.ReadRegex(m.regFhx["Desc"], l)
@@ -394,23 +384,35 @@ func (m *Fhx) readAttribute(block [][]string, paramName string) (Value, error) {
 
 				parseLine := b[2]
 
-				d, err := fhxReader.ReadRegex(m.regFhx["ValueDesc"], parseLine)
-				if err != nil {
-					return val, err
-				}
-				if d != "" {
-					val.Cv = d
-					return val, nil
-				}
+				// d, err := fhxReader.ReadRegex(m.regFhx["ValueDesc"], parseLine)
+				// if err != nil {
+				// 	return val, err
+				// }
+				// if d != "" {
+				// 	val.Cv = d
+				// 	return val, nil
+				// }
 
 				// Werte für Zahlen
 				v, err := fhxReader.ReadRegexSubexp(m.regFhx["Value"], parseLine)
 				if err != nil {
 					return val, err
 				}
-				val.High = v["s1"]
-				val.Low = v["s2"]
-				val.Cv = v["s3"]
+				h, err := strconv.Atoi(v["s1"])
+				if err != nil {
+					return val, err
+				}
+				val.High = h
+				l, err := strconv.Atoi(v["s2"])
+				if err != nil {
+					return val, err
+				}
+				val.Low = l
+				cv, err := strconv.Atoi(v["s3"])
+				if err != nil {
+					return val, err
+				}
+				val.Cv = cv
 				val.Unit = v["s4"]
 				return val, nil
 			}

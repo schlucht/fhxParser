@@ -10,7 +10,7 @@
     "vim.hlsearch": true,
     "files.exclude": {
         "**/.git": true,
-        "**/.gitignore": false,
+        "**/.gitignore": true,
         "**/.svn": true,
         "**/.hg": true,
         "**/.npmrc": true,
@@ -40,5 +40,19 @@
             "keywords": "#a50a0a",            
         }       
 
-    }
+    },
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "db8.hostpark.net",
+            "port": 3306,
+            "driver": "MariaDB",
+            "name": "fhxDB",
+            "database": "schmidschluch4",
+            "username": "schmidschluch4"
+        }
+    ]
 }

@@ -49,7 +49,7 @@ func dBConnect() (*sql.DB, error) {
 func (db *DB) InsertUnit(unit fhx.Unit) error {
 	ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
 	defer cancel()
-	// defer db.connect.Close()
+	defer db.connect.Close()
 	// Daten in die Tabelle einfügen
 	stmt, err := db.connect.PrepareContext(ctx, `INSERT INTO units 
 		(unit_name, unit_position, time, author, description) 
@@ -64,7 +64,7 @@ func (db *DB) InsertUnit(unit fhx.Unit) error {
 	_, err = stmt.Exec(
 		&unit.UnitName,
 		&unit.UnitPosition,
-		&unit.Time, unit.Author,
+		&unit.Time, &unit.Author,
 		&unit.Description,
 	)
 	if err != nil {
@@ -73,8 +73,12 @@ func (db *DB) InsertUnit(unit fhx.Unit) error {
 	return nil
 }
 
-// Id aus der Unittabelle holen
+func (db *DB) InsertUnits(units []fhx.Unit) error {
 
+	return nil
+}
+
+// Id der UNIT aus der Tabelle holen
 func (db *DB) IdFromUnitname(unitname string) (int, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
 	defer cancel()
@@ -97,4 +101,25 @@ func (db *DB) IdFromUnitname(unitname string) (int, error) {
 		}
 	}
 	return id, nil
+}
+
+// Unitdatensatz in der Tabelle aktualisieren
+func (db *DB) UpdateUnit(units []fhx.Unit) error {
+
+	// Datensatz suchen
+
+	// Felder mit Parameter vergleichen
+
+	// UPDATE Statment an DB absenden
+
+	return nil
+}
+
+func (db *DB) DeleteUnit(id int) error {
+
+	// Datensatz suchen
+
+	// DELETE Statmemt absetzen
+
+	return nil
 }
