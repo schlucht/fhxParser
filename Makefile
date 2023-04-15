@@ -1,4 +1,4 @@
 gorun:
 	clear
-	go run ./server/*.go
+	go run .backend/server/*.go
 
