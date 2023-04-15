@@ -1,4 +1,4 @@
-package fhxReader
+package parser
 
 import (
 	"bufio"

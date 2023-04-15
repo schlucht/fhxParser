@@ -8,7 +8,8 @@ import (
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"
-	fhx "github.com/schlucht/fhxreader/fhx/fhxModels"
+
+	"github.com/schlucht/fhxreader/models"
 )
 
 type DB struct {
@@ -46,7 +47,8 @@ func dBConnect() (*sql.DB, error) {
 }
 
 // Speichert die Daten in der Tabelle Unit
-func (db *DB) InsertUnit(unit fhx.Unit) error {
+func (db *DB) InsertUnit(unit models.Unit) error {
+
 	ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
 	defer cancel()
 	defer db.connect.Close()
@@ -73,7 +75,7 @@ func (db *DB) InsertUnit(unit fhx.Unit) error {
 	return nil
 }
 
-func (db *DB) InsertUnits(units []fhx.Unit) error {
+func (db *DB) InsertUnits(units []models.Unit) error {
 
 	return nil
 }
@@ -104,7 +106,7 @@ func (db *DB) IdFromUnitname(unitname string) (int, error) {
 }
 
 // Unitdatensatz in der Tabelle aktualisieren
-func (db *DB) UpdateUnit(units []fhx.Unit) error {
+func (db *DB) UpdateUnit(units []models.Unit) error {
 
 	// Datensatz suchen
 

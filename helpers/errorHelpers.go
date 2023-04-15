@@ -1,4 +1,4 @@
-package fhx
+package helpers
 
 import (
 	"log"
