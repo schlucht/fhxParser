@@ -6,7 +6,9 @@ import OtsFooter from './components/ots-footer.vue';
 <template>
   <div>
     <ots-header></ots-header>
-    <router-view></router-view>
+    <main class="container p-5">
+      <router-view></router-view>
+    </main>
     <ots-footer></ots-footer>
   </div>
 </template>
