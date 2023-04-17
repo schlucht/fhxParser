@@ -1,11 +1,25 @@
 <template>
     <div class="container">
         <pre>
-                    Vorschau
-            </pre>
+            <slot></slot>
+        </pre>
     </div>
 </template>
 <script setup>
 
 </script>
-<style lang='scss' scoped></style>
+<style scoped>
+
+    div {
+        overflow-y: scroll;
+        background: rgb(75, 69, 69);
+        height: 80vh;
+    }
+
+    pre {     
+        
+        font-size: .8rem;
+        
+    }
+
+</style>
