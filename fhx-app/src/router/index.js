@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import OtsBody from '../components/ots-body.vue'
-import Download from '../components/download/download.vue'
+import Dropzone from '../components/download/dropzone.vue'
 
 const routes = [
     {
@@ -11,7 +11,7 @@ const routes = [
     {
         path: "/download",
         name: "Download",
-        component: Download,
+        component: Dropzone,
     },
 ]
 

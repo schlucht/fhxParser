@@ -1,20 +1,14 @@
-:root {
-    --blue: #4F8CEB;
-    --orange: #ff6b33;
-    --white: #fff;
-    --light-gray: #bbb;
-    --black: #222;
-    --dark-gray: #242424;
-}
+@import 'variables';
+
 *, *::after, *::before {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* html {
+html {
     font-size: 62.5%;    
-} */
+}
 
 body {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -22,6 +16,6 @@ body {
     height: 100vh;
     min-width: 320px;
     transition: all .2s;   
-    background-color: var(--dark-gray);
-    color: var(--white);
+    background-color: $dark-gray;
+    color: $white;
 }
