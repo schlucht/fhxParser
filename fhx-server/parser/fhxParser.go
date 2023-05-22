@@ -12,6 +12,7 @@ import (
 type Fhx struct {
 	Recipes []models.Recipe   `json:"recipes,omitempty"`
 	Units   []models.Unit     `json:"units,omitempty"`
+	OPs     []models.Unit     `json:"ops,omitempty"`
 	regFhx  map[string]string `json:"-"`
 }
 
@@ -44,6 +45,7 @@ func NewFhxPath(path string) ([]Fhx, error) {
 	fhx = Fhx{
 		Recipes: []models.Recipe{},
 		Units:   []models.Unit{},
+		OPs:     []models.Unit{},
 		regFhx:  regFhx,
 	}
 	var fs = []Fhx{}
@@ -69,6 +71,7 @@ func NewFhxString(fhxText string) error {
 	fhx = Fhx{
 		Recipes: []models.Recipe{},
 		Units:   []models.Unit{},
+		OPs:     []models.Unit{},
 		regFhx:  regFhx,
 	}
 
@@ -127,8 +130,16 @@ func (m *Fhx) readFhx(fileText []string) ([]Fhx, error) {
 				}
 				fhx.Recipes = recipes
 				fhxs = append(fhxs, fhx)
-			}
+				// Noch nicht getestet
+			} else if unitType[0] == "OPERATION" {
+				ops, err := m.readUnit(b)
+				if err != nil {
+					return nil, err
+				}
 
+				fhx.OPs = ops
+				fhxs = append(fhxs, fhx)
+			}
 		}
 	}
 	return fhxs, nil
