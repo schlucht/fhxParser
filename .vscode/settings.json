@@ -41,6 +41,9 @@
         }       
 
     },
+    "editor.quickSuggestions": {
+        "strings": true
+      },
     "sqltools.connections": [
         {
             "mysqlOptions": {
