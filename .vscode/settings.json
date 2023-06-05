@@ -19,8 +19,8 @@
         "**/.DS_Store": true,
         "**/Thumbs.db": true,
         "**/*.crswap": true,
-        "go.mod": true,
-        "go.sum": true,
+        "go.mod": false,
+        "go.sum": false,
         "**/package*": true,        
         "**/node_modules": true
     },

@@ -9,7 +9,7 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 
-	"github.com/schlucht/fhxreader/models"
+	"github.com/schlucht/fhxreader/fhx-parser/models"
 )
 
 type DB struct {

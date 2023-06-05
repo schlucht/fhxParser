@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/schlucht/fhxreader/models"
+	"github.com/schlucht/fhxreader/fhx-parser/models"
 )
 
 type Fhx struct {
