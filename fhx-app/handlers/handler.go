@@ -3,7 +3,6 @@ package handlers
 import "github.com/schlucht/fhxreader/fhx-app/config"
 
 var Repo *Repository
-
 type Repository struct {
 	App *config.AppConfig
 }

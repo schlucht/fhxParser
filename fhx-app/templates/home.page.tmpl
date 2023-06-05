@@ -1,15 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
+{{template "base" .}}
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+{{define "content"}}
 
-<body>
-    <h1>Start Seite</h1>
-</body>
-
-</html>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h1>Home Page</h1>      
+      <p>Session IP: {{ index .StringMap "remote_ip" }}</p>
+      <div class="row">
+        <div class="col-4">
+            <div class="mb-3">
+                <label for="formFile" class="form-label">Default file input example</label>
+                <input class="form-control" type="file" id="formFile">
+              </div>
+        </div>
+        <div class="col-8">
+            <h3>Resultat</h3>
+            <form action="/readFile" method="POST">
+                <input hidden type="text" name="csrf_token" value="{{ .CSRFToken }}">
+                <button type="submit" class="btn btn-danger">Speichern</button>
+                <textarea name="textout" id="textout"></textarea>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{ end }}

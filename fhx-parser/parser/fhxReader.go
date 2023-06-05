@@ -23,10 +23,10 @@ func ReadBlock(startString string, lines []string) ([][]string, error) {
 
 	results := [][]string{}
 	if strings.Trim(startString, "") == "" {
-		return results, errors.New("kein suchparameter vorhanden")
+		return nil, errors.New("kein suchparameter vorhanden")
 	}
 	if len(lines) == 0 {
-		return results, errors.New("kein text übergeben")
+		return nil, errors.New("kein text übergeben")
 	}
 
 	regParam, _ := regexp.Compile(startString)
@@ -199,13 +199,16 @@ Parameter: lines ein Array mit den Zeilen
 regex ein Regex Suchstring
 Rückgabe alle Wert die auf das Regex gepasst haben
 */
-func ReadParam(lines []string, regex string) []string {
+func ReadParam(lines []string, regex string) ([]string, error) {
 	var results []string
 	for _, l := range lines {
-		u, _ := ReadRegex(regex, l)
+		u, err := ReadRegex(regex, l)
+		if err != nil {
+			return nil, err
+		}
 		if u != "" {
 			results = append(results, u)
 		}
 	}
-	return results
+	return results, nil
 }

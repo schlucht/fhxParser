@@ -2,7 +2,7 @@ package parser
 
 import (
 	"errors"
-	"log"
+	"fmt"
 	"strconv"
 	"strings"
 
@@ -67,35 +67,26 @@ func NewFhxPath(path string) ([]Fhx, error) {
 }
 
 // Ein FHX String einlesen
-func NewFhxString(fhxText string) error {
+func NewFhxString(fhxText string) ([]Fhx, error) {
 	fhx = Fhx{
 		Recipes: []models.Recipe{},
 		Units:   []models.Unit{},
 		OPs:     []models.Unit{},
 		regFhx:  regFhx,
 	}
-
-	var fs = []Fhx{}
 	if fhxText == "" {
-		return errors.New("file is empty")
+		return nil, errors.New("file is empty")
 	}
 	lines, err := ReadFhxText(fhxText)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	fs, err = fhx.readFhx(lines)
+	fhx, err := fhx.readFhx(lines)
+
 	if err != nil {
-		return err
+		return nil, err
 	}
-	fhx.saveFhx(fs)
-	return nil
-}
-
-/*
-Save Object in a json File Structur
-*/
-func (m *Fhx) saveFhx(lines []Fhx) {
-
+	return fhx, nil
 }
 
 /*
@@ -104,8 +95,8 @@ Wird ausgeführt wenn ein FHX Datei eingelesen wird diese Eingelesen und neu ges
 func (m *Fhx) readFhx(fileText []string) ([]Fhx, error) {
 
 	var fhxs = []Fhx{}
-
 	block, err := ReadBlock("BATCH_RECIPE", fileText)
+	// fmt.Printf("Erstes File: %v\n", block[0])
 	if err != nil {
 		return nil, err
 	}
@@ -113,7 +104,11 @@ func (m *Fhx) readFhx(fileText []string) ([]Fhx, error) {
 	for _, b := range block {
 		var fhx Fhx
 		// Type der Datei PROCEDURE OPERATION UNITPROCEDURE
-		unitType := ReadParam(b, m.regFhx["Type"])
+		unitType, err := ReadParam(b, m.regFhx["Type"])
+		if err != nil {
+			return nil, err
+		}
+
 		if unitType[0] != "" {
 			if unitType[0] == "UNIT_PROCEDURE" {
 				units, err := m.readUnit(b)
@@ -158,13 +153,19 @@ func (m *Fhx) readUnit(fileText []string) ([]models.Unit, error) {
 		var unit models.Unit
 		// Names of Unit
 		if unit.UnitName == "" {
-			unitName := ReadParam(b, m.regFhx["Recipe"])
+			unitName, err := ReadParam(b, m.regFhx["Recipe"])
+			if err != nil {
+				return nil, err
+			}
 			if len(unitName) > 0 {
 				unit.UnitName = unitName[0]
 			}
 		}
 		if unit.UnitPosition == "" {
-			unitPos := ReadParam(b, m.regFhx["Unit"])
+			unitPos, err := ReadParam(b, m.regFhx["Unit"])
+			if err != nil {
+				return nil, err
+			}
 			if len(unitPos) > 0 {
 				unit.UnitPosition = unitPos[0]
 			}
@@ -195,7 +196,10 @@ func (m *Fhx) readRecipe(fileText []string) ([]models.Recipe, error) {
 		var recipe models.Recipe
 		// Names of Unit
 		if recipe.RecipeName == "" {
-			recipeName := ReadParam(b, m.regFhx["Recipe"])
+			recipeName, err := ReadParam(b, m.regFhx["Recipe"])
+			if err != nil {
+				return nil, err
+			}
 			if len(recipeName) > 0 {
 				recipe.RecipeName = recipeName[0]
 			}
@@ -215,7 +219,7 @@ func (m *Fhx) readStep(lines []string) ([]models.Step, error) {
 	step := models.Step{}
 	stepBlocks, err := ReadBlock("STEP", lines)
 	if err != nil {
-		log.Panicln("Read Step Block: ", err)
+		return nil, err
 	}
 	for _, b := range stepBlocks {
 		for _, l := range b {
@@ -412,22 +416,26 @@ func (m *Fhx) readAttribute(block [][]string, paramName string) (models.Value, e
 
 				// Werte für Zahlen
 				v, err := ReadRegexSubexp(m.regFhx["Value"], parseLine)
+				if len(v) == 0 {
+					return val, nil
+				}
+
 				if err != nil {
 					return val, err
 				}
 				h, err := strconv.Atoi(v["s1"])
 				if err != nil {
-					return val, err
+					return val, fmt.Errorf("ReadRegexSubexp v[s1]. %v", err)
 				}
 				val.High = h
 				l, err := strconv.Atoi(v["s2"])
 				if err != nil {
-					return val, err
+					return val, fmt.Errorf("ReadRegexSubexp v[s2]. %v", err)
 				}
 				val.Low = l
 				cv, err := strconv.Atoi(v["s3"])
 				if err != nil {
-					return val, err
+					return val, fmt.Errorf("ReadRegexSubexp v[s3]. %v", err)
 				}
 				val.Cv = cv
 				val.Unit = v["s4"]

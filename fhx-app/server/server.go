@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"time"
 
+	"github.com/alexedwards/scs/v2"
 	"github.com/schlucht/fhxreader/fhx-app/config"
 	"github.com/schlucht/fhxreader/fhx-app/handlers"
 	"github.com/schlucht/fhxreader/fhx-app/render"
@@ -15,11 +17,18 @@ type Server struct {
 }
 
 var app config.AppConfig
+var session *scs.SessionManager
 
 func (m *Server) Start() {
 
+	session = scs.New()
+	session.Lifetime = 24 * time.Hour
+	session.Cookie.Persist = true
+	session.Cookie.SameSite = http.SameSiteLaxMode
+	session.Cookie.Secure = false
+	app.Session = session
+
 	app.InProduction = false
-	app.Session = nil
 
 	tc, err := render.CreateTemplateCache()
 	if err != nil {

@@ -59,7 +59,7 @@ func RenderTemplate(w http.ResponseWriter, tmpl string, td *models.TemplateData,
 func CreateTemplateCache() (map[string]*template.Template, error) {
 	myCache := map[string]*template.Template{}
 
-	pages, err := filepath.Glob("./templates/*.page.tmpl")
+	pages, err := filepath.Glob("./fhx-app/templates/*.page.tmpl")
 	if err != nil {
 		return myCache, err
 	}
@@ -70,12 +70,12 @@ func CreateTemplateCache() (map[string]*template.Template, error) {
 		if err != nil {
 			return myCache, err
 		}
-		matches, err := filepath.Glob("./templates/*.layout.tmpl")
+		matches, err := filepath.Glob("./fhx-app/templates/*.layout.tmpl")
 		if err != nil {
 			return myCache, err
 		}
 		if len(matches) > 0 {
-			ts, err = ts.ParseGlob("./templates/*.layout.tmpl")
+			ts, err = ts.ParseGlob("./fhx-app/templates/*.layout.tmpl")
 			if err != nil {
 				return myCache, err
 			}
