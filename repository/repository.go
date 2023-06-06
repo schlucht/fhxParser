@@ -1,4 +1,4 @@
-package fhxdata
+package repository
 
 type DatabaseRepo interface {
 }
