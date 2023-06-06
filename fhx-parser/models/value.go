@@ -2,8 +2,7 @@ package models
 
 import "time"
 
-type Value struct {
-	ValueId     int       `json:"value_id"`
+type Value struct {	
 	StringValue string    `json:"stringvalue,omitempty"`
 	Set         string    `json:"value_set,omitempty"`
 	High        int       `json:"high,omitempty"`

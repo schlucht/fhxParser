@@ -1,7 +1,6 @@
 package models
 
-type Unit struct {
-	UnitId       int         `json:"unit_id"`
+type Unit struct {	
 	UnitName     string      `json:"unitname"`
 	UnitPosition string      `json:"unitpositon"`
 	Time         int         `json:"time"`

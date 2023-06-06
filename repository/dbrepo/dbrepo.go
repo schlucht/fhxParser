@@ -5,6 +5,7 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/schlucht/fhxreader/fhx-app/config"
+	"github.com/schlucht/fhxreader/repository"
 )
 
 type mysqlDBRepo struct {

@@ -1,7 +1,6 @@
 package models
 
-type Step struct {
-	StepId      int         `json:"step_id"`
+type Step struct {	
 	Name        string      `json:"name"`
 	Key         string      `json:"key"`
 	Description string      `json:"description"`

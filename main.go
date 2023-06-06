@@ -1587,11 +1587,6 @@ AND 'OP_KONDENS:1/BSTATUS' = '$recipe_state:Complete'"
 func main() {
 	fmt.Println(len(txt))
 	srv := server.Server{}
-	fmt.Println("Hallo Lothar")
 	srv.Start()
-	// fhx, err := parser.NewFhxString(txt)
-	// if err != nil {
-	// 	log.Printf("Fehlermeldung: %v", err)
-	// }
-	// log.Println(len(fhx))
+
 }

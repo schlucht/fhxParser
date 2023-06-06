@@ -1,7 +1,6 @@
 package models
 
-type Recipe struct {
-	RecipeId   int    `json:"recipe_id"`
+type Recipe struct {	
 	RecipeName string `json:"recipename"`
 	Steps      []Step `json:"steps"`
 }
