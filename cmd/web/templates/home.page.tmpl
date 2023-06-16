@@ -1,0 +1,29 @@
+{{template "base" .}}
+
+{{define "content"}}
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h1>Home Page</h1>      
+      <p>Session IP: 1213155656</p>
+      <div class="row">
+        <div class="col-4">
+            <div class="mb-3">
+                <label for="formFile" class="form-label">Default file input example</label>
+                <input class="form-control" type="file" id="formFile">
+              </div>
+        </div>
+        <div class="col-8">
+            <h3>Resultat</h3>
+            <form action="/readFile" method="POST">
+                <input hidden type="text" name="csrf_token" value="{{ .CSRFToken }}">
+                <button type="submit" class="btn btn-danger">Speichern</button>
+                <textarea name="textout" id="textout"></textarea>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{ end }}
