@@ -10,7 +10,7 @@
     "vim.hlsearch": true,
     "files.exclude": {
         "**/.git": true,
-        "**/.gitignore": true,
+        "**/.gitignore": false,
         "**/.svn": true,
         "**/.hg": true,
         "**/.npmrc": true,
@@ -19,8 +19,8 @@
         "**/.DS_Store": true,
         "**/Thumbs.db": true,
         "**/*.crswap": true,
-        "go.mod": false,
-        "go.sum": false,
+        "go.mod": true,
+        "go.sum": true,
         "**/package*": true,        
         "**/node_modules": true
     },
