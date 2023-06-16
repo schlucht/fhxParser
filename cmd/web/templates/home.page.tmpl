@@ -3,27 +3,38 @@
 {{define "content"}}
 
 <div class="container">
+  <h1 class="text-center">Start Seite</h1>
   <div class="row">
-    <div class="col">
-      <h1>Home Page</h1>      
-      <p>Session IP: 1213155656</p>
-      <div class="row">
-        <div class="col-4">
-            <div class="mb-3">
-                <label for="formFile" class="form-label">Default file input example</label>
-                <input class="form-control" type="file" id="formFile">
-              </div>
+    <div class="col-10">
+      <div class="mb-3">
+        <form action="/home-read-file" method="POST" id="uplaod-form">        
+          <div class="mb-3">
+          <label for="input-file" class="form-label">Default file input example</label>
+          <input class="form-control" type="file" id="input-file" accept=".fhx">
+          <input type="text" id="text-output">  
         </div>
-        <div class="col-8">
-            <h3>Resultat</h3>
-            <form action="/readFile" method="POST">
-                <input hidden type="text" name="csrf_token" value="{{ .CSRFToken }}">
-                <button type="submit" class="btn btn-danger">Speichern</button>
-                <textarea name="textout" id="textout"></textarea>
-            </form>
+        <div class="mb-3">    
+          <button type="submit" class="btn btn-danger">Speichern</button>
         </div>
+        </form>
       </div>
     </div>
   </div>
 </div>
+
+{{ end }}
+{{ define "js"}}
+<script>
+  const input = document.getElementById('input-file');
+  const inputForm = document.getElementById('uplaod-form');
+  input.addEventListener('change', function() {
+    var fr = new FileReader();
+    fr.onload = function() {
+      let output = fr.result;
+      document.getElementById('text-output').textContent(output)
+      inputForm.submit()
+    }
+    fr.readAsText(this.files[0]);
+  })
+</script>
 {{ end }}

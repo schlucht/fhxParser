@@ -17,7 +17,8 @@ func (app *application) routes() http.Handler {
 		AllowCredentials: false,
 		MaxAge:           300,
 	}))
-	mux.Get("/home", app.Home)
-	mux.Post("/home-read-file", app.HomeReadFile)
+
+	mux.Get("/home-read-file", app.HomeReadFile)
+
 	return mux
 }

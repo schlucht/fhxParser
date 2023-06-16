@@ -1,7 +1,7 @@
 STRIPE_SECRET=sk_test_mXWrR1RN6fjIJnDsLPq1mAGX
 STRIPE_KEY=pk_test_lOwqX0SiQCGm7wSkqNoBgMLc
 GOSTRIPE_PORT=5000
-API_PORT=4001
+API_PORT=5001
 
 ## build: builds all binaries
 build: clean build_front build_back
@@ -50,4 +50,10 @@ stop_front:
 	@echo "Stopping the front end..."
 	@-pkill -SIGTERM -f "gostripe -port=${GOSTRIPE_PORT}"
 	@echo "Stopped front end"
+
+## stop_back: stops the back end
+stop_back:
+	@echo "Stopping the back end..."
+	@-pkill -SIGTERM -f "gostripe_api -port=${API_PORT}"
+	@echo "Stopped back end"
 
