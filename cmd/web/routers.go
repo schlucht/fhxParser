@@ -18,6 +18,6 @@ func (app *application) routes() http.Handler {
 		MaxAge:           300,
 	}))
 	mux.Get("/home", app.Home)
-	mux.Post("/home-read-file", app.HomeReadFile)
+	mux.Post("/homeFile", app.HomeReadFile)
 	return mux
 }

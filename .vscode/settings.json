@@ -8,6 +8,13 @@
     "vim.useSystemClipboard": true,
     "vim.useCtrlKeys": true,
     "vim.hlsearch": true,
+    "vim.insertModeKeyBindings": [
+        {
+        "before": ["j","j"],
+        "after": ["<ESC>"]
+        }
+    ],   
+
     "files.exclude": {
         "**/.git": true,
         "**/.gitignore": false,

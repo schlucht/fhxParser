@@ -17,7 +17,7 @@ type jsonResponse struct {
 	ID      int    `json:"id"`
 }
 
-func (app *application) HomeReadFile(w http.ResponseWriter, r *http.Request) {
+func (app *application) ReadFhx(w http.ResponseWriter, r *http.Request) {
 
 	var payload fhxFileLoad
 	err := json.NewDecoder(r.Body).Decode(&payload)
@@ -38,5 +38,4 @@ func (app *application) HomeReadFile(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(out)
-
 }

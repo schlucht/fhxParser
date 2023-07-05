@@ -7,11 +7,11 @@
   <div class="row">
     <div class="col-10">
       <div class="mb-3">
-        <form action="/home-read-file" method="POST" id="uplaod-form">        
+        <form action="/homeFile" method="POST" id="uplaod-form">        
           <div class="mb-3">
           <label for="input-file" class="form-label">Default file input example</label>
           <input class="form-control" type="file" id="input-file" accept=".fhx">
-          <input type="text" id="text-output">  
+          <input type="text" id="text-output" name="text-output">  
         </div>
         <div class="mb-3">    
           <button type="submit" class="btn btn-danger">Speichern</button>
@@ -30,9 +30,11 @@
   input.addEventListener('change', function() {
     var fr = new FileReader();
     fr.onload = function() {
-      let output = fr.result;
-      document.getElementById('text-output').textContent(output)
-      inputForm.submit()
+      let output = fr.result.replaceAll("\n", "|"); 
+      // let output = fr.result;
+      console.log(output);
+      document.getElementById('text-output').value = output;
+      // inputForm.submit()
     }
     fr.readAsText(this.files[0]);
   })

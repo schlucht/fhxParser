@@ -3,6 +3,7 @@ package parser
 import (
 	"errors"
 	"fmt"
+	"log"
 	"strconv"
 	"strings"
 )
@@ -73,9 +74,10 @@ func NewFhxString(fhxText string) ([]Fhx, error) {
 		regFhx:  regFhx,
 	}
 	if fhxText == "" {
-		return nil, errors.New("file i")
+		return nil, errors.New("NewFHXString, no file i")
 	}
-	lines, err := ReadFhxText(fhxText)
+	lines, err := ReadFhxText(fhxText, "|")
+	log.Println(len(lines))
 	if err != nil {
 		return nil, err
 	}
@@ -91,7 +93,7 @@ func NewFhxString(fhxText string) ([]Fhx, error) {
 Wird ausgeführt wenn ein FHX Datei eingelesen wird diese Eingelesen und neu gespeichert
 */
 func (m *Fhx) readFhx(fileText []string) ([]Fhx, error) {
-
+	// log.Println(fileText)
 	var fhxs = []Fhx{}
 	block, err := ReadBlock("BATCH_RECIPE", fileText)
 	// fmt.Printf("Erstes File: %v\n", block[0])

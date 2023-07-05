@@ -21,10 +21,6 @@ type config struct {
 	db   struct {
 		dsn string
 	}
-	fhx struct {
-		secret string
-		key    string
-	}
 }
 
 type application struct {
@@ -56,9 +52,6 @@ func main() {
 	flag.StringVar(&cfg.api, "api", "http://localhost:5001", "URL to API")
 
 	flag.Parse()
-
-	cfg.fhx.key = os.Getenv("STRIPE_KEY")
-	cfg.fhx.secret = os.Getenv("STRIPE_SECRET")
 
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
 	errorLog := log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)

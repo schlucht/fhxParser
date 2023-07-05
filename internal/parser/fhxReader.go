@@ -163,13 +163,17 @@ func ReadFhx(path string) ([]string, error) {
 }
 
 // Liest ein Text aus einer FHX Datei ein
-func ReadFhxText(text string) ([]string, error) {
+func ReadFhxText(text string, sep string) ([]string, error) {
 
 	var lines []string
 	if text == "" {
 		return lines, errors.New("file is empty")
 	}
-	lines = SplitLines(text)
+	if sep != "" {
+		lines = splitLinesSep(text, sep)
+	} else {
+		lines = splitLines(text)
+	}
 
 	if len(lines) == 0 {
 		return lines, errors.New("file is empty")
@@ -188,8 +192,12 @@ func IsFhxFile(pathStr string) error {
 }
 
 /* Splittet ein Text beim Zeilen Umbruch*/
-func SplitLines(text string) []string {
+func splitLines(text string) []string {
 	return strings.Split(text, "\n")
+}
+
+func splitLinesSep(text string, sep string) []string {
+	return strings.Split(text, sep)
 }
 
 /*
