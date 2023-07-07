@@ -19,5 +19,9 @@ func (app *application) routes() http.Handler {
 	}))
 	mux.Get("/home", app.Home)
 	mux.Post("/homeFile", app.HomeReadFile)
+
+	fileServer := http.FileServer(http.Dir("./static"))
+	mux.Handle("/static/*", http.StripPrefix("/static", fileServer))
+
 	return mux
 }
