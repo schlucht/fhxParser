@@ -17,8 +17,7 @@ func (app *application) routes() http.Handler {
 		AllowCredentials: false,
 		MaxAge:           300,
 	}))
-	mux.Get("/home", app.Home)
-	mux.Post("/homeFile", app.HomeReadFile)
+	mux.Get("/", app.Home)
 
 	fileServer := http.FileServer(http.Dir("./static"))
 	mux.Handle("/static/*", http.StripPrefix("/static", fileServer))

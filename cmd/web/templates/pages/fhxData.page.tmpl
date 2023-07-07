@@ -1,0 +1,9 @@
+{{ template "base" .}}
+{{ define "content"}}
+    <h1>fhx Data</h1>
+    {{range index .Data "data"}}
+        <ul>
+            <li>{{.data}}</li>
+        </ul>
+    {{end}}
+{{ end }}

@@ -1,0 +1,42 @@
+{{template "base" .}}
+{{define "content"}}
+<article class="card-list">
+  <h2 class="card-title">
+    Neue Daten einlesen {{ index .FileName }}
+  </h2>
+  <section class="card-body">
+    <form class="form" action="" method="POST" id="uplaod-form">
+      <input type="text" hidden id="text-output" name="text-output">
+      <div class="group-controls">
+        <label for="file-input" class="file-label" id="file-label">Datei auswählen
+          <input class="file-input" type="file" id="file-input" accept=".fhx">
+        </label>
+      </div>
+      <div class="group-controls">
+        <button type="submit" class="btn" disabled id="btn-upload">Upload</button>
+      </div>
+    </form>
+  </section>
+</article>
+{{ end }}
+{{ define "js"}}
+<script>
+  const input = document.getElementById('file-input');
+  const label = document.getElementById('file-label');
+  const upload = document.getElementById('btn-upload');
+
+  const inputForm = document.getElementById('uplaod-form');
+  input.addEventListener('change', function () {
+    var fr = new FileReader();
+    label.innerText = "Upload der Datei: " + this.files[0].name;
+    fr.onload = function () {
+      let output = fr.result.replaceAll("\n", "|");
+      if (output.length > 0) {
+        upload.removeAttribute("disabled") ;
+      }
+      document.getElementById('text-output').value = output;
+    }
+    fr.readAsText(this.files[0]);
+  })
+</script>
+{{ end }}

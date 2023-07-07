@@ -3,7 +3,6 @@ package parser
 import (
 	"errors"
 	"fmt"
-	"log"
 	"strconv"
 	"strings"
 )
@@ -77,7 +76,7 @@ func NewFhxString(fhxText string) ([]Fhx, error) {
 		return nil, errors.New("NewFHXString, no file i")
 	}
 	lines, err := ReadFhxText(fhxText, "|")
-	log.Println(len(lines))
+	// log.Println(len(lines))
 	if err != nil {
 		return nil, err
 	}
