@@ -41,7 +41,7 @@ func (m *DBModel) InsertUnit(u Unit) (int, error) {
 
 	stmt := `
 		INSERT INTO units
-			(name, position, author, time, description, created_at, updated_at)
+			(unit_name, position, author, time, description, created_at, updated_at)
 			values(?,?,?,?,?,?,?)`
 	result, err := m.DB.ExecContext(ctx, stmt,
 		u.Name,
@@ -71,7 +71,7 @@ func (m *DBModel) GetUnits() ([]Unit, error) {
 	var units []Unit
 	sql := `
 		SELECT 
-			id, name, position, author, time, description, created_at, updated_at FROM units
+			id, unit_name, position, author, time, description, created_at, updated_at FROM units
 	`
 	rows, err := m.DB.QueryContext(ctx, sql)
 	if err != nil {
