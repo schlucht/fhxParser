@@ -18,7 +18,7 @@ func (app *application) routes() http.Handler {
 		MaxAge:           300,
 	}))
 
-	mux.Get("/api/read-fhx", app.ReadFhx)
+	mux.Post("/api/read-fhx", app.ReadFhx)
 
 	return mux
 }

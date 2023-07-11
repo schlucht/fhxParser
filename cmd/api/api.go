@@ -50,6 +50,7 @@ func main() {
 	flag.StringVar(&cfg.env, "env", "development", "Application enviroment { develompen | production}")
 	flag.StringVar(&cfg.db.dsn, "dsn", "schmidschluch4:Schlucht6@tcp(db8.hostpark.net)/schmidschluch4", "DB connect String")
 	flag.StringVar(&cfg.api, "api", "http://localhost:5001", "URL to API")
+	//flag.StringVar(&cfg.api, "api", "https://5001-schlucht-fhxparser-zz2ewe38uk4.ws-eu101.gitpod.io", "URL to API")
 
 	flag.Parse()
 

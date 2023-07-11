@@ -17,12 +17,14 @@
   {{ template "header" .}}  
   <div class="container">
     {{ template "navigation" .}}
+    <ots-alert-message type="critical"></ots-alert-message>
     <main>
       <section class="cards">
             {{ block "content" .}}{{end}}
       </section>
   </main>
   </div>
+  <script src="./static/js/main.js" type="module" defer></script>
   {{ block "js" .}}
   {{ end }}
 </body>

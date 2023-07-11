@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/json"
+	"io"
 	"net/http"
 )
 
@@ -19,23 +19,27 @@ type jsonResponse struct {
 
 func (app *application) ReadFhx(w http.ResponseWriter, r *http.Request) {
 
-	var payload fhxFileLoad
-	err := json.NewDecoder(r.Body).Decode(&payload)
+	var payload fhxFileLoad = fhxFileLoad{}
+
+	f, err := io.ReadAll(r.Body)
 	if err != nil {
-		app.errorLog.Println(err)
+		app.badRequest(w, r, err)
 		return
 	}
 
+	payload.FileText = string(f)
+
 	j := jsonResponse{
 		OK:      true,
-		Message: "",
-		Content: "",
+		Message: "Hochladen hat geklappt",
+		Content: "Alles gut",
 		ID:      10,
 	}
-	out, err := json.MarshalIndent(j, "", "   ")
-	if err != nil {
-		app.errorLog.Println(err)
-	}
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(out)
+	app.writeJSON(w, http.StatusOK, j)
+	// out, err := json.MarshalIndent(j, "", "   ")
+	// if err != nil {
+	// 	app.errorLog.Println(err)
+	// }
+	// w.Header().Set("Content-Type", "application/json")
+	// w.Write(out)
 }

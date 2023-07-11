@@ -1,6 +1,7 @@
 {{template "base" .}}
 {{define "content"}}
 <article class="card-list">
+  <ots-alert-message></ots-alert-message>
   <h2 class="card-title">
     Neue Daten einlesen {{ index .FileName }}
   </h2>
@@ -26,6 +27,7 @@
   const upload = document.getElementById('btn-upload');
 
   const inputForm = document.getElementById('uplaod-form');
+
   input.addEventListener('change', function () {
     var fr = new FileReader();
     label.innerText = "Upload der Datei: " + this.files[0].name;
@@ -35,6 +37,26 @@
         upload.removeAttribute("disabled") ;
       }
       document.getElementById('text-output').value = output;
+
+      const requestOptions = {
+        method: 'POST',
+        headers: {
+          'Accept':'application/text',
+          'Content-Type': 'application/text'
+        },
+        body: output
+      }
+     
+      fetch('{{.API}}/api/read-fhx', requestOptions)
+      .then(response =>  response.json())
+      .then(response => {
+        let data;        
+        try {
+          console.log(response)
+        } catch (err) {
+          console.log(err);
+        }
+      })
     }
     fr.readAsText(this.files[0]);
   })

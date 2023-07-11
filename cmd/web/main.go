@@ -9,11 +9,13 @@ import (
 	"os"
 	"time"
 
+	"github.com/alexedwards/scs/v2"
 	"github.com/schlucht/fhxreader/internal/driver"
 )
 
 const version = "1.0.0"
 const cssVersion = "1"
+var session *scs.SessionManager
 
 type config struct {
 	port int
@@ -34,6 +36,7 @@ type application struct {
 	errorLog      *log.Logger
 	templateCache map[string]*template.Template
 	version       string
+	Session *scs.SessionManager
 }
 
 func (app *application) serve() error {
@@ -55,7 +58,7 @@ func main() {
 	flag.IntVar(&cfg.port, "port", 5000, "Server port to listen on")
 	flag.StringVar(&cfg.env, "env", "development", "Application enviroment { develompen | production}")
 	flag.StringVar(&cfg.db.dsn, "dsn", "schmidschluch4:Schlucht6@tcp(db8.hostpark.net)/schmidschluch4", "DB connect String")
-	flag.StringVar(&cfg.api, "api", "http://localhost:4001", "URL to API")
+	flag.StringVar(&cfg.api, "api", "https://5001-schlucht-fhxparser-zz2ewe38uk4.ws-eu101.gitpod.io", "URL to API")
 
 	flag.Parse()
 
@@ -71,6 +74,9 @@ func main() {
 	}
 	defer conn.Close()
 
+	session = scs.New()
+	session.Lifetime = time.Hour * 24
+
 	tc := make(map[string]*template.Template)
 
 	app := &application{
@@ -79,6 +85,7 @@ func main() {
 		errorLog:      errorLog,
 		templateCache: tc,
 		version:       version,
+		Session: session,
 	}
 
 	err = app.serve()
