@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/schlucht/fhxreader/internal/driver"
+	"github.com/schlucht/fhxreader/internal/parser"
 )
 
 const version = "1.0.0"
@@ -75,4 +76,22 @@ func main() {
 		app.errorLog.Println(err)
 		log.Fatal(err)
 	}
+}
+
+func (app *application) loadOperations(txt string) ([]parser.Fhx, error) {
+
+	ops, err := parser.NewFhxString(txt)
+
+	fmt.Println("**************************************")
+	fmt.Println("Name:", ops[0].OPs[0].UnitName)
+	fmt.Println("**************************************")
+	for _, o := range ops[0].OPs[0].Parameters {
+		fmt.Println(o.Name, o.Value)
+	}
+
+	if err != nil {
+		return nil, err
+	}
+
+	return ops, nil
 }

@@ -32,11 +32,10 @@
     var fr = new FileReader();
     label.innerText = "Upload der Datei: " + this.files[0].name;
     fr.onload = function () {
-      let output = fr.result.replaceAll("\n", "|");
+      let output = fr.result;
       if (output.length > 0) {
         upload.removeAttribute("disabled") ;
       }
-      document.getElementById('text-output').value = output;
 
       const requestOptions = {
         method: 'POST',
@@ -44,7 +43,7 @@
           'Accept':'application/text',
           'Content-Type': 'application/text'
         },
-        body: output
+        body:output 
       }
      
       fetch('{{.API}}/api/read-fhx', requestOptions)

@@ -75,8 +75,8 @@ func NewFhxString(fhxText string) ([]Fhx, error) {
 	if fhxText == "" {
 		return nil, errors.New("NewFHXString, no file i")
 	}
-	lines, err := ReadFhxText(fhxText, "|")
-	// log.Println(len(lines))
+	lines, err := ReadFhxText(fhxText, "")
+
 	if err != nil {
 		return nil, err
 	}
@@ -360,7 +360,7 @@ func (m *Fhx) readParameters(paramBlock [][]string, attrBlock [][]string) ([]Par
 				if err != nil {
 					return nil, err
 				}
-				param.Value = append(param.Value, val)
+				param.Value = val
 			}
 			if param.Description == "" {
 				desc, err := ReadRegex(m.regFhx["Desc"], l)

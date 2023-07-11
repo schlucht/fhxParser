@@ -15,7 +15,11 @@ import (
 
 const version = "1.0.0"
 const cssVersion = "1"
+
 var session *scs.SessionManager
+
+const gitpodServer = "https://5001-schlucht-fhxparser-zz2ewe38uk4.ws-eu101.gitpod.io"
+const homeServer = "http://localhost:5001"
 
 type config struct {
 	port int
@@ -36,7 +40,7 @@ type application struct {
 	errorLog      *log.Logger
 	templateCache map[string]*template.Template
 	version       string
-	Session *scs.SessionManager
+	Session       *scs.SessionManager
 }
 
 func (app *application) serve() error {
@@ -58,7 +62,7 @@ func main() {
 	flag.IntVar(&cfg.port, "port", 5000, "Server port to listen on")
 	flag.StringVar(&cfg.env, "env", "development", "Application enviroment { develompen | production}")
 	flag.StringVar(&cfg.db.dsn, "dsn", "schmidschluch4:Schlucht6@tcp(db8.hostpark.net)/schmidschluch4", "DB connect String")
-	flag.StringVar(&cfg.api, "api", "https://5001-schlucht-fhxparser-zz2ewe38uk4.ws-eu101.gitpod.io", "URL to API")
+	flag.StringVar(&cfg.api, "api", gitpodServer, "URL to API")
 
 	flag.Parse()
 
@@ -85,7 +89,7 @@ func main() {
 		errorLog:      errorLog,
 		templateCache: tc,
 		version:       version,
-		Session: session,
+		Session:       session,
 	}
 
 	err = app.serve()
