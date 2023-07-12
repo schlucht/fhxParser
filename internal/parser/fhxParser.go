@@ -171,6 +171,7 @@ func (m *Fhx) readUnit(fileText []string) ([]Unit, error) {
 		}
 
 		procedures, err := m.readUps(b, unit)
+
 		if err != nil {
 			return nil, err
 		}
@@ -324,6 +325,7 @@ func (m *Fhx) readUps(lines []string, unit Unit) (Unit, error) {
 		}
 	}
 	paramBlocks, err := ReadBlock("FORMULA_PARAMETER", lines)
+
 	if err != nil {
 		return Unit{}, err
 	}
@@ -345,14 +347,21 @@ func (m *Fhx) readUps(lines []string, unit Unit) (Unit, error) {
 Auslesen der Parameter und hinzufügen ihrer Werte
 */
 func (m *Fhx) readParameters(paramBlock [][]string, attrBlock [][]string) ([]Parameter, error) {
+
 	var params = []Parameter{}
 	var param = Parameter{}
-
 	for _, b := range paramBlock {
 		for _, l := range b {
 			name, err := ReadRegex(m.regFhx["Params"], l)
 			if err != nil {
 				return nil, err
+			}
+			desc, err := ReadRegex(m.regFhx["Desc"], l)
+			if err != nil {
+				return nil, err
+			}
+			if desc != "" {
+				param.Description = desc
 			}
 			if name != "" {
 				param.Name = name
@@ -361,13 +370,6 @@ func (m *Fhx) readParameters(paramBlock [][]string, attrBlock [][]string) ([]Par
 					return nil, err
 				}
 				param.Value = val
-			}
-			if param.Description == "" {
-				desc, err := ReadRegex(m.regFhx["Desc"], l)
-				if err != nil {
-					return nil, err
-				}
-				param.Description = desc
 			}
 		}
 		params = append(params, param)
@@ -442,5 +444,6 @@ func (m *Fhx) readAttribute(block [][]string, paramName string) (Value, error) {
 			}
 		}
 	}
+	//fmt.Println(val)
 	return val, nil
 }

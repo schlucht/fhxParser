@@ -25,6 +25,7 @@ func NewModel(db *sql.DB) Models {
 
 type Unit struct {
 	Id          int       `json:"id"`
+	Type        int       `json:"type"`
 	Name        string    `json:"name"`
 	Position    string    `json:"position"`
 	Author      string    `json:"author"`
@@ -34,17 +35,103 @@ type Unit struct {
 	UpdatedAt   time.Time `json:"-"`
 }
 
-// Speichern aller Units Return Letzte ID
-func (m *DBModel) InsertUnit(u Unit) (int, error) {
+type Parameter struct {
+	Id          int       `json:"id"`
+	UnitID      int       `json:"unit_id"`
+	Name        string    `json:"name"`
+	Author      string    `json:"author"`
+	Description string    `json:"desc"`
+	CreatetAt   time.Time `json:"-"`
+	UpdatedAt   time.Time `json:"-"`
+}
+
+type Value struct {
+	Id          int       `json:"id"`
+	ParamId     int       `json:"param_id"`
+	StringValue string    `json:"string_value"`
+	ValueSet    string    `json:"value_set"`
+	Hight       int       `json:"hight"`
+	Low         int       `json:"low"`
+	CV          int       `json:"CV"`
+	Unit        int       `json:"unit"`
+	CreatetAt   time.Time `json:"-"`
+	UpdatedAt   time.Time `json:"-"`
+}
+
+// Values in Datenbank speichern
+func (m *DBModel) InsertValue(val Value) (int, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	stmt := `
+		INSERT INTO paramvalues
+			(stringvalue, value_set, high, low, cv, unit, created_at, updated_at, param_id)
+		Values
+			(?,?,?,?,?,?,?,?,?)
+	`
+
+	result, err := m.DB.ExecContext(ctx, stmt,
+		val.StringValue,
+		val.ValueSet,
+		val.Hight,
+		val.Low,
+		val.CV,
+		val.Unit,
+		time.Now(),
+		time.Now(),
+		val.ParamId,
+	)
+	if err != nil {
+		return 0, err
+	}
+
+	rows, err := result.RowsAffected()
+	if err != nil {
+		return 0, err
+	}
+
+	return int(rows), nil
+}
+
+// Einzelne Unit speichern und die ID zurückgeben
+func (m *DBModel) InsertParameter(param Parameter) (int, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	stmt := `
+		INSERT INTO parameters
+			(parameter_name, unit_id, description, created_at, updated_at)
+			values(?,?,?,?,?)`
+	result, err := m.DB.ExecContext(ctx, stmt,
+		param.Name,
+		param.UnitID,
+		param.Description,
+		time.Now(),
+		time.Now(),
+	)
+	if err != nil {
+		return 0, err
+	}
+	id, err := result.LastInsertId()
+	if err != nil {
+		return 0, err
+	}
+
+	return int(id), nil
+}
+
+// Einzelne Unit speichern und die ID zurückgeben
+func (m *DBModel) InsertUnit(u Unit, typ int) (int, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
 	stmt := `
 		INSERT INTO units
-			(unit_name, position, author, time, description, created_at, updated_at)
-			values(?,?,?,?,?,?,?)`
+			(unit_name, type_id, position, author, time, description, created_at, updated_at)
+			values(?,?,?,?,?,?,?,?)`
 	result, err := m.DB.ExecContext(ctx, stmt,
 		u.Name,
+		typ,
 		u.Position,
 		u.Author,
 		u.Time,

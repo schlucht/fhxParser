@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/schlucht/fhxreader/internal/driver"
-	"github.com/schlucht/fhxreader/internal/parser"
+	"github.com/schlucht/fhxreader/internal/models"
 )
 
 const version = "1.0.0"
@@ -29,6 +29,7 @@ type application struct {
 	infoLog  *log.Logger
 	errorLog *log.Logger
 	version  string
+	DB       models.DBModel
 }
 
 func (app *application) serve() error {
@@ -69,6 +70,7 @@ func main() {
 		infoLog:  infoLog,
 		errorLog: errorLog,
 		version:  version,
+		DB:       models.DBModel{DB: conn},
 	}
 
 	err = app.serve()
@@ -76,22 +78,4 @@ func main() {
 		app.errorLog.Println(err)
 		log.Fatal(err)
 	}
-}
-
-func (app *application) loadOperations(txt string) ([]parser.Fhx, error) {
-
-	ops, err := parser.NewFhxString(txt)
-
-	fmt.Println("**************************************")
-	fmt.Println("Name:", ops[0].OPs[0].UnitName)
-	fmt.Println("**************************************")
-	for _, o := range ops[0].OPs[0].Parameters {
-		fmt.Println(o.Name, o.Value)
-	}
-
-	if err != nil {
-		return nil, err
-	}
-
-	return ops, nil
 }
