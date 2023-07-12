@@ -10,4 +10,4 @@ require (
 	golang.org/x/text v0.11.0
 )
 
-require github.com/alexedwards/scs/v2 v2.5.1 // indirect
+require github.com/alexedwards/scs/v2 v2.5.1
