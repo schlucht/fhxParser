@@ -57,3 +57,6 @@ stop_back:
 	@-pkill -SIGTERM -f "gostripe_api -port=${API_PORT}"
 	@echo "Stopped back end"
 
+start_desk: start_back
+	@echo "Run Desktop..."
+	go run cmd/desktop/app.go
