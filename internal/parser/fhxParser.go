@@ -76,15 +76,15 @@ func NewFhxString(fhxText string) ([]Fhx, error) {
 		return nil, errors.New("NewFHXString, no file i")
 	}
 	lines, err := ReadFhxText(fhxText, "")
-
 	if err != nil {
 		return nil, err
 	}
+
 	fhx, err := fhx.readFhx(lines)
-
 	if err != nil {
 		return nil, err
 	}
+
 	return fhx, nil
 }
 

@@ -6,8 +6,8 @@ import (
 )
 
 type fhxFileLoad struct {
-	FileName string `json:"file-name"`
-	FileText string `json:"file-text"`
+	FileName string `json:"file_string"`
+	PlantId  int    `json:"plant_id"`
 }
 
 type jsonResponse struct {

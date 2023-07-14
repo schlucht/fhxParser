@@ -16,7 +16,7 @@ func (app *application) insertOperations(txt string) error {
 	for _, ops := range parsedOP {
 		for _, o := range ops.OPs {
 
-					opUnit := models.Unit{
+			opUnit := models.Unit{
 				Name:        o.UnitName,
 				Position:    o.UnitPosition,
 				Author:      o.Author,
@@ -26,6 +26,9 @@ func (app *application) insertOperations(txt string) error {
 			}
 			opId, err := app.DB.InsertUnit(opUnit, 1, 2)
 			if err != nil {
+				if app.DB.DBError == 1062 {
+					continue //return errors.New("duplicate unit")
+				}
 				return err
 			}
 			for _, p := range o.Parameters {

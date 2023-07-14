@@ -2,7 +2,10 @@ package models
 
 import (
 	"context"
+	"log"
 	"time"
+
+	"github.com/go-sql-driver/mysql"
 )
 
 func (m *DBModel) InsertValue(val Value) (int, error) {
@@ -73,8 +76,8 @@ func (m *DBModel) InsertUnit(u Unit, typ int, plant_id int) (int, error) {
 
 	stmt := `
 		INSERT INTO units
-			(unit_name, type_id, position, author, time, description, created_at, updated_at)
-			values(?,?,?,?,?,?,?,?)`
+			(unit_name, type_id, plant_id, position, author, time, description, created_at, updated_at)
+			values(?,?,?,?,?,?,?,?,?)`
 	result, err := m.DB.ExecContext(ctx, stmt,
 		u.Name,
 		typ,
@@ -86,7 +89,10 @@ func (m *DBModel) InsertUnit(u Unit, typ int, plant_id int) (int, error) {
 		time.Now(),
 		time.Now(),
 	)
+
+	log.Println(err.(*mysql.MySQLError).Number)
 	if err != nil {
+		m.DBError = int(err.(*mysql.MySQLError).Number)
 		return 0, err
 	}
 	id, err := result.LastInsertId()

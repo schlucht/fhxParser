@@ -8,6 +8,7 @@ import (
 // for Database connection
 type DBModel struct {
 	DB *sql.DB
+	DBError int
 }
 
 // Wrapper for all Models
