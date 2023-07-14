@@ -11,6 +11,7 @@ import (
 
 	"github.com/alexedwards/scs/v2"
 	"github.com/schlucht/fhxreader/internal/driver"
+	"github.com/schlucht/fhxreader/internal/models"
 )
 
 const version = "1.0.0"
@@ -18,7 +19,7 @@ const cssVersion = "1"
 
 var session *scs.SessionManager
 
-const gitpodServer = "https://5001-schlucht-fhxparser-zz2ewe38uk4.ws-eu101.gitpod.io"
+const gitpodServer = "https://5101-schlucht-fhxparser-zz2ewe38uk4.ws-eu101.gitpod.io"
 const homeServer = "http://localhost:5101"
 
 type config struct {
@@ -41,6 +42,7 @@ type application struct {
 	templateCache map[string]*template.Template
 	version       string
 	Session       *scs.SessionManager
+	DB            models.DBModel
 }
 
 func (app *application) serve() error {

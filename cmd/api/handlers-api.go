@@ -41,3 +41,12 @@ func (app *application) ReadFhx(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/text")
 	app.writeJSON(w, http.StatusOK, j)
 }
+
+func (app *application) AllPlants(w http.ResponseWriter, r *http.Request) {
+	allPlants, err := app.loadPlants()
+	if err != nil {
+		app.badRequest(w, r, err)
+	}
+
+	app.writeJSON(w, http.StatusOK, allPlants)
+}

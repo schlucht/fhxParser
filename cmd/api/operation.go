@@ -16,15 +16,15 @@ func (app *application) insertOperations(txt string) error {
 	for _, ops := range parsedOP {
 		for _, o := range ops.OPs {
 
-			opUnit := models.Unit{
+					opUnit := models.Unit{
 				Name:        o.UnitName,
 				Position:    o.UnitPosition,
 				Author:      o.Author,
 				Description: o.Description,
 				Time:        o.Time,
-				Type:        1,
+				Type:        o.Type,
 			}
-			opId, err := app.DB.InsertUnit(opUnit, 1)
+			opId, err := app.DB.InsertUnit(opUnit, 1, 2)
 			if err != nil {
 				return err
 			}

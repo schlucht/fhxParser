@@ -110,7 +110,7 @@ func (m *Fhx) readFhx(fileText []string) ([]Fhx, error) {
 
 		if unitType[0] != "" {
 			if unitType[0] == "UNIT_PROCEDURE" {
-				units, err := m.readUnit(b)
+				units, err := m.readUnit(b, "UP")
 				if err != nil {
 					return nil, err
 				}
@@ -126,7 +126,7 @@ func (m *Fhx) readFhx(fileText []string) ([]Fhx, error) {
 				fhxs = append(fhxs, fhx)
 				// Noch nicht getestet
 			} else if unitType[0] == "OPERATION" {
-				ops, err := m.readUnit(b)
+				ops, err := m.readUnit(b, "OP")
 				if err != nil {
 					return nil, err
 				}
@@ -139,7 +139,7 @@ func (m *Fhx) readFhx(fileText []string) ([]Fhx, error) {
 	return fhxs, nil
 }
 
-func (m *Fhx) readUnit(fileText []string) ([]Unit, error) {
+func (m *Fhx) readUnit(fileText []string, unit_type string) ([]Unit, error) {
 
 	var units = []Unit{}
 
@@ -151,6 +151,7 @@ func (m *Fhx) readUnit(fileText []string) ([]Unit, error) {
 	for _, b := range block {
 		var unit Unit
 		// Names of Unit
+		unit.Type = unit_type
 		if unit.UnitName == "" {
 			unitName, err := ReadParam(b, m.regFhx["Recipe"])
 			if err != nil {
