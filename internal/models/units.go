@@ -92,7 +92,7 @@ func (m *DBModel) InsertUnit(u Unit, typ int, plant_id int) (int, error) {
 
 	log.Println(err.(*mysql.MySQLError).Number)
 	if err != nil {
-		m.DBError = int(err.(*mysql.MySQLError).Number)
+		// m.DBError = int(err.(*mysql.MySQLError).Number)
 		return 0, err
 	}
 	id, err := result.LastInsertId()

@@ -1,6 +1,6 @@
 {
     "editor.fontFamily": "'Fira Code',  Consolas, 'Courier New', monospace",
-    "editor.fontSize": 12,
+    "editor.fontSize": 14,
     "editor.lineHeight": 0,
     "vim.smartRelativeLine": true,
     "vim.easymotion": true,

@@ -24,7 +24,7 @@ func (app *application) insertOperations(txt string) error {
 				Time:        o.Time,
 				Type:        o.Type,
 			}
-			opId, err := app.DB.InsertUnit(opUnit, 1, 2)
+			opId, err := app.DB.InsertUnit(opUnit, 1, 1)
 			if err != nil {
 				if app.DB.DBError == 1062 {
 					continue //return errors.New("duplicate unit")
