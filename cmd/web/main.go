@@ -19,7 +19,7 @@ const cssVersion = "1"
 
 var session *scs.SessionManager
 
-const gitpodServer = "https://5101-schlucht-fhxparser-zz2ewe38uk4.ws-eu101.gitpod.io"
+const gitpodServer = "https://schlucht-friendly-potato-vprxgwwwg5gh754-5101.preview.app.github.dev"
 const homeServer = "http://localhost:5101"
 
 type config struct {
