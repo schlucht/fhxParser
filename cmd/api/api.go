@@ -14,12 +14,14 @@ import (
 
 const version = "1.0.0"
 const cssVersion = "1"
+const frontend_url = "127.0.0.1:5100"
 
 type config struct {
-	port int
-	env  string
-	api  string
-	db   struct {
+	port     int
+	env      string
+	api      string
+	frontend string
+	db       struct {
 		dsn string
 	}
 }
@@ -52,7 +54,7 @@ func main() {
 	flag.StringVar(&cfg.env, "env", "development", "Application enviroment { develompen | production}")
 	flag.StringVar(&cfg.db.dsn, "dsn", "schmidschluch4:Schlucht6@tcp(db8.hostpark.net)/schmidschluch4?parseTime=true", "DB connect String")
 	flag.StringVar(&cfg.api, "api", "http://localhost:5101", "URL to API")
-	//flag.StringVar(&cfg.api, "api", "https://5001-schlucht-fhxparser-zz2ewe38uk4.ws-eu101.gitpod.io", "URL to API")
+	flag.StringVar(&cfg.frontend, "frontend", frontend_url, "url to frontend")
 
 	flag.Parse()
 

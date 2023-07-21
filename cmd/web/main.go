@@ -15,23 +15,18 @@ import (
 )
 
 const version = "1.0.0"
-const cssVersion = "1"
-
 var session *scs.SessionManager
 
-const gitpodServer = "https://schlucht-friendly-potato-vprxgwwwg5gh754-5101.preview.app.github.dev"
-const homeServer = "http://localhost:5101"
+const serverURL = "127.0.0.1:5101"
+const frontendURL = "127.0.0.1:5100"
 
 type config struct {
-	port int
-	env  string
-	api  string
-	db   struct {
+	port     int
+	env      string
+	api      string
+	frontend string
+	db       struct {
 		dsn string
-	}
-	stripe struct {
-		secret string
-		key    string
 	}
 }
 
@@ -64,12 +59,10 @@ func main() {
 	flag.IntVar(&cfg.port, "port", 5100, "Server port to listen on")
 	flag.StringVar(&cfg.env, "env", "development", "Application enviroment { develompen | production}")
 	flag.StringVar(&cfg.db.dsn, "dsn", "schmidschluch4:Schlucht6@tcp(db8.hostpark.net)/schmidschluch4", "DB connect String")
-	flag.StringVar(&cfg.api, "api", gitpodServer, "URL to API")
+	flag.StringVar(&cfg.api, "api", serverURL, "URL to API")
+	flag.StringVar(&cfg.frontend, "frontend", frontendURL, "URL to Frontend")
 
 	flag.Parse()
-
-	cfg.stripe.key = os.Getenv("STRIPE_KEY")
-	cfg.stripe.secret = os.Getenv("STRIPE_SECRET")
 
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
 	errorLog := log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
