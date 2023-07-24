@@ -6,16 +6,12 @@
                 <label for="file" class="btn label-file">FHX Datei auswählen</label>
                 <input type="file" id="file" name="file">
             </fieldset>
-            <fieldset>
-                <legend><span class="icomoon-factory icon-round"></span>Betrieb ausswählen</legend>
-                <input type="radio" name="plant" value="1" id="plant_d29">
-                <label for="plant_d29">D29</label>
-                <input type="radio" name="plant" value="0" id="plant_e13">
-                <label for="plant_e13">E13</label>
-                <input type="radio" name="plant" value="0" id="plant_c07">
-                <label for="plant_c07">C07</label>
-                <input type="radio" name="plant" value="0" id="plant_b12">
-                <label for="plant_b12">B12</label>
+            <fieldset class="radio-button">
+                <legend><span class="icomoon-factory icon-round"></span>Betrieb ausswählen:</legend>
+                <div v-for="plant in plants" :key="plant.id">
+                    <input type="radio" name="plant" :value="plant.id" :id="'plant_'+plant.id">
+                    <label :for="'plant_'+ plant.id">{{ plant.plant_name }}</label>
+                </div>                
             </fieldset>
             <fieldset class="group-button">
                 <legend><span class="icomoon-document"></span>Speichern</legend>
@@ -26,8 +22,19 @@
     </div>
 </template>
 <script setup>
+import { ref } from 'vue';
 
+    const plants = ref(null);
+    fetch(`${import.meta.env.VITE_API_URL}/all-plants`)
+        .then(resp => resp.json())
+        .then(data => plants.value = data)
+        .catch(err => console.log(err))
 </script>
+
 <style scoped>
-    
+    .radio-button {
+        display: flex;
+        flex-direction: row;
+        gap: calc(var(--padding)*2)
+    }
 </style>
