@@ -35,8 +35,10 @@ template.innerHTML = /*html*/`
 
     </style>
 
-    <p>
-        <slot></slot>
+    <p>        
+        <slot>
+            Meldung anzeigen!
+        </slot>
         <span>x</span>
     </p>
 `

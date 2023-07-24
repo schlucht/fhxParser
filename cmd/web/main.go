@@ -15,9 +15,10 @@ import (
 )
 
 const version = "1.0.0"
+
 var session *scs.SessionManager
 
-const serverURL = "127.0.0.1:5101"
+const serverURL = "https://schlucht-friendly-potato-vprxgwwwg5gh754-5101.preview.app.github.dev"
 const frontendURL = "127.0.0.1:5100"
 
 type config struct {

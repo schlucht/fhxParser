@@ -1,26 +1,25 @@
 {{template "base" .}}
 {{define "content"}}
+<ots-alert-message type="critical">Hier eine message</ots-alert-message>
 <article class="card-list">
-  <ots-alert-message></ots-alert-message>
   <h2 class="card-title">
     Neue Daten einlesen {{ index .FileName }}
   </h2>
   <section class="card-body">
     <form class="form" action="" method="POST" id="uplaod-form">
-      <div class="group-controls">
-        <label for="plants">Den Betrieb auswählen: </label>
-        <select id="plants" name="plants"></select>
-        <input id="id_plant" name="id_plant">
+      <div class="group_controls">
+        <fieldset id="plant_radio"></fieldset>
       </div>
-      <div class="group-controls">
-        <label for="file-input" class="file-label" id="file-label">Datei auswählen
-          <input class="file-input" type="file" id="file-input" accept=".fhx">
-        </label>
-        <div id="divout" hidden></div>
-      </div>
-      <div class="group-controls">
-        <button type="button" class="btn" disabled id="btn-upload">Upload</button>
-      </div>
+      <fieldset class="file_upload" disabled>
+        <div class="group-controls">
+          <label for="file-input" class="file-label" id="file-label">Datei auswählen
+            <input class="file-input" type="file" id="file-input" accept=".fhx">
+          </label>
+        </div>
+        <div class="group-controls">
+          <button type="button" class="btn" id="btn-upload">Upload</button>
+        </div>
+      </fieldset>
     </form>
   </section>
 </article>
@@ -32,19 +31,29 @@
 
   const input = document.getElementById('file-input');
   const label = document.getElementById('file-label');
-  const upload = document.getElementById('btn-upload');
+  const upload = document.querySelector('.file_upload');
   const inputForm = document.getElementById('uplaod-form');
   const idPlant = document.getElementById('id_plant');
-  const select = document.getElementById('plants');
+  const radio_field = document.getElementById('plant_radio');
+  const uploadFile = {
+    file_string: "",
+    plant_id: 0,
+  }
+
+  function showCriticalMessageBox(text) {
+    //FIXME - die message box wird nicht angezeigt
+    //im HTML ist die vorhanden aber der die Messagebox funktioniert nicht
+
+    const message = document.getElementById('message');
+    message.setAttribute('hidden', 'false');
+    message.innerHTML = text;
+    message.type = "critical";
+    message.hidden = "true";
+  }
 
   document.addEventListener("DOMContentLoaded", function () {
 
-    const uploadFile = {
-      file_string: "",
-      plant_id: 0,
-    }
-
-    readPlants(select);
+    readPlants(radio_field);
 
     // File Hochladen
     input.addEventListener('change', function () {
@@ -52,49 +61,68 @@
       label.innerText = "Upload der Datei: " + this.files[0].name;
       fr.onload = function () {
         let output = fr.result;
-        uploadFile.file_string = "ein Text";
-        uploadFile.plant_id = +idPlant.value;
-        if (output.length > 0) {
-          upload.removeAttribute("disabled");
-        }
-        JSON.stringify(uploadFile);
-        console.log(JSON.stringify(uploadFile))
+
         upload.addEventListener('click', function (event) {
-          uploadText(output, uploadFile.plant_id);
-        })
+          uploadText(fr.result);
+        });
+
       }
       fr.readAsText(this.files[0]);
     })
-
   })
 
   // Text auf Server hochladen
-  function uploadText(stream, plantID) {
+  async function uploadText(stream) {
+    uploadFile.file_string = stream;
+    const radios = document.querySelectorAll('input[type="radio"]');
+    let plantId = 0;
+    radios.forEach(rd => {
+      if (rd.checked) {
+        uploadFile.plant_id = rd.value;
+      }
+    });
+
+    //NOTE - Ein und ausblenden Message
+    if (uploadFile.file_string === "") {
+      showCriticalMessageBox("kein text hochgeladen");
+      return;
+    };
+
+    if (uploadFile.plant_id === 0) {
+      showCriticalMessageBox("keine anlage ausgelesen!");
+      return;
+    }
+
+    upload.removeAttribute("disabled");
+    //FIXME - das laden der Datei funktioniert noch nicht.
+    // das json-file wird gesendet und es kommt ein ok zurück
+    // muss in dem API Handler angepasst werden.
+    let data = JSON.stringify(uploadFile);
+    console.log(data);
     const requestOptions = {
       method: 'POST',
       headers: {
         'Accept': 'application/text',
         'Content-Type': 'application/text'
       },
-      body: stream
-    }
+      body: data,
+    };
     // File in DB speichern
-    fetch('{{.API}}/api/read-fhx', requestOptions)
-      .then(response => response.json())
-      .then(response => {
-        let data;
-        try {
-          console.log(response)
-        } catch (err) {
-          console.log(err);
-        }
-      })
+    try {
+      const response = await fetch('{{.API}}/api/read-fhx', requestOptions)
+      const data = await response.json();
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   // Einlesen der Anlagen aus der Datenbank
-  function readPlants(selectElement) {
+  async function readPlants(selectElement) {
 
     let optionElement;
+    let label;
+    let radio;
 
     const requestOptions = {
       method: 'get',
@@ -104,28 +132,25 @@
       },
     };
 
-    optionElement = document.createElement('option');
-    optionElement.value = 0;
-    optionElement.text = ""
-    selectElement.appendChild(optionElement);
-
-    selectElement.addEventListener('change', function (event) {
-      const ele = event.target
-      console.log(ele)
-      idPlant.value = ele.value;
-    })
-
     // Einlesen der Anlagen aus der Datenbank
-    fetch('{{.API}}/api/all-plants')
-      .then(response => response.json())
-      .then(function (data) {
-        for (let plant of data) {
-          optionElement = document.createElement('option');
-          optionElement.value = plant.id;
-          optionElement.text = plant.plant_name
-          selectElement.appendChild(optionElement)
-        }
-      })
+    const response = await fetch('{{.API}}/api/all-plants');
+    const plants = await response.json();
+
+    await plants.forEach(element => {
+      label = document.createElement('label');
+      label.setAttribute("for", `radio_${element.id}`);
+      label.innerText = element.plant_name;
+      radio = document.createElement('input');
+      radio.setAttribute("name", `plant`);
+      radio.setAttribute("type", 'radio');
+      radio.setAttribute('id', `radio_${element.id}`);
+      radio.setAttribute('value', `${element.id}`);
+      radio.addEventListener('change', () => {
+        upload.disabled = false;
+      });
+      selectElement.appendChild(label);
+      selectElement.appendChild(radio);
+    });
   }
 
 </script>
