@@ -1,0 +1,31 @@
+.container {
+    width: 90%;
+    margin: 0 auto;
+}
+
+main {
+    margin-top: 2rem;
+}
+
+.asterik {   
+    display: flex;
+    align-items: center;  
+    justify-content: center;  
+    background-color: var(--dark-blue);
+    color: var(--white);
+    height: 3rem;
+    width: 3rem;   
+    font-size: 2.0rem;
+    border-radius: 100%
+}
+
+.asterik-orange {
+    background-color: var(--orange);
+}
+
+.icon-round {
+    background-color: var(--mid-blue);
+    padding: calc(var(--padding)*1.5);
+    border-radius: 50%;
+    color: var(--white);
+}
