@@ -25,7 +25,8 @@ func (app *application) ReadFhx(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	txt := string(f)
-	err = app.insertOperations(txt)
+	app.infoLog.Println(txt)
+	// err = app.insertOperations(txt)
 	if err != nil {
 		app.errorLog.Println(err)
 		app.badRequest(w, r, err)
