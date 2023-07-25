@@ -1,6 +1,6 @@
 <template>
   <div class="new-file">
-    <form action="" method="GET" @submit.prevent>
+    <form action="" method="POST" @submit.prevent>
       <fieldset class="control-group">
         <legend><span class="icomoon-folder icon-round"></span>FHX Hochladen</legend>
         <label for="file" class="btn label-file">FHX Datei auswählen</label>
@@ -10,13 +10,7 @@
       <fieldset class="radio-button">
         <legend><span class="icomoon-factory icon-round"></span>Betrieb ausswählen:</legend>
         <div v-for="plant in plants" :key="plant.id">
-          <input
-            v-model="plantId"
-            type="radio"
-            name="plant"
-            :value="plant.id"
-            :id="'plant_' + plant.id"
-          />
+          <input v-model="plantId" type="radio" name="plant" :value="plant.id" :id="'plant_' + plant.id" />
           <label :for="'plant_' + plant.id">{{ plant.plant_name }}</label>
         </div>
       </fieldset>
@@ -36,7 +30,7 @@ const plants = ref(null)
 const plantId = ref(0)
 const fileName = ref('')
 const save = ref(0)
-const fileUpload = { text: '', name: '', plantId: 0 }
+const fileUpload = { text: '', name: '', plant_id: 0 }
 
 onMounted(() => {
   save.value.disabled = true
@@ -67,7 +61,7 @@ function uploadFile(event) {
     let result = fr.result
     fileUpload.name = fileName.value
     fileUpload.text = result
-    fileUpload.plantId = plantId.value
+    fileUpload.plant_id = plantId.value
     save.value.disabled = false
   }
   fr.readAsText(files[0])
@@ -80,10 +74,41 @@ function uploadText() {
     })
     return
   }
+  const stream = JSON.stringify(fileUpload)
+  const requestOptions = {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/text',
+      'Content-Type': 'application/text'
+    },
+    body: stream
+  }
+  // File in DB speichern
+  fetch(`${import.meta.env.VITE_API_URL}/read-fhx`, requestOptions)
+    .then(response => response.json())
+    .then(response => {
+      let data;
+      try {
+        console.log(response)
+        if (response.error) {
+          notie.alert({
+            type: 'warning',
+            text: response.message,
+          })
+        } else {
+          notie.alert({
+            type: 'success',
+            text: response.message,
+          })
+        }
+      } catch (err) {
+        console.error("Error in FileUpload: ", err)
+      }
+    })
   notie.alert({
     type: 'success',
     text: `Datei ${fileUpload.name} hochgeladen!`,
-    stay: true
+    stay: false
   })
 }
 </script>
@@ -94,6 +119,7 @@ function uploadText() {
   flex-direction: row;
   gap: calc(var(--padding) * 2);
 }
+
 button:disabled {
   background-color: var(--light-gray);
 }

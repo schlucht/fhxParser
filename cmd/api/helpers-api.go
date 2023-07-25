@@ -65,3 +65,10 @@ func (app *application) badRequest(w http.ResponseWriter, r *http.Request, err e
 	w.Write(out)
 	return nil
 }
+
+func (app *application) mysqlErrorMessages(errorNumber int) string {
+	if errorNumber == 1062 {
+		return "Eintrag existiert schon!"
+	}
+	return ""
+}

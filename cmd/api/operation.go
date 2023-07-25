@@ -1,16 +1,18 @@
 package main
 
 import (
+	"github.com/go-sql-driver/mysql"
 	"github.com/schlucht/fhxreader/internal/models"
 	"github.com/schlucht/fhxreader/internal/parser"
 )
 
 // Speicher eine OP FHX in die Datenbank
-func (app *application) insertOperations(txt string) error {
+func (app *application) insertOperations(txt string, plantID int) ([]string, error) {
 
+	var errorString = []string{}
 	parsedOP, err := parser.NewFhxString(txt)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	// Durchläuft die geparsten OP zum speichern
 	for _, ops := range parsedOP {
@@ -24,12 +26,17 @@ func (app *application) insertOperations(txt string) error {
 				Time:        o.Time,
 				Type:        o.Type,
 			}
-			opId, err := app.DB.InsertUnit(opUnit, 1, 1)
+			opId, err := app.DB.InsertUnit(opUnit, 1, plantID)
 			if err != nil {
-				if app.DB.DBError == 1062 {
+				nb, ok := err.(*mysql.MySQLError)
+				if !ok {
+					return nil, err
+				}
+				if nb.Number == 1062 {
+					errorString = append(errorString, o.UnitName)
 					continue //return errors.New("duplicate unit")
 				}
-				return err
+
 			}
 			for _, p := range o.Parameters {
 				opParams := models.Parameter{
@@ -39,7 +46,7 @@ func (app *application) insertOperations(txt string) error {
 				}
 				paramId, err := app.DB.InsertParameter(opParams)
 				if err != nil {
-					return err
+					return nil, err
 				}
 				val := models.Value{
 					StringValue: p.Value.StringValue,
@@ -51,11 +58,10 @@ func (app *application) insertOperations(txt string) error {
 				}
 				_, err = app.DB.InsertValue(val)
 				if err != nil {
-					return err
+					return nil, err
 				}
 			}
 		}
-
 	}
-	return nil
+	return errorString, nil
 }
