@@ -2,3 +2,5 @@
 @import './base.css';
 @import './layout.css';
 @import './form.css';
+
+@import '../../node_modules/notie/dist/notie.min.css';
