@@ -1,8 +1,7 @@
 <script setup>
 import { RouterView } from 'vue-router'
-import FhxHeader from './components/FhxHeader.vue';
-import FhxNavbar from './components/FhxNavbar.vue';
-
+import FhxHeader from './components/FhxHeader.vue'
+import FhxNavbar from './components/FhxNavbar.vue'
 </script>
 
 <template>
@@ -15,6 +14,4 @@ import FhxNavbar from './components/FhxNavbar.vue';
   </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

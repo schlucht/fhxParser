@@ -1,10 +1,10 @@
 <script setup>
-import FhxFileLoad from '../components/home/FhxFileLoad.vue';
-import FhxCard from '../components/card/FhxCard.vue';
+import FhxFileLoad from '../components/home/FhxFileLoad.vue'
+import FhxCard from '../components/card/FhxCard.vue'
 </script>
 
-<template>  
+<template>
   <fhx-file-load></fhx-file-load>
-  <hr>
+  <hr />
   <fhx-card></fhx-card>
 </template>

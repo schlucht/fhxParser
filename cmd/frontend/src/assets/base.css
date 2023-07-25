@@ -9,10 +9,10 @@
   --hover-orange: #ec4b14;
   --hover-blue: #4c85df;
   --back-crl: #f4f4f4;
-  --light-gray: #AAAA;
+  --light-gray: #aaaa;
 
-  --border-radius: .5rem;
-  --padding: .5rem;
+  --border-radius: 0.5rem;
+  --padding: 0.5rem;
 }
 
 * {
@@ -26,7 +26,7 @@ html {
 }
 
 body {
-  font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 1.6rem;
   background-color: var(--back-crl);
 }
@@ -34,7 +34,7 @@ body {
 i,
 cite,
 em {
-  font-family: "Spectral", sans-serif;
+  font-family: 'Spectral', sans-serif;
   font-style: italic;
 }
 
@@ -42,12 +42,12 @@ b,
 strong,
 h1,
 h2 {
-  font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
   font-weight: 400;
 }
 
 h3 {
-  font-family: "Unily", serif;
+  font-family: 'Unily', serif;
   font-size: 3rem;
 }
 

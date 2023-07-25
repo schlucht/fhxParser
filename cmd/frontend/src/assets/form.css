@@ -1,66 +1,66 @@
 form {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    justify-self: start;
-    align-self: baseline;
-    gap: calc(var(--padding));
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-self: start;
+  align-self: baseline;
+  gap: calc(var(--padding));
 }
 
 .group-button {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    width: 15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 15rem;
 }
 .btn {
-    color: white;
-    outline: none;
-    border: none;
-    border-radius: .5rem;
-    background-color: var(--orange);
-    padding: .8rem;
-    cursor: pointer;
+  color: white;
+  outline: none;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: var(--orange);
+  padding: 0.8rem;
+  cursor: pointer;
 }
 
 .btn:hover {
-    background-color: var(--hover-orange);
+  background-color: var(--hover-orange);
 }
 
 fieldset legend {
-    color: var(--dark-blue);
-    margin-inline: calc(var(--padding) * 10);
-    padding-inline: calc(var(--padding) * 2);
+  color: var(--dark-blue);
+  margin-inline: calc(var(--padding) * 10);
+  padding-inline: calc(var(--padding) * 2);
 }
 
 fieldset {
-    border: none;
-    border-top: 1px solid var(--light-gray);
-    padding: calc(var(--padding) * 4);
+  border: none;
+  border-top: 1px solid var(--light-gray);
+  padding: calc(var(--padding) * 4);
 }
 
-fieldset legend>span {
-    margin-right: calc(var(--padding) * 2);
+fieldset legend > span {
+  margin-right: calc(var(--padding) * 2);
 }
 
-input[type="file"] {
-    display: none;
+input[type='file'] {
+  display: none;
 }
 
 .label-file {
-    cursor: pointer;
-    font-size: 1.28rem;
+  cursor: pointer;
+  font-size: 1.28rem;
 }
 
-input[type="radio"] {
-    appearance: none;
-    border-radius: 50%;
-    width: 16px;
-    height: 16px;
-    border: 2px solid blue;
-    transition: 0.2s all linear;
-    margin-right: 2px;
+input[type='radio'] {
+  appearance: none;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  border: 2px solid blue;
+  transition: 0.2s all linear;
+  margin-right: 2px;
 }
 
-input[type="radio"]:checked {
-    border: solid 6px var(--orange);
+input[type='radio']:checked {
+  border: solid 6px var(--orange);
 }
