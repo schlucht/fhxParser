@@ -9,8 +9,12 @@
       </fieldset>
       <fieldset class="radio-button">
         <legend><span class="icomoon-factory icon-round"></span>Betrieb ausswählen:</legend>
+        <p v-if="loading">Loading posts...</p>
+        <p v-if="error"> {{ error.message }}</p>
         <div v-for="plant in plants" :key="plant.id">
-          <input v-model="plantId" type="radio" name="plant" :value="plant.id" :id="'plant_' + plant.id" />
+          <input v-if="plantId == plant.id" v-model="plantId" type="radio" name="plant" :value="plant.id"
+            :id="'plant_' + plant.id" checked />
+          <input v-else v-model="plantId" type="radio" name="plant" :value="plant.id" :id="'plant_' + plant.id" />
           <label :for="'plant_' + plant.id">{{ plant.plant_name }}</label>
         </div>
       </fieldset>
@@ -25,24 +29,26 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import notie from 'notie'
+import { usePlantStore } from '../../stores/plant';
+import { storeToRefs } from 'pinia';
 
-const plants = ref(null)
-const plantId = ref(0)
+const { plants, loading, error } = storeToRefs(usePlantStore());
+const { loadPlants } = usePlantStore();
+
+// const plants = ref(null)
+const plantId = ref(1)
 const fileName = ref('')
 const save = ref(0)
 const fileUpload = { text: '', name: '', plant_id: 0 }
+
+loadPlants()
 
 onMounted(() => {
   save.value.disabled = true
 })
 
-fetch(`${import.meta.env.VITE_API_URL}/all-plants`)
-  .then((resp) => resp.json())
-  .then((data) => (plants.value = data))
-  .catch((err) => console.log(err))
-
 function reset(event) {
-  console.log(plantId.value)
+ 
 }
 
 function uploadFile(event) {
@@ -53,6 +59,7 @@ function uploadFile(event) {
     })
     return
   }
+
   const files = event.target.files || event.dataTransfer.files
   if (!files.length) return
   fileName.value = files[0].name
@@ -66,6 +73,7 @@ function uploadFile(event) {
   }
   fr.readAsText(files[0])
 }
+
 function uploadText() {
   if (fileUpload.text === '') {
     notie.alert({
@@ -83,6 +91,7 @@ function uploadText() {
     },
     body: stream
   }
+
   // File in DB speichern
   fetch(`${import.meta.env.VITE_API_URL}/read-fhx`, requestOptions)
     .then(response => response.json())
@@ -111,6 +120,7 @@ function uploadText() {
     stay: false
   })
 }
+
 </script>
 
 <style scoped>

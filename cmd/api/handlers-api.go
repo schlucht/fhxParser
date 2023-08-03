@@ -59,11 +59,11 @@ func (app *application) ReadFhx(w http.ResponseWriter, r *http.Request) {
 	app.writeJSON(w, http.StatusOK, j)
 }
 
+// gibt alle Abteilungen zurück
 func (app *application) AllPlants(w http.ResponseWriter, r *http.Request) {
 	allPlants, err := app.loadPlants()
 	if err != nil {
 		app.badRequest(w, r, err)
 	}
-
 	app.writeJSON(w, http.StatusOK, allPlants)
 }
