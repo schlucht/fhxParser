@@ -1,4 +1,5 @@
 <template>
+  
   <div class="new-file">
     <form action="" method="POST" @submit.prevent>
       <fieldset class="control-group">

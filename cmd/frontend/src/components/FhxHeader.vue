@@ -12,11 +12,17 @@
       <div class="header-bar-search">
         <input class="search-input" type="text" placeholder="Suche starten..." />
         <span class="icomoon-search2 search-icon" aria-hidden="true"></span>
+        <h2>{{ getActualPlant.plant_name }}</h2>
       </div>
     </div>
   </header>
 </template>
-<script setup></script>
+<script setup>
+import { usePlantStore } from '../stores/plant';
+import {storeToRefs } from 'pinia';
+const { getActualPlant } = storeToRefs(usePlantStore());
+
+</script>
 <style scoped>
 .header-bar {
   height: 5rem;
