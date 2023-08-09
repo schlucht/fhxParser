@@ -1,26 +1,30 @@
 <template>
-  <header>
+  <header>    
     <div class="header-bar">
-      <div class="header-bar-icons">
-        <span class="icomoon-grid" aria-hidden="true"></span>
-        <span class="icomoon-user" aria-hidden="true"></span>
-        <span class="icomoon-stars" aria-hidden="true"></span>
-        <span class="icomoon-pencil7" aria-hidden="true"></span>
-        <span class="icomoon-stamp" aria-hidden="true"></span>
-        <span class="icomoon-bell2" aria-hidden="true"></span>
-      </div>
-      <div class="header-bar-search">
-        <input class="search-input" type="text" placeholder="Suche starten..." />
-        <span class="icomoon-search2 search-icon" aria-hidden="true"></span>
-        <h2>{{ getActualPlant.plant_name }}</h2>
+      <h2 class="header-bar-title">{{ plant.plant_name }}</h2>
+      <div class="header-bar-right">
+        <div class="header-bar-icons">
+          <span class="icomoon-grid" aria-hidden="true"></span>
+          <span class="icomoon-user" aria-hidden="true"></span>
+          <span class="icomoon-stars" aria-hidden="true"></span>
+          <span class="icomoon-pencil7" aria-hidden="true"></span>
+          <span class="icomoon-stamp" aria-hidden="true"></span>
+          <span class="icomoon-bell2" aria-hidden="true"></span>
+        </div>
+        <div class="header-bar-search">
+          <input class="search-input" type="text" placeholder="Suche starten..." />
+          <span class="icomoon-search2 search-icon" aria-hidden="true"></span>        
+        </div>
       </div>
     </div>
   </header>
 </template>
 <script setup>
-import { usePlantStore } from '../stores/plant';
+import { usePlantStore } from '../stores/plant_store';
 import {storeToRefs } from 'pinia';
-const { getActualPlant } = storeToRefs(usePlantStore());
+const { plant } = storeToRefs(usePlantStore());
+
+
 
 </script>
 <style scoped>
@@ -31,16 +35,29 @@ const { getActualPlant } = storeToRefs(usePlantStore());
   color: var(--white);
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
 }
-
+.header-bar-title {
+  margin: 0 0 0 2rem;
+}
+.header-bar-right {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;  
+  padding-right: 1.5rem;
+}
+.header-bar-icons {
+  margin: 0.3rem; 
+  padding-right: 0.5rem; 
+}
 .header-bar-icons span {
-  margin: 0.5rem;
+  margin:  0.6rem;
 }
 
 .header-bar-search {
   position: relative;
-  margin: 1.5rem;
+  /*margin: 1.5rem;*/
+  
 }
 
 .header-bar-search .search-input {

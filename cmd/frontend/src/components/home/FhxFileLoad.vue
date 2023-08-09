@@ -10,13 +10,10 @@
       </fieldset>
       <fieldset class="radio-button">
         <legend><span class="icomoon-factory icon-round"></span>Betrieb ausswählen:</legend>
-        <p v-if="loading">Loading posts...</p>
-        <p v-if="error"> {{ error.message }}</p>
-        <div v-for="plant in plants" :key="plant.id">
-          <input v-if="plantId == plant.id" v-model="plantId" type="radio" name="plant" :value="plant.id"
-            :id="'plant_' + plant.id" checked />
-          <input v-else v-model="plantId" type="radio" name="plant" :value="plant.id" :id="'plant_' + plant.id" />
-          <label :for="'plant_' + plant.id">{{ plant.plant_name }}</label>
+        <!-- <p v-if="loading">Loading posts...</p>
+        <p v-if="error"> {{ error.message }}</p> -->
+        <div>
+          <b>{{ plant.plant_name }}</b>
         </div>
       </fieldset>
       <fieldset class="group-button">
@@ -30,27 +27,20 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import notie from 'notie'
-import { usePlantStore } from '../../stores/plant';
+import { usePlantStore } from '../../stores/plant_store';
 import { storeToRefs } from 'pinia';
 
-const { plants, loading, error } = storeToRefs(usePlantStore());
-const { loadPlants } = usePlantStore();
+const { plant} = storeToRefs(usePlantStore());
 
 // const plants = ref(null)
-const plantId = ref(1)
+const plantId = ref(plant.id);
 const fileName = ref('')
 const save = ref(0)
-const fileUpload = { text: '', name: '', plant_id: 0 }
-
-loadPlants()
+const fileUpload = { text: '', name: '', plant_id: plantId }
 
 onMounted(() => {
   save.value.disabled = true
 })
-
-function reset(event) {
- 
-}
 
 function uploadFile(event) {
   if (plantId.value === 0) {
@@ -79,7 +69,7 @@ function uploadText() {
   if (fileUpload.text === '') {
     notie.alert({
       type: 'info',
-      text: 'Kein Text hochgeladen'
+      text: 'Ausgewählte Datei nicht hochgeladen'
     })
     return
   }
@@ -96,8 +86,7 @@ function uploadText() {
   // File in DB speichern
   fetch(`${import.meta.env.VITE_API_URL}/read-fhx`, requestOptions)
     .then(response => response.json())
-    .then(response => {
-      let data;
+    .then(response => {    
       try {
         console.log(response)
         if (response.error) {

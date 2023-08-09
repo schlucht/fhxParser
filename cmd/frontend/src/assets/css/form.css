@@ -20,6 +20,7 @@ form {
   background-color: var(--orange);
   padding: 0.8rem;
   cursor: pointer;
+  min-width: 15rem;
 }
 
 .btn:hover {
@@ -63,4 +64,12 @@ input[type='radio'] {
 
 input[type='radio']:checked {
   border: solid 6px var(--orange);
+}
+
+select {
+  padding: var(--padding);
+  width: 15rem;
+  background-color: var(--light-blue);
+  color: var(--back-crl);
+  border: none;
 }
