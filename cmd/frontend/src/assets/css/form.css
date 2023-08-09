@@ -3,15 +3,18 @@ form {
   grid-template-columns: 1fr 1fr 1fr;
   justify-self: start;
   align-self: baseline;
-  gap: calc(var(--padding));
+  gap: calc(var(--padding)*20);
+  padding: 1rem 0rem 2rem 0rem;
+  border-bottom: 5px solid var(--light-gray);
 }
 
 .group-button {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 0.5rem;
   width: 15rem;
 }
+
 .btn {
   color: white;
   outline: none;
@@ -29,14 +32,16 @@ form {
 
 fieldset legend {
   color: var(--dark-blue);
-  margin-inline: calc(var(--padding) * 10);
+  margin-inline: auto;
   padding-inline: calc(var(--padding) * 2);
 }
 
-fieldset {
+.control-group, fieldset {
   border: none;
-  border-top: 1px solid var(--light-gray);
-  padding: calc(var(--padding) * 4);
+  border-top: 5px solid var(--light-gray);
+  padding: calc(var(--padding) * 4) 5rem 0 calc(var(--padding) * 2);
+  text-align: center;
+
 }
 
 fieldset legend > span {

@@ -29,3 +29,7 @@ main {
   border-radius: 50%;
   color: var(--white);
 }
+
+.m-5-t {
+  margin-top: calc(var(--padding) * 5);
+}

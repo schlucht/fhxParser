@@ -31,7 +31,7 @@ import { loadAllPlants } from '../../models/plants';
 
     // Speichern des Betreiben sind dem Store
     function savePlant(e) {
-        const id = e.target.value;
+        const id = pardseInt(e.target.value);
         const plant_name = e.target.options[e.target.selectedIndex].text;
         if (id == 0) {
             isVisible.value =true ;

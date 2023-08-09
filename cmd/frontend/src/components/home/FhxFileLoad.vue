@@ -8,16 +8,14 @@
         <input type="file" id="file" name="file" @change="uploadFile" accept=".fhx" />
         <span>{{ fileName }}</span>
       </fieldset>
-      <fieldset class="radio-button">
-        <legend><span class="icomoon-factory icon-round"></span>Betrieb ausswählen:</legend>
+      <fieldset class="control-group">
+        <legend><span class="icomoon-factory icon-round"></span>Betrieb:</legend>
         <!-- <p v-if="loading">Loading posts...</p>
-        <p v-if="error"> {{ error.message }}</p> -->
-        <div>
-          <b>{{ plant.plant_name }}</b>
-        </div>
+        <p v-if="error"> {{ error.message }}</p> -->       
+          <p class="plant-name">{{ plant.plant_name }}</p>        
       </fieldset>
       <fieldset class="group-button">
-        <legend><span class="icomoon-document"></span>Speichern</legend>
+        <legend><span class="icomoon-database-upload icon-round"></span>Speichern</legend>
         <button ref="save" @click="uploadText" class="btn">Speichern</button>
         <button class="btn" @click="reset" type="button">Abbrechen</button>
       </fieldset>
@@ -26,24 +24,27 @@
 </template>
 <script setup>
 import { onMounted, ref } from 'vue'
-import notie from 'notie'
 import { usePlantStore } from '../../stores/plant_store';
 import { storeToRefs } from 'pinia';
 
-const { plant} = storeToRefs(usePlantStore());
+import notie from 'notie'
+import { fileDataUpload } from '../../models/fileUpload.js';
 
-// const plants = ref(null)
-const plantId = ref(plant.id);
-const fileName = ref('')
+const { plant} = storeToRefs(usePlantStore());
 const save = ref(0)
-const fileUpload = { text: '', name: '', plant_id: plantId }
+
+let plantId = plant.value.id;
+let fileName = '';
+const fileUpload = { text: '', name: '', plant_id: 0 }
 
 onMounted(() => {
+  // Aus und einblenden Speicher Button
   save.value.disabled = true
 })
 
+// Einlesen einer FHX-Datei
 function uploadFile(event) {
-  if (plantId.value === 0) {
+  if (plantId === 0) {
     notie.alert({
       type: 'error',
       text: 'Keine Anlage ausgelesen!'
@@ -53,19 +54,20 @@ function uploadFile(event) {
 
   const files = event.target.files || event.dataTransfer.files
   if (!files.length) return
-  fileName.value = files[0].name
+  fileName = files[0].name
   const fr = new FileReader()
   fr.onload = () => {
     let result = fr.result
-    fileUpload.name = fileName.value
+    fileUpload.name = fileName
     fileUpload.text = result
-    fileUpload.plant_id = plantId.value
+    fileUpload.plant_id = parseInt(plantId);
     save.value.disabled = false
   }
   fr.readAsText(files[0])
 }
 
-function uploadText() {
+// Hochgeladene FHX Datei auf dem Server speichern
+async function uploadText() {
   if (fileUpload.text === '') {
     notie.alert({
       type: 'info',
@@ -73,54 +75,37 @@ function uploadText() {
     })
     return
   }
-  const stream = JSON.stringify(fileUpload)
-  const requestOptions = {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/text',
-      'Content-Type': 'application/text'
-    },
-    body: stream
-  }
+  
+  const stream = JSON.stringify(fileUpload) 
 
-  // File in DB speichern
-  fetch(`${import.meta.env.VITE_API_URL}/read-fhx`, requestOptions)
-    .then(response => response.json())
-    .then(response => {    
-      try {
-        console.log(response)
-        if (response.error) {
-          notie.alert({
-            type: 'warning',
-            text: response.message,
-          })
-        } else {
-          notie.alert({
-            type: 'success',
-            text: response.message,
-          })
-        }
-      } catch (err) {
-        console.error("Error in FileUpload: ", err)
-      }
+  // JSON String auf den Server laden
+  const {ok, message} = await fileDataUpload(stream);  
+  if (ok) {
+      notie.alert({
+      type: 'success',
+      text: message,
+      stay: false
     })
-  notie.alert({
-    type: 'success',
-    text: `Datei ${fileUpload.name} hochgeladen!`,
-    stay: false
-  })
+  } else {
+      notie.alert({
+      type: 'warning',
+      text: message,
+      stay: false
+    })
+  }  
 }
 
 </script>
 
 <style scoped>
-.radio-button {
-  display: flex;
-  flex-direction: row;
-  gap: calc(var(--padding) * 2);
-}
-
 button:disabled {
   background-color: var(--light-gray);
+}
+
+.plant-name {
+  width: 100%;
+  text-align: center;  
+  font-size: 2.5rem;
+  color: var(--blue);
 }
 </style>

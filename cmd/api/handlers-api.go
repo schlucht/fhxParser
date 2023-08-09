@@ -26,8 +26,8 @@ func (app *application) ReadFhx(w http.ResponseWriter, r *http.Request) {
 	j := jsonResponse{
 		OK:      true,
 		Message: "Hochladen hat geklappt",
-		Content: "Alles gut",
-		ID:      10,
+		Content: "",
+		ID:      999,
 	}
 
 	f, err := io.ReadAll(r.Body)
@@ -35,8 +35,8 @@ func (app *application) ReadFhx(w http.ResponseWriter, r *http.Request) {
 		app.badRequest(w, r, err)
 		return
 	}
-	var fhxJson fhxFileLoad = fhxFileLoad{}
-	err = json.Unmarshal(f, &fhxJson)
+	var fhxJson fhxFileLoad = fhxFileLoad{}	
+	err = json.Unmarshal(f, &fhxJson); 
 	if err != nil {
 		app.errorLog.Println(err)
 		app.badRequest(w, r, err)
@@ -51,9 +51,10 @@ func (app *application) ReadFhx(w http.ResponseWriter, r *http.Request) {
 	}
 	if len(doubleUp) > 0 {
 		s := strings.Join(doubleUp, ",")
-		j.OK = true
+		j.OK = false
 		j.Message = fmt.Sprintf("Dopplete UP's: %s", s)
 	}
+	app.infoLog.Println(j)
 
 	w.Header().Set("Content-Type", "application/text")
 	app.writeJSON(w, http.StatusOK, j)

@@ -4,7 +4,10 @@ import FhxCard from '../components/card/FhxCard.vue'
 </script>
 
 <template>
-  <fhx-file-load></fhx-file-load>
-  <hr />
-  <fhx-card></fhx-card>
+  <section class="" id="file-load">
+    <fhx-file-load></fhx-file-load>
+  </section>
+  <section class="m-5-t" id="card-section">
+    <fhx-card></fhx-card>
+  </section>
 </template>
