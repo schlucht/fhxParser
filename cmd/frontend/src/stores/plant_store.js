@@ -2,11 +2,12 @@
 import { defineStore } from 'pinia'
 
 const usePlantStore = defineStore({
-    id: 'plant',
+    id: 'plant',    
     state: () => ({
         plant: {id: 0, plant_name:"leer"},
         loading: false,
         error: null ,
+        showModal: true,
     }),  
     getters: {
       getPlant() {     
@@ -14,6 +15,9 @@ const usePlantStore = defineStore({
           this.plant = {id: 0, plant_name:"leer"};
         }   
         return this.plant;
+      },
+      getShowModal() {
+        return this.plant.plant_name === 'leer';
       }
     },
     actions: {
@@ -23,7 +27,10 @@ const usePlantStore = defineStore({
           if (item) {
             this.plant = JSON.parse(item);
           }
-        },        
+        }, 
+        openModal() {
+          this.showModal = true;
+        }       
     }
 
    

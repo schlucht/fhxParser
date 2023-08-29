@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+// Speichern der Values zu den Parameter
 func (m *DBModel) InsertValue(val Value) (int, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
@@ -106,7 +107,8 @@ func (m *DBModel) GetUnits() ([]Unit, error) {
 	var units []Unit
 	sql := `
 		SELECT 
-			id, unit_name, position, author, time, description, created_at, updated_at FROM units
+			id, unit_name, position, author, time, description, created_at, updated_at 
+			FROM units
 	`
 	rows, err := m.DB.QueryContext(ctx, sql)
 	if err != nil {
@@ -131,5 +133,4 @@ func (m *DBModel) GetUnits() ([]Unit, error) {
 		units = append(units, unit)
 	}
 	return units, nil
-
 }

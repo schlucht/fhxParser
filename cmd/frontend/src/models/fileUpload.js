@@ -1,7 +1,8 @@
 
-
-async function fileDataUpload(data) {
-    const result = {};
+// speichert die Daten auf dem Server
+// data enthält den json string mit dem fhx Text und der ID
+async function fileDataUpload(data) {   
+    
     const requestOptions = {
         method: 'POST',
         headers: {

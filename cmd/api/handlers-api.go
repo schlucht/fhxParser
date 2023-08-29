@@ -35,8 +35,8 @@ func (app *application) ReadFhx(w http.ResponseWriter, r *http.Request) {
 		app.badRequest(w, r, err)
 		return
 	}
-	var fhxJson fhxFileLoad = fhxFileLoad{}	
-	err = json.Unmarshal(f, &fhxJson); 
+	var fhxJson fhxFileLoad = fhxFileLoad{}
+	err = json.Unmarshal(f, &fhxJson)
 	if err != nil {
 		app.errorLog.Println(err)
 		app.badRequest(w, r, err)
@@ -62,7 +62,7 @@ func (app *application) ReadFhx(w http.ResponseWriter, r *http.Request) {
 
 // gibt alle Abteilungen zurück
 func (app *application) AllPlants(w http.ResponseWriter, r *http.Request) {
-	allPlants, err := app.loadPlants()
+	allPlants, err := app.DB.LoadAllPlants()
 	if err != nil {
 		app.badRequest(w, r, err)
 	}

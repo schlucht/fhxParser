@@ -24,8 +24,6 @@ import { usePlantStore } from '../stores/plant_store';
 import {storeToRefs } from 'pinia';
 const { plant } = storeToRefs(usePlantStore());
 
-
-
 </script>
 <style scoped>
 .header-bar {

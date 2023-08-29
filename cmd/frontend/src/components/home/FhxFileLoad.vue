@@ -1,5 +1,4 @@
-<template>
-  
+<template>  
   <div class="new-file">
     <form action="" method="POST" @submit.prevent>
       <fieldset class="control-group">
@@ -12,7 +11,7 @@
         <legend><span class="icomoon-factory icon-round"></span>Betrieb:</legend>
         <!-- <p v-if="loading">Loading posts...</p>
         <p v-if="error"> {{ error.message }}</p> -->       
-          <p class="plant-name">{{ plant.plant_name }}</p>        
+          <p class="plant-name" @click="selectPlant">{{ plant.plant_name }}</p>        
       </fieldset>
       <fieldset class="group-button">
         <legend><span class="icomoon-database-upload icon-round"></span>Speichern</legend>
@@ -22,6 +21,7 @@
     </form>
   </div>
 </template>
+
 <script setup>
 import { onMounted, ref } from 'vue'
 import { usePlantStore } from '../../stores/plant_store';
@@ -29,9 +29,13 @@ import { storeToRefs } from 'pinia';
 
 import notie from 'notie'
 import { fileDataUpload } from '../../models/fileUpload.js';
+// import  FhxPlantOrder  from '../../components/home/FhxFileLoad.vue';
 
-const { plant} = storeToRefs(usePlantStore());
+
+const { plant, showModal } = storeToRefs(usePlantStore());
+const { openModal } = usePlantStore();
 const save = ref(0)
+// const showNewPlant = ref(getShowModal);
 
 let plantId = plant.value.id;
 let fileName = '';
@@ -39,8 +43,13 @@ const fileUpload = { text: '', name: '', plant_id: 0 }
 
 onMounted(() => {
   // Aus und einblenden Speicher Button
-  save.value.disabled = true
+  // showModal.value = true
 })
+
+function selectPlant() {
+  openModal();
+  console.log(showModal.value);
+}
 
 // Einlesen einer FHX-Datei
 function uploadFile(event) {
@@ -50,7 +59,7 @@ function uploadFile(event) {
       text: 'Keine Anlage ausgelesen!'
     })
     return
-  }
+  } 
 
   const files = event.target.files || event.dataTransfer.files
   if (!files.length) return

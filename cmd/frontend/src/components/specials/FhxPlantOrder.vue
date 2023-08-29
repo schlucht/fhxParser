@@ -1,5 +1,5 @@
 <template>
-    <div v-if="visible" class="background">
+    <div v-if="isVisible" class="background">
         <div class="messagebox">
             <h2 class="messagebox-title">Betrieb auswählen</h2>
             <form class="messagebox-form">
@@ -9,29 +9,27 @@
                     <option v-for="plant in plants" 
                     :key="plant.id" 
                     :value="plant.id">{{ plant.plant_name }}</option>
-                </select>
-                <button class="btn">OK</button>
+                </select>                
             </form>
         </div>
     </div>
 </template>
 <script setup>
-import { onMounted, ref, toRefs } from 'vue';
+import { onMounted, ref } from 'vue';
 import { loadAllPlants } from '../../models/plants';
-
-    const isVisible = ref(true);
+   
     const props = defineProps({
         visible: Boolean
     });
     
-    const plants = ref(null);    
+    const plants = ref(null);  
+    const isVisible = ref(props.visible);  
 
-    const { visible } = toRefs(props);
-    isVisible.value = visible.value;
+    // const { visible } = toRefs(props);    
 
     // Speichern des Betreiben sind dem Store
     function savePlant(e) {
-        const id = pardseInt(e.target.value);
+        const id = parseInt(e.target.value);
         const plant_name = e.target.options[e.target.selectedIndex].text;
         if (id == 0) {
             isVisible.value =true ;
@@ -42,7 +40,12 @@ import { loadAllPlants } from '../../models/plants';
         if (item) {
             localStorage.removeItem('localPlant');
         }
-        localStorage.setItem('localPlant', JSON.stringify({ id, plant_name }));        
+        localStorage.setItem('localPlant', JSON.stringify({ id, plant_name })); 
+        
+        setTimeout(() => {
+            isVisible.value = false;
+        }, 2000);
+        
     }  
 
     onMounted(async() => {
@@ -62,17 +65,14 @@ import { loadAllPlants } from '../../models/plants';
         align-items: center;
         z-index: 1000;
     }
-    .messagebox {
-        display: flex;
-        flex-direction: column;
-        height: 20rem;
+    .messagebox {            
         width: 50rem;
         background-color: var(--white);
         text-align: center;
     }
     .messagebox-title {
         font-size: 3rem;
-        padding-top: 2rem;
+        padding: 1rem;
         background-color: var(--blue);
         color: var(--white);
     }
@@ -80,11 +80,12 @@ import { loadAllPlants } from '../../models/plants';
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: space-around;
-        height: 100%;
-        width: 100%;        
+        justify-content: center;               
     }
     label[for="select-plant"] {
         color: var(--mid-blue);
+    }
+    select {
+        font-size: 2.5rem;
     }
 </style>
