@@ -47,13 +47,13 @@ func NewFhxPath(path string) ([]Fhx, error) {
 		regFhx:  regFhx,
 	}
 	var fs = []Fhx{}
-	err := IsFhxFile(path)
+	err := isFhxFile(path)
 
 	if err != nil {
 		return fs, err
 	}
 
-	fileText, err := ReadFhx(path)
+	fileText, err := readFhx(path)
 	if err != nil {
 		return nil, err
 	}
@@ -75,7 +75,7 @@ func NewFhxString(fhxText string) ([]Fhx, error) {
 	if fhxText == "" {
 		return nil, errors.New("NewFHXString, no file i")
 	}
-	lines, err := ReadFhxText(fhxText, "")
+	lines, err := readFhxText(fhxText, "")
 	if err != nil {
 		return nil, err
 	}
@@ -94,7 +94,7 @@ Wird ausgeführt wenn ein FHX Datei eingelesen wird diese Eingelesen und neu ges
 func (m *Fhx) readFhx(fileText []string) ([]Fhx, error) {
 	// log.Println(fileText)
 	var fhxs = []Fhx{}
-	block, err := ReadBlock("BATCH_RECIPE", fileText)
+	block, err := readBlock("BATCH_RECIPE", fileText)
 	// fmt.Printf("Erstes File: %v\n", block[0])
 	if err != nil {
 		return nil, err
@@ -103,7 +103,7 @@ func (m *Fhx) readFhx(fileText []string) ([]Fhx, error) {
 	for _, b := range block {
 		var fhx Fhx
 		// Type der Datei PROCEDURE OPERATION UNITPROCEDURE
-		unitType, err := ReadParam(b, m.regFhx["Type"])
+		unitType, err := readParam(b, m.regFhx["Type"])
 		if err != nil {
 			return nil, err
 		}
@@ -143,7 +143,7 @@ func (m *Fhx) readUnit(fileText []string, unit_type string) ([]Unit, error) {
 
 	var units = []Unit{}
 
-	block, err := ReadBlock("BATCH_RECIPE", fileText)
+	block, err := readBlock("BATCH_RECIPE", fileText)
 	if err != nil {
 		return nil, err
 	}
@@ -153,7 +153,7 @@ func (m *Fhx) readUnit(fileText []string, unit_type string) ([]Unit, error) {
 		// Names of Unit
 		unit.Type = unit_type
 		if unit.UnitName == "" {
-			unitName, err := ReadParam(b, m.regFhx["Recipe"])
+			unitName, err := readParam(b, m.regFhx["Recipe"])
 			if err != nil {
 				return nil, err
 			}
@@ -162,7 +162,7 @@ func (m *Fhx) readUnit(fileText []string, unit_type string) ([]Unit, error) {
 			}
 		}
 		if unit.UnitPosition == "" {
-			unitPos, err := ReadParam(b, m.regFhx["Unit"])
+			unitPos, err := readParam(b, m.regFhx["Unit"])
 			if err != nil {
 				return nil, err
 			}
@@ -188,7 +188,7 @@ func (m *Fhx) readRecipe(fileText []string) ([]Recipe, error) {
 
 	var recipes = []Recipe{}
 
-	block, err := ReadBlock("BATCH_RECIPE", fileText)
+	block, err := readBlock("BATCH_RECIPE", fileText)
 	if err != nil {
 		return nil, err
 	}
@@ -197,7 +197,7 @@ func (m *Fhx) readRecipe(fileText []string) ([]Recipe, error) {
 		var recipe Recipe
 		// Names of Unit
 		if recipe.RecipeName == "" {
-			recipeName, err := ReadParam(b, m.regFhx["Recipe"])
+			recipeName, err := readParam(b, m.regFhx["Recipe"])
 			if err != nil {
 				return nil, err
 			}
@@ -218,13 +218,13 @@ func (m *Fhx) readRecipe(fileText []string) ([]Recipe, error) {
 func (m *Fhx) readStep(lines []string) ([]Step, error) {
 	var steps = []Step{}
 	step := Step{}
-	stepBlocks, err := ReadBlock("STEP", lines)
+	stepBlocks, err := readBlock("STEP", lines)
 	if err != nil {
 		return nil, err
 	}
 	for _, b := range stepBlocks {
 		for _, l := range b {
-			name, err := ReadRegex(m.regFhx["Step"], l)
+			name, err := readRegex(m.regFhx["Step"], l)
 			if err != nil {
 				return nil, err
 			}
@@ -232,7 +232,7 @@ func (m *Fhx) readStep(lines []string) ([]Step, error) {
 				step.Name = name
 				// loadUP(name)
 			}
-			key, err := ReadRegex(m.regFhx["Definition"], l)
+			key, err := readRegex(m.regFhx["Definition"], l)
 			if err != nil {
 				return nil, err
 			}
@@ -240,7 +240,7 @@ func (m *Fhx) readStep(lines []string) ([]Step, error) {
 				step.Key = key
 			}
 			if step.Description == "" {
-				desc, err := ReadRegex(m.regFhx["StepDesc"], l)
+				desc, err := readRegex(m.regFhx["StepDesc"], l)
 
 				if err != nil {
 					return nil, err
@@ -250,7 +250,7 @@ func (m *Fhx) readStep(lines []string) ([]Step, error) {
 				}
 			}
 			if step.Rect == "" {
-				rect, err := ReadRegex(m.regFhx["Rect"], l)
+				rect, err := readRegex(m.regFhx["Rect"], l)
 
 				if err != nil {
 					return nil, err
@@ -263,7 +263,7 @@ func (m *Fhx) readStep(lines []string) ([]Step, error) {
 		steps = append(steps, step)
 		//
 		// log.Println(stepparams)
-		attrBlocks, err := ReadBlock("ATTRIBUTE_INSTANCE", b)
+		attrBlocks, err := readBlock("ATTRIBUTE_INSTANCE", b)
 		if err != nil {
 			return nil, err
 		}
@@ -281,7 +281,7 @@ func (m *Fhx) readStep(lines []string) ([]Step, error) {
 
 func (m *Fhx) stepParameters(attrBlock [][]string) ([]Parameter, error) {
 	parameters := []Parameter{}
-
+	// TODO: READ STEP Paramter
 	return parameters, nil
 }
 
@@ -291,7 +291,7 @@ Liest die Unit Proceduren aus der FHX Datei
 func (m *Fhx) readUps(lines []string, unit Unit) (Unit, error) {
 	for _, l := range lines {
 		if unit.Description == "" {
-			desc, err := ReadRegex(m.regFhx["Desc"], l)
+			desc, err := readRegex(m.regFhx["Desc"], l)
 			if err != nil {
 				return Unit{}, err
 			}
@@ -301,7 +301,7 @@ func (m *Fhx) readUps(lines []string, unit Unit) (Unit, error) {
 		}
 
 		if unit.Time == 0 {
-			time, err := ReadRegex(m.regFhx["Time"], l)
+			time, err := readRegex(m.regFhx["Time"], l)
 			if err != nil {
 				return Unit{}, err
 			}
@@ -316,7 +316,7 @@ func (m *Fhx) readUps(lines []string, unit Unit) (Unit, error) {
 		}
 
 		if unit.Author == "" {
-			author, err := ReadRegex(m.regFhx["Author"], l)
+			author, err := readRegex(m.regFhx["Author"], l)
 			if err != nil {
 				return Unit{}, err
 			}
@@ -325,12 +325,12 @@ func (m *Fhx) readUps(lines []string, unit Unit) (Unit, error) {
 			}
 		}
 	}
-	paramBlocks, err := ReadBlock("FORMULA_PARAMETER", lines)
+	paramBlocks, err := readBlock("FORMULA_PARAMETER", lines)
 
 	if err != nil {
 		return Unit{}, err
 	}
-	attrBlocks, err := ReadBlock("ATTRIBUTE_INSTANCE", lines)
+	attrBlocks, err := readBlock("ATTRIBUTE_INSTANCE", lines)
 	if err != nil {
 		return Unit{}, err
 	}
@@ -353,11 +353,11 @@ func (m *Fhx) readParameters(paramBlock [][]string, attrBlock [][]string) ([]Par
 	var param = Parameter{}
 	for _, b := range paramBlock {
 		for _, l := range b {
-			name, err := ReadRegex(m.regFhx["Params"], l)
+			name, err := readRegex(m.regFhx["Params"], l)
 			if err != nil {
 				return nil, err
 			}
-			desc, err := ReadRegex(m.regFhx["Desc"], l)
+			desc, err := readRegex(m.regFhx["Desc"], l)
 			if err != nil {
 				return nil, err
 			}
@@ -389,12 +389,12 @@ func (m *Fhx) readAttribute(block [][]string, paramName string) (Value, error) {
 			if strings.Contains(l, paramName) {
 				// Auslesen ob ein Set vorhanden ist
 				if len(b) > 4 {
-					u, err := ReadRegex(m.regFhx["ValueSet"], b[4])
+					u, err := readRegex(m.regFhx["ValueSet"], b[4])
 					if err != nil {
 						return val, err
 					}
 					val.Set = u
-					strVal, err := ReadRegex(m.regFhx["ValueString"], b[5])
+					strVal, err := readRegex(m.regFhx["ValueString"], b[5])
 					if err != nil {
 						return val, err
 					}
@@ -402,22 +402,9 @@ func (m *Fhx) readAttribute(block [][]string, paramName string) (Value, error) {
 					return val, nil
 				}
 
-				// Nur bei Texten wie Melden
-				//fmt.Println(len(b), i+2)
-
 				parseLine := b[2]
 
-				// d, err := ReadRegex(m.regFhx["ValueDesc"], parseLine)
-				// if err != nil {
-				// 	return val, err
-				// }
-				// if d != "" {
-				// 	val.Cv = d
-				// 	return val, nil
-				// }
-
-				// Werte für Zahlen
-				v, err := ReadRegexSubexp(m.regFhx["Value"], parseLine)
+				v, err := readRegexSubexp(m.regFhx["Value"], parseLine)
 				if len(v) == 0 {
 					return val, nil
 				}

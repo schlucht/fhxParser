@@ -47,7 +47,7 @@ onMounted(() => {
 })
 
 function selectPlant() {
-  openModal();
+  usePlantStore.showModal = openModal();
   console.log(showModal.value);
 }
 

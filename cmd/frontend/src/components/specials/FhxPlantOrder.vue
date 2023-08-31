@@ -1,5 +1,5 @@
 <template>
-    <div v-if="isVisible" class="background">
+    <div v-if="usePlantStore.showModal" class="background">
         <div class="messagebox">
             <h2 class="messagebox-title">Betrieb auswählen</h2>
             <form class="messagebox-form">
@@ -17,13 +17,15 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import { loadAllPlants } from '../../models/plants';
+import { usePlantStore } from '../../stores/plant_store';
+import {storeToRefs } from 'pinia';
    
     const props = defineProps({
         visible: Boolean
     });
     
     const plants = ref(null);  
-    const isVisible = ref(props.visible);  
+   
 
     // const { visible } = toRefs(props);    
 
@@ -32,7 +34,7 @@ import { loadAllPlants } from '../../models/plants';
         const id = parseInt(e.target.value);
         const plant_name = e.target.options[e.target.selectedIndex].text;
         if (id == 0) {
-            isVisible.value =true ;
+            usePlantStore.openModal();
             return;     
         }
         // Auswahl des Betriebes in den Store schreiben
@@ -43,7 +45,7 @@ import { loadAllPlants } from '../../models/plants';
         localStorage.setItem('localPlant', JSON.stringify({ id, plant_name })); 
         
         setTimeout(() => {
-            isVisible.value = false;
+            usePlantStore.closeModal();
         }, 2000);
         
     }  

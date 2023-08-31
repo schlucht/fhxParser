@@ -6,11 +6,7 @@ import (
 	"os"
 	"path"
 	"regexp"
-	"strconv"
 	"strings"
-
-	"golang.org/x/text/encoding/unicode"
-	"golang.org/x/text/transform"
 )
 
 /*
@@ -19,7 +15,7 @@ import (
 Return ist ein Array mit dem Blocknamen und dann mit allen Zeilen als Array.
 Parameter ein String zum identifizieren des Blocks und den zu durchsuchenden Text als Arra
 */
-func ReadBlock(startString string, lines []string) ([][]string, error) {
+func readBlock(startString string, lines []string) ([][]string, error) {
 
 	results := [][]string{}
 	if strings.Trim(startString, "") == "" {
@@ -66,37 +62,8 @@ func ReadBlock(startString string, lines []string) ([][]string, error) {
 	return results, nil
 }
 
-/* Durchläuft ein Textarray und sucht mittels Regex den gesuchten Eintrag. Der Eintrag wird ausgelesen mit einem Schlüssel Wert paar zurück gegeben*/
-func ReadRegexMap(regex map[string]string, txt []string) (map[string]interface{}, error) {
-	res := make(map[string]interface{})
-	for _, l := range txt {
-		for key, r := range regex {
-			rCompile := regexp.MustCompile(r)
-			matches := rCompile.FindStringSubmatch(l)
-
-			if len(matches) > 0 {
-				if rCompile.SubexpIndex("s") > -1 {
-					res[key] = matches[rCompile.SubexpIndex("s")]
-				}
-				if rCompile.SubexpIndex("i") > -1 {
-					i, err := strconv.ParseInt(matches[rCompile.SubexpIndex("i")], 10, 32)
-					if err != nil {
-						return nil, err
-					}
-					res[key] = i
-				}
-				if rCompile.SubexpIndex("b") > -1 {
-					b := matches[rCompile.SubexpIndex("b")]
-					res[key] = b == "T"
-				}
-			}
-		}
-	}
-	return res, nil
-}
-
 /* Durchsucht einen String ob das Pattern in der Zeile vorhanden ist. Es gibt den gesuchten Wert als String zurück*/
-func ReadRegex(regex string, txt string) (string, error) {
+func readRegex(regex string, txt string) (string, error) {
 	res := ""
 	if regex == "" {
 		return res, errors.New("no regexpattern for search")
@@ -111,7 +78,7 @@ func ReadRegex(regex string, txt string) (string, error) {
 	return res, nil
 }
 
-func ReadRegexSubexp(regex string, txt string) (map[string]string, error) {
+func readRegexSubexp(regex string, txt string) (map[string]string, error) {
 	res := make(map[string]string)
 	if regex == "" {
 		return res, errors.New("no regexpattern for search")
@@ -130,25 +97,25 @@ func ReadRegexSubexp(regex string, txt string) (map[string]string, error) {
 }
 
 /* Liest ein fhx File im UTF16L in ein Array ein*/
-func ReadFhxFile16(filePath string) ([]string, error) {
-	var res []string
-	if filePath == "" {
-		return res, errors.New("filePath is empty")
-	}
-	file, err := os.Open(filePath)
-	if err != nil {
-		return res, err
-	}
+// func readFhxFile16(filePath string) ([]string, error) {
+// 	var res []string
+// 	if filePath == "" {
+// 		return res, errors.New("filePath is empty")
+// 	}
+// 	file, err := os.Open(filePath)
+// 	if err != nil {
+// 		return res, err
+// 	}
 
-	scanner := bufio.NewScanner(transform.NewReader(file, unicode.UTF16(unicode.LittleEndian, unicode.UseBOM).NewDecoder()))
-	for scanner.Scan() {
-		res = append(res, (scanner.Text()))
-	}
-	return res, nil
-}
+// 	scanner := bufio.NewScanner(transform.NewReader(file, unicode.UTF16(unicode.LittleEndian, unicode.UseBOM).NewDecoder()))
+// 	for scanner.Scan() {
+// 		res = append(res, (scanner.Text()))
+// 	}
+// 	return res, nil
+// }
 
 /* Read fhx File in UTF-8 Format*/
-func ReadFhx(path string) ([]string, error) {
+func readFhx(path string) ([]string, error) {
 	f, err := os.Open(path)
 	var lines []string
 	if err != nil {
@@ -163,7 +130,7 @@ func ReadFhx(path string) ([]string, error) {
 }
 
 // Liest ein Text aus einer FHX Datei ein
-func ReadFhxText(text string, sep string) ([]string, error) {
+func readFhxText(text string, sep string) ([]string, error) {
 
 	var lines []string
 	if text == "" {
@@ -183,7 +150,7 @@ func ReadFhxText(text string, sep string) ([]string, error) {
 }
 
 /* Testet ein fhx Pfad ob es ein*/
-func IsFhxFile(pathStr string) error {
+func isFhxFile(pathStr string) error {
 	ext := path.Ext(pathStr)
 	if strings.ToUpper(ext) != ".FHX" {
 		return errors.New("file is not a fhx file")
@@ -207,10 +174,10 @@ Parameter: lines ein Array mit den Zeilen
 regex ein Regex Suchstring
 Rückgabe alle Wert die auf das Regex gepasst haben
 */
-func ReadParam(lines []string, regex string) ([]string, error) {
+func readParam(lines []string, regex string) ([]string, error) {
 	var results []string
 	for _, l := range lines {
-		u, err := ReadRegex(regex, l)
+		u, err := readRegex(regex, l)
 		if err != nil {
 			return nil, err
 		}

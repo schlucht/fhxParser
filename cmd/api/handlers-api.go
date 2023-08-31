@@ -63,6 +63,7 @@ func (app *application) ReadFhx(w http.ResponseWriter, r *http.Request) {
 // gibt alle Abteilungen zurück
 func (app *application) AllPlants(w http.ResponseWriter, r *http.Request) {
 	allPlants, err := app.DB.LoadAllPlants()
+	app.infoLog.Println(allPlants)
 	if err != nil {
 		app.badRequest(w, r, err)
 	}
