@@ -6,6 +6,8 @@ import (
 	"io"
 	"net/http"
 	"strings"
+
+	"github.com/schlucht/fhxreader/internal/parser"
 )
 
 type fhxFileLoad struct {
@@ -28,15 +30,15 @@ func (app *application) ReadFhx(w http.ResponseWriter, r *http.Request) {
 		Message: "Hochladen hat geklappt",
 		Content: "",
 		ID:      999,
-	}
-	app.infoLog.Println(j)
+	}	
 
 	f, err := io.ReadAll(r.Body)
 	if err != nil {
 		app.badRequest(w, r, err)
 		return
 	}
-	var fhxJson fhxFileLoad = fhxFileLoad{}
+
+	var fhxJson = fhxFileLoad{}
 	err = json.Unmarshal(f, &fhxJson)
 	if err != nil {
 		app.errorLog.Println(err)
@@ -44,17 +46,28 @@ func (app *application) ReadFhx(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	doubleUp, err := app.insertOperations(fhxJson.FileText, int(fhxJson.PlantId))
+	fhx, err := parser.NewFhxString(fhxJson.FileText)
+	app.infoLog.Printf("handler: %s", fhx[0].UnitType)
 	if err != nil {
 		app.errorLog.Println(err)
+		j.OK = false
+		j.Message = fmt.Sprintf("%v",err)
+		app.writeJSON(w, http.StatusOK, j)
 		return
 	}
-	if len(doubleUp) > 0 {
-		s := strings.Join(doubleUp, ",")
-		j.OK = false
-		j.Message = fmt.Sprintf("Dopplete UP's: %s", s)
+	for _, f := range fhx {
+		if f.UnitType == "OPERATION" {
+			msg, err := app.saveOperations(f, int(fhxJson.PlantId))
+			if err != nil {
+				j.OK = false
+				j.Message = fmt.Sprintf("%v",err)
+				app.writeJSON(w, http.StatusOK, j)
+				return
+			}
+			j.Message = msg
+			j.OK = true
+		}
 	}
-	app.infoLog.Println(j)
 
 	w.Header().Set("Content-Type", "application/text")
 	app.writeJSON(w, http.StatusOK, j)
@@ -68,4 +81,17 @@ func (app *application) AllPlants(w http.ResponseWriter, r *http.Request) {
 		app.badRequest(w, r, err)
 	}
 	app.writeJSON(w, http.StatusOK, allPlants)
+}
+
+// Operation in der Datenbank speichern
+func( app *application) saveOperations(fhx parser.Fhx, plantId int) (string, error) {
+	doubleUp, err := app.insertOperations(fhx, plantId)
+	if err != nil {
+		return "", err
+	}
+	if len(doubleUp) > 0 {
+		s := strings.Join(doubleUp, ",")			
+		return fmt.Sprintf("Dopplete UP's: %s", s), nil
+	}
+	return "", nil
 }

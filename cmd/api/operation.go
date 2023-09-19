@@ -7,16 +7,12 @@ import (
 )
 
 // Speicher eine OP FHX in die Datenbank
-func (app *application) insertOperations(txt string, plantID int) ([]string, error) {
+func (app *application) insertOperations(parsedOP parser.Fhx, plantID int) ([]string, error) {
 
 	var errorString = []string{}
-	parsedOP, err := parser.NewFhxString(txt)
-	if err != nil {
-		return nil, err
-	}
+	           
 	// Durchläuft die geparsten OP zum speichern
-	for _, ops := range parsedOP {
-		for _, o := range ops.OPs {
+	for _, o := range parsedOP.OPs {	
 
 			opUnit := models.Unit{
 				Name:        o.UnitName,
@@ -61,7 +57,7 @@ func (app *application) insertOperations(txt string, plantID int) ([]string, err
 					return nil, err
 				}
 			}
-		}
+		
 	}
 	return errorString, nil
 }

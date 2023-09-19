@@ -12,6 +12,7 @@ type Fhx struct {
 	Units   []Unit            `json:"units,omitempty"`
 	OPs     []Unit            `json:"ops,omitempty"`
 	regFhx  map[string]string `json:"-"`
+	UnitType string `json:"unit_type,omitempty"`
 }
 
 var regFhx = map[string]string{
@@ -34,44 +35,15 @@ var regFhx = map[string]string{
 	"Rect":        `RECTANGLE= (?P<s>.*)`,
 	"StepParams":  `STEP_PARAMETER NAME="(?P<s>.*)"`,
 }
-var fhx = Fhx{}
+// var fhx = Fhx{}
 
 /*
 Einstiegspunkt zum laden der Daten aus einer Fhx Datei
 */
-func NewFhxPath(path string) ([]Fhx, error) {
-	fhx = Fhx{
-		Recipes: []Recipe{},
-		Units:   []Unit{},
-		OPs:     []Unit{},
-		regFhx:  regFhx,
-	}
-	var fs = []Fhx{}
-	err := isFhxFile(path)
-
-	if err != nil {
-		return fs, err
-	}
-
-	fileText, err := readFhx(path)
-	if err != nil {
-		return nil, err
-	}
-	fs, err = fhx.readFhx(fileText)
-	if err != nil {
-		return nil, err
-	}
-	return fs, nil
-}
 
 // Ein FHX String einlesen
-func NewFhxString(fhxText string) ([]Fhx, error) {
-	fhx = Fhx{
-		Recipes: []Recipe{},
-		Units:   []Unit{},
-		OPs:     []Unit{},
-		regFhx:  regFhx,
-	}
+func NewFhxString(fhxText string) ([]Fhx, error) {	
+	var fhx = Fhx{}
 	if fhxText == "" {
 		return nil, errors.New("NewFHXString, no file i")
 	}
@@ -80,12 +52,11 @@ func NewFhxString(fhxText string) ([]Fhx, error) {
 		return nil, err
 	}
 
-	fhx, err := fhx.readFhx(lines)
+	fhxs, err := fhx.readFhx(lines)
 	if err != nil {
 		return nil, err
 	}
-
-	return fhx, nil
+	return fhxs, nil
 }
 
 /*
@@ -104,17 +75,18 @@ func (m *Fhx) readFhx(fileText []string) ([]Fhx, error) {
 		var fhx Fhx
 		// Type der Datei PROCEDURE OPERATION UNITPROCEDURE
 		unitType, err := readParam(b, m.regFhx["Type"])
+		
 		if err != nil {
 			return nil, err
 		}
 
 		if unitType[0] != "" {
+			m.UnitType = unitType[0]
 			if unitType[0] == "UNIT_PROCEDURE" {
 				units, err := m.readUnit(b, "UP")
 				if err != nil {
 					return nil, err
-				}
-				//log.Println("Anzahl:", units)
+				}			
 				fhx.Units = units
 				fhxs = append(fhxs, fhx)
 			} else if unitType[0] == "PROCEDURE" {
