@@ -11,12 +11,11 @@
 <script setup>
 import { RouterView } from 'vue-router'
 
+import FhxHeader from '@/components/FhxHeader.vue'
+import FhxNavbar from '@/components/FhxNavbar.vue'
+import FhxPlantOrder from '@/components/specials/FhxPlantOrder.vue';
 
-import FhxHeader from './components/FhxHeader.vue'
-import FhxNavbar from './components/FhxNavbar.vue'
-import FhxPlantOrder from './components/specials/FhxPlantOrder.vue';
-
-import { usePlantStore } from './stores/plant_store.js';
+import { usePlantStore } from '@/stores/plant_store.js';
 import { storeToRefs } from 'pinia';
 
 const { showModal } = storeToRefs(usePlantStore());

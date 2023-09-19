@@ -7,7 +7,7 @@ const usePlantStore = defineStore({
         plant: {id: 0, plant_name:"leer"},
         loading: false,
         error: null ,
-        showModal: true,
+        showModal: false,
     }),  
     getters: {
       getPlant() {     
@@ -25,11 +25,11 @@ const usePlantStore = defineStore({
         loadPlant() {
           const item = localStorage.getItem('localPlant');
           if (item) {            
-            this.plant = JSON.parse(item);
-            this.showModal = true       
+            this.plant = JSON.parse(item);                             
           } else {
-            this.showModal = false
+            localStorage.setItem('localPlant', JSON.stringify(this.plant))
           }
+          this.showModal = this.plant.plant_name === 'leer'                 
         }, 
         openModal() {
           this.showModal = true;
@@ -38,8 +38,7 @@ const usePlantStore = defineStore({
           this.showModal = false;
           this.plant = plant;
         }      
-    }
-   
+    }   
 })
 
 export { usePlantStore }

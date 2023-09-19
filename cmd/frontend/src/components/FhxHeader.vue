@@ -20,7 +20,7 @@
   </header>
 </template>
 <script setup>
-import { usePlantStore } from '../stores/plant_store';
+import { usePlantStore } from '@/stores/plant_store';
 import {storeToRefs } from 'pinia';
 const { plant } = storeToRefs(usePlantStore());
 

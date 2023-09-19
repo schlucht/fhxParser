@@ -20,15 +20,13 @@
 import { onMounted, ref } from 'vue';
 import { loadAllPlants } from '@/models/plants';
 import { usePlantStore } from '@/stores/plant_store';
-import {storeToRefs } from 'pinia';
    
     const props = defineProps({
         show: Boolean
     });
     
     const plants = ref(null);  
-    const { closeModal } = usePlantStore();
-    // const { plant } = storeToRefs(usePlantStore());
+    const { closeModal } = usePlantStore();    
 
     // Speichern des Betreiben sind dem Store
     function savePlant(e) {
@@ -58,6 +56,19 @@ import {storeToRefs } from 'pinia';
 
 </script>
 <style scoped>
+    .modal-animate-enter-active,
+    .modal-animate-leave-active {
+        transition: opacity 0.3s cubic-bezier(0.52, 0.02, 0.19, 1.02);
+    }
+    .modal-animate-enter-from {
+        opacity: 0;
+    }
+    .modal-animate-leave-from {
+        opacity: 1;
+    }
+    .modal-animate-leave-to {
+        opacity: 0;
+    }
     .background {
         position: absolute;
         height: 100vh;
