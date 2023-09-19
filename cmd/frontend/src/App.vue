@@ -1,5 +1,5 @@
 <template>
-  <FhxPlantOrder :visible= showModal></FhxPlantOrder>
+  <FhxPlantOrder :show= showModal></FhxPlantOrder>
   <fhx-header></fhx-header>
   <div class="container">
     <fhx-navbar></fhx-navbar>
@@ -24,8 +24,7 @@ const { loadPlant } = usePlantStore();
 
 // Ladet den Betrieb aus dem Store
 loadPlant();
-
-
+console.log('App: ', showModal.value)
 </script>
 
 <style scoped>

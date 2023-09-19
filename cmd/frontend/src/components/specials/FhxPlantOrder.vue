@@ -1,5 +1,6 @@
 <template>
-    <div v-if="usePlantStore.showModal" class="background">
+<Transition name="modal-animate">
+    <div v-show="show" class="background">
         <div class="messagebox">
             <h2 class="messagebox-title">Betrieb auswählen</h2>
             <form class="messagebox-form">
@@ -13,21 +14,21 @@
             </form>
         </div>
     </div>
+</Transition>
 </template>
 <script setup>
 import { onMounted, ref } from 'vue';
-import { loadAllPlants } from '../../models/plants';
-import { usePlantStore } from '../../stores/plant_store';
+import { loadAllPlants } from '@/models/plants';
+import { usePlantStore } from '@/stores/plant_store';
 import {storeToRefs } from 'pinia';
    
     const props = defineProps({
-        visible: Boolean
+        show: Boolean
     });
     
     const plants = ref(null);  
-   
-
-    // const { visible } = toRefs(props);    
+    const { closeModal } = usePlantStore();
+    // const { plant } = storeToRefs(usePlantStore());
 
     // Speichern des Betreiben sind dem Store
     function savePlant(e) {
@@ -43,9 +44,9 @@ import {storeToRefs } from 'pinia';
             localStorage.removeItem('localPlant');
         }
         localStorage.setItem('localPlant', JSON.stringify({ id, plant_name })); 
-        
-        setTimeout(() => {
-            usePlantStore.closeModal();
+        let plant = {id, plant_name}
+        setTimeout(() => {            
+            closeModal(plant);
         }, 2000);
         
     }  

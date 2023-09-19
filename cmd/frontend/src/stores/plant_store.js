@@ -18,24 +18,27 @@ const usePlantStore = defineStore({
       },
       getShowModal() {
         return this.plant.plant_name === 'leer';
-      }
+      }      
     },
     actions: {
       // Den Betrieb aus dem Store lesen
         loadPlant() {
           const item = localStorage.getItem('localPlant');
-          if (item) {
+          if (item) {            
             this.plant = JSON.parse(item);
+            this.showModal = true       
+          } else {
+            this.showModal = false
           }
         }, 
         openModal() {
           this.showModal = true;
         },
-        closeModal() {
+        closeModal(plant) {
           this.showModal = false;
+          this.plant = plant;
         }      
     }
-
    
 })
 
