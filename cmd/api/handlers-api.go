@@ -29,6 +29,7 @@ func (app *application) ReadFhx(w http.ResponseWriter, r *http.Request) {
 		Content: "",
 		ID:      999,
 	}
+	app.infoLog.Println(j)
 
 	f, err := io.ReadAll(r.Body)
 	if err != nil {
@@ -42,7 +43,6 @@ func (app *application) ReadFhx(w http.ResponseWriter, r *http.Request) {
 		app.badRequest(w, r, err)
 		return
 	}
-	app.infoLog.Println(fhxJson.FileName, fhxJson.PlantId)
 
 	doubleUp, err := app.insertOperations(fhxJson.FileText, int(fhxJson.PlantId))
 	if err != nil {
@@ -63,7 +63,7 @@ func (app *application) ReadFhx(w http.ResponseWriter, r *http.Request) {
 // gibt alle Abteilungen zurück
 func (app *application) AllPlants(w http.ResponseWriter, r *http.Request) {
 	allPlants, err := app.DB.LoadAllPlants()
-	app.infoLog.Println(allPlants)
+	// app.infoLog.Println(allPlants)
 	if err != nil {
 		app.badRequest(w, r, err)
 	}
