@@ -1,6 +1,0 @@
-Hier wieder ein Text darum so weiter
-
-Und noch was
-Ok hier hat das noch nicht alles geklappt.
-Es sind wohl nicht alle Konfigurationen in der Datei enthalten.
-

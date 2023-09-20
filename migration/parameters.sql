@@ -1,4 +1,0 @@
-
-
-ALTER TABLE values
-    ADD COLUMN updated_at DATETIME DEFAULT CURRENT_TIMESTAMP AFTER description
