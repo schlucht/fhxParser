@@ -68,9 +68,11 @@ function uploadFile(event) {
   fr.readAsText(files[0])
 }
 
+// Zurücksetzen und löschen der geladenen Datei
 function resets() {
   fileName.value = ''
-  fileDataUpload = { text: '', name: '', plant_id: 0 }
+  fileDataUpload.text =  fileName
+  fileDataUpload.plant_id = 0
   isSaved.value = true
 }
 
@@ -82,7 +84,8 @@ async function uploadText() {
       text: 'Ausgewählte Datei nicht hochgeladen'
     })
     fileName.value = ''
-    fileDataUpload = { text: '', name: '', plant_id: 0 }
+    fileDataUpload.text =  fileName
+    fileDataUpload.plant_id = 0
     return
   }
   isSaved.value = true  

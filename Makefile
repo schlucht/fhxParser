@@ -1,6 +1,8 @@
 BINARY_NAME=fhxparser
 PORT=5101
 
+.PHONY: run_front
+
 build:
 	@go build -o dist/${BINARY_NAME} ./cmd/api
 
@@ -21,3 +23,8 @@ test:
 
 install:
 	@go mod tidy
+
+run_front:
+	cd cmd/frontend && npm run dev
+
+run_app: run_front run
