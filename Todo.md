@@ -21,5 +21,5 @@
 - add - Neues Feature implementiert
 - fixed - Fehler behoben
 - refact - Code Refactoring
-- system - Infrastruktur angepasst
+- infra - Infrastruktur angepasst
     

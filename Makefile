@@ -18,6 +18,8 @@ clean: stop
 	@go clean
 	@rm -R ./dist
 
+newrun: stop run
+
 test:
 	@go test ./...
 

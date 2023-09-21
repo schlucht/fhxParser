@@ -27,13 +27,14 @@ type jsonResponse struct {
 func (app *application) ReadFhx(w http.ResponseWriter, r *http.Request) {
 	j := jsonResponse{
 		OK:      true,
-		Message: "Hochladen hat geklappt",
+		Message: "Daten konnten nicht gespeichert werden",
 		Content: "",
 		ID:      999,
-	}	
+	}
 
 	f, err := io.ReadAll(r.Body)
 	if err != nil {
+		app.infoLog.Printf("%s", "Keine Daten vorhanden")
 		app.badRequest(w, r, err)
 		return
 	}
@@ -47,20 +48,20 @@ func (app *application) ReadFhx(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fhx, err := parser.NewFhxString(fhxJson.FileText)
-	app.infoLog.Printf("handler: %s", fhx[0].UnitType)
 	if err != nil {
 		app.errorLog.Println(err)
 		j.OK = false
-		j.Message = fmt.Sprintf("%v",err)
+		j.Message = fmt.Sprintf("%v", err)
 		app.writeJSON(w, http.StatusOK, j)
 		return
 	}
+	app.infoLog.Println("OP: ", fhx[0].UnitType)
 	for _, f := range fhx {
 		if f.UnitType == "OPERATION" {
 			msg, err := app.saveOperations(f, int(fhxJson.PlantId))
 			if err != nil {
 				j.OK = false
-				j.Message = fmt.Sprintf("%v",err)
+				j.Message = fmt.Sprintf("%v", err)
 				app.writeJSON(w, http.StatusOK, j)
 				return
 			}
@@ -69,7 +70,7 @@ func (app *application) ReadFhx(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	w.Header().Set("Content-Type", "application/text")
+	w.Header().Set("Content-Type", "application/json")
 	app.writeJSON(w, http.StatusOK, j)
 }
 
@@ -84,13 +85,13 @@ func (app *application) AllPlants(w http.ResponseWriter, r *http.Request) {
 }
 
 // Operation in der Datenbank speichern
-func( app *application) saveOperations(fhx parser.Fhx, plantId int) (string, error) {
+func (app *application) saveOperations(fhx parser.Fhx, plantId int) (string, error) {
 	doubleUp, err := app.insertOperations(fhx, plantId)
 	if err != nil {
 		return "", err
 	}
 	if len(doubleUp) > 0 {
-		s := strings.Join(doubleUp, ",")			
+		s := strings.Join(doubleUp, ",")
 		return fmt.Sprintf("Dopplete UP's: %s", s), nil
 	}
 	return "", nil

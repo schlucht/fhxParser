@@ -8,11 +8,11 @@ import (
 )
 
 type Fhx struct {
-	Recipes []Recipe          `json:"recipes,omitempty"`
-	Units   []Unit            `json:"units,omitempty"`
-	OPs     []Unit            `json:"ops,omitempty"`
-	regFhx  map[string]string `json:"-"`
-	UnitType string `json:"unit_type,omitempty"`
+	Recipes  []Recipe          `json:"recipes,omitempty"`
+	Units    []Unit            `json:"units,omitempty"`
+	OPs      []Unit            `json:"ops,omitempty"`
+	regFhx   map[string]string `json:"-"`
+	UnitType string            `json:"unit_type,omitempty"`
 }
 
 var regFhx = map[string]string{
@@ -35,6 +35,7 @@ var regFhx = map[string]string{
 	"Rect":        `RECTANGLE= (?P<s>.*)`,
 	"StepParams":  `STEP_PARAMETER NAME="(?P<s>.*)"`,
 }
+
 // var fhx = Fhx{}
 
 /*
@@ -42,8 +43,8 @@ Einstiegspunkt zum laden der Daten aus einer Fhx Datei
 */
 
 // Ein FHX String einlesen
-func NewFhxString(fhxText string) ([]Fhx, error) {	
-	var fhx = Fhx{}
+func NewFhxString(fhxText string) ([]Fhx, error) {
+	var fhx = Fhx{regFhx: regFhx}
 	if fhxText == "" {
 		return nil, errors.New("NewFHXString, no file i")
 	}
@@ -53,6 +54,7 @@ func NewFhxString(fhxText string) ([]Fhx, error) {
 	}
 
 	fhxs, err := fhx.readFhx(lines)
+
 	if err != nil {
 		return nil, err
 	}
@@ -63,7 +65,7 @@ func NewFhxString(fhxText string) ([]Fhx, error) {
 Wird ausgeführt wenn ein FHX Datei eingelesen wird diese Eingelesen und neu gespeichert
 */
 func (m *Fhx) readFhx(fileText []string) ([]Fhx, error) {
-	// log.Println(fileText)
+
 	var fhxs = []Fhx{}
 	block, err := readBlock("BATCH_RECIPE", fileText)
 	// fmt.Printf("Erstes File: %v\n", block[0])
@@ -75,18 +77,18 @@ func (m *Fhx) readFhx(fileText []string) ([]Fhx, error) {
 		var fhx Fhx
 		// Type der Datei PROCEDURE OPERATION UNITPROCEDURE
 		unitType, err := readParam(b, m.regFhx["Type"])
-		
 		if err != nil {
 			return nil, err
 		}
 
 		if unitType[0] != "" {
-			m.UnitType = unitType[0]
+			fhx.UnitType = unitType[0]
+
 			if unitType[0] == "UNIT_PROCEDURE" {
 				units, err := m.readUnit(b, "UP")
 				if err != nil {
 					return nil, err
-				}			
+				}
 				fhx.Units = units
 				fhxs = append(fhxs, fhx)
 			} else if unitType[0] == "PROCEDURE" {
@@ -102,7 +104,6 @@ func (m *Fhx) readFhx(fileText []string) ([]Fhx, error) {
 				if err != nil {
 					return nil, err
 				}
-
 				fhx.OPs = ops
 				fhxs = append(fhxs, fhx)
 			}
