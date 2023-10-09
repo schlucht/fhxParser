@@ -1,4 +1,4 @@
-package parser
+package helpers
 
 import "testing"
 

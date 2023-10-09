@@ -29,4 +29,4 @@ install:
 run_front:
 	cd cmd/frontend && npm run dev
 
-run_app: run_front run
+run_app: run run_front
