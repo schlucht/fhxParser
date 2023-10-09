@@ -112,6 +112,17 @@ async function uploadText() {
 </script>
 
 <style scoped>
+
+form {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-self: start;
+  align-self: baseline;
+  gap: calc(var(--padding)*20);
+  padding: 1rem 0rem 2rem 0rem;
+  border-bottom: 5px solid var(--light-gray);
+}
+
 button:disabled {
   background-color: var(--light-gray);
 }

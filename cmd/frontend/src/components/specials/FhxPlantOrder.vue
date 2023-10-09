@@ -2,8 +2,8 @@
 <Transition name="modal-animate">
     <div v-show="show" class="background">
         <div class="messagebox">
-            <h2 class="messagebox-title">Betrieb auswählen</h2>
-            <form class="messagebox-form">
+            <h2 class="messagebox-title"><span class="icomoon-factory icon-round"></span>Betrieb auswählen</h2>
+            <form class="messagebox-form">                
                 <label for="select-plant">Bitte den Betrieb auswählen</label>
                 <select id="select-plant" @change="savePlant">
                     <option value="0">&lt;keine&gt;</option>
@@ -45,7 +45,7 @@ import { usePlantStore } from '@/stores/plant_store';
         let plant = {id, plant_name}
         setTimeout(() => {            
             closeModal(plant);
-        }, 2000);
+        }, 500);
         
     }  
 
@@ -79,27 +79,37 @@ import { usePlantStore } from '@/stores/plant_store';
         align-items: center;
         z-index: 1000;
     }
-    .messagebox {            
-        width: 50rem;
+    .messagebox { 
+        display: grid;    
+        grid-template-rows: 6rem auto;       
+        width: 50rem; 
+        height: 20rem; 
         background-color: var(--white);
         text-align: center;
+        border-radius: 1rem;
+        box-shadow: 4px 2px 5px 20px rgba(255,255,255,.1);
     }
     .messagebox-title {
         font-size: 3rem;
-        padding: 1rem;
+        padding: 1rem 1rem 1rem 1rem;
         background-color: var(--blue);
         color: var(--white);
+        & span{
+            margin: 2rem 2rem 0 0;
+        }  
     }
-    .messagebox-form {
+    .messagebox-form {        
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;               
+        justify-content: space-around;        
+        
+        & label[for="select-plant"] {
+            color: var(--mid-blue);
+        }
+        & select {
+            font-size: 2.5rem;
+        }               
     }
-    label[for="select-plant"] {
-        color: var(--mid-blue);
-    }
-    select {
-        font-size: 2.5rem;
-    }
+  
 </style>
