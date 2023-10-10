@@ -52,7 +52,8 @@ func main() {
 
 	flag.IntVar(&cfg.port, "port", 5101, "Server port to listen on")
 	flag.StringVar(&cfg.env, "env", "development", "Application enviroment { develompen | production}")
-	flag.StringVar(&cfg.db.dsn, "dsn", "schmidschluch4:Schlucht6@tcp(db8.hostpark.net)/schmidschluch4?parseTime=true", "DB connect String")
+	// flag.StringVar(&cfg.db.dsn, "dsn", "schmidschluch4:Schlucht6@tcp(db8.hostpark.net)/schmidschluch4?parseTime=true", "DB connect String")
+	flag.StringVar(&cfg.db.dsn, "dsn", "root:fhx@tcp(0.0.0.0:3306)/fhx-db?parseTime=true", "DB connect String")
 	flag.StringVar(&cfg.api, "api", "http://localhost:5101", "URL to API")
 	flag.StringVar(&cfg.frontend, "frontend", frontend_url, "url to frontend")
 
@@ -63,7 +64,7 @@ func main() {
 
 	conn, err := driver.OpenDB(cfg.db.dsn)
 	if err != nil {
-		errorLog.Fatal(err)
+		errorLog.Printf("%v", err)
 	}
 	defer conn.Close()
 

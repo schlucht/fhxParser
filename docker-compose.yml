@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: dbmysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: root
+      MYSQL_PASSWORD: fhx
+      MYSQL__DATABASE: fhx-db
+    ports:
+      - 3306:3306
+    expose:
+      - 3306
+    volumes:
+      - fhx-db:/var/lib/mysql
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: pma 
+    links:
+      - db 
+    environment:
+      PMA_HOST: db 
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    restart: always
+    ports:
+      - 8081:80
+volumes:
+  fhx-db:        
+

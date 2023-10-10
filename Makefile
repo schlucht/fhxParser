@@ -30,3 +30,16 @@ run_front:
 	cd cmd/frontend && npm run dev
 
 run_app: run run_front
+
+run_db:
+	@echo "Starting database.."
+	@docker compose up -d
+	@echo "DB is started"
+
+stop_db:
+	@echo "Stoping database..."
+	@docker compose down
+	@echo "DB is stoped"
+
+
+	
