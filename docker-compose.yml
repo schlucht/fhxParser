@@ -16,18 +16,11 @@ services:
       - 3306
     volumes:
       - fhx-db:/var/lib/mysql
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: pma 
-    links:
-      - db 
-    environment:
-      PMA_HOST: db 
-      PMA_PORT: 3306
-      PMA_ARBITRARY: 1
+  adm:
+    image: adminer  
     restart: always
     ports:
-      - 8081:80
+      - 8080:8080
 volumes:
   fhx-db:        
 
