@@ -204,6 +204,21 @@ INSERT INTO `units` (`id`, `type_id`, `plant_id`, `unit_name`, `position`, `time
 (174, 1, 2, 'OP_DRUCK', '', 1675757724, 'Hutter Fredy', 'Druck', '2023-08-28 06:34:59', '2023-08-28 06:34:59');
 
 --
+-- Tabelle Operation erstellen
+--
+CREATE VIEW all_operations AS SELECT 
+    c.id
+    , type_name
+    , plant_name
+    , description
+    , author
+FROM units AS c
+INNER JOIN types AS a
+    ON type_id = a.id
+INNER JOIN plants AS b
+    ON plant_id = b.id
+
+--
 -- Indizes der exportierten Tabellen
 --
 

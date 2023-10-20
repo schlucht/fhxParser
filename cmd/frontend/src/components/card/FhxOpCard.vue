@@ -2,16 +2,15 @@
   <article class="card-list">
     <h2 class="card-title">
       <span class="icomoon-library icon-round"></span>
-      E13
+      {{ plant.plant_name }} Operationen
     </h2>
     <section class="card-body">
       <ul class="lists">
         <li class="list">
           <span class="asterik asterik-orange">R</span>
           <div>
-            <a href="#">Rezepte</a>
-            <p>Letzte Änderung: 25.03.2021</p>
-            <p>Anzahl: 25</p>
+            <a href="#">Anzahl</a>            
+            <p>Anzahl: {{ ops.Count || 0 }}</p>
           </div>
         </li>
         <li class="list">
@@ -31,10 +30,29 @@
           </div>
         </li>
       </ul>
+      <ul>
+        <li v-for="o in ops.Operations" :key="o.name">{{ o.name }}</li>
+      </ul>
     </section>
   </article>
 </template>
-<script setup></script>
+<script setup>
+import {storeToRefs } from 'pinia';
+import { ref } from 'vue'
+import { laodAlloperations } from '../../models/operations.js'
+import { usePlantStore } from '@/stores/plant_store';
+
+const { plant } = storeToRefs(usePlantStore());
+const ops = ref({})
+
+async function loadOps() {
+  const data = await laodAlloperations(plant.value.id)
+  ops.value = JSON.parse(data.content)  
+}
+
+loadOps()
+
+</script>
 <style scoped>
 .cards {
   display: flex;

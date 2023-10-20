@@ -71,3 +71,12 @@ type Value struct {
 	CreatetAt   time.Time `json:"-"`
 	UpdatedAt   time.Time `json:"-"`
 }
+
+type Operation struct {
+	Id          int    `json:"id"`
+	Name        string `json:"name"`
+	Plant       string `json:"plant"`
+	Author      string `json:"author"`
+	Description string `json:"desc"`
+	Plant_id    int    `json:"-"`
+}

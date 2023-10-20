@@ -5,6 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "port": 3636,
             "name": "Launch Package",
             "type": "go",
             "request": "launch",
