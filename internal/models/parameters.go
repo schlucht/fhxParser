@@ -16,7 +16,7 @@ func (m *DBModel) GetParamsFromOpId(opId int) ([]Parameter, error) {
 		SELECT 
 		param_id, parameter_name, created_at, updated_at, description, unit_id
 		FROM parameters
-		WHERE unit_id = ?
+		WHERE unit_id = ?		
 	`
 	rows, err := m.DB.QueryContext(ctx, query, opId)
 	if err != nil {
@@ -37,7 +37,39 @@ func (m *DBModel) GetParamsFromOpId(opId int) ([]Parameter, error) {
 		if err != nil {
 			return nil, err
 		}
+		v, err := m.GetValueFromId(param.Id)
+		if err != nil {
+			return nil, err
+		}
+		param.Value = v
 		params = append(params, param)
 	}
+
 	return params, nil
+}
+
+func (m *DBModel) GetValueFromId(paramId int) (Value, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	var v Value
+	query := `
+		SELECT 
+		value_id, stringvalue, value_set, high, low, cv, unit, created_at, updated_at, param_id
+		FROM paramvalues
+		WHERE param_id = ?		
+	`
+	err := m.DB.QueryRowContext(ctx, query, paramId).Scan(
+		&v.Id,
+		&v.StringValue,
+		&v.ValueSet,
+		&v.Hight,
+		&v.Low,
+		&v.CV,
+		&v.Unit,
+		&v.CreatetAt,
+		&v.UpdatedAt,
+		&v.ParamId,
+	)
+	return v, err
 }

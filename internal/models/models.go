@@ -67,6 +67,7 @@ type Parameter struct {
 	Description string    `json:"desc"`
 	CreatetAt   time.Time `json:"-"`
 	UpdatedAt   time.Time `json:"-"`
+	Value       Value     `json:"val"`
 }
 
 type Value struct {
