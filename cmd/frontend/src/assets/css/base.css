@@ -41,15 +41,11 @@ em {
 b,
 strong,
 h1,
-h2 {
+h2, h3 {
   font-family: 'Inter', sans-serif;
   font-weight: 400;
 }
 
-h3 {
-  font-family: 'Unily', serif;
-  font-size: 3rem;
-}
 
 a {
   color: var(--black);

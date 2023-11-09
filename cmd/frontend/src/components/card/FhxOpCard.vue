@@ -3,52 +3,47 @@
     <h2 class="card-title">
       <span class="icomoon-library icon-round"></span>
       {{ plant.plant_name }} Operationen
+      <span class="asterik asterik-orange">{{ ops.Count }}</span>
     </h2>
-    <section class="card-body">
-      <ul class="lists">
-        <li class="list">
-          <span class="asterik asterik-orange">R</span>
-          <div>
-            <a href="#">Anzahl</a>            
-            <p>Anzahl: {{ ops.Count || 0 }}</p>
-          </div>
-        </li>
-        <li class="list">
-          <span class="asterik asterik-orange">U</span>
-          <div>
-            <a href="#">Unitpozeduren</a>
-            <p>Letzte Änderung: 25.03.2021</p>
-            <p>Anzhal: 21</p>
-          </div>
-        </li>
-        <li class="list">
-          <span class="asterik asterik-orange">O</span>
-          <div>
-            <a href="#">Operationen</a>
-            <p>Letzte Änderung: 25.03.2021</p>
-            <p>Anzahl: 36</p>
-          </div>
-        </li>
-      </ul>
-      <ul>
-        <li v-for="o in ops.Operations" :key="o.name">{{ o.name }}</li>
+    <section class="card-body">      
+      <ul class="list">
+        <fhx-op-card-item 
+          v-for="o in ops.Operations" 
+          :key="o.name"           
+          >
+          <router-link 
+            :to="{name: 'detail', params: {id: o.id}}"              
+            :alt="o.name">{{ o.name }}
+          </router-link>
+        </fhx-op-card-item>          
       </ul>
     </section>
   </article>
 </template>
 <script setup>
+
 import {storeToRefs } from 'pinia';
 import { ref } from 'vue'
-import { laodAlloperations } from '../../models/operations.js'
+import { laodAlloperations, loadParamsFromOPId } from '../../models/operations.js'
 import { usePlantStore } from '@/stores/plant_store';
+
+import FhxOpCardItem from './FhxOpCardItem.vue';
 
 const { plant } = storeToRefs(usePlantStore());
 const ops = ref({})
+const op = ref({})
 
 async function loadOps() {
   const data = await laodAlloperations(plant.value.id)
   ops.value = JSON.parse(data.content)  
-}
+};
+
+async function idOP(e) {
+  const opid = e.target.dataset['id'];
+  const data = await loadParamsFromOPId(+opid)
+  op.value = JSON.parse(data.content)
+  console.log(op.value)
+};
 
 loadOps()
 
@@ -63,6 +58,7 @@ loadOps()
 .card-list {
   display: flex;
   flex-direction: column;
+  flex-wrap: wrap;
   justify-content: space-between;
   margin: var(--padding);
   border-radius: calc(var(--border-radius) * 2);
@@ -70,17 +66,21 @@ loadOps()
   box-shadow: 3px, 3px, 3px, rgba(0, 0, 0, 1);
   min-width: 35rem;
   max-width: 35rem;
-}
 
-.card-list .card-title {
-  display: flex;
-  align-items: center;
-  gap: var(--padding);
-  background-color: var(--light-blue);
-  border-top-left-radius: calc(var(--border-radius) * 2);
-  border-top-right-radius: calc(var(--border-radius) * 2);
-  color: var(--white);
-  padding: calc(var(--padding));
+  .card-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--padding);
+    background-color: var(--light-blue);
+    border-top-left-radius: calc(var(--border-radius) * 2);
+    border-top-right-radius: calc(var(--border-radius) * 2);
+    color: var(--white);
+    padding: calc(var(--padding));
+    .asterik {
+      width: 50px;
+    }
+  }
 }
 .card-body {
   margin: calc(var(--padding) * 3);
@@ -88,26 +88,9 @@ loadOps()
 .list {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   padding: var(--padding);
   border-bottom: 1px var(--back-crl) solid;
-}
-.list div {
-  margin-left: calc(var(--padding) * 2);
-}
-.list div p {
-  font-size: 1.2rem;
-  color: var(--orange);
-  margin-top: var(--padding);
-}
-
-.card-footer {
-  background-color: var(--white);
-  padding: var(--padding);
-  border-bottom-left-radius: calc(var(--border-radius) * 2);
-  border-bottom-right-radius: calc(var(--border-radius) * 2);
-  border-top: solid 1px var(--black);
-}
-.card-footer span {
-  font-weight: 700;
+  gap: 5px;
 }
 </style>

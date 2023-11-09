@@ -6,7 +6,7 @@ PORT=5101
 build:
 	@go build -o dist/${BINARY_NAME} ./cmd/api
 
-run: build
+api: build
 	@env ./dist/${BINARY_NAME} -port=${PORT} &
 	@echo "Backend running..."
 
@@ -26,12 +26,12 @@ test:
 install:
 	@go mod tidy
 
-run_front:
+front:
 	cd cmd/frontend && npm run dev
 
-run_app: run run_front
+run_app: db api front
 
-run_db:
+db:
 	@echo "Starting database.."
 	@docker compose up -d
 	@echo "DB is started"

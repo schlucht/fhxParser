@@ -1,5 +1,8 @@
 # Daten laden
 
+- (x) Op auf die Startseite geladen
+- ( ) Seite anpassen Anzeigen der OP's
+
 ## File einlesen
 
 ### Auswahl einer fhx Datei

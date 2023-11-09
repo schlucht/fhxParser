@@ -21,6 +21,7 @@ func (app *application) routes() http.Handler {
 	mux.Post("/api/read-fhx", app.ReadFhx)
 	mux.Get("/api/all-plants", app.AllPlants)
 	mux.Post("/api/allGetOperations", app.GetOperations)
+	mux.Post("/api/getParamsFromOPId", app.getParamsFromOPId)
 
 	return mux
 }

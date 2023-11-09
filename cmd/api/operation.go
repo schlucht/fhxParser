@@ -61,11 +61,13 @@ func (app *application) insertOperations(parsedOP parser.Fhx, plantID int) ([]st
 				return nil, err
 			}
 		}
-
 	}
 	return errorString, nil
 }
 
+/*
+Alle Operationen aus der DB dem Handler zur Verfügung stellen
+*/
 func (app *application) AllOperations(plantId int) (Operations, error) {
 
 	list := Operations{}
@@ -77,4 +79,16 @@ func (app *application) AllOperations(plantId int) (Operations, error) {
 	list.Count = len(ops)
 
 	return list, nil
+}
+
+/*
+Die Parameter einer Operation aus der Datenbank auslesen
+*/
+func (app *application) GetOpFromId(opId int) (models.Operation, error) {
+
+	op, err := app.DB.GetOperationFromId(opId)
+	if err != nil {
+		return op, err
+	}
+	return op, nil
 }

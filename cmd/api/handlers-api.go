@@ -8,6 +8,10 @@ import (
 	"github.com/schlucht/fhxreader/internal/parser"
 )
 
+type antwort struct {
+	Id int `json:"id"`
+}
+
 type fhxFileLoad struct {
 	FileText string `json:"text"`
 	FileName string `json:"name"`
@@ -24,8 +28,8 @@ type jsonResponse struct {
 // gibt alle Abteilungen zurück
 func (app *application) AllPlants(w http.ResponseWriter, r *http.Request) {
 	allPlants, err := app.DB.LoadAllPlants()
-	// app.infoLog.Println(allPlants)
 	if err != nil {
+		app.errorLog.Printf("%v", err)
 		app.badRequest(w, r, err)
 	}
 	app.writeJSON(w, http.StatusOK, allPlants)
