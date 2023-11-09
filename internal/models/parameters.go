@@ -48,6 +48,7 @@ func (m *DBModel) GetParamsFromOpId(opId int) ([]Parameter, error) {
 	return params, nil
 }
 
+// Auslesen der Values zu einem Parameter
 func (m *DBModel) GetValueFromId(paramId int) (Value, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()

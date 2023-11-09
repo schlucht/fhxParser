@@ -7,19 +7,19 @@
         <article class="item">
             <div class="detail-item" v-for="pa in opRef.ParamList" :key="pa.id">
                 <h3 class="detail-title">{{ pa.name }}</h3>
-                <p class="detail-desc">{{ pa.desc }}</p>
+                <p class="detail-desc">{{ pa.desc }}</p>                
                 <table border>
                     <tr>
                         <th>Min</th>
-                        <th>Max</th>
                         <th>Value</th>
+                        <th>Max</th>
                         <th>Unit</th>
                     </tr>
                     <tr>
-                        <td>-1000</td>
-                        <td>1000</td>
-                        <td>250</td>
-                        <td>mbar</td>
+                        <td>{{ pa.value.low }}</td>
+                        <td>{{ pa.value.CV }}</td>
+                        <td>{{ pa.value.hight }}</td>
+                        <td>{{ pa.value.unit }}</td>
                     </tr>
                 </table>
             </div>

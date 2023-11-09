@@ -29,6 +29,7 @@ async function laodAlloperations(plantId) {
  * 
  * @param {number} opId Id der Operation
  * @returns Parameter einer Id
+ * 
  */
 async function loadParamsFromOPId(opId) {
     let antwort = JSON.stringify({id: opId});    
