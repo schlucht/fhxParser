@@ -36,7 +36,7 @@ func (app *application) GetParamFromOPId(opId int) (OPParameters, error) {
 		par = Parameter{
 			Name:        p.Name,
 			Description: p.Description,
-			Value: p.Value,
+			Value:       p.Value,
 		}
 		params = append(params, par)
 	}

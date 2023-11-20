@@ -19,6 +19,8 @@
     - Suchen UP nach Name. Wenn der Datensatz gefunden wird, dass duchgehen und die Daten anpassen. Bei den Value Daten die Daten mit einem Timestamp ein neuen DS erzeugen. Keine Änderungen vornehmen.
     - Wenn kein Datensatz gefunden wird, einen neuen anlegen und die Daten in die DB speichern.
 
+
+
 ### Git Kommandos
 
 - add - Neues Feature implementiert

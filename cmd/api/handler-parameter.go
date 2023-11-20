@@ -24,7 +24,6 @@ func (app *application) getParamsFromOPId(w http.ResponseWriter, r *http.Request
 
 	var re antwort
 	err = json.Unmarshal(f, &re)
-	app.infoLog.Println(re.Id)
 	if err != nil {
 		app.errorLog.Printf("%v, %s", err, "Id der OP fehlt konnte nicht geparst werden")
 		app.badRequest(w, r, err)
