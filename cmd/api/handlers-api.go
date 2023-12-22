@@ -50,6 +50,6 @@ func (app *application) saveOperations(fhx parser.Fhx, plantId int) (string, err
 
 // Procedure in der Datenbank speichern
 func (app *application) saveProcedure(fhx parser.Fhx, plantId int) (string, error) {
-
+	
 	return "", nil
 }

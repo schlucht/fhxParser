@@ -7,7 +7,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: root
+      MYSQL_USER: schlucht
       MYSQL_PASSWORD: fhx
       MYSQL__DATABASE: fhx-db
     ports:

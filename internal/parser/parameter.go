@@ -6,3 +6,10 @@ type Parameter struct {
 	Value       Value  `json:"value"`
 	UnitID      int    `json:"unit_id"`
 }
+
+type StepParameter struct {
+	Name    string `json:"name"`
+	Origin  string `json:"origin"`
+	DeferTo string `json:"deferto"`
+	Group   string `json:"group"`
+}

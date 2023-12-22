@@ -6,6 +6,7 @@ import (
 	"io"
 	"net/http"
 
+	"github.com/schlucht/fhxreader/internal/helpers"
 	"github.com/schlucht/fhxreader/internal/parser"
 )
 
@@ -54,8 +55,9 @@ func (app *application) ReadFhx(w http.ResponseWriter, r *http.Request) {
 			}
 			j.Message = msg
 			j.OK = true
-		} else if f.UnitType == "PROCEDURE" {
+		} else if f.UnitType == "UNIT_PROCEDURE" {
 			app.infoLog.Println("Procedure: ", fhx[0].UnitType)
+			helpers.SaveJSON("assets/files/test.txt", fhx[0].Units[0].Parameters)
 		}
 	}
 

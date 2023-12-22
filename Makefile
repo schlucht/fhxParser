@@ -18,7 +18,7 @@ clean: stop
 	@go clean
 	@rm -R ./dist
 
-newrun: stop run
+newrun: stop api
 
 test:
 	@go test ./...
@@ -29,7 +29,7 @@ install:
 front:
 	cd cmd/frontend && npm run dev
 
-run_app: db api front
+run_app: api front
 
 db:
 	@echo "Starting database.."

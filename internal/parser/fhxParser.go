@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+
+	"github.com/schlucht/fhxreader/internal/helpers"
 )
 
 type Fhx struct {
@@ -33,6 +35,9 @@ var regFhx = map[string]string{
 	"Definition":  `.*DEFINITION="(?P<s>.*)"`,
 	"StepDesc":    `.*DESCRIPTION="(?P<s>.*)"`,
 	"Rect":        `RECTANGLE= (?P<s>.*)`,
+	"Origin":      `ORIGIN=(?P<s>.*)`,
+	"DeferTo":     `DEFERRED_TO="(?P<s>.*)"`,
+	"Group":       `GROUP="(?P<s>.*)"`,
 	"StepParams":  `STEP_PARAMETER NAME="(?P<s>.*)"`,
 }
 
@@ -145,12 +150,15 @@ func (m *Fhx) readUnit(fileText []string, unit_type string) ([]Unit, error) {
 		}
 
 		procedures, err := m.readUps(b, unit)
-
 		if err != nil {
 			return nil, err
 		}
 		unit = procedures
-		// unit.Procedures = procedures
+		steps, err := m.readStep(b)
+		if err != nil {
+			return nil, err
+		}
+		unit.Steps = steps
 
 		units = append(units, unit)
 	}
@@ -233,29 +241,67 @@ func (m *Fhx) readStep(lines []string) ([]Step, error) {
 				}
 			}
 		}
-		steps = append(steps, step)
 		//
 		// log.Println(stepparams)
-		attrBlocks, err := readBlock("ATTRIBUTE_INSTANCE", b)
+		attrBlocks, err := readBlock("STEP_PARAMETER", b)
 		if err != nil {
 			return nil, err
 		}
+		helpers.SaveJSON("assets/files/stepParam.txt", attrBlocks)
 		params, err := m.stepParameters(attrBlocks)
 		if err != nil {
 			return nil, err
 		}
-		step.Parameters = params
+		step.StepParameters = params
+		steps = append(steps, step)
 
-		// log.Println(steps)
+		// fmt.Println(steps)
 	}
 
 	return steps, err
 }
 
-func (m *Fhx) stepParameters(attrBlock [][]string) ([]Parameter, error) {
-	parameters := []Parameter{}
+func (m *Fhx) stepParameters(attrBlock [][]string) ([]StepParameter, error) {
+	params := []StepParameter{}
+	for _, b := range attrBlock {
+		param := StepParameter{}
+		for _, l := range b {
+			// fmt.Printf("%v", l)
+			name, err := readRegex(m.regFhx["StepParams"], l)
+			// fmt.Println(name)
+			if err != nil {
+				return nil, err
+			}
+			if name != "" {
+				param.Name = name
+			}
+			origin, err := readRegex(m.regFhx["Origin"], l)
+			if err != nil {
+				return nil, err
+			}
+			if origin != "" {
+				param.Origin = origin
+			}
+			deferTo, err := readRegex(m.regFhx["DeferTo"], l)
+			if err != nil {
+				return nil, err
+			}
+			if deferTo != "" {
+				param.DeferTo = deferTo
+			}
+			group, err := readRegex(m.regFhx["Group"], l)
+			if err != nil {
+				return nil, err
+			}
+			if group != "" {
+				param.Group = group
+			}
+		}
+		// fmt.Println(param)
+		params = append(params, param)
+	}
 	// TODO: READ STEP Paramter
-	return parameters, nil
+	return params, nil
 }
 
 /*
