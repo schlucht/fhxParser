@@ -8,20 +8,15 @@ import (
 
 // Alle Operationen der jeweiligen Operation einlesen
 func (app *application) GetOperations(w http.ResponseWriter, r *http.Request) {
-	j := jsonResponse{
-		OK:      true,
-		Message: "Daten konnten nicht gespeichert werden",
-		Content: "",
-		ID:      999,
-	}
+
 	f, err := io.ReadAll(r.Body)
 	if err != nil {
 		app.errorLog.Printf("%v, %s", err, "Keine Daten vorhanden")
 		app.badRequest(w, r, err)
 		return
 	}
-
 	var re antwort
+
 	err = json.Unmarshal(f, &re)
 	if err != nil {
 		app.errorLog.Printf("%v, %s", err, "Betrieb fehlt konnte nicht geparst werden")
@@ -42,7 +37,16 @@ func (app *application) GetOperations(w http.ResponseWriter, r *http.Request) {
 		app.badRequest(w, r, err)
 		return
 	}
-	j.Content = string(s)
+
+	if opts.Count == 0 {
+		j.OK = false
+		j.Content = "{}"
+		j.Message = "Keine Operation gefunden"
+	} else {
+		j.OK = true
+		j.Message = "Daten OK"
+		j.Content = string(s)
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 	app.writeJSON(w, http.StatusOK, j)
@@ -50,12 +54,6 @@ func (app *application) GetOperations(w http.ResponseWriter, r *http.Request) {
 
 // Alle Operationen der jeweiligen Operation einlesen
 func (app *application) GetOperationFromId(w http.ResponseWriter, r *http.Request) {
-	j := jsonResponse{
-		OK:      true,
-		Message: "Daten konnten nicht gespeichert werden",
-		Content: "",
-		ID:      999,
-	}
 	f, err := io.ReadAll(r.Body)
 	if err != nil {
 		app.errorLog.Printf("%v, %s", err, "Keine Daten vorhanden")
@@ -83,7 +81,16 @@ func (app *application) GetOperationFromId(w http.ResponseWriter, r *http.Reques
 		app.badRequest(w, r, err)
 		return
 	}
-	j.Content = string(s)
+
+	if len(s) == 0 {
+		j.OK = false
+		j.Message = "Keine Daten vorhanden!"
+		j.Content = "{}"
+	} else {
+		j.OK = true
+		j.Message = "Daten OK"
+		j.Content = string(s)
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 	app.writeJSON(w, http.StatusOK, j)

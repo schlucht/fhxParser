@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"strings"
@@ -25,14 +26,38 @@ type jsonResponse struct {
 	ID      int    `json:"id"`
 }
 
+var j = jsonResponse{
+	OK:      false,
+	Message: "",
+	Content: "{}",
+	ID:      999,
+}
+
 // gibt alle Abteilungen zurück
 func (app *application) AllPlants(w http.ResponseWriter, r *http.Request) {
 	allPlants, err := app.DB.LoadAllPlants()
 	if err != nil {
-		app.errorLog.Printf("%v", err)
+		app.errorLog.Printf("Fehler beim auslesen der Anlage %v", err)
 		app.badRequest(w, r, err)
 	}
-	app.writeJSON(w, http.StatusOK, allPlants)
+
+	s, err := json.Marshal(allPlants)
+	if err != nil {
+		app.errorLog.Printf("Fehler beim parsen der Anlage!")
+		app.badRequest(w, r, err)
+	}
+
+	if len(s) == 0 {
+		j.OK = false
+		j.Message = "Keine Anlagen gefunden"
+		j.Content = "{}"
+	} else {
+		j.OK = true
+		j.Message = "Anlagen gefunden"
+		j.Content = string(s)
+	}
+
+	app.writeJSON(w, http.StatusOK, j)
 }
 
 // Operation in der Datenbank speichern
@@ -50,6 +75,6 @@ func (app *application) saveOperations(fhx parser.Fhx, plantId int) (string, err
 
 // Procedure in der Datenbank speichern
 func (app *application) saveProcedure(fhx parser.Fhx, plantId int) (string, error) {
-	
+
 	return "", nil
 }

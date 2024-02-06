@@ -8,12 +8,6 @@ import (
 
 // Alle Parameter der jeweiligen Operation einlesen
 func (app *application) getParamsFromOPId(w http.ResponseWriter, r *http.Request) {
-	j := jsonResponse{
-		OK:      true,
-		Message: "Daten konnten nicht gespeichert werden",
-		Content: "",
-		ID:      999,
-	}
 
 	f, err := io.ReadAll(r.Body)
 	if err != nil {
@@ -29,21 +23,34 @@ func (app *application) getParamsFromOPId(w http.ResponseWriter, r *http.Request
 		app.badRequest(w, r, err)
 		return
 	}
+	if int(re.Id) > 0 {
+		opts, err := app.GetParamFromOPId(int(re.Id))
+		if err != nil {
+			app.errorLog.Printf("%v, %s", err, "Fehler beim Laden von Parameter")
+			app.badRequest(w, r, err)
+			return
+		}
 
-	opts, err := app.GetParamFromOPId(int(re.Id))
-	if err != nil {
-		app.errorLog.Printf("%v, %s", err, "Fehler beim Laden von Parameter")
-		app.badRequest(w, r, err)
-		return
+		s, err := json.Marshal(opts)
+		if err != nil {
+			app.errorLog.Printf("%v, %s", err, "Parameter konnte nicht geparst werden")
+			app.badRequest(w, r, err)
+			return
+		}
+		if len(s) == 0 {
+			j.OK = false
+			j.Message = "Keine Parameter gefunden"
+			j.Content = "{}"
+		} else {
+			j.OK = true
+			j.Content = string(s)
+			j.Message = "Daten OK"
+		}
+	} else {
+		j.OK = false
+		j.Message = "Keine ID vorhanden!"
+		j.Content = "{}"
 	}
-
-	s, err := json.Marshal(opts)
-	if err != nil {
-		app.errorLog.Printf("%v, %s", err, "Parameter konnte nicht geparst werden")
-		app.badRequest(w, r, err)
-		return
-	}
-	j.Content = string(s)
 
 	w.Header().Set("Content-Type", "application/json")
 	app.writeJSON(w, http.StatusOK, j)

@@ -47,15 +47,12 @@ func (app *application) readJSON(w http.ResponseWriter, r *http.Request, data in
 
 // badRequest sends a JSON response with status http.StatusBadRequest, describing the error
 func (app *application) badRequest(w http.ResponseWriter, r *http.Request, err error) error {
-	var payload struct {
-		Error   bool   `json:"error"`
-		Message string `json:"message"`
+	j := jsonResponse{
+		OK:      false,
+		Message: err.Error(),
+		Content: "{}",
 	}
-
-	payload.Error = true
-	payload.Message = err.Error()
-
-	out, err := json.MarshalIndent(payload, "", "\t")
+	out, err := json.MarshalIndent(j, "", "\t")
 	if err != nil {
 		return err
 	}

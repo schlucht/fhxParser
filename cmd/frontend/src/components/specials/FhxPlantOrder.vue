@@ -51,7 +51,12 @@ import { usePlantStore } from '@/stores/plant_store';
 
     onMounted(async() => {
         // alle Betrieb aus der Datenbank laden
-        plants.value = await loadAllPlants();
+        const data = await loadAllPlants()
+        if (!data.ok) {
+            console.error(data.message)
+        } else {
+            plants.value = JSON.parse(data.content);
+        }
     });
 
 </script>

@@ -35,12 +35,20 @@ const op = ref({})
 
 async function loadOps() {
   const data = await laodAlloperations(plant.value.id)
-  ops.value = JSON.parse(data.content)  
+  console.log(plant.value.id)
+  if (data.content === "{}"){
+    if (!data.ok) {
+      console.log(data.message)
+    }
+  } else {
+    ops.value = JSON.parse(data.content) 
+  }
+  
 };
 
 async function idOP(e) {
   const opid = e.target.dataset['id'];
-  const data = await loadParamsFromOPId(+opid)
+  const data = await loadParamsFromOPId(+opid)  
   op.value = JSON.parse(data.content)
   console.log(op.value)
 };

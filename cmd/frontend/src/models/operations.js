@@ -5,8 +5,10 @@
  */
 async function laodAlloperations(plantId) {       
 
+    if (!plantId) return;
+
     let antwort = JSON.stringify({id: plantId})
-    
+    console.log(antwort)
     const requestOptions = {
         method: 'POST',
         headers: {
@@ -18,7 +20,7 @@ async function laodAlloperations(plantId) {
 
     try {
         const res = await fetch(`${import.meta.env.VITE_API_URL}/allGetOperations`, requestOptions);
-        const data = await res.json();                
+        const data = await res.json();                    
         return data;
     } catch (err) {
         console.error("Error in allGetOperations: ", err)

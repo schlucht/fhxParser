@@ -10,7 +10,9 @@
                     <thead>
                         <tr >
                             <td colspan="4">
-                                <h3 class="detail-title">{{ pa.name }} <a href="#top" title="Nach oben"><span class="icomoon-arrow-up2"></span></a></h3>
+                                <h3 class="detail-title">{{ pa.name }} 
+                                    <a href="#top" title="Nach oben"><span class="icomoon-arrow-up2"></span></a>
+                                </h3>
                                 <hr/>
                             </td>
                         </tr>
@@ -49,11 +51,22 @@
     const route = useRoute()  
     const opRef = ref(op)    
   
-    watch(async ()=>{       
+    async function loadParamsformId() {
         let id = +route.params.id
+        // if (!id) return
         let data = await loadParamsFromOPId(id)
-        opRef.value = JSON.parse(data.content)            
-    })  
+        if (data['error']) {
+            console.error("Datenbank fehler: ", data['message'])
+            return
+        }
+        if (data.ok) {
+            opRef.value = JSON.parse(data.content)
+        } else {
+            console.error("Fehler in der DB: ", data.message)
+        }
+    }
+    loadParamsformId()
+ 
 
 </script>
 <style lang='css' scoped>
