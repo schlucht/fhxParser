@@ -14,6 +14,9 @@ stop:
 	@-pkill -f ${BINARY_NAME}
 	@echo "Backend stopped..."
 
+restart: stop api
+	clear
+
 clean: stop
 	@go clean
 	@rm -R ./dist

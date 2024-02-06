@@ -1,8 +1,8 @@
 <template>
   <FhxPlantOrder :show= showModal></FhxPlantOrder>
   <fhx-header></fhx-header>
+  <fhx-navbar></fhx-navbar>
   <div class="container">
-    <fhx-navbar></fhx-navbar>
     <main>      
       <RouterView />
     </main>

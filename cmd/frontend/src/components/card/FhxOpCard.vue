@@ -24,33 +24,24 @@
 
 import {storeToRefs } from 'pinia';
 import { ref } from 'vue'
-import { laodAlloperations, loadParamsFromOPId } from '../../models/operations.js'
+import { laodAlloperations } from '@/models/operations.js'
 import { usePlantStore } from '@/stores/plant_store';
 
 import FhxOpCardItem from './FhxOpCardItem.vue';
 
 const { plant } = storeToRefs(usePlantStore());
 const ops = ref({})
-const op = ref({})
 
 async function loadOps() {
-  const data = await laodAlloperations(plant.value.id)
-  console.log(plant.value.id)
+  const data = await laodAlloperations(plant.value.id)  
   if (data.content === "{}"){
     if (!data.ok) {
-      console.log(data.message)
+      console.error(data.message)
     }
   } else {
     ops.value = JSON.parse(data.content) 
   }
   
-};
-
-async function idOP(e) {
-  const opid = e.target.dataset['id'];
-  const data = await loadParamsFromOPId(+opid)  
-  op.value = JSON.parse(data.content)
-  console.log(op.value)
 };
 
 loadOps()
@@ -70,7 +61,7 @@ loadOps()
   justify-content: space-between;
   margin: var(--padding);
   border-radius: calc(var(--border-radius) * 2);
-  background-color: var(--white);
+  background-color: var(--back-crl);
   box-shadow: 3px, 3px, 3px, rgba(0, 0, 0, 1);
   min-width: 35rem;
   max-width: 35rem;

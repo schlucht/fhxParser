@@ -13,6 +13,7 @@
 
   --border-radius: 0.5rem;
   --padding: 0.5rem;
+  --padding-5: calc(var(--padding) * 5);
 }
 
 * {
@@ -23,6 +24,7 @@
 
 html {
   font-size: 62.5%;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -58,4 +60,10 @@ a:hover {
 
 li {
   list-style: none;
+}
+
+img {
+  display: inline-block;
+  width: 100%;
+  height: auto;
 }

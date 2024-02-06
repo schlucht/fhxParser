@@ -1,26 +1,20 @@
 package main
 
 import (
-	"fmt"
-	"strings"
+	"log"
 
 	"github.com/go-sql-driver/mysql"
 	"github.com/schlucht/fhxreader/internal/models"
 	"github.com/schlucht/fhxreader/internal/parser"
 )
 
-type Operations struct {
-	Operations []models.Operation
-	Count      int
-}
-
 // Speichert eine OP FHX in die Datenbank
-func (app *application) insertOperations(parsedOP parser.Fhx, plantID int) ([]string, error) {
+func (app *application) insertUnit(parsedUP parser.Fhx, plantID int) ([]string, error) {
 
 	var errorString = []string{}
 
 	// Durchläuft die geparsten OP zum speichern
-	for _, o := range parsedOP.OPs {
+	for _, o := range parsedUP.Units {
 
 		opUnit := models.Unit{
 			Name:        o.UnitName,
@@ -30,7 +24,9 @@ func (app *application) insertOperations(parsedOP parser.Fhx, plantID int) ([]st
 			Time:        o.Time,
 			Type:        o.Type,
 		}
-		opId, err := app.DB.InsertUnit(opUnit, 1, plantID)
+
+		opId, err := app.DB.InsertUnit(opUnit, 2, plantID)
+
 		if err != nil {
 			nb, ok := err.(*mysql.MySQLError)
 			if !ok {
@@ -41,7 +37,9 @@ func (app *application) insertOperations(parsedOP parser.Fhx, plantID int) ([]st
 				continue //return errors.New("duplicate unit")
 			}
 		}
+
 		for _, p := range o.Parameters {
+
 			opParams := models.Parameter{
 				Name:        p.Name,
 				UnitID:      opId,
@@ -49,6 +47,7 @@ func (app *application) insertOperations(parsedOP parser.Fhx, plantID int) ([]st
 			}
 			paramId, err := app.DB.InsertParameter(opParams)
 			if err != nil {
+				log.Println(err)
 				return nil, err
 			}
 			val := models.Value{
@@ -67,47 +66,3 @@ func (app *application) insertOperations(parsedOP parser.Fhx, plantID int) ([]st
 	}
 	return errorString, nil
 }
-
-
-/*
-Alle Operationen aus der DB dem Handler zur Verfügung stellen
-*/
-func (app *application) AllOperations(plantId int) (Operations, error) {
-
-	list := Operations{}
-	ops, err := app.DB.GetOperations(plantId)
-
-	if err != nil {
-		return list, err
-	}
-	list.Operations = ops
-	list.Count = len(ops)
-
-	return list, nil
-}
-
-/*
-Die Parameter einer Operation aus der Datenbank auslesen
-*/
-func (app *application) GetOpFromId(opId int) (models.Operation, error) {
-
-	op, err := app.DB.GetOperationFromId(opId)
-	if err != nil {
-		return op, err
-	}
-	return op, nil
-}
-
-// Operation in der Datenbank speichern
-func (app *application) saveOperations(fhx parser.Fhx, plantId int) (string, error) {
-	doubleUp, err := app.insertOperations(fhx, plantId)
-	if err != nil {
-		return "", err
-	}
-	if len(doubleUp) > 0 {
-		s := strings.Join(doubleUp, ",")
-		return fmt.Sprintf("Dopplete UP's: %s", s), nil
-	}
-	return "", nil
-}
-

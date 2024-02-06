@@ -40,6 +40,7 @@ func (m *DBModel) GetOperations(plantId int) ([]Operation, error) {
 		}
 		ops = append(ops, op)
 	}
+
 	return ops, nil
 }
 

@@ -1,10 +1,12 @@
 .container {
-  width: 90%;
+  width: 100%;
   margin: 0 auto;
+  padding: 0 var(--padding-5); 
+  background-color: var(--white); 
 }
 
 main {
-  margin-top: 2rem;
+  margin-top: 0rem;
 }
 
 .asterik {
@@ -31,5 +33,5 @@ main {
 }
 
 .m-5-t {
-  margin-top: calc(var(--padding) * 5);
+  margin-top: var(--padding-5);
 }

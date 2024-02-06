@@ -32,7 +32,7 @@
 </template>
 <script setup>
     import { useRoute } from 'vue-router'
-    import {watch, ref} from 'vue'
+    import {ref, watchEffect} from 'vue'
     import { loadParamsFromOPId } from '@/models/operations.js'
 
     import FHXValues from './FHXValues.vue';
@@ -49,11 +49,12 @@
         }
     }
     const route = useRoute()  
-    const opRef = ref(op)    
-  
-    async function loadParamsformId() {
-        let id = +route.params.id
-        // if (!id) return
+    const opRef = ref(op) 
+    
+    watchEffect(( async (newId) => {
+       
+        const id = +route.params.id
+
         let data = await loadParamsFromOPId(id)
         if (data['error']) {
             console.error("Datenbank fehler: ", data['message'])
@@ -64,15 +65,18 @@
         } else {
             console.error("Fehler in der DB: ", data.message)
         }
-    }
-    loadParamsformId()
+    }))
+  
+   
+    
  
 
 </script>
 <style lang='css' scoped>
     .opDetail {
+        background-color: var(--back-crl);
         & .header {
-            width: 40%;
+            width: 100%;
             & .header-title {
                 background-color: var(--light-blue);
                 color: var(--white);
@@ -92,7 +96,7 @@
         }
     }
     table {
-        width: 40%;        
+        width: 100%;        
         box-shadow: 2px 2px 2px rgba(0,0,0,.2), -2px -2px 2px rgba(0,0,0,.2);
         margin-bottom: .5rem;
         border: none;
