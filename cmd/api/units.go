@@ -8,6 +8,11 @@ import (
 	"github.com/schlucht/fhxreader/internal/parser"
 )
 
+type Units struct {
+	Units []models.Unit
+	Count int
+}
+
 // Speichert eine OP FHX in die Datenbank
 func (app *application) insertUnit(parsedUP parser.Fhx, plantID int) ([]string, error) {
 
@@ -65,4 +70,18 @@ func (app *application) insertUnit(parsedUP parser.Fhx, plantID int) ([]string, 
 		}
 	}
 	return errorString, nil
+}
+
+func (app *application) AllUnits(plantId int) (Units, error) {
+
+	list := Units{}
+	ops, err := app.DB.GetUnits(plantId)
+
+	if err != nil {
+		return list, err
+	}
+	list.Units = ops
+	list.Count = len(ops)
+
+	return list, nil
 }

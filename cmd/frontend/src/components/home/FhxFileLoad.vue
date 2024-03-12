@@ -114,11 +114,11 @@ async function uploadText() {
 <style scoped>
 
 form {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  justify-self: start;
-  align-self: baseline;
-  gap: calc(var(--padding)*20);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: calc(var(--padding)*4);
   padding: 1rem 0rem 2rem 0rem;
   border-bottom: 5px solid var(--light-gray);
 }
@@ -126,12 +126,18 @@ form {
 button:disabled {
   background-color: var(--light-gray);
 }
+.control-group {
+  border: none;
+  display: flex;
+  flex-direction: row;
+}
 
 .plant-name {
-  width: 100%;
+  width: 20rem;
   text-align: center;  
   font-size: 2.5rem;
   color: var(--blue);
+  cursor: pointer;
 }
 
 .file-name {

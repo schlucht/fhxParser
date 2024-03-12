@@ -24,7 +24,7 @@
 
 import {storeToRefs } from 'pinia';
 import { ref } from 'vue'
-import { laodAlloperations } from '@/models/operations.js'
+import { loadAllOperations } from '@/models/operations.js'
 import { usePlantStore } from '@/stores/plant_store';
 
 import FhxOpCardItem from './FhxOpCardItem.vue';
@@ -33,7 +33,7 @@ const { plant } = storeToRefs(usePlantStore());
 const ops = ref({})
 
 async function loadOps() {
-  const data = await laodAlloperations(plant.value.id)  
+  const data = await loadAllOperations(plant.value.id)  
   if (data.content === "{}"){
     if (!data.ok) {
       console.error(data.message)

@@ -6,10 +6,10 @@
     <router-link to="/" alt="Startseite" class="header-nav-link">
       <span class="icomoon-home5" aria-hidden="true"></span>
     </router-link>
-    <router-link to="/home" alt="Startseite" class="header-nav-link"> Home </router-link>
-    <router-link to="/" alt="Rezepte" class="header-nav-link"> Rezepte </router-link>
-    <router-link to="/unit" alt="Unitprocedures" class="header-nav-link"> Unitprocedures </router-link>
-    <router-link to="/operation" alt="Operation" class="header-nav-link"> Operations </router-link>
+    <router-link to="/home" alt="Startseite" class="header-nav-link">Home</router-link>
+    <router-link to="/recipe" alt="Rezepte" class="header-nav-link">Rezepte</router-link>
+    <router-link to="/unit" alt="Unitprocedures" class="header-nav-link">Unitprocedures</router-link>
+    <router-link to="/operation" alt="Operation" class="header-nav-link">Operations</router-link>
   </nav>
 </template>
 <script setup>

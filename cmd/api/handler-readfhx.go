@@ -6,7 +6,6 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/schlucht/fhxreader/internal/helpers"
 	"github.com/schlucht/fhxreader/internal/parser"
 )
 
@@ -39,6 +38,7 @@ func (app *application) ReadFhx(w http.ResponseWriter, r *http.Request) {
 
 	for _, f := range fhx {
 		if f.UnitType == "OPERATION" {
+			// helpers.SaveJSON("assets/files/test.txt", f)
 			msg, err := app.saveOperations(f, int(fhxJson.PlantId))
 			if err != nil {
 				j.OK = false
@@ -51,7 +51,6 @@ func (app *application) ReadFhx(w http.ResponseWriter, r *http.Request) {
 			j.OK = true
 		} else if f.UnitType == "UNIT_PROCEDURE" {
 			app.infoLog.Println("Procedure: ", fhx[0].UnitType)
-			helpers.SaveJSON("assets/files/test.txt", fhx[0].Units[0])
 			_, err := app.insertUnit(f, int(fhxJson.PlantId))
 			if err != nil {
 				j.OK = false

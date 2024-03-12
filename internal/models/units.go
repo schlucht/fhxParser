@@ -99,8 +99,10 @@ func (m *DBModel) InsertUnit(u Unit, typ int, plant_id int) (int, error) {
 	return int(id), nil
 }
 
-// Auslesen aller Units return []UNIT, ERROR
-func (m *DBModel) GetUnits() ([]Unit, error) {
+// Auslesen aller Units
+// Parameter: PlantID
+// return []UNIT, ERROR
+func (m *DBModel) GetUnits(plantId int) ([]Unit, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
@@ -108,9 +110,10 @@ func (m *DBModel) GetUnits() ([]Unit, error) {
 	sql := `
 		SELECT 
 			id, unit_name, position, author, time, description, created_at, updated_at 
-			FROM units
+			FROM all_units
+			WHERE plant_id = ?
 	`
-	rows, err := m.DB.QueryContext(ctx, sql)
+	rows, err := m.DB.QueryContext(ctx, sql, plantId)
 	if err != nil {
 		return nil, err
 	}

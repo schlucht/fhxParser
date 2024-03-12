@@ -27,4 +27,11 @@
 - fixed - Fehler behoben
 - refact - Code Refactoring
 - infra - Infrastruktur angepasst
-    
+
+## Datenbankschema
+
+- Eine **RP** hat viele **UP** 
+- Eine **UP** hat viele **OP**
+- Eine **RP** kann Parameter enthalten
+- Eine **UP** kann Parameter enthalten
+- Eine **OP** kann Paramater enthalten

@@ -1,10 +1,7 @@
 package parser
 
 import (
-	"bufio"
 	"errors"
-	"os"
-	"path"
 	"regexp"
 	"strings"
 )
@@ -78,6 +75,9 @@ func readRegex(regex string, txt string) (string, error) {
 	return res, nil
 }
 
+// readRegexSubexp reads the named subexpressions in the regular expression and returns a map of named subexpressions to their matches.
+//
+// It takes a regex string and a txt string as parameters and returns a map[string]string and an error.
 func readRegexSubexp(regex string, txt string) (map[string]string, error) {
 	res := make(map[string]string)
 	if regex == "" {
@@ -96,38 +96,20 @@ func readRegexSubexp(regex string, txt string) (map[string]string, error) {
 	return res, nil
 }
 
-/* Liest ein fhx File im UTF16L in ein Array ein*/
-// func readFhxFile16(filePath string) ([]string, error) {
-// 	var res []string
-// 	if filePath == "" {
-// 		return res, errors.New("filePath is empty")
-// 	}
-// 	file, err := os.Open(filePath)
+// /* Read fhx File in UTF-8 Format*/
+// func readFhx(path string) ([]string, error) {
+// 	f, err := os.Open(path)
+// 	var lines []string
 // 	if err != nil {
-// 		return res, err
+// 		return lines, err
 // 	}
-
-// 	scanner := bufio.NewScanner(transform.NewReader(file, unicode.UTF16(unicode.LittleEndian, unicode.UseBOM).NewDecoder()))
-// 	for scanner.Scan() {
-// 		res = append(res, (scanner.Text()))
+// 	r := bufio.NewScanner(f)
+// 	r.Split(bufio.ScanLines)
+// 	for r.Scan() {
+// 		lines = append(lines, r.Text())
 // 	}
-// 	return res, nil
+// 	return lines, nil
 // }
-
-/* Read fhx File in UTF-8 Format*/
-func readFhx(path string) ([]string, error) {
-	f, err := os.Open(path)
-	var lines []string
-	if err != nil {
-		return lines, err
-	}
-	r := bufio.NewScanner(f)
-	r.Split(bufio.ScanLines)
-	for r.Scan() {
-		lines = append(lines, r.Text())
-	}
-	return lines, nil
-}
 
 // Liest ein Text aus einer FHX Datei ein
 func readFhxText(text string, sep string) ([]string, error) {
@@ -149,14 +131,14 @@ func readFhxText(text string, sep string) ([]string, error) {
 	return lines, nil
 }
 
-/* Testet ein fhx Pfad ob es ein*/
-func isFhxFile(pathStr string) error {
-	ext := path.Ext(pathStr)
-	if strings.ToUpper(ext) != ".FHX" {
-		return errors.New("file is not a fhx file")
-	}
-	return nil
-}
+// /* Testet ein fhx Pfad ob es ein*/
+// func isFhxFile(pathStr string) error {
+// 	ext := path.Ext(pathStr)
+// 	if strings.ToUpper(ext) != ".FHX" {
+// 		return errors.New("file is not a fhx file")
+// 	}
+// 	return nil
+// }
 
 /* Splittet ein Text beim Zeilen Umbruch*/
 func splitLines(text string) []string {

@@ -1,11 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import App from '@/App.vue';
 import NotFound from '../views/NotFound.vue'
-import OperationView from '../views/OperationView.vue'
-import UnitView from '../views/UnitView.vue'
-
-import FhxOperationDetail from '../components/operation/FhxOperationDetail.vue'
 import FhxHome from '@/components/home/FhxHome.vue'
 
 const router = createRouter({
@@ -14,39 +9,36 @@ const router = createRouter({
     {
       path: '/', 
       name: 'start',
-      component: App,
+      component: FhxHome,
     },
     {
       path: '/home',
       name: 'home',
-      component: FhxHome,      
+      component: ()=>import('../views/HomeView.vue'),      
     },
     {
       path: '/operation',
       name: 'operation',
-      component: OperationView,
+      component: ()=>import('../views/OperationView.vue'),
       children: [
         {
           path: ':id?',
           name: 'detail',
-          component: FhxOperationDetail
+          component: ()=>import('../components/operation/FhxOperationDetail.vue'),
         },
       ]
     },
     {
       path: '/unit',
       name: 'unit',
-      component: UnitView,
+      component: ()=>import('../views/UnitView.vue'),
+    },   
+    {
+      path: '/recipe',
+      name: 'recipe',
+      component: ()=>import('../views/RecipeView.vue'),
     },
-    {path: '/:notfound(.*)', component: NotFound}
-    // {
-    //   path: '/about',
-    //   name: 'about',
-    //   // route level code-splitting
-    //   // this generates a separate chunk (About.[hash].js) for this route
-    //   // which is lazy-loaded when the route is visited.
-    //   component: () => import('../views/AboutView.vue')
-    // }
+    {path: '/:notfound(.*)', component: NotFound}    
   ]
 })
 
