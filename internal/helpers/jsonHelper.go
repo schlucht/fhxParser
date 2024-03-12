@@ -7,12 +7,12 @@ import (
 	"os"
 )
 
-func PrintJson(input interface{}) (string, error) {
-	data, err := json.Marshal(input)
+func PrintJson(input interface{}) string {
+	data, err := json.MarshalIndent(input, "", "  ")
 	if err != nil {
-		return "", err
+		return ""
 	}
-	return string(data), nil
+	return string(data)
 }
 
 func SaveJSON(path string, data interface{}) error {
