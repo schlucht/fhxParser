@@ -1,89 +1,821 @@
 {
   "units": [
     {
-      "unitname": "UP_Q2000_BEDING",
+      "unitname": "UP_Q2000_ZF",
       "unitpositon": "Q2000",
-      "time": 1664198987,
-      "author": "Schmid Lothar",
-      "description": "Bedingung",
+      "time": 1665467422,
+      "author": "Kronig Daniel",
+      "description": "Q2000 Zentrifugation",
       "type": "UP",
       "params": [
         {
-          "name": "FP_BESCHREI_TEXT",
-          "description": "",
-          "value": {},
-          "unit_id": 0
-        },
-        {
-          "name": "FP_FSB_MESSTELLE",
-          "description": "",
-          "value": {},
-          "unit_id": 0
-        },
-        {
-          "name": "FP_FSB_VERGLEICH",
+          "name": "FP_HK_FSB_TSH",
           "description": "",
           "value": {
-            "stringvalue": "GRÖSSER",
-            "value_set": "LGF_BEDING"
+            "high": 180,
+            "low": -20,
+            "cv": 5,
+            "unit": "°C"
           },
           "unit_id": 0
         },
         {
-          "name": "FP_FSB_WERT",
+          "name": "FP_HK_FSB_TSL",
           "description": "",
           "value": {
-            "high": 100000,
-            "low": -100000,
-            "unit": "            "
+            "high": 180,
+            "low": -20,
+            "cv": -20,
+            "unit": "°C"
+          },
+          "unit_id": 0
+        },
+        {
+          "name": "FP_HK_OPTION",
+          "description": "",
+          "value": {
+            "stringvalue": "INNENTEMP",
+            "value_set": "LGF_HK_OPT"
+          },
+          "unit_id": 0
+        },
+        {
+          "name": "FP_HK_OPTION_HO",
+          "description": "",
+          "value": {
+            "stringvalue": "INNENTEMP",
+            "value_set": "LGF_HK_OPT"
+          },
+          "unit_id": 0
+        },
+        {
+          "name": "FP_HK_TAH_INNEN",
+          "description": "",
+          "value": {
+            "high": 180,
+            "low": -20,
+            "cv": 115,
+            "unit": "°C"
+          },
+          "unit_id": 0
+        },
+        {
+          "name": "FP_HK_TAHH_INNEN",
+          "description": "",
+          "value": {
+            "high": 180,
+            "low": -20,
+            "cv": 120,
+            "unit": "°C"
+          },
+          "unit_id": 0
+        },
+        {
+          "name": "FP_HK_TC_W",
+          "description": "",
+          "value": {
+            "high": 180,
+            "low": -20,
+            "cv": -3,
+            "unit": "°C"
+          },
+          "unit_id": 0
+        },
+        {
+          "name": "FP_HK_TC_W_HO",
+          "description": "",
+          "value": {
+            "high": 180,
+            "low": -20,
+            "cv": -3,
+            "unit": "°C"
+          },
+          "unit_id": 0
+        },
+        {
+          "name": "FP_HK_BGR_H",
+          "description": "",
+          "value": {
+            "high": 180,
+            "low": -120,
+            "cv": 140,
+            "unit": "°C"
+          },
+          "unit_id": 0
+        },
+        {
+          "name": "FP_RÜHRER_SC_W",
+          "description": "",
+          "value": {
+            "high": 120,
+            "low": -20,
+            "cv": 80,
+            "unit": "RPM"
+          },
+          "unit_id": 0
+        },
+        {
+          "name": "FP_UNTERBR_TSH",
+          "description": "",
+          "value": {
+            "high": 300,
+            "low": -100,
+            "cv": 10,
+            "unit": "°C"
           },
           "unit_id": 0
         }
       ],
       "steps": [
         {
-          "name": "OP_BEDING:1",
-          "key": "OP_BEDING",
-          "description": "{ X=170 Y=150 H=40 W=160 }\r",
+          "name": "OP_BEGAS:2",
+          "key": "OP_BEGAS",
+          "description": "{ X=30 Y=810 H=40 W=160 }\r",
           "rec": "",
           "step_parameters": [
             {
               "name": "FP_BESCHREI_TEXT",
-              "origin": "DEFERRED\r",
-              "deferto": "FP_BESCHREI_TEXT",
+              "origin": "CONSTANT\r",
+              "deferto": "",
               "group": ""
             },
             {
-              "name": "FP_FSB_MESSTELLE",
-              "origin": "DEFERRED\r",
-              "deferto": "FP_FSB_MESSTELLE",
-              "group": ""
-            },
-            {
-              "name": "FP_FSB_VERGLEICH",
-              "origin": "DEFERRED\r",
-              "deferto": "FP_FSB_VERGLEICH",
+              "name": "FP_FSB_PSH",
+              "origin": "CONSTANT\r",
+              "deferto": "",
               "group": "Operating"
             },
             {
-              "name": "FP_FSB_WERT",
+              "name": "FP_FSB_PSL",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            },
+            {
+              "name": "FP_OPTION",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            },
+            {
+              "name": "FP_OPTION_HO",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            },
+            {
+              "name": "FP_OPTION_PC",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            },
+            {
+              "name": "FP_RAMPE",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            },
+            {
+              "name": "FP_YS_AUF_PSH",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            },
+            {
+              "name": "FP_YS_AUF_PSH_HO",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            },
+            {
+              "name": "FP_YS_AUF_PSL",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            },
+            {
+              "name": "FP_YS_AUF_PSL_HO",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            }
+          ]
+        },
+        {
+          "name": "OP_DRUCK:2",
+          "key": "OP_DRUCK",
+          "description": "{ X=30 Y=910 H=40 W=160 }\r",
+          "rec": "",
+          "step_parameters": [
+            {
+              "name": "FP_BESCHREI_TEXT",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            },
+            {
+              "name": "FP_FSB_PSH",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            },
+            {
+              "name": "FP_FSB_PSL",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            },
+            {
+              "name": "FP_OPTION",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            },
+            {
+              "name": "FP_OPTION_VAK_HO",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            },
+            {
+              "name": "FP_PAH",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            },
+            {
+              "name": "FP_PAHH",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            },
+            {
+              "name": "FP_PAL",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            },
+            {
+              "name": "FP_PALL",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            },
+            {
+              "name": "FP_PC_W",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            },
+            {
+              "name": "FP_PC_W_HO",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            },
+            {
+              "name": "FP_PV_KENNLINIE",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            },
+            {
+              "name": "FP_RAMPE",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            }
+          ]
+        },
+        {
+          "name": "OP_HK:1",
+          "key": "OP_HK",
+          "description": "{ X=30 Y=150 H=40 W=160 }\r",
+          "rec": "",
+          "step_parameters": [
+            {
+              "name": "FP_BESCHREI_TEXT",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            },
+            {
+              "name": "FP_FSB_TSH",
               "origin": "DEFERRED\r",
-              "deferto": "FP_FSB_WERT",
+              "deferto": "FP_HK_FSB_TSH",
+              "group": ""
+            },
+            {
+              "name": "FP_FSB_TSL",
+              "origin": "DEFERRED\r",
+              "deferto": "FP_HK_FSB_TSL",
+              "group": ""
+            },
+            {
+              "name": "FP_MANENDE",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            },
+            {
+              "name": "FP_OPTION",
+              "origin": "DEFERRED\r",
+              "deferto": "FP_HK_OPTION",
+              "group": ""
+            },
+            {
+              "name": "FP_OPTION_HO",
+              "origin": "DEFERRED\r",
+              "deferto": "FP_HK_OPTION_HO",
+              "group": ""
+            },
+            {
+              "name": "FP_RAMPE",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            },
+            {
+              "name": "FP_TAH_BRUEDEN",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            },
+            {
+              "name": "FP_TAH_HKK",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            },
+            {
+              "name": "FP_TAH_INNEN",
+              "origin": "DEFERRED\r",
+              "deferto": "FP_HK_TAH_INNEN",
+              "group": ""
+            },
+            {
+              "name": "FP_TAHH_HKK",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            },
+            {
+              "name": "FP_TAHH_INNEN",
+              "origin": "DEFERRED\r",
+              "deferto": "FP_HK_TAHH_INNEN",
+              "group": ""
+            },
+            {
+              "name": "FP_TAL_HKK",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            },
+            {
+              "name": "FP_TAL_INNEN",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            },
+            {
+              "name": "FP_TALL_HKK",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            },
+            {
+              "name": "FP_TALL_INNEN",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            },
+            {
+              "name": "FP_TC_W",
+              "origin": "DEFERRED\r",
+              "deferto": "FP_HK_TC_W",
+              "group": ""
+            },
+            {
+              "name": "FP_TC_W_HO",
+              "origin": "DEFERRED\r",
+              "deferto": "FP_HK_TC_W_HO",
+              "group": ""
+            },
+            {
+              "name": "FP_TT_INNEN",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            },
+            {
+              "name": "FP_TT_INNEN_HO",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            },
+            {
+              "name": "FP_W_BGR_D_H",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            },
+            {
+              "name": "FP_W_BGR_D_L",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            },
+            {
+              "name": "FP_W_BGR_D_L_HO",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            },
+            {
+              "name": "FP_W_BGR_H",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            },
+            {
+              "name": "FP_W_BGR_L",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            },
+            {
+              "name": "FP_W_BGR_L_HO",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            }
+          ]
+        },
+        {
+          "name": "OP_LEER:1",
+          "key": "OP_LEER",
+          "description": "{ X=30 Y=600 H=40 W=160 }\r",
+          "rec": "",
+          "step_parameters": [
+            {
+              "name": "FP_BESCHREI_TEXT",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            }
+          ]
+        },
+        {
+          "name": "OP_LEER:2",
+          "key": "OP_LEER",
+          "description": "{ X=30 Y=260 H=40 W=160 }\r",
+          "rec": "",
+          "step_parameters": [
+            {
+              "name": "FP_BESCHREI_TEXT",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            }
+          ]
+        },
+        {
+          "name": "OP_MAN_SET_RUEHREN_M:1",
+          "key": "OP_MAN_SET_RUEHREN_M",
+          "description": "{ X=280 Y=410 H=40 W=160 }\r",
+          "rec": "",
+          "step_parameters": [
+            {
+              "name": "FP_SC_W",
+              "origin": "DEFERRED\r",
+              "deferto": "FP_RÜHRER_SC_W",
+              "group": "Operating"
+            }
+          ]
+        },
+        {
+          "name": "OP_RUEHREN:1",
+          "key": "OP_RUEHREN",
+          "description": "{ X=30 Y=710 H=40 W=160 }\r",
+          "rec": "",
+          "step_parameters": [
+            {
+              "name": "FP_BESCHREI_TEXT",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            },
+            {
+              "name": "FP_OPTION",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            },
+            {
+              "name": "FP_SAH",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            },
+            {
+              "name": "FP_SAHH",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            },
+            {
+              "name": "FP_SAL",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            },
+            {
+              "name": "FP_SALL",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            },
+            {
+              "name": "FP_SC_W",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            }
+          ]
+        },
+        {
+          "name": "OP_TRANSF:1",
+          "key": "OP_TRANSF",
+          "description": "{ X=30 Y=370 H=40 W=160 }\r",
+          "rec": "",
+          "step_parameters": [
+            {
+              "name": "FP_BESCHREI_TEXT",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            },
+            {
+              "name": "FP_EMPF",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            },
+            {
+              "name": "FP_EMPF_LAH",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            },
+            {
+              "name": "FP_EMPF_WEG",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            },
+            {
+              "name": "FP_FSB_EMPF_LS",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            },
+            {
+              "name": "FP_FSB_FQ",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            },
+            {
+              "name": "FP_FSB_OPTION",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            },
+            {
+              "name": "FP_FSB_SEND_LS",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            },
+            {
+              "name": "FP_FSB_VOR",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            },
+            {
+              "name": "FP_FUEHR_REG",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            },
+            {
+              "name": "FP_MANENDE",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            },
+            {
+              "name": "FP_MANSTART",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            },
+            {
+              "name": "FP_MANUNTERBR",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            },
+            {
+              "name": "FP_PULS_AUF_ZEIT",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            },
+            {
+              "name": "FP_PULS_VENTIL",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            },
+            {
+              "name": "FP_PULS_ZU_ZEIT",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            },
+            {
+              "name": "FP_PUMPE",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            },
+            {
+              "name": "FP_REG_Y_BEGR_H",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            },
+            {
+              "name": "FP_REGEL_STRAT",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            },
+            {
+              "name": "FP_REGLER_AH",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            },
+            {
+              "name": "FP_REGLER_AL",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            },
+            {
+              "name": "FP_REGLER_W",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            },
+            {
+              "name": "FP_SEND",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            },
+            {
+              "name": "FP_SEND_WEG",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            },
+            {
+              "name": "FP_SPUEL_LEER",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            },
+            {
+              "name": "FP_SPUELZEIT",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            },
+            {
+              "name": "FP_UNTERB_AI_MST",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            },
+            {
+              "name": "FP_UNTERB_AI_SH",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            },
+            {
+              "name": "FP_UNTERB_AI_SL",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            },
+            {
+              "name": "FP_UNTERB_DI_MST",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            },
+            {
+              "name": "FP_UNTERB_DI_SHL",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            },
+            {
+              "name": "FP_UNTERBR_PSH",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            },
+            {
+              "name": "FP_UNTERBR_PSL",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            },
+            {
+              "name": "FP_UNTERBR_TSH",
+              "origin": "DEFERRED\r",
+              "deferto": "FP_UNTERBR_TSH",
+              "group": ""
+            },
+            {
+              "name": "FP_UNTERBR_TSL",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            },
+            {
+              "name": "FP_ZAEHL_ST",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            },
+            {
+              "name": "FP_ZAEHL_ST_WEG",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            },
+            {
+              "name": "RP_FQ",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            }
+          ]
+        },
+        {
+          "name": "OP_WAEHLEN:1",
+          "key": "OP_WAEHLEN",
+          "description": "{ X=30 Y=470 H=40 W=160 }\r",
+          "rec": "",
+          "step_parameters": [
+            {
+              "name": "FP_BESCHREI_TEXT",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
+            },
+            {
+              "name": "FP_FRAGETEXT",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            },
+            {
+              "name": "FP_MELDETEXT",
+              "origin": "CONSTANT\r",
+              "deferto": "",
               "group": "Operating"
             }
           ]
         },
         {
           "name": "START",
-          "key": "OP_BEDING",
-          "description": "{ X=200 Y=50 H=40 W=100 }\r",
+          "key": "OP_WAEHLEN",
+          "description": "{ X=60 Y=60 H=40 W=100 }\r",
           "rec": "",
           "step_parameters": []
         },
         {
           "name": "START",
-          "key": "OP_BEDING",
-          "description": "{ X=200 Y=50 H=40 W=100 }\r",
+          "key": "OP_WAEHLEN",
+          "description": "{ X=60 Y=60 H=40 W=100 }\r",
           "rec": "",
           "step_parameters": []
         }

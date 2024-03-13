@@ -39,32 +39,17 @@ func (app *application) ReadFhx(w http.ResponseWriter, r *http.Request) {
 
 	for _, f := range fhx {
 		if f.UnitType == "OPERATION" {
-
-			// helpers.SaveJSON("assets/files/operation.json", helpers.PrintJson(f))
-			msg, err := app.saveOperations(f, int(fhxJson.PlantId))
-			if err != nil {
-				j.OK = false
-				j.Message = fmt.Sprintf("%v", err)
-				app.errorLog.Printf("%v, %s", err, "Fehler beim Parsen der Operation")
-				app.writeJSON(w, http.StatusOK, j)
-				return
-			}
-			j.Message = msg
+			helpers.SaveJSON("assets/files/operation.json", helpers.PrintJson(f))
+			j.Message = "OK, Save Operations"
 			j.OK = true
 		} else if f.UnitType == "UNIT_PROCEDURE" {
-			// helpers.SaveJSON("assets/files/units.json", helpers.PrintJson(f))
-			_, err := app.insertUnit(f, int(fhxJson.PlantId))
-			if err != nil {
-				j.OK = false
-				j.Message = fmt.Sprintf("%v", err)
-				app.errorLog.Printf("%v, %s", err, "Fehler beim Parsen der Operation")
-				app.writeJSON(w, http.StatusOK, j)
-				return
-			}
-			j.Message = "Speichern ok"
+			helpers.SaveJSON("assets/files/units.json", helpers.PrintJson(f))
+			j.Message = "OK, Save Units"
 			j.OK = true
 		} else if f.UnitType == "PROCEDURE" {
 			helpers.SaveJSON("assets/files/procedure.json", helpers.PrintJson(f))
+			j.Message = "OK, Save Recipes"
+			j.OK = true
 		}
 	}
 

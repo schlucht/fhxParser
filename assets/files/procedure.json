@@ -1686,7 +1686,8 @@
           "rec": "",
           "step_parameters": []
         }
-      ]
+      ],
+      "params": []
     }
   ],
   "unit_type": "PROCEDURE"

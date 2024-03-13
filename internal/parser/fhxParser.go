@@ -3,10 +3,9 @@ package parser
 import (
 	"errors"
 	"fmt"
+	"log"
 	"strconv"
 	"strings"
-
-	"github.com/schlucht/fhxreader/internal/helpers"
 )
 
 type Fhx struct {
@@ -154,11 +153,11 @@ func (m *Fhx) readUnit(fileText []string, unit_type string) ([]Unit, error) {
 			return nil, err
 		}
 		unit = procedures
-		steps, err := m.readStep(b)
-		if err != nil {
-			return nil, err
-		}
-		unit.Steps = steps
+		// steps, err := m.readStep(b)
+		// if err != nil {
+		// 	return nil, err
+		// }
+		// unit.Steps = steps
 
 		units = append(units, unit)
 	}
@@ -191,7 +190,15 @@ func (m *Fhx) readRecipe(fileText []string) ([]Recipe, error) {
 			return nil, err
 		}
 		recipe.Steps = steps
+
+		parameters, err := m.readAttributeParamBlock(b)
+		if err != nil {
+			return nil, err
+		}
+
+		recipe.Parameters = parameters
 		recipes = append(recipes, recipe)
+
 	}
 	return recipes, nil
 }
@@ -247,7 +254,6 @@ func (m *Fhx) readStep(lines []string) ([]Step, error) {
 		if err != nil {
 			return nil, err
 		}
-		helpers.SaveJSON("assets/files/stepParam.txt", attrBlocks)
 		params, err := m.stepParameters(attrBlocks)
 		if err != nil {
 			return nil, err
@@ -361,6 +367,26 @@ func (m *Fhx) readUps(lines []string, unit Unit) (Unit, error) {
 
 	// ups = append(ups, up)
 	return unit, nil
+}
+
+// Liest die Paramter aus den Attribute Blöcken und
+// Paramtern Blöcken
+func (m *Fhx) readAttributeParamBlock(lines []string) ([]Parameter, error) {
+	paramBlocks, err := readBlock("FORMULA_PARAMETER", lines)
+	if err != nil {
+		return []Parameter{}, err
+	}
+	log.Println(paramBlocks)
+	attrBlocks, err := readBlock("ATTRIBUTE_INSTANCE", lines)
+	if err != nil {
+		return []Parameter{}, err
+	}
+	params, err := m.readParameters(paramBlocks, attrBlocks)
+	if err != nil {
+		return []Parameter{}, err
+	}
+
+	return params, nil
 }
 
 /*
