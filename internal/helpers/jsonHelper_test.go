@@ -10,12 +10,9 @@ func Test_printJson(t *testing.T) {
 		Name:    "lothar",
 		Vorname: "schmid",
 	}
-	res, err := PrintJson(i)
+	res := PrintJson(i)
 	if res != `{"Name":"lothar","Vorname":"schmid"}` {
 		t.Errorf("%s json string ist falsch", res)
-	}
-	if err != nil {
-		t.Error(err)
 	}
 
 }
