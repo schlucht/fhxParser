@@ -1,21 +1,55 @@
 package helpers
 
-import "testing"
+import (
+	"os"
+	"testing"
+)
 
-func Test_printJson(t *testing.T) {
-	i := struct {
+func TestPrintJson(t *testing.T) {
+	// Test PrintJson function
+	input := struct {
 		Name    string
 		Vorname string
 	}{
-		Name:    "lothar",
-		Vorname: "schmid",
+		Name:    "John",
+		Vorname: "Doe",
 	}
-	res, err := PrintJson(i)
-	if res != `{"Name":"lothar","Vorname":"schmid"}` {
-		t.Errorf("%s json string ist falsch", res)
+	expected := `{
+  "Name": "John",
+  "Vorname": "Doe"
+}`
+	result := PrintJson(input)
+	if result != expected {
+		t.Errorf("PrintJson() returned unexpected result: got %v want %v", result, expected)
 	}
-	if err != nil {
-		t.Error(err)
+}
+
+func TestSaveJSON(t *testing.T) {
+	// Test SaveJSON function
+	data := struct {
+		Key   string
+		Value int
+	}{
+		Key:   "example",
+		Value: 123,
 	}
 
+	// Provide a temporary file path for testing
+	filePath := "testdata/test.json"
+
+	err := SaveJSON(filePath, data)
+	if err != nil {
+		t.Errorf("SaveJSON() returned an error: %v", err)
+	}
+
+	// Read the file to check if the data was saved correctly
+	fileData, err := os.ReadFile(filePath)
+	if err != nil {
+		t.Errorf("Error reading file: %v", err)
+	}
+
+	expected := `{"Key":"example","Value":123}`
+	if string(fileData) != expected {
+		t.Errorf("SaveJSON() did not write the correct data to the file. Got: %v, Want: %v", string(fileData), expected)
+	}
 }
