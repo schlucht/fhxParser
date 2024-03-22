@@ -3,10 +3,9 @@ package parser
 import (
 	"errors"
 	"fmt"
+	"log"
 	"strconv"
 	"strings"
-
-	"github.com/schlucht/fhxreader/internal/helpers"
 )
 
 type Fhx struct {
@@ -31,6 +30,7 @@ var regFhx = map[string]string{
 	"ValueString": `STRING_VALUE="(?P<s>.*)"`,
 	"Value":       `.* HIGH=(?P<s1>.*).LOW=(?P<s2>.*).SC.*CV=(?P<s3>.*).UNITS="(?P<s4>.*)"`,
 	"ValueDesc":   `CV="(?P<s>.*)"`,
+	"ValueInt":    `CV=(?P<s>.*) }`,
 	"Step":        `STEP NAME="(?P<s>.*)" D`,
 	"Definition":  `.*DEFINITION="(?P<s>.*)"`,
 	"StepDesc":    `.*DESCRIPTION="(?P<s>.*)"`,
@@ -39,6 +39,7 @@ var regFhx = map[string]string{
 	"DeferTo":     `DEFERRED_TO="(?P<s>.*)"`,
 	"Group":       `GROUP="(?P<s>.*)"`,
 	"StepParams":  `STEP_PARAMETER NAME="(?P<s>.*)"`,
+	"StepAttr":    `ATTRIBUTE_INSTANCE NAME="(?P<s>.*)"`,
 }
 
 // var fhx = Fhx{}
@@ -117,6 +118,8 @@ func (m *Fhx) readFhx(fileText []string) ([]Fhx, error) {
 	return fhxs, nil
 }
 
+// Liest die Unit Proceduren aus der FHX Datei
+// Mit dem Type UNIT_PROCEDURE wird gelesen
 func (m *Fhx) readUnit(fileText []string, unit_type string) ([]Unit, error) {
 
 	var units = []Unit{}
@@ -128,7 +131,7 @@ func (m *Fhx) readUnit(fileText []string, unit_type string) ([]Unit, error) {
 
 	for _, b := range block {
 		var unit Unit
-		// Names of Unit
+		// Name of Unit exp: UP_Q2000
 		unit.Type = unit_type
 		if unit.UnitName == "" {
 			unitName, err := readParam(b, m.regFhx["Recipe"])
@@ -139,6 +142,7 @@ func (m *Fhx) readUnit(fileText []string, unit_type string) ([]Unit, error) {
 				unit.UnitName = unitName[0]
 			}
 		}
+		// UNIT Position exp: Q2000
 		if unit.UnitPosition == "" {
 			unitPos, err := readParam(b, m.regFhx["Unit"])
 			if err != nil {
@@ -165,6 +169,8 @@ func (m *Fhx) readUnit(fileText []string, unit_type string) ([]Unit, error) {
 	return units, nil
 }
 
+// Liest die Recipe aus der FHX Datei
+// Mit dem Type PROCEDURE
 func (m *Fhx) readRecipe(fileText []string) ([]Recipe, error) {
 
 	var recipes = []Recipe{}
@@ -191,11 +197,20 @@ func (m *Fhx) readRecipe(fileText []string) ([]Recipe, error) {
 			return nil, err
 		}
 		recipe.Steps = steps
+
+		parameters, err := m.readAttributeParamBlock(b)
+		if err != nil {
+			return nil, err
+		}
+
+		recipe.Parameters = parameters
 		recipes = append(recipes, recipe)
+
 	}
 	return recipes, nil
 }
 
+// Liest die Step Parameter aus der FHX Datei
 func (m *Fhx) readStep(lines []string) ([]Step, error) {
 	var steps = []Step{}
 	step := Step{}
@@ -237,28 +252,83 @@ func (m *Fhx) readStep(lines []string) ([]Step, error) {
 					return nil, err
 				}
 				if rect != "" {
-					step.Description = rect
+					step.Rect = rect
 				}
 			}
 		}
 		//
 		// log.Println(stepparams)
-		attrBlocks, err := readBlock("STEP_PARAMETER", b)
+		paramBlocks, err := readBlock("STEP_PARAMETER", b)
 		if err != nil {
 			return nil, err
 		}
-		helpers.SaveJSON("assets/files/stepParam.txt", attrBlocks)
-		params, err := m.stepParameters(attrBlocks)
+		params, err := m.stepParameters(paramBlocks)
 		if err != nil {
 			return nil, err
 		}
 		step.StepParameters = params
-		steps = append(steps, step)
 
+		attrBlocks, err := readBlock("ATTRIBUTE_INSTANCE", b)
+		if err != nil {
+			return nil, err
+		}
+
+		attr, err := m.stepAttribute(stepBlocks, attrBlocks)
+		if err != nil {
+			return nil, err
+		}
+		step.StepAttributes = attr
+
+		steps = append(steps, step)
 		// fmt.Println(steps)
 	}
 
 	return steps, err
+}
+
+func (m *Fhx) stepAttribute(stepBlocks [][]string, attrBlock [][]string) ([]Parameter, error) {
+
+	params := []Parameter{}
+	for _, b := range attrBlock {
+		param := Parameter{}
+		for _, l := range b {
+			name, err := readRegex(m.regFhx["StepAttr"], l)
+			if err != nil {
+				return nil, err
+			}
+			if name != "" {
+				param.Name = name
+				value := Value{}
+				if len(b) > 4 {
+					u, err := readRegex(m.regFhx["ValueSet"], b[4])
+					if err != nil {
+						return nil, err
+					}
+					value.Set = u
+					strVal, err := readRegex(m.regFhx["ValueString"], b[5])
+					if err != nil {
+						return nil, err
+					}
+					value.StringValue = strVal
+				} else {
+					v, err := readRegex(m.regFhx["ValueInt"], b[2])
+					if err != nil {
+						return nil, err
+					}					
+					cv, err := strconv.Atoi(v)
+					if err != nil {
+						value.StringValue = v
+					} else {
+						value.Cv = cv
+					}
+				}
+				param.Value = value
+			}
+
+		}
+		params = append(params, param)
+	}
+	return params, nil
 }
 
 func (m *Fhx) stepParameters(attrBlock [][]string) ([]StepParameter, error) {
@@ -300,7 +370,7 @@ func (m *Fhx) stepParameters(attrBlock [][]string) ([]StepParameter, error) {
 		// fmt.Println(param)
 		params = append(params, param)
 	}
-	// TODO: READ STEP Paramter
+
 	return params, nil
 }
 
@@ -361,6 +431,26 @@ func (m *Fhx) readUps(lines []string, unit Unit) (Unit, error) {
 
 	// ups = append(ups, up)
 	return unit, nil
+}
+
+// Liest die Paramter aus den Attribute Blöcken und
+// Paramtern Blöcken
+func (m *Fhx) readAttributeParamBlock(lines []string) ([]Parameter, error) {
+	paramBlocks, err := readBlock("FORMULA_PARAMETER", lines)
+	if err != nil {
+		return []Parameter{}, err
+	}
+	log.Println(paramBlocks)
+	attrBlocks, err := readBlock("ATTRIBUTE_INSTANCE", lines)
+	if err != nil {
+		return []Parameter{}, err
+	}
+	params, err := m.readParameters(paramBlocks, attrBlocks)
+	if err != nil {
+		return []Parameter{}, err
+	}
+
+	return params, nil
 }
 
 /*

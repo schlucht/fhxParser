@@ -1,91 +1,170 @@
 {
   "units": [
     {
-      "unitname": "UP_Q2000_BEDING",
-      "unitpositon": "Q2000",
-      "time": 1664198987,
-      "author": "Schmid Lothar",
-      "description": "Bedingung",
+      "unitname": "UP_NEUTRAL_Z090_START",
+      "unitpositon": "Z090",
+      "time": 1582901836,
+      "author": "hkuehberge",
+      "description": "Z090 Zentrifugation",
       "type": "UP",
-      "params": [
-        {
-          "name": "FP_BESCHREI_TEXT",
-          "description": "",
-          "value": {},
-          "unit_id": 0
-        },
-        {
-          "name": "FP_FSB_MESSTELLE",
-          "description": "",
-          "value": {},
-          "unit_id": 0
-        },
-        {
-          "name": "FP_FSB_VERGLEICH",
-          "description": "",
-          "value": {
-            "stringvalue": "GRÖSSER",
-            "value_set": "LGF_BEDING"
-          },
-          "unit_id": 0
-        },
-        {
-          "name": "FP_FSB_WERT",
-          "description": "",
-          "value": {
-            "high": 100000,
-            "low": -100000,
-            "unit": "            "
-          },
-          "unit_id": 0
-        }
-      ],
+      "params": [],
       "steps": [
         {
-          "name": "OP_BEDING:1",
-          "key": "OP_BEDING",
-          "description": "{ X=170 Y=150 H=40 W=160 }\r",
-          "rec": "",
+          "name": "OP_MELDEN_ZF:1",
+          "key": "OP_MELDEN_ZF",
+          "description": "Zentrifuge starten",
+          "rec": "{ X=120 Y=170 H=40 W=180 }\r",
           "step_parameters": [
             {
               "name": "FP_BESCHREI_TEXT",
-              "origin": "DEFERRED\r",
-              "deferto": "FP_BESCHREI_TEXT",
+              "origin": "CONSTANT\r",
+              "deferto": "",
               "group": ""
             },
             {
-              "name": "FP_FSB_MESSTELLE",
-              "origin": "DEFERRED\r",
-              "deferto": "FP_FSB_MESSTELLE",
+              "name": "FP_MELDETEXT",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            }
+          ],
+          "step_attributes": [
+            {
+              "name": "FP_MELDETEXT",
+              "description": "",
+              "value": {
+                "stringvalue": "Start Zentrifuge, mit Quitt bestätigen"
+              },
+              "unit_id": 0
+            }
+          ]
+        },
+        {
+          "name": "OP_SET_AKTR_25_ZF:1",
+          "key": "OP_SET_AKTR_25_ZF",
+          "description": "Zentrifuge starten",
+          "rec": "{ X=120 Y=170 H=40 W=180 }\r",
+          "step_parameters": [
+            {
+              "name": "FP_AK01",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Configuration"
+            },
+            {
+              "name": "FP_AK01_OPT_AKT",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            },
+            {
+              "name": "FP_AK01_OPT_MODE",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "hidden"
+            },
+            {
+              "name": "FP_AK02",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Configuration"
+            },
+            {
+              "name": "FP_AK02_OPT_AKT",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "Operating"
+            },
+            {
+              "name": "FP_AK02_OPT_MODE",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": "hidden"
+            },
+            {
+              "name": "FP_BESCHREI_TEXT",
+              "origin": "CONSTANT\r",
+              "deferto": "",
               "group": ""
+            }
+          ],
+          "step_attributes": [
+            {
+              "name": "FP_AK01",
+              "description": "",
+              "value": {
+                "stringvalue": "Z090YS1120"
+              },
+              "unit_id": 0
             },
             {
-              "name": "FP_FSB_VERGLEICH",
-              "origin": "DEFERRED\r",
-              "deferto": "FP_FSB_VERGLEICH",
-              "group": "Operating"
+              "name": "FP_AK01_OPT_MODE",
+              "description": "",
+              "value": {
+                "stringvalue": "CAS UND CAS2_FREI AUS",
+                "value_set": "LGF_AKTO_OPT_MOD"
+              },
+              "unit_id": 0
             },
             {
-              "name": "FP_FSB_WERT",
-              "origin": "DEFERRED\r",
-              "deferto": "FP_FSB_WERT",
-              "group": "Operating"
+              "name": "FP_AK02",
+              "description": "",
+              "value": {
+                "stringvalue": "Z090YS6910"
+              },
+              "unit_id": 0
+            },
+            {
+              "name": "FP_AK02_OPT_MODE",
+              "description": "",
+              "value": {
+                "stringvalue": "CAS UND CAS2_FREI AUS",
+                "value_set": "LGF_AKTO_OPT_MOD"
+              },
+              "unit_id": 0
+            },
+            {
+              "name": "FP_AK03",
+              "description": "",
+              "value": {
+                "stringvalue": "Z090YS1700"
+              },
+              "unit_id": 0
+            },
+            {
+              "name": "FP_AK03_OPT_MODE",
+              "description": "",
+              "value": {
+                "stringvalue": "CAS UND CAS2_FREI AUS",
+                "value_set": "LGF_AKTO_OPT_MOD"
+              },
+              "unit_id": 0
+            },
+            {
+              "name": "FP_BESCHREI_TEXT",
+              "description": "",
+              "value": {
+                "stringvalue": "Grundstellung Inertisierung"
+              },
+              "unit_id": 0
             }
           ]
         },
         {
           "name": "START",
-          "key": "OP_BEDING",
-          "description": "{ X=200 Y=50 H=40 W=100 }\r",
-          "rec": "",
-          "step_parameters": []
+          "key": "OP_SET_AKTR_25_ZF",
+          "description": "Zentrifuge starten",
+          "rec": "{ X=120 Y=170 H=40 W=180 }\r",
+          "step_parameters": [],
+          "step_attributes": []
         },
         {
           "name": "START",
-          "key": "OP_BEDING",
-          "description": "{ X=200 Y=50 H=40 W=100 }\r",
-          "rec": "",
-          "step_parameters": []
+          "key": "OP_SET_AKTR_25_ZF",
+          "description": "Zentrifuge starten",
+          "rec": "{ X=120 Y=170 H=40 W=180 }\r",
+          "step_parameters": [],
+          "step_attributes": []
         }
       ]
     }

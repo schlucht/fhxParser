@@ -6,4 +6,5 @@ type Step struct {
 	Description    string          `json:"description"`
 	Rect           string          `json:"rec"`
 	StepParameters []StepParameter `json:"step_parameters"`
+	StepAttributes []Parameter     `json:"step_attributes"`
 }

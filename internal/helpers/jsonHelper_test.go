@@ -14,24 +14,9 @@ func TestPrintJson(t *testing.T) {
 		Name:    "John",
 		Vorname: "Doe",
 	}
-	expected := `{
-  "Name": "John",
-  "Vorname": "Doe"
-}`
-	result := PrintJson(input)
-	if result != expected {
-		t.Errorf("PrintJson() returned unexpected result: got %v want %v", result, expected)
-	}
-}
-
-func TestSaveJSON(t *testing.T) {
-	// Test SaveJSON function
-	data := struct {
-		Key   string
-		Value int
-	}{
-		Key:   "example",
-		Value: 123,
+	res := PrintJson(i)
+	if res != `{"Name":"lothar","Vorname":"schmid"}` {
+		t.Errorf("%s json string ist falsch", res)
 	}
 
 	// Provide a temporary file path for testing
