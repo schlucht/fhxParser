@@ -14,7 +14,7 @@ func TestPrintJson(t *testing.T) {
 		Name:    "John",
 		Vorname: "Doe",
 	}
-	res := PrintJson(i)
+	res := PrintJson(input)
 	if res != `{"Name":"lothar","Vorname":"schmid"}` {
 		t.Errorf("%s json string ist falsch", res)
 	}
@@ -22,7 +22,7 @@ func TestPrintJson(t *testing.T) {
 	// Provide a temporary file path for testing
 	filePath := "testdata/test.json"
 
-	err := SaveJSON(filePath, data)
+	err := SaveJSON(filePath, input)
 	if err != nil {
 		t.Errorf("SaveJSON() returned an error: %v", err)
 	}
