@@ -66,10 +66,6 @@
             console.error("Fehler in der DB: ", data.message)
         }
     }))
-  
-   
-    
- 
 
 </script>
 <style lang='css' scoped>

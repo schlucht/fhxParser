@@ -13,7 +13,6 @@ import (
 )
 
 const version = "1.0.0"
-const cssVersion = "1"
 const frontend_url = "127.0.0.1:5100"
 
 type config struct {
@@ -35,6 +34,7 @@ type application struct {
 }
 
 func (app *application) serve() error {
+	
 	srv := &http.Server{
 		Addr:              fmt.Sprintf(":%d", app.config.port),
 		Handler:           app.routes(),
@@ -63,6 +63,7 @@ func main() {
 	errorLog := log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
 
 	conn, err := driver.OpenDB(cfg.db.dsn)
+
 	if err != nil {
 		errorLog.Printf("%v", err)
 	}

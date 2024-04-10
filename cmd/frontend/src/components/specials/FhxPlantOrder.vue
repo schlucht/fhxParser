@@ -20,6 +20,7 @@
 import { onMounted, ref } from 'vue';
 import { loadAllPlants } from '@/models/plants';
 import { usePlantStore } from '@/stores/plant_store';
+import notie from 'notie'
    
     const props = defineProps({
         show: Boolean
@@ -45,18 +46,22 @@ import { usePlantStore } from '@/stores/plant_store';
         let plant = {id, plant_name}
         setTimeout(() => {            
             closeModal(plant);
-        }, 500);
-        
+        }, 500);        
     }  
 
     onMounted(async() => {
         // alle Betrieb aus der Datenbank laden
         const data = await loadAllPlants()
+        
         if (!data.ok) {
-            console.error(data.message)
+            notie.alert({
+                type: 'error',
+                text: data.message,
+            })  
         } else {
             plants.value = JSON.parse(data.content);
         }
+    
     });
 
 </script>

@@ -30,8 +30,8 @@ var j = jsonResponse{
 }
 
 // gibt alle Abteilungen zurück
-func (app *application) AllPlants(w http.ResponseWriter, r *http.Request) {
-	allPlants, err := app.DB.LoadAllPlants()
+func (app *application) allPlants(w http.ResponseWriter, r *http.Request) {
+	allPlants, err := app.DB.LoadAllPlants()	
 	if err != nil {
 		app.errorLog.Printf("Fehler beim auslesen der Anlage %v", err)
 		app.badRequest(w, r, err)

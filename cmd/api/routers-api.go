@@ -16,10 +16,10 @@ func (app *application) routes() http.Handler {
 		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
 		AllowCredentials: false,
 		MaxAge:           300,
-	}))
-
+	}))	
+	
 	mux.Post("/api/read-fhx", app.ReadFhx)
-	mux.Get("/api/all-plants", app.AllPlants)
+	mux.Get("/api/all-plants", app.allPlants)
 	mux.Post("/api/allGetOperations", app.GetOperations)
 	mux.Post("/api/getParamsFromOPId", app.getParamsFromOPId)
 

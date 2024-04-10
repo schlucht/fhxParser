@@ -9,7 +9,7 @@ import (
 func (m *DBModel) LoadAllPlants() ([]*Plant, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
-
+	
 	var plants []*Plant
 	query := `SELECT id, plant_name, created_at, updated_at FROM plants`
 
@@ -77,4 +77,3 @@ func (m *DBModel) UpdatePlant(plant Plant) (int64, error) {
 	}
 	return count, nil
 }
-
