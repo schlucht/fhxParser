@@ -23,5 +23,7 @@ func (app *application) routes() http.Handler {
 	mux.Post("/api/allGetOperations", app.GetOperations)
 	mux.Post("/api/getParamsFromOPId", app.getParamsFromOPId)
 
+	mux.Post("/api/getAllRecipes", app.getAllRecipesHandler)
+
 	return mux
 }

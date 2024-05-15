@@ -47,12 +47,10 @@ type Typ struct {
 }
 
 type Recipe struct {
-	Id        int       `json:"id"`
+	Id        int       `json:"recipe_id"`
 	Name      string    `json:"recipe_name"`
-	Author    string    `json:"desc"`
-	UnitID    int       `json:"unit_id"`
-	PlantID   int       `json:"plant_id"`
-	CreatetAt time.Time `json:"-"`
+	PlantID   int       `json:"recipe_plantId"`
+	CreatedAt time.Time `json:"-"`
 	UpdatedAt time.Time `json:"-"`
 }
 
