@@ -5,6 +5,8 @@ import (
 	"errors"
 	"io"
 	"net/http"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 // writeJSON writes aribtrary data out as JSON
@@ -46,7 +48,8 @@ func (app *application) readJSON(w http.ResponseWriter, r *http.Request, data in
 }
 
 // badRequest sends a JSON response with status http.StatusBadRequest, describing the error
-func (app *application) badRequest(w http.ResponseWriter, r *http.Request, err error) error {
+func (app *application) badRequest(w http.ResponseWriter, r *http.Request, err error, method string) error {
+	app.errorLog.Printf("%v in %s", err, method)
 	j := jsonResponse{
 		OK:      false,
 		Message: err.Error(),
@@ -56,7 +59,6 @@ func (app *application) badRequest(w http.ResponseWriter, r *http.Request, err e
 	if err != nil {
 		return err
 	}
-
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusBadRequest)
 	w.Write(out)
@@ -68,4 +70,30 @@ func (app *application) mysqlErrorMessages(errorNumber int) string {
 		return "Eintrag existiert schon!"
 	}
 	return ""
+}
+
+func (app *application) invalidCredentials(w http.ResponseWriter) error {
+	j := jsonResponse{
+		OK:      false,
+		Message: "invalid credentials",
+		Content: "{}",
+	}
+	err := app.writeJSON(w, http.StatusUnauthorized, j)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (app *application) passwordMatches(hash, password string) (bool, error) {
+	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+	if err != nil {
+		switch {
+		case errors.Is(err, bcrypt.ErrMismatchedHashAndPassword):
+			return false, nil
+		default:
+			return false, err
+		}
+	}
+	return true, nil
 }

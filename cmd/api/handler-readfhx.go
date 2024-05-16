@@ -17,7 +17,7 @@ func (app *application) ReadFhx(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		app.errorLog.Printf("%v, %s", err, "Keine Daten vorhanden")
-		app.badRequest(w, r, err)
+		app.badRequest(w, r, err, "ReadFhx: ReadAll")
 		return
 	}
 
@@ -25,7 +25,7 @@ func (app *application) ReadFhx(w http.ResponseWriter, r *http.Request) {
 	err = json.Unmarshal(data, &fhxJson)
 	if err != nil {
 		app.errorLog.Println(err)
-		app.badRequest(w, r, err)
+		app.badRequest(w, r, err, "ReadFhx: Unmarshal")
 		return
 	}
 
@@ -48,7 +48,7 @@ func (app *application) ReadFhx(w http.ResponseWriter, r *http.Request) {
 			j.Message = "OK, Save Units"
 			j.OK = true
 		} else if f.UnitType == "PROCEDURE" {
-			helpers.SaveJSON("assets/files/procedure.json", helpers.PrintJson(f))			
+			helpers.SaveJSON("assets/files/procedure.json", helpers.PrintJson(f))
 			j.Message = "OK, Save Recipes"
 			j.OK = true
 		}

@@ -21,6 +21,18 @@ func (app *application) routes() http.Handler {
 	mux.Get("/", app.Home)
 	mux.NotFound(app.NotFound)
 
+	// Register Routes
+	mux.Route("/register", func(mux chi.Router) {
+		mux.Get("/", app.RegisterPage)
+		mux.Post("/save", app.SaveNewUser)
+	})
+
+	// AUTH Routes
+	mux.Route("/login", func(mux chi.Router) {
+		mux.Get("/", app.LoginPage)
+		mux.Post("/authenticate", app.CreateAuthToken)
+	})
+
 	fileServer := http.FileServer(http.Dir("./assets"))
 	mux.Handle("/assets/*", http.StripPrefix("/assets", fileServer))
 

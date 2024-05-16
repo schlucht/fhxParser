@@ -13,16 +13,16 @@ type fhxFileLoad struct {
 }
 
 type jsonResponse struct {
-	OK      bool   `json:"ok"`
-	Message string `json:"message"`
-	Content string `json:"content"`
-	ID      int    `json:"id"`
+	OK      bool        `json:"ok"`
+	Message string      `json:"message"`
+	Content interface{} `json:"content"`
+	ID      int         `json:"id"`
 }
 
 var j = jsonResponse{
 	OK:      false,
 	Message: "",
-	Content: "{}",
+	Content: "",
 	ID:      999,
 }
 

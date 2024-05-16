@@ -63,7 +63,7 @@ func main() {
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
 	errorLog := log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
 
-	session := scs.New()
+	session = scs.New()
 	session.Lifetime = 24 * time.Hour
 
 	conn, err := driver.OpenDB(cfg.db.dsn)
@@ -79,6 +79,7 @@ func main() {
 		errorLog:      errorLog,
 		templateCache: tc,
 		version:       version,
+		Session:       session,
 		DB:            models.DBModel{DB: conn},
 	}
 

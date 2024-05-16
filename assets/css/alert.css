@@ -1,0 +1,8 @@
+alert {
+    border: solid 5px black;
+    width: 100vw;
+}
+alert-danger {
+    background-color: red;
+    color: white;
+}
