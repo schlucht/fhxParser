@@ -29,7 +29,7 @@ var j = jsonResponse{
 // gibt alle Abteilungen zurück
 
 func (app *application) Home(w http.ResponseWriter, r *http.Request) {
-	if err := app.renderTemplate(w, r, "home", &templateData{}); err != nil {
+	if err := app.renderTemplate(w, r, "home", &templateData{}, "loadFile"); err != nil {
 		app.errorLog.Println(err)
 	}
 }
