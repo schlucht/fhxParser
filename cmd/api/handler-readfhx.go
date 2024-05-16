@@ -5,10 +5,8 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"time"
 
 	"github.com/schlucht/fhxreader/internal/helpers"
-	"github.com/schlucht/fhxreader/internal/models"
 	"github.com/schlucht/fhxreader/internal/parser"
 )
 
@@ -50,25 +48,7 @@ func (app *application) ReadFhx(w http.ResponseWriter, r *http.Request) {
 			j.Message = "OK, Save Units"
 			j.OK = true
 		} else if f.UnitType == "PROCEDURE" {
-			// helpers.SaveJSON("assets/files/procedure.json", helpers.PrintJson(f))
-
-			recipes := []models.Recipe{}
-			for _, r := range f.Recipes {
-				recipe := models.Recipe{
-					Name:      r.RecipeName,
-					PlantID:   fhxJson.PlantId,
-					CreatedAt: time.Now(),
-				}
-				recipes = append(recipes, recipe)
-			}
-			err = app.insertRecipe(recipes, fhxJson.PlantId)
-			if err != nil {
-				app.errorLog.Printf("%v, %s", err, "Fehler beim Speichern von Rezept")
-				j.OK = false
-				j.Message = fmt.Sprintf("%v", err)
-				app.writeJSON(w, http.StatusOK, j)
-				return
-			}
+			helpers.SaveJSON("assets/files/procedure.json", helpers.PrintJson(f))			
 			j.Message = "OK, Save Recipes"
 			j.OK = true
 		}

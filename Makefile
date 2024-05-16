@@ -1,8 +1,6 @@
 BINARY_NAME=fhxparser
 PORT=5101
 
-.PHONY: run_front
-
 build:
 	@go build -o dist/${BINARY_NAME} ./cmd/api
 
@@ -29,20 +27,9 @@ test:
 install:
 	@go mod tidy
 
-front:
-	cd cmd/frontend && npm run dev
+run: api
 
-run_app: api front
 
-db:
-	@echo "Starting database.."
-	@docker compose up -d
-	@echo "DB is started"
-
-stop_db:
-	@echo "Stoping database..."
-	@docker compose down
-	@echo "DB is stoped"
 
 
 	

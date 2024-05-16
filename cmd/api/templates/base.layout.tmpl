@@ -1,0 +1,33 @@
+{{define "base"}}
+
+<!doctype html>
+<html lang="de">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>
+    {{ block "title" .}}
+
+    {{ end }}
+  </title>
+  <link href="../assets/css/main.css" rel="stylesheet">
+  <script src="../assets/js/main.js" defer></script>
+    
+</head>
+
+<body>
+  <div class="section">
+    {{ block "header" .}}{{end}}
+    <main>
+      {{ block "content" .}}{{end}} 
+    </main>
+    {{ block "footer" .}}{{end}} 
+  </div>
+  
+ 
+</body>
+
+</html>
+
+{{end}}
