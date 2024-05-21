@@ -16,6 +16,18 @@
 </head>
 
 <body>
+  <div id="window">    
+      <div class="wrapper">
+        <form action="" mehode="POST">
+          <div class="form-group">
+            <label for="plantName">Plants</label>
+            <p>Es ist noch kein Anlage gespeichert. Bitte eine Anlage auslesen.</p>
+            <select name="plantitem" id="plantitems"></select>
+            <a href="javascript:void(0)" class="w3-button" id="btnSavePlant">Speichern</a>
+            <button id="btnWindowClose" class="w3-button">Schliessen</button>
+          </div>
+      </div>
+  </div>
   <div class="section">
     {{ block "header" .}}{{end}}
     <main>
@@ -24,7 +36,7 @@
     {{ block "footer" .}}{{end}} 
   </div>
   
-  <script src="../assets/js/main.js" type="module" defer></script>
+  <script src="../assets/js/main.js" type="module" defer></script>  
  {{ block "js" .}}{{end}}
 </body>
 

@@ -1,9 +1,7 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
-	"io"
 	"net/http"
 
 	"github.com/schlucht/fhxreader/internal/helpers"
@@ -11,21 +9,23 @@ import (
 )
 
 // Liest einen FHX Text ein. Es muss der Text und eine ID für eine Anlage vorhanden sein.
+
+func (app *application) FhxPage(w http.ResponseWriter, r *http.Request) {
+	if err := app.renderTemplate(w, r, "fhx", &templateData{}); err != nil {
+		app.errorLog.Println(err)
+	}
+}
+
 func (app *application) ReadFhx(w http.ResponseWriter, r *http.Request) {
-
-	data, err := io.ReadAll(r.Body)
-
-	if err != nil {
-		app.errorLog.Printf("%v, %s", err, "Keine Daten vorhanden")
-		app.badRequest(w, r, err, "ReadFhx: ReadAll")
-		return
+	var fhxJson struct {
+		FileText string `json:"text"`
+		FileName string `json:"name"`
+		PlantId  int    `json:"plant_id"`
 	}
 
-	var fhxJson = fhxFileLoad{}
-	err = json.Unmarshal(data, &fhxJson)
+	err := app.readJSON(w, r, &fhxJson)
 	if err != nil {
-		app.errorLog.Println(err)
-		app.badRequest(w, r, err, "ReadFhx: Unmarshal")
+		app.badRequest(w, r, err, "ReadFhx: readJson")
 		return
 	}
 

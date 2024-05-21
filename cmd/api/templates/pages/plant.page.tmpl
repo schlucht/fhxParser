@@ -5,15 +5,16 @@
 {{ end }}
 
 {{ define "content" }} 
+{{ $plants := index .Data "plants" }}
     <div class="w3-container">
         <h2>Betrieb bearbeiten</h2>
-        <form action="" mehode="POST">
+        <form action="/plants" method="POST" id="plant-form">
             <div class="form-group">
                 <label for="plantName">Name</label>
                 <input type="plantName" class="form-control" id="plantName" name="plantName">
             </div>
             <div class="form-group">
-                <a href="javascript:void(0)" class="button" onClick="save()">Speichern</a>
+                <a href="javascript:void(0)" onClick="savePlant()" class="w3-button w3-primary">Speichern</a>
             </div>
         </form>        
     </div>
@@ -21,16 +22,30 @@
         <h2>Betriebe</h2>
         <table class="w3-table-all w3-hoverable">
             <tr>
-                <th>Betrieb</th>
-                <th>Actions</th>
-            </tr>            
-            <tr>
-                <td>Betrieb 1</td>
-                <td>Betrieb 2</td>
+                <th>Betrieb</th>               
             </tr>
+            {{ range $plants }}            
+            <tr>
+                <td>{{ .Name }}</td>               
+            </tr>
+            {{ end }}
         </table>
     </div>
 {{ end }}
 
-{{ define "js"}}    
+{{ define "js"}}
+<script>
+
+    const plantForm = document.getElementById("plant-form")
+    async function savePlant() {
+        const requestOptions = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ plantName: document.getElementById("plantName").value }),
+        };
+        await fetch("/plants/save", requestOptions);
+        plantForm.reset()
+    }
+
+</script>
 {{end}}

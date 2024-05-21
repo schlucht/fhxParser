@@ -1,7 +1,9 @@
 {
-    "editor.fontFamily": "'Fira Code',  Consolas, 'Courier New', monospace",
-    "editor.fontSize": 14,
+    "editor.fontFamily": "New Times Roman, Verdana, Calibri light,Courier New, monospace",
+    "editor.fontSize": 13,
+    "editor.letterSpacing": 0,
     "editor.lineHeight": 0,
+    "terminal.integrated.fontFamily": "monospace",
     "vim.smartRelativeLine": true,
     "vim.easymotion": true,
     "vim.incsearch": true,

@@ -46,3 +46,14 @@ func (m *DBModel) GetPlants() ([]Plant, error) {
 	}
 	return plants, nil
 }
+
+func (m *DBModel) PlantSave(name string) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+	stmt := `UPDATE plants SET plant = ?`
+	_, err := m.DB.ExecContext(ctx, stmt, name)
+	if err != nil {
+		return err
+	}
+	return nil
+}

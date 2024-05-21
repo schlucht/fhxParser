@@ -8,7 +8,7 @@
     <form action="" mehode="POST">
         <div class="form-group">
             <label for="fhxFile">FHX-Datei</label>
-            <input type="file" class="form-control" id="fhxFile" name="fhxFile">
+            <input type="file" class="form-control" id="fhxFile" name="fhxFile" onchange="upload(event)" accept=".fhx">
         </div>
         <div class="form-group">
             <label for="fhxPlant">Betrieb</label>
@@ -18,10 +18,29 @@
                 <option value="3">Betrieb 3</option>
             </select>>
         </div>
-        <a href="javascript:void(0)" class="button" onClick="load()">Laden</a>
+        <a href="javascript:void(0)" class="button" onClick="load(event)">Laden</a>
     </form>
 {{ end }}
 
 {{ define "js"}}
-
+<script>
+    function upload(e) {
+        const files = e.target.files || e.dataTransfer.files;
+        if (!files.length) return;
+        const file = files[0].name;
+        let text = ""
+        const fr = new FileReader();
+        fr.onload = async () => {
+            text = fr.result;              
+            console.log(text)
+            const requestOptions = {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ text: text, name: file, plant_id: 1 }),
+            };
+            await fetch("/fhx/readFhx", requestOptions);
+        }
+        fr.readAsText(files[0]);
+    }
+</script>
 {{end}}

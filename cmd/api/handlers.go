@@ -6,12 +6,6 @@ type antwort struct {
 	Id int `json:"id"`
 }
 
-type fhxFileLoad struct {
-	FileText string `json:"text"`
-	FileName string `json:"name"`
-	PlantId  int    `json:"plant_id"`
-}
-
 type jsonResponse struct {
 	OK      bool        `json:"ok"`
 	Message string      `json:"message"`

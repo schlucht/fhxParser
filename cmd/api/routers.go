@@ -34,9 +34,10 @@ func (app *application) routes() http.Handler {
 	})
 
 	// Plant Routes
-	mux.Route("/plant", func(mux chi.Router) {
+	mux.Route("/plants", func(mux chi.Router) {
 		mux.Get("/", app.PlantPage)
-		mux.Post("/save", app.PlantPage)
+		mux.Get("/allPlants", app.AllPlants)
+		mux.Post("/save", app.PlantSave)
 		mux.Delete("/delete", app.PlantPage)
 		mux.Put("/update", app.PlantPage)
 	})
@@ -49,6 +50,7 @@ func (app *application) routes() http.Handler {
 	// FHX Routes
 	mux.Route("/fhx", func(mux chi.Router) {
 		mux.Get("/", app.FhxPage)
+		mux.Post("/readFhx", app.ReadFhx)
 	})
 
 	fileServer := http.FileServer(http.Dir("./assets"))
