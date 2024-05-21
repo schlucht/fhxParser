@@ -1,0 +1,36 @@
+{{template "base" .}}
+
+{{ define "title" }}
+    Delta-V Betrieb bearbeiten
+{{ end }}
+
+{{ define "content" }} 
+    <div class="w3-container">
+        <h2>Betrieb bearbeiten</h2>
+        <form action="" mehode="POST">
+            <div class="form-group">
+                <label for="plantName">Name</label>
+                <input type="plantName" class="form-control" id="plantName" name="plantName">
+            </div>
+            <div class="form-group">
+                <a href="javascript:void(0)" class="button" onClick="save()">Speichern</a>
+            </div>
+        </form>        
+    </div>
+    <div class="w3-container">
+        <h2>Betriebe</h2>
+        <table class="w3-table-all w3-hoverable">
+            <tr>
+                <th>Betrieb</th>
+                <th>Actions</th>
+            </tr>            
+            <tr>
+                <td>Betrieb 1</td>
+                <td>Betrieb 2</td>
+            </tr>
+        </table>
+    </div>
+{{ end }}
+
+{{ define "js"}}    
+{{end}}

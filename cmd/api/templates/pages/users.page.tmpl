@@ -1,0 +1,38 @@
+{{template "base" .}}
+
+{{ define "title" }}
+    Delta-V Betrieb bearbeiten
+{{ end }}
+
+{{ define "content" }} 
+    <div class="w3-container">
+        <h2>User bearbeiten</h2>
+        <form action="" mehode="POST">
+            <div class="form-group">
+                <label for="plantName">Name</label>
+                <input type="plantName" class="form-control" id="plantName" name="plantName">
+            </div>
+            <div class="form-group">
+                <a href="javascript:void(0)" class="button" onClick="save()">Speichern</a>
+            </div>
+        </form>        
+    </div>
+    <div class="w3-container">
+        <h2>User/h2>
+        <table class="w3-table-all w3-hoverable">
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>status</th>
+            </tr>            
+            <tr>
+                <td>lschmid1</td>
+                <td>lothar.schmid@jagolo.ch</td>
+                <td>admin</td>
+            </tr>
+        </table>
+    </div>
+{{ end }}
+
+{{ define "js"}}    
+{{end}}

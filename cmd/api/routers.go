@@ -33,6 +33,24 @@ func (app *application) routes() http.Handler {
 		mux.Post("/authenticate", app.CreateAuthToken)
 	})
 
+	// Plant Routes
+	mux.Route("/plant", func(mux chi.Router) {
+		mux.Get("/", app.PlantPage)
+		mux.Post("/save", app.PlantPage)
+		mux.Delete("/delete", app.PlantPage)
+		mux.Put("/update", app.PlantPage)
+	})
+
+	// Users Routes
+	mux.Route("/users", func(mux chi.Router) {
+		mux.Get("/", app.UserPage)
+	})
+
+	// FHX Routes
+	mux.Route("/fhx", func(mux chi.Router) {
+		mux.Get("/", app.FhxPage)
+	})
+
 	fileServer := http.FileServer(http.Dir("./assets"))
 	mux.Handle("/assets/*", http.StripPrefix("/assets", fileServer))
 

@@ -1,0 +1,10 @@
+.container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: var(--clr-white);
+}
+
+.d-none {
+    display: none;
+}

@@ -1,16 +1,24 @@
 {{ define "header" }}
-<header class="header">    
-    <div class="logo">
-        <img src="https://pweulonza2.azureedge.net/static/Fallback/Assets/header-logo-uX5g-bsbk3iAmJJ046vKCwsj0GsVpFJph4TkZ5lJzb41.png?sv=2017-04-17&sr=c&sig=4kjX2PTV1LZyXx19cDU9njdUabNlkQcQYsO6KCdMmwE%3D&se=2024-05-17T10%3A55%3A13Z&sp=r" alt="Arxada logo">
-    </div>
-    <nav>        
-        <a class="active" href="/">Home</a>
-        <a href="/">Home</a>        
-        <a href="/recipes">Rezepte</a>            
-    </nav>
-    <ul class="login-nav">
-        <li><a href="/login">Login</a></li>
-        <li><a href="/register">Registrieren</a></li>
-    </ul>
-</header>
+<div class="top"></div>
+<div class="container">
+    <header class="header">
+        <div class="logo">
+            <img src="../assets/images/arxada-blue.png" alt="Arxada logo">
+        </div>
+        <ul class="nav-left">        
+            <li><a class="active" href="/">Home</a></li>
+            <li><a href="/recipes">Rezepte</a></li>            
+        </ul>
+        <ul class="nav-admin d-none">
+            <li><a href="/fhx">Datenladen</a></li>            
+            <li><a href="/users">User</a></li>
+            <li><a href="/plant">Betrieb</a></li>
+        </ul>
+        <ul class="nav-right">
+            <li><a href="/login">Login</a></li>
+            <li class="d-none"><a href="#!">Logout</a></li>
+            <li><a href="/register">Registrieren</a></li>
+        </ul>
+    </header>
+</div>
 {{ end }}
