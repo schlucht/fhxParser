@@ -2,6 +2,7 @@ package parser
 
 type Unit struct {
 	UnitName     string      `json:"unitname"`
+	UnitCategory string      `json:"unitcategory"`
 	UnitPosition string      `json:"unitpositon"`
 	Time         int         `json:"time"`
 	Author       string      `json:"author"`

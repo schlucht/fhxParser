@@ -23,7 +23,7 @@ var regFhx = map[string]string{
 	"Recipe":      `BATCH_RECIPE NAME="(?P<s>.*)" T`,
 	"Params":      `FORMULA_PARAMETER NAME="(?P<s>.*)" T`,
 	"Type":        `.*TYPE=(?P<s>.*) C`,
-	"CATEGORY":    `CATEGORY="(?P<s>.*)"`,
+	"Category":    `CATEGORY="(?P<s>.*)"`,
 	"Desc":        `DESCRIPTION="(?P<s>.*)"`,
 	"Unit":        `EQUIPMENT_UNIT="(?P<s>.*)"`,
 	"ValueSet":    `SET="(?P<s>.*)"`,
@@ -142,6 +142,18 @@ func (m *Fhx) readUnit(fileText []string, unit_type string) ([]Unit, error) {
 				unit.UnitName = unitName[0]
 			}
 		}
+
+		// UNIT Category Folder Gruppierung
+		if unit.UnitCategory == "" {
+			unitCat, err := readParam(b, m.regFhx["Cat"])
+			if err != nil {
+				return nil, err
+			}
+			if len(unitCat) > 0 {
+				unit.UnitCategory = unitCat[0]
+			}
+		}
+
 		// UNIT Position exp: Q2000
 		if unit.UnitPosition == "" {
 			unitPos, err := readParam(b, m.regFhx["Unit"])
@@ -182,7 +194,7 @@ func (m *Fhx) readRecipe(fileText []string) ([]Recipe, error) {
 
 	for _, b := range block {
 		var recipe Recipe
-		// Names of Unit
+		// Rezept name auslesen
 		if recipe.RecipeName == "" {
 			recipeName, err := readParam(b, m.regFhx["Recipe"])
 			if err != nil {
@@ -190,6 +202,16 @@ func (m *Fhx) readRecipe(fileText []string) ([]Recipe, error) {
 			}
 			if len(recipeName) > 0 {
 				recipe.RecipeName = recipeName[0]
+			}
+		}
+		// Kategorie Folder auslesen
+		if recipe.Category == "" {
+			category, err := readParam(b, m.regFhx["Category"])
+			if err != nil {
+				return nil, err
+			}
+			if len(category) > 0 {
+				recipe.Category = category[0]
 			}
 		}
 		steps, err := m.readStep(b)
@@ -314,7 +336,7 @@ func (m *Fhx) stepAttribute(stepBlocks [][]string, attrBlock [][]string) ([]Para
 					v, err := readRegex(m.regFhx["ValueInt"], b[2])
 					if err != nil {
 						return nil, err
-					}					
+					}
 					cv, err := strconv.Atoi(v)
 					if err != nil {
 						value.StringValue = v
