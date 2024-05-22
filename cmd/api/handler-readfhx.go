@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/google/uuid"
 	"github.com/schlucht/fhxreader/internal/helpers"
 	"github.com/schlucht/fhxreader/internal/parser"
 )
@@ -20,9 +21,8 @@ func (app *application) ReadFhx(w http.ResponseWriter, r *http.Request) {
 	var fhxJson struct {
 		FileText string `json:"text"`
 		FileName string `json:"name"`
-		PlantId  int    `json:"plant_id"`
+		PlantId  string `json:"plant_id"`
 	}
-
 	err := app.readJSON(w, r, &fhxJson)
 	if err != nil {
 		app.badRequest(w, r, err, "ReadFhx: readJson")
@@ -41,6 +41,7 @@ func (app *application) ReadFhx(w http.ResponseWriter, r *http.Request) {
 	for _, f := range fhx {
 		if f.UnitType == "OPERATION" {
 			helpers.SaveJSON("assets/files/operation.json", helpers.PrintJson(f))
+			app.SaveOperation(f, uuid.MustParse(fhxJson.PlantId))
 			j.Message = "OK, Save Operations"
 			j.OK = true
 		} else if f.UnitType == "UNIT_PROCEDURE" {

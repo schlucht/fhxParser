@@ -12,11 +12,7 @@
         </div>
         <div class="form-group">
             <label for="fhxPlant">Betrieb</label>
-            <select>
-                <option value="1">Betrieb 1</option>
-                <option value="2">Betrieb 2</option>
-                <option value="3">Betrieb 3</option>
-            </select>>
+            <select id="plantSelectItem"></select>>
         </div>
         <a href="javascript:void(0)" class="button" onClick="load(event)">Laden</a>
     </form>
@@ -24,23 +20,47 @@
 
 {{ define "js"}}
 <script>
+ 
+   
     function upload(e) {
-        const files = e.target.files || e.dataTransfer.files;
-        if (!files.length) return;
-        const file = files[0].name;
-        let text = ""
-        const fr = new FileReader();
-        fr.onload = async () => {
-            text = fr.result;              
-            console.log(text)
-            const requestOptions = {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ text: text, name: file, plant_id: 1 }),
-            };
-            await fetch("/fhx/readFhx", requestOptions);
+            const files = e.target.files || e.dataTransfer.files;
+            if (!files.length) return;
+            const file = files[0].name;
+            let text = ""
+            const fr = new FileReader();
+            fr.onload = async () => {
+                text = fr.result;      
+                let storePlant = localStorage.getItem('plant')        
+                if (storePlant) {
+                    storePlant = JSON.parse(storePlant)   
+                }     
+                plantid = storePlant.plant_id || 1
+                const requestOptions = {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ text: text, name: file, plant_id: plantid }),
+                };
+                await fetch("/fhx/readFhx", requestOptions);
+            }
+            fr.readAsText(files[0]);
         }
-        fr.readAsText(files[0]);
-    }
+    document.addEventListener('DOMContentLoaded', () => {
+        const plantItems = document.getElementById('plantSelectItem')
+        // const plant = document.getElementById('plant')
+        
+        const plants = async () => {
+            try {
+                const res = await fetch('/plants/allPlants')
+                const data = await res.json()
+                for (let plant of data) {               
+                    plantItems.innerHTML += `<option value="${plant.plant_id}">${plant.plant}</option>`
+                }
+            } catch (error) {
+                console.error("Plant load in main.js", error)
+            }
+        }  
+        plants()       
+    })
+    
 </script>
 {{end}}

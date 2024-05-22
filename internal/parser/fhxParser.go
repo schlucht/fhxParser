@@ -145,7 +145,7 @@ func (m *Fhx) readUnit(fileText []string, unit_type string) ([]Unit, error) {
 
 		// UNIT Category Folder Gruppierung
 		if unit.UnitCategory == "" {
-			unitCat, err := readParam(b, m.regFhx["Cat"])
+			unitCat, err := readParam(b, m.regFhx["Category"])
 			if err != nil {
 				return nil, err
 			}
