@@ -41,11 +41,27 @@ func (app *application) ReadFhx(w http.ResponseWriter, r *http.Request) {
 	for _, f := range fhx {
 		if f.UnitType == "OPERATION" {
 			helpers.SaveJSON("assets/files/operation.json", helpers.PrintJson(f))
-			app.SaveOperation(f, uuid.MustParse(fhxJson.PlantId))
+			// Speichern der Operation
+			err := app.SaveOperation(f, uuid.MustParse(fhxJson.PlantId))
+			if err != nil {
+				app.errorLog.Printf("%v, %s", err, "Fehler im FHX Parser")
+				j.OK = false
+				j.Message = fmt.Sprintf("%v", err)
+				app.writeJSON(w, http.StatusOK, j)
+				return
+			}
 			j.Message = "OK, Save Operations"
 			j.OK = true
 		} else if f.UnitType == "UNIT_PROCEDURE" {
 			helpers.SaveJSON("assets/files/units.json", helpers.PrintJson(f))
+			// Speichern der Unit
+			err = app.SaveUnit(f, uuid.MustParse(fhxJson.PlantId))
+			if err != nil {
+				j.OK = false
+				j.Message = fmt.Sprintf("%v", err)
+				app.writeJSON(w, http.StatusOK, j)
+				return
+			}
 			j.Message = "OK, Save Units"
 			j.OK = true
 		} else if f.UnitType == "PROCEDURE" {
