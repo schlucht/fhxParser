@@ -89,7 +89,9 @@ func (m *DBModel) NewOP(op Operation) error {
 func (m *DBModel) OPFromID(id uuid.UUID) (Operation, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
+
 	var op Operation
+
 	stmt := `SELECT op_id, opname, created_at, updated_at FROM operations WHERE op_id = ?`
 	err := m.DB.QueryRowContext(ctx, stmt, id.String()).Scan(&op.ID, &op.OPName, &op.CreatedAt, &op.UpdatedAt)
 	if err != nil {
@@ -132,7 +134,9 @@ func (m *DBModel) NewOPPlant(opPlant OperationPlant) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	id := uuid.New()
+	if opPlant.ID == uuid.Nil {
+		opPlant.ID = uuid.New()
+	}
 
 	stmt := `
 		INSERT INTO op_plant
@@ -140,7 +144,7 @@ func (m *DBModel) NewOPPlant(opPlant OperationPlant) error {
 		VALUES(?,?,?,?,?,?,?,?)	`
 
 	_, err := m.DB.ExecContext(ctx, stmt,
-		id.String(),
+		opPlant.ID.String(),
 		opPlant.OperationID.String(),
 		opPlant.PlantID.String(),
 		opPlant.Category,
@@ -162,6 +166,10 @@ func (m *DBModel) NewOPPlant(opPlant OperationPlant) error {
 func (m *DBModel) NewParam(param Parameter, opPlantID uuid.UUID) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
+
+	if param.ID == uuid.Nil {
+		param.ID = uuid.New()
+	}
 
 	stmt := `INSERT INTO parameters (params_id, opplant_id, params_name, params_descr) VALUES(?,?,?,?)`
 	_, err := m.DB.ExecContext(ctx, stmt, param.ID.String(), opPlantID.String(), param.Name, param.Description)
@@ -199,6 +207,33 @@ func (m *DBModel) OPPlantFromID(idOP uuid.UUID, idPlant uuid.UUID) (uuid.UUID, e
 	return uid, nil
 }
 
+// ExistParam checks if a parameter with the given name exists for a specific operation plant in the database.
+//
+// Parameters:
+// - opPlantID: the UUID of the operation plant to search for.
+// - paramName: the name of the parameter to search for.
+//
+// Returns:
+// - error: an error if there was a problem executing the SQL statement or scanning the result.
+func (m *DBModel) ExistParam(opPlantID uuid.UUID, paramName string) (uuid.UUID, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	stmt := `SELECT params_id FROM parameters WHERE opplant_id = ? AND params_name = ?`
+	res, err := m.DB.QueryContext(ctx, stmt, opPlantID.String(), paramName)
+	if err != nil {
+		return uuid.Nil, err
+	}
+	var uid uuid.UUID
+	for res.Next() {
+		err = res.Scan(&uid)
+		if err != nil {
+			return uuid.Nil, err
+		}
+	}
+	return uid, nil
+}
+
 // NewValue inserts a new value into the values table in the database.
 //
 // It takes a Value struct and a UUID representing the ID of the parameter as parameters.
@@ -210,12 +245,24 @@ func (m *DBModel) OPPlantFromID(idOP uuid.UUID, idPlant uuid.UUID) (uuid.UUID, e
 //
 // Return:
 // - error: An error if there was a problem executing the SQL statement, otherwise nil.
-func (m *DBModel) NewValue(value Value, paramID uuid.UUID) error {
+func (m *DBModel) NewValue(value Value) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
-	id := uuid.New()
-	stmt := `INSERT INTO values (value_id, params_id, high, low, cv, unit, stringvalue, valueset) VALUES(?,?,?,?,?,?,?,?)`
-	_, err := m.DB.ExecContext(ctx, stmt, id.String(), paramID.String(), value.High, value.Low, value.Cv, value.Unit, value.StringValue, value.Set)
+
+	if value.ID == uuid.Nil {
+		value.ID = uuid.New()
+	}
+
+	stmt := `INSERT INTO paramvalues (value_id, params_id, high, low, cv, unit, stringvalue, valueset) VALUES(?,?,?,?,?,?,?,?)`
+	_, err := m.DB.ExecContext(ctx, stmt,
+		value.ID.String(),
+		value.ParamID.String(),
+		value.High,
+		value.Low,
+		value.Cv,
+		value.Unit,
+		value.StringValue,
+		value.Set)
 	if err != nil {
 		return err
 	}

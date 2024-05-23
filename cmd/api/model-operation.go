@@ -53,18 +53,28 @@ func (app *application) SaveOperation(fhx parser.Fhx, plantID uuid.UUID) error {
 		}
 
 		for _, p := range o.Parameters {
+
 			var parameterModel = models.Parameter{
 				ID:          uuid.New(),
 				OPPlantID:   existPlant,
 				Name:        p.Name,
 				Description: p.Description,
 			}
-			err = app.DB.NewParam(parameterModel, existPlant)
+
+			// search exist Parameter
+			existParam, err := app.DB.ExistParam(existPlant, p.Name)
 			if err != nil {
-				app.errorLog.Println("Failed to create new parameter: ", err)
+				app.errorLog.Println("Failed to get parameter: ", err)
 				return err
 			}
-
+			if existParam != uuid.Nil {
+				err = app.DB.NewParam(parameterModel, existPlant)
+				if err != nil {
+					app.errorLog.Println("Failed to create new parameter: ", err)
+					return err
+				}
+			}
+			app.infoLog.Println("existParam: ", parameterModel.ID.String())
 			var valueModel = models.Value{
 				ID:          uuid.New(),
 				ParamID:     parameterModel.ID,
@@ -75,7 +85,7 @@ func (app *application) SaveOperation(fhx parser.Fhx, plantID uuid.UUID) error {
 				Set:         p.Value.Set,
 				StringValue: p.Value.StringValue,
 			}
-			err = app.DB.NewValue(valueModel, existPlant)
+			err = app.DB.NewValue(valueModel)
 			if err != nil {
 				app.errorLog.Println("Failed to create new value: ", err)
 				return err
