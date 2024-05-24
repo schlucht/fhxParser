@@ -2,6 +2,7 @@ package models
 
 import (
 	"context"
+	"database/sql"
 	"time"
 
 	"github.com/go-sql-driver/mysql"
@@ -13,6 +14,10 @@ type Operation struct {
 	OPName    string    `json:"opname"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
+}
+
+func (m *Operation) IsEmpty() bool {
+	return m.ID == uuid.Nil
 }
 
 type OperationPlant struct {
@@ -64,8 +69,14 @@ func (m *DBModel) NewOP(op Operation) error {
 		op.ID = uuid.New()
 	}
 
-	stmt := `INSERT INTO operations (op_id, opname) VALUES(?,?)`
-	_, err := m.DB.ExecContext(ctx, stmt, op.ID, op.OPName)
+	stmt := `INSERT INTO operations 
+			(op_id, opname) 
+		VALUES
+			(?,?)`
+	_, err := m.DB.ExecContext(ctx, stmt,
+		op.ID,
+		op.OPName,
+	)
 	if err != nil {
 		me, ok := err.(*mysql.MySQLError)
 		if !ok {
@@ -75,6 +86,28 @@ func (m *DBModel) NewOP(op Operation) error {
 		if me.Number == 1062 {
 			return nil
 		}
+		return err
+	}
+	return nil
+}
+
+// Aktualisiert eine OP in der Datenbank
+// Parameter: Operation struct
+// Return: error
+func (m *DBModel) UpdateOP(op Operation) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	stmt := `UPDATE operations 
+		SET opname = ?, updated_at = ? 
+		WHERE op_id = ?`
+	_, err := m.DB.ExecContext(ctx, stmt,
+		op.OPName,
+		time.Now(),
+		op.ID,
+	)
+
+	if err != nil {
 		return err
 	}
 	return nil
@@ -92,38 +125,61 @@ func (m *DBModel) OPFromID(id uuid.UUID) (Operation, error) {
 
 	var op Operation
 
-	stmt := `SELECT op_id, opname, created_at, updated_at FROM operations WHERE op_id = ?`
-	err := m.DB.QueryRowContext(ctx, stmt, id.String()).Scan(&op.ID, &op.OPName, &op.CreatedAt, &op.UpdatedAt)
+	stmt := `SELECT 
+			op_id, 
+			opname, 
+			created_at, 
+			updated_at
+		 FROM 
+		 	operations 
+		WHERE op_id = ?`
+	err := m.DB.QueryRowContext(ctx, stmt,
+		id.String(),
+	).Scan(
+		&op.ID,
+		&op.OPName,
+		&op.CreatedAt,
+		&op.UpdatedAt,
+	)
 	if err != nil {
 		return op, err
 	}
 	return op, nil
 }
 
-// OpFromName retrieves the UUID of an operation from the database based on its name.
-//
-// It takes a string parameter representing the name of the operation to retrieve.
-// The function returns a UUID and an error. The UUID represents the ID of the operation.
-// If the operation is found in the database, the UUID is returned along with a nil error.
-// If the operation is not found, a UUID with a value of uuid.Nil is returned along with an error indicating that the operation was not found.
-func (m *DBModel) OpFromName(name string) (uuid.UUID, error) {
+// Sucht in der Tabelle eine Operation anhand des OPNamen
+// Parameter: Name string
+// Return: Operation struct, error
+func (m *DBModel) OpFromName(name string) (Operation, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	stmt := `SELECT op_id FROM operations WHERE opname = ?`
-	res, err := m.DB.QueryContext(ctx, stmt, name)
-	if err != nil {
-		return uuid.Nil, err
-	}
+	var op Operation
 
-	var uid uuid.UUID
-	for res.Next() {
-		err = res.Scan(&uid)
-		if err != nil {
-			return uuid.Nil, err
+	stmt := `SELECT 
+			op_id, 
+			opname, 
+			created_at, 
+			updated_at 
+		FROM 
+			operations 
+		WHERE opname = ?`
+	err := m.DB.QueryRowContext(ctx, stmt,
+		name,
+	).Scan(
+		&op.ID,
+		&op.OPName,
+		&op.CreatedAt,
+		&op.UpdatedAt,
+	)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return op, nil
+		} else {
+			return op, err
 		}
 	}
-	return uid, nil
+	return op, nil
 }
 
 // NewOPPlant inserts a new operation plant into the op_plant table in the database.
@@ -171,8 +227,42 @@ func (m *DBModel) NewParam(param Parameter, opPlantID uuid.UUID) error {
 		param.ID = uuid.New()
 	}
 
-	stmt := `INSERT INTO parameters (params_id, opplant_id, params_name, params_descr) VALUES(?,?,?,?)`
-	_, err := m.DB.ExecContext(ctx, stmt, param.ID.String(), opPlantID.String(), param.Name, param.Description)
+	stmt := `INSERT INTO parameters 
+			(params_id, opplant_id, params_name, params_descr) 
+		VALUES
+			(?,?,?,?)`
+	_, err := m.DB.ExecContext(ctx, stmt,
+		param.ID.String(),
+		opPlantID.String(),
+		param.Name,
+		param.Description,
+	)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// Aktualisieren der Parameter einer OP in der Datenbank
+// Parameter:
+//   - parser.Parameter param
+//   - uuid.UUID opPlantID
+//
+// Return:
+//   - error
+func (m *DBModel) UpdateParams(param Parameter, opPlantID uuid.UUID) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+	stmt := `UPDATE parameters 
+		SET params_name = ?, params_descr = ?, updated_at = ? 
+		WHERE opplant_id = ? AND params_id = ?`
+	_, err := m.DB.ExecContext(ctx, stmt,
+		param.Name,
+		param.Description,
+		time.Now(),
+		opPlantID.String(),
+		param.ID.String(),
+	)
 	if err != nil {
 		return err
 	}
@@ -192,8 +282,41 @@ func (m *DBModel) OPPlantFromID(idOP uuid.UUID, idPlant uuid.UUID) (uuid.UUID, e
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	stmt := `SELECT opplant_id FROM op_plant WHERE id_op = ? AND id_plant = ?`
-	res, err := m.DB.QueryContext(ctx, stmt, idOP, idPlant)
+	stmt := `SELECT 
+			opplant_id 
+		FROM 
+			op_plant 
+		WHERE id_op = ? AND id_plant = ?`
+	res, err := m.DB.QueryContext(ctx, stmt,
+		idOP,
+		idPlant,
+	)
+	if err != nil {
+		return uuid.Nil, err
+	}
+	var uid uuid.UUID
+	for res.Next() {
+		err = res.Scan(&uid)
+		if err != nil {
+			return uuid.Nil, err
+		}
+	}
+	return uid, nil
+}
+
+func (m *DBModel) IDOPPlantFromName(name string, idPlant uuid.UUID) (uuid.UUID, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	stmt := `SELECT 
+			opplant_id 
+		FROM 
+			vw_opplant 
+		WHERE opname = ? AND id_plant = ?`
+	res, err := m.DB.QueryContext(ctx, stmt,
+		uuid.NameSpaceURL,
+		idPlant,
+	)
 	if err != nil {
 		return uuid.Nil, err
 	}
@@ -219,14 +342,23 @@ func (m *DBModel) ExistParam(opPlantID uuid.UUID, paramName string) (uuid.UUID, 
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	stmt := `SELECT params_id FROM parameters WHERE opplant_id = ? AND params_name = ?`
-	res, err := m.DB.QueryContext(ctx, stmt, opPlantID.String(), paramName)
+	stmt := `SELECT 
+			params_id 
+		FROM 
+			parameters 
+		WHERE opplant_id = ? AND params_name = ?`
+	res, err := m.DB.QueryContext(ctx, stmt,
+		opPlantID.String(),
+		paramName,
+	)
 	if err != nil {
 		return uuid.Nil, err
 	}
 	var uid uuid.UUID
 	for res.Next() {
-		err = res.Scan(&uid)
+		err = res.Scan(
+			&uid,
+		)
 		if err != nil {
 			return uuid.Nil, err
 		}
@@ -253,7 +385,11 @@ func (m *DBModel) NewValue(value Value) error {
 		value.ID = uuid.New()
 	}
 
-	stmt := `INSERT INTO paramvalues (value_id, params_id, high, low, cv, unit, stringvalue, valueset) VALUES(?,?,?,?,?,?,?,?)`
+	stmt := `INSERT INTO 
+			paramvalues 
+			(value_id, params_id, high, low, cv, unit, stringvalue, valueset) 
+			VALUES
+			(?,?,?,?,?,?,?,?)`
 	_, err := m.DB.ExecContext(ctx, stmt,
 		value.ID.String(),
 		value.ParamID.String(),
@@ -262,7 +398,8 @@ func (m *DBModel) NewValue(value Value) error {
 		value.Cv,
 		value.Unit,
 		value.StringValue,
-		value.Set)
+		value.Set,
+	)
 	if err != nil {
 		return err
 	}

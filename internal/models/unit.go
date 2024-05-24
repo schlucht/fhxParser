@@ -2,6 +2,7 @@ package models
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/go-sql-driver/mysql"
@@ -59,7 +60,7 @@ type UnitValue struct {
 //
 // Return:
 //   - error: Fehlermeldung
-func (m *DBModel) NewUnit(up Unit) error {
+func (m *DBModel) SaveUnit(up Unit) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
@@ -67,7 +68,10 @@ func (m *DBModel) NewUnit(up Unit) error {
 		up.ID = uuid.New()
 	}
 
-	stmt := `INSERT INTO units (unit_id, plant_id, unit_name, unit_category, unit_pos, unit_time, unit_author, unit_descr) VALUES(?,?,?,?,?,?,?,?)`
+	stmt := `INSERT INTO units 
+			(unit_id, plant_id, unit_name, unit_category, unit_pos, unit_time, unit_author, unit_descr) 
+		VALUES
+			(?,?,?,?,?,?,?,?)`
 	_, err := m.DB.ExecContext(ctx, stmt,
 		up.ID,
 		up.PlantID,
@@ -92,6 +96,39 @@ func (m *DBModel) NewUnit(up Unit) error {
 	return nil
 }
 
+// Aktualisiert eine Unit in der Datenbank
+// Parameter: Unit struct
+// Return: error
+func (m *DBModel) UpdateUnit(up Unit) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	stmt := `UPDATE units 
+		SET 
+			unit_name = ?, 
+			unit_category = ?, 
+			unit_pos = ?, 
+			unit_time = ?, 
+			unit_author = ?, 
+			unit_descr = ?, 
+			updated_at = ?
+		WHERE unit_id = ?`
+	_, err := m.DB.ExecContext(ctx, stmt,
+		up.UnitName,
+		up.UnitCategory,
+		up.UnitPosition,
+		up.Time,
+		up.Author,
+		up.Description,
+		time.Now(),
+		up.ID,
+	)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 // Auslesen einer gespeicherten Unit anhand der Anlage und des Unitnamen
 //
 // Parameters:
@@ -105,7 +142,10 @@ func (m *DBModel) UnitIdFromName(upName string, plantID uuid.UUID) (uuid.UUID, e
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	stmt := `SELECT unit_id FROM units WHERE plant_id = ? AND unit_name = ?`
+	stmt := `SELECT 
+			unit_id 
+		FROM units 
+		WHERE plant_id = ? AND unit_name = ?`
 	var id uuid.UUID
 	row := m.DB.QueryRowContext(ctx, stmt, plantID, upName)
 	err := row.Scan(&id)
@@ -119,7 +159,10 @@ func (m *DBModel) OpUnitIdFromId(opKey string, unitID uuid.UUID) (uuid.UUID, err
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	stmt := `SELECT unit_id FROM unit_ops WHERE unit_id = ? AND op_key = ?`
+	stmt := `SELECT 
+			unit_id 
+		FROM unit_ops 
+		WHERE unit_id = ? AND op_key = ?`
 
 	var id uuid.UUID
 	row := m.DB.QueryRowContext(ctx, stmt, unitID, opKey)
@@ -130,6 +173,9 @@ func (m *DBModel) OpUnitIdFromId(opKey string, unitID uuid.UUID) (uuid.UUID, err
 	return id, nil
 }
 
+// Speichert einen Wert in die Tabelle
+// Parameters: UnitOP struct
+// Return: error
 func (m *DBModel) SaveUnitOps(up UnitOP) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
@@ -137,8 +183,11 @@ func (m *DBModel) SaveUnitOps(up UnitOP) error {
 	if up.ID == uuid.Nil {
 		up.ID = uuid.New()
 	}
-	m.errorLog.Printf("UnitOP: %s", up.OpKey)
-	stmt := `INSERT INTO unit_ops (unitop_id, op_key, unit_id,  op_name, op_descr, op_pos) VALUES(?,?,?,?,?,?)`
+
+	stmt := `INSERT INTO unit_ops 
+			(unitop_id, unit_id, op_key,  op_name, op_descr, op_pos) 
+		VALUES
+			(?,?,?,?,?,?)`
 	_, err := m.DB.ExecContext(ctx, stmt,
 		up.ID,
 		up.UnitID,
@@ -155,7 +204,37 @@ func (m *DBModel) SaveUnitOps(up UnitOP) error {
 		// Eintrag in DB schon vorhanden
 		if me.Number == 1062 {
 			return nil
+		} else {
+			fmt.Printf("UnitOP: %v\r", me)
+			return me
 		}
+	}
+	return nil
+}
+
+// Aktualisiert eine OP in der Datenbank
+// Parameter: UnitOP struct
+// Return: error
+func (m *DBModel) UpdateUnitOP(up UnitOP) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	stmt := `UPDATE unit_ops 
+		SET 
+			op_name = ?, 
+			op_descr = ?, 
+			op_pos = ?, 
+			updated_at = ?
+		WHERE unitop_id = ?`
+	_, err := m.DB.ExecContext(ctx, stmt,
+		up.OpName,
+		up.OpDescription,
+		up.OpPosition,
+		time.Now(),
+		up.ID,
+	)
+	if err != nil {
+		return err
 	}
 	return nil
 }
@@ -166,7 +245,7 @@ func (m *DBModel) SaveUnitOps(up UnitOP) error {
 //
 // Return:
 //   - error: Fehlermeldung
-func (m *DBModel) SaveUnitValue(val Value) error {
+func (m *DBModel) SaveUnitValue(val UnitValue) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
@@ -174,10 +253,13 @@ func (m *DBModel) SaveUnitValue(val Value) error {
 		val.ID = uuid.New()
 	}
 
-	stmt := `INSERT INTO unit_params_values (value_id, unitparam_id, stringvalue, value_set, high, low, cv, unit) VALUES(?,?,?,?,?,?,?,?)`
+	stmt := `INSERT INTO unit_params_values 
+			(value_id, unitparam_id, stringvalue, value_set, high, low, cv, unit) 
+		VALUES
+			(?,?,?,?,?,?,?,?)`
 	_, err := m.DB.ExecContext(ctx, stmt,
 		val.ID,
-		val.ParamID,
+		val.UnitID,
 		val.StringValue,
 		val.Set,
 		val.High,
