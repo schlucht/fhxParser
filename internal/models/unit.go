@@ -21,13 +21,14 @@ type Unit struct {
 }
 
 type UnitParameter struct {
-	ID        uuid.UUID `json:"unitparam_id"`
-	UnitOPID  uuid.UUID `json:"unitop_id"`
-	ParamName string    `json:"param_name"`
-	Deferto   string    `json:"deferto"`
-	Origin    string    `json:"origin"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
+	ID            uuid.UUID `json:"unitparam_id"`
+	UnitOPID      uuid.UUID `json:"unitop_id"`
+	OriginValueID uuid.UUID `json:"originValue_id"`
+	ParamName     string    `json:"param_name"`
+	Deferto       string    `json:"deferto"`
+	Origin        string    `json:"origin"`
+	CreatedAt     time.Time `json:"created_at"`
+	UpdatedAt     time.Time `json:"updated_at"`
 }
 
 type UnitOP struct {
@@ -155,7 +156,45 @@ func (m *DBModel) UnitIdFromName(upName string, plantID uuid.UUID) (uuid.UUID, e
 	return id, nil
 }
 
-func (m *DBModel) OpUnitIdFromId(opKey string, unitID uuid.UUID) (uuid.UUID, error) {
+// Gibt die ID einer OP mit der Unit ID zurück
+// Anhand des OP-Namen
+//
+// Parameters:
+//   - opName: Name der OP
+//   - unitID: ID der Unit
+//
+// Return:
+//   - uuid.UUID: ID der OP
+//   - error: Fehlermeldung
+func (m *DBModel) OpUnitIdFromName(opName string, unitID uuid.UUID) (uuid.UUID, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	stmt := `SELECT 
+			unit_id 
+		FROM unit_ops 
+		WHERE unit_id = ? AND op_name = ?`
+
+	var id uuid.UUID
+	row := m.DB.QueryRowContext(ctx, stmt, unitID, opName)
+	err := row.Scan(&id)
+	if err != nil {
+		return uuid.Nil, err
+	}
+	return id, nil
+}
+
+// Gibt die ID einer OP mit der Unit ID zurück
+// Anhand des OP-Keys
+//
+// Parameters:
+//   - opKey: Name der OP
+//   - unitID: ID der Unit
+//
+// Return:
+//   - uuid.UUID: ID der OP
+//   - error: Fehlermeldung
+func (m *DBModel) OpUnitIdFromKey(opKey string, unitID uuid.UUID) (uuid.UUID, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
@@ -245,27 +284,30 @@ func (m *DBModel) UpdateUnitOP(up UnitOP) error {
 //
 // Return:
 //   - error: Fehlermeldung
-func (m *DBModel) SaveUnitValue(val UnitValue) error {
+func (m *DBModel) SaveUnitValue(param UnitParameter) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	if val.ID == uuid.Nil {
-		val.ID = uuid.New()
+	if param.ID == uuid.Nil {
+		param.ID = uuid.New()
 	}
 
-	stmt := `INSERT INTO unit_params_values 
-			(value_id, unitparam_id, stringvalue, value_set, high, low, cv, unit) 
+	stmt := `INSERT INTO unitparameters
+			(unitparam_id, 
+				unitop_id, 
+				originValue_id, 
+				param_name, 
+				origin, 
+				deferto) 
 		VALUES
-			(?,?,?,?,?,?,?,?)`
+			(?,?,?,?,?,?)`
 	_, err := m.DB.ExecContext(ctx, stmt,
-		val.ID,
-		val.UnitID,
-		val.StringValue,
-		val.Set,
-		val.High,
-		val.Low,
-		val.Cv,
-		val.Unit,
+		uuid.New(),
+		param.ID,
+		param.OriginValueID,
+		param.ParamName,
+		param.Origin,
+		param.Deferto,
 	)
 	if err != nil {
 		me, ok := err.(*mysql.MySQLError)
@@ -276,6 +318,94 @@ func (m *DBModel) SaveUnitValue(val UnitValue) error {
 		if me.Number == 1062 {
 			return nil
 		}
+		return err
+	}
+	return nil
+}
+
+// Prüft ob der UnitParameter schon in der Datenbank existiert
+// Parameter: UnitParameter struct
+// Return: uuid.UUID, error
+func (m *DBModel) ExistUnitParam(unitopId uuid.UUID, paramName string) (uuid.UUID, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	stmt := `SELECT 
+			unitparam_id 
+		FROM unitparameters 
+		WHERE unitop_id = ? AND param_name = ?`
+	var id uuid.UUID
+	row := m.DB.QueryRowContext(ctx, stmt, unitopId, paramName)
+	err := row.Scan(&id)
+	if err != nil {
+		return uuid.Nil, err
+	}
+	return id, nil
+}
+
+// Gibt die ID von dem Paramter zurück nach der Deferto ID
+// Parameter:
+//   - UnitParameter struct
+//   - deferName: Name des
+//
+// Return:
+//   - uuid.UUID,
+//   - error Fehlermeldung
+func (m *DBModel) IDUnitParamDeferTo(unitopId uuid.UUID, deferName string) (uuid.UUID, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	stmt := `SELECT 
+			unitparam_id 
+		FROM unitparameters 
+		WHERE unitop_id = ? AND deferto = ?`
+	var id uuid.UUID
+	row := m.DB.QueryRowContext(ctx, stmt, unitopId, deferName)
+	err := row.Scan(&id)
+	if err != nil {
+		return uuid.Nil, err
+	}
+	return id, nil
+}
+
+// Speichert die Values eines Parameters in die Datenbank
+// Die Values sind nur die Werte für die Deferred Paramater
+// Die Orginal Values sind in den Unitparameters gespeichert
+// Parameter:
+//   - val: UnitValue struct
+//
+// Return:
+//   - error: Fehlermeldung
+func (m *DBModel) SaveUnitParamValue(val UnitValue) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	if val.ID == uuid.Nil {
+		val.ID = uuid.New()
+	}
+	stmt := `INSERT INTO unitvalues
+			(value_id, 
+				unitparams_id,
+				high,
+				low,
+				cv,
+				unit,
+				stringvalue,
+				valueset
+				) 
+		VALUES
+			(?,?,?,?,?,?,?,?)`
+	_, err := m.DB.ExecContext(ctx, stmt,
+		uuid.New(),
+		val.UnitID,
+		val.High,
+		val.Low,
+		val.Cv,
+		val.Unit,
+		val.StringValue,
+		val.Set,
+	)
+	if err != nil {
 		return err
 	}
 	return nil

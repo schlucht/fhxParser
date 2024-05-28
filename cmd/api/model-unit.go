@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"strings"
 	"time"
 
@@ -38,12 +39,47 @@ func (app *application) SaveUnit(fhx parser.Fhx, plantID uuid.UUID) error {
 
 			// 3. Values zusammensuchen und Speichern
 			for _, p := range o.StepParameters {
-				app.infoLog.Println(p)
-				// val := app.getValues(o.Key, p.Name, u, o, plantID)
-				// err := app.DB.SaveUnitValue(val)
-				// if err != nil {
-				// 	return err
-				// }
+
+				err = app.getValues(o.Key, p, plantID)
+				if err != nil {
+					app.errorLog.Println("Failed to get values: ", err)
+					return err
+				}
+
+				if strings.Contains(p.Origin, "DEFERRED") {
+					for _, up := range u.Parameters {
+						if up.Name == p.DeferTo {
+							// hier die neuen Values in DB speichern
+							app.infoLog.Println(unitId, o.Name)
+							unitops, err := app.DB.OpUnitIdFromName(o.Name, unitId)
+							if err != nil {
+								app.errorLog.Println("Failed to get unit op  id: ", err)
+								return err
+							}
+							id, _ := app.DB.IDUnitParamDeferTo(unitops, p.DeferTo)
+							if id == uuid.Nil {
+								app.errorLog.Println("Failed to get param id: ", id, p.DeferTo)
+								return errors.New("now id in db")
+							}
+							app.infoLog.Println(p.DeferTo, id)
+							var val = models.UnitValue{
+								ID:          uuid.New(),
+								UnitID:      id,
+								High:        up.Value.High,
+								Low:         up.Value.Low,
+								Cv:          up.Value.Cv,
+								Unit:        up.Value.Unit,
+								Set:         up.Value.Set,
+								StringValue: up.Value.StringValue,
+							}
+							err = app.DB.SaveUnitParamValue(val)
+							if err != nil {
+								app.errorLog.Println("Failed to update value: ", err)
+								return err
+							}
+						}
+					}
+				}
 			}
 		}
 		// 3. Values zu den Operationen sammeln
@@ -69,7 +105,7 @@ func (app *application) saveUnitOP(unitId uuid.UUID, o parser.Step) error {
 		CreatedAt:     time.Now(),
 		UpdatedAt:     time.Now(),
 	}
-	uopUnit, _ := app.DB.OpUnitIdFromId(op.OpKey, unitId)
+	uopUnit, _ := app.DB.OpUnitIdFromKey(op.OpKey, unitId)
 	if uopUnit == uuid.Nil {
 		err := app.DB.SaveUnitOps(op)
 		if err != nil {
@@ -120,35 +156,48 @@ func (app *application) saveUnit(u parser.Unit, plantID uuid.UUID) (uuid.UUID, e
 	return unitId, nil
 }
 
-func (app *application) getValues(opKey string, paramName string, u parser.Unit, s parser.Step, plant uuid.UUID) models.UnitValue {
-	val := models.UnitValue{}
-	stepParams := s.StepParameters
+func (app *application) getValues(
+	opKey string,
+	p parser.StepParameter,
+	plant uuid.UUID) error {
 
-	for _, stepParam := range stepParams {
-		isConstan := strings.Index(stepParam.Origin, "CONSTANT")
-		app.infoLog.Println(len(stepParams))
-		if isConstan > -1 {
-			// Suchen in den OP Tabelle nache dem OP Namen und nach der Anlage
-			// Mit der gefunden ID in der Parameter Tabelle Value suchen und die neusten Values auslesen
-			opId, err := app.DB.IDOPPlantFromName(opKey, plant)
-			if err != nil {
-				return val
-			}
-			app.infoLog.Println(opId)
-		}
-
-		// val := models.UnitValue{
-		// 	ID:          uuid.New(),
-		// 	UnitID:      unitId,
-		// 	StringValue: p.StringValue,
-		// 	Set:         p.Value.Set,
-		// 	High:        p.Value.High,
-		// 	Low:         p.Value.Low,
-		// 	Cv:          p.Value.CV,
-		// 	Unit:        p.Value.Unit,
-		// 	CreatedAt:   time.Now(),
-		// 	UpdatedAt:   time.Now(),
-		// }
+	opId, err := app.DB.IDOPPlantFromName(opKey, plant)
+	if err != nil {
+		app.errorLog.Println(err)
+		return err
 	}
-	return val
+
+	paramId, err := app.DB.ParamIdFromName(p.Name, opId)
+	if err != nil {
+		app.errorLog.Println(err)
+		return err
+	}
+
+	val, err := app.DB.LastValueFromParamId(paramId)
+	if err != nil {
+		app.errorLog.Println(err)
+		return err
+	}
+
+	var param models.UnitParameter
+	param.ID = paramId
+	param.ParamName = p.Name
+	param.OriginValueID = val.ID
+	param.Origin = p.Origin
+	param.Deferto = p.DeferTo
+
+	parId, err := app.DB.ExistUnitParam(param.ID, param.ParamName)
+	if err != nil {
+		app.errorLog.Println(err)
+		return err
+	}
+	if parId == uuid.Nil {
+		err = app.DB.SaveUnitValue(param)
+		if err != nil {
+			app.errorLog.Println(err)
+			return err
+		}
+	}
+
+	return nil
 }

@@ -314,7 +314,7 @@ func (m *DBModel) IDOPPlantFromName(name string, idPlant uuid.UUID) (uuid.UUID, 
 			vw_opplant 
 		WHERE opname = ? AND id_plant = ?`
 	res, err := m.DB.QueryContext(ctx, stmt,
-		uuid.NameSpaceURL,
+		name,
 		idPlant,
 	)
 	if err != nil {
@@ -350,6 +350,43 @@ func (m *DBModel) ExistParam(opPlantID uuid.UUID, paramName string) (uuid.UUID, 
 	res, err := m.DB.QueryContext(ctx, stmt,
 		opPlantID.String(),
 		paramName,
+	)
+	if err != nil {
+		return uuid.Nil, err
+	}
+	var uid uuid.UUID
+	for res.Next() {
+		err = res.Scan(
+			&uid,
+		)
+		if err != nil {
+			return uuid.Nil, err
+		}
+	}
+	return uid, nil
+}
+
+// Gibt die ID von dem Paramter zurück
+//
+// Parameter:
+//   - string paramname
+//   - uuid.UUID ooplantid
+//
+// Return:
+//   - uuid.UUID: ID des Parameters
+//   - error: Fehlermeldung
+func (m *DBModel) ParamIdFromName(paramname string, ooplantid uuid.UUID) (uuid.UUID, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	stmt := `SELECT 
+			params_id 
+		FROM 
+			parameters 
+		WHERE opplant_id = ? AND params_name = ?`
+	res, err := m.DB.QueryContext(ctx, stmt,
+		ooplantid.String(),
+		paramname,
 	)
 	if err != nil {
 		return uuid.Nil, err
@@ -404,4 +441,42 @@ func (m *DBModel) NewValue(value Value) error {
 		return err
 	}
 	return nil
+}
+
+// Neuester Eintrag eines Value von einem Paramater
+//
+// Parameter:
+//   - uuid.UUID paramId
+//
+// Return:
+//   - Value: Value
+//   - error: Fehlermeldung
+func (m *DBModel) LastValueFromParamId(paramId uuid.UUID) (Value, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+	val := Value{}
+	stmt := `SELECT 
+			value_id, params_id, high, low, cv, unit, stringvalue, valueset
+		FROM 
+			paramvalues 
+		WHERE params_id = ? 
+		ORDER BY value_id DESC
+		LIMIT 1`
+	err := m.DB.QueryRowContext(ctx, stmt,
+		paramId.String(),
+	).Scan(
+		&val.ID,
+		&val.ParamID,
+		&val.High,
+		&val.Low,
+		&val.Cv,
+		&val.Unit,
+		&val.StringValue,
+		&val.Set,
+	)
+	if err != nil {
+		return val, err
+	}
+	return val, nil
+
 }
