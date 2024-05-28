@@ -304,10 +304,18 @@ func (m *DBModel) OPPlantFromID(idOP uuid.UUID, idPlant uuid.UUID) (uuid.UUID, e
 	return uid, nil
 }
 
+// Gibt die ID einer OP andhand des OP-Namen und der ID der Anlage zurück
+//
+// Parameters:
+//   - name: Name der OP
+//   - idPlant: ID der OP-Plant
+//
+// Return:
+//   - uuid.UUID: ID der OP
+//   - error: Fehlermeldung
 func (m *DBModel) IDOPPlantFromName(name string, idPlant uuid.UUID) (uuid.UUID, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
-
 	stmt := `SELECT 
 			opplant_id 
 		FROM 

@@ -2,7 +2,7 @@ package models
 
 import (
 	"context"
-	"fmt"
+	"log"
 	"time"
 
 	"github.com/go-sql-driver/mysql"
@@ -171,7 +171,7 @@ func (m *DBModel) OpUnitIdFromName(opName string, unitID uuid.UUID) (uuid.UUID, 
 	defer cancel()
 
 	stmt := `SELECT 
-			unit_id 
+			unitop_id 
 		FROM unit_ops 
 		WHERE unit_id = ? AND op_name = ?`
 
@@ -242,9 +242,10 @@ func (m *DBModel) SaveUnitOps(up UnitOP) error {
 		}
 		// Eintrag in DB schon vorhanden
 		if me.Number == 1062 {
+			log.Printf("UnitOP: %v\r", me)
 			return nil
 		} else {
-			fmt.Printf("UnitOP: %v\r", me)
+			log.Printf("UnitOP: %v\r", me)
 			return me
 		}
 	}
@@ -303,7 +304,7 @@ func (m *DBModel) SaveUnitValue(param UnitParameter) error {
 			(?,?,?,?,?,?)`
 	_, err := m.DB.ExecContext(ctx, stmt,
 		uuid.New(),
-		param.ID,
+		param.UnitOPID,
 		param.OriginValueID,
 		param.ParamName,
 		param.Origin,
@@ -329,7 +330,6 @@ func (m *DBModel) SaveUnitValue(param UnitParameter) error {
 func (m *DBModel) ExistUnitParam(unitopId uuid.UUID, paramName string) (uuid.UUID, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
-
 	stmt := `SELECT 
 			unitparam_id 
 		FROM unitparameters 
@@ -383,7 +383,7 @@ func (m *DBModel) SaveUnitParamValue(val UnitValue) error {
 	if val.ID == uuid.Nil {
 		val.ID = uuid.New()
 	}
-	stmt := `INSERT INTO unitvalues
+	stmt := `INSERT INTO unitparameters_values
 			(value_id, 
 				unitparams_id,
 				high,
