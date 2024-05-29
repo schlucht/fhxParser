@@ -39,7 +39,7 @@ func (app *application) SaveUnit(fhx parser.Fhx, plantID uuid.UUID) error {
 			// 3. Values zusammensuchen und Speichern
 			for _, p := range o.StepParameters {
 
-				err = app.getValues(o.Key, p, plantID)
+				err = app.getValues(o.Key, o.Name, p, plantID, unitId)
 				if err != nil {
 					app.errorLog.Println("Failed to get values: ", err)
 					return err
@@ -50,13 +50,13 @@ func (app *application) SaveUnit(fhx parser.Fhx, plantID uuid.UUID) error {
 						if up.Name == p.DeferTo {
 							// hier die neuen Values in DB speichern
 							unitops, err := app.DB.OpUnitIdFromName(o.Name, unitId)
-							app.infoLog.Println(unitops, unitId, o.Name)
+							// app.infoLog.Println(unitops, unitId, o.Name)
 							if err != nil {
 								app.errorLog.Println("Failed to get unit op  id: ", err)
 								return err
 							}
 							id, _ := app.DB.IDUnitParamDeferTo(unitops, p.DeferTo)
-							// app.infoLog.Println(p.DeferTo, id,)
+							app.infoLog.Println(p.DeferTo, id)
 							if id == uuid.Nil {
 								app.errorLog.Println("Failed to get param id: ", id, p.DeferTo)
 								// return errors.New("now id in db")
@@ -160,8 +160,10 @@ func (app *application) saveUnit(u parser.Unit, plantID uuid.UUID) (uuid.UUID, e
 
 func (app *application) getValues(
 	opKey string,
+	opName string,
 	p parser.StepParameter,
-	plant uuid.UUID) error {
+	plant uuid.UUID,
+	unitid uuid.UUID) error {
 
 	opId, err := app.DB.IDOPPlantFromName(opKey, plant)
 	if err != nil {
@@ -180,24 +182,27 @@ func (app *application) getValues(
 		app.errorLog.Println("LastValueFromParamId", err)
 		return err
 	}
-	app.infoLog.Println(p.DeferTo)
+
+	unitOP, err := app.DB.OpUnitIdFromName(opName, unitid)
+	
+	if err != nil {
+		app.errorLog.Println("OpUnitIdFromName", err)
+		return err
+	}
 	var param models.UnitParameter
 	param.ID = uuid.New()
-	param.UnitOPID = opId
+	param.UnitOPID = unitOP
 	param.ParamName = p.Name
 	param.OriginValueID = val.ID
 	param.Origin = p.Origin
 	param.Deferto = p.DeferTo
 	parId, _ := app.DB.ExistUnitParam(param.ID, param.ParamName)
-	// if err != nil {
-	// 	app.errorLog.Println("ExistUnitParam", err)
-	// 	return err
-	// }
+
 	if parId == uuid.Nil {
-		// app.infoLog.Println(parId, p.Name)
-		err = app.DB.SaveUnitValue(param)
+		app.infoLog.Println(opId, p.Name)
+		err = app.DB.SaveUnitParameter(param)
 		if err != nil {
-			app.errorLog.Println("SaveUnitValue", err)
+			app.errorLog.Println("SaveUnitParemter", err)
 			return err
 		}
 	}

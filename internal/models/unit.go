@@ -2,6 +2,7 @@ package models
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"time"
 
@@ -285,14 +286,13 @@ func (m *DBModel) UpdateUnitOP(up UnitOP) error {
 //
 // Return:
 //   - error: Fehlermeldung
-func (m *DBModel) SaveUnitValue(param UnitParameter) error {
+func (m *DBModel) SaveUnitParameter(param UnitParameter) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
 	if param.ID == uuid.Nil {
 		param.ID = uuid.New()
 	}
-
 	stmt := `INSERT INTO unitparameters
 			(unitparam_id, 
 				unitop_id, 
@@ -303,7 +303,7 @@ func (m *DBModel) SaveUnitValue(param UnitParameter) error {
 		VALUES
 			(?,?,?,?,?,?)`
 	_, err := m.DB.ExecContext(ctx, stmt,
-		uuid.New(),
+		param.ID,
 		param.UnitOPID,
 		param.OriginValueID,
 		param.ParamName,
@@ -340,6 +340,7 @@ func (m *DBModel) ExistUnitParam(unitopId uuid.UUID, paramName string) (uuid.UUI
 	if err != nil {
 		return uuid.Nil, err
 	}
+
 	return id, nil
 }
 
@@ -383,6 +384,7 @@ func (m *DBModel) SaveUnitParamValue(val UnitValue) error {
 	if val.ID == uuid.Nil {
 		val.ID = uuid.New()
 	}
+	fmt.Println(val.ID, val.UnitID)
 	stmt := `INSERT INTO unitparameters_values
 			(value_id, 
 				unitparams_id,
