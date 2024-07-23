@@ -4,7 +4,13 @@ import (
 	"net/http"
 )
 
+// Öffnet die Plant Webseite und übergibt Daten
 func (app *application) PlantPage(w http.ResponseWriter, r *http.Request) {
+
+	err := app.DB.InsertNewPlants()
+	if err != nil {
+		app.badRequest(w, r, err, "CreateTable")
+	}
 
 	plants, err := app.DB.GetPlants()
 	if err != nil {
@@ -21,6 +27,8 @@ func (app *application) PlantPage(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// Alle Betriebe aus der Datenbank auslesen und als
+// JSON übergeben
 func (app *application) AllPlants(w http.ResponseWriter, r *http.Request) {
 	plants, err := app.DB.GetPlants()
 	if err != nil {
@@ -32,11 +40,12 @@ func (app *application) AllPlants(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// Speicher einer Anlage in einer
+// Datenbank
 func (app *application) PlantSave(w http.ResponseWriter, r *http.Request) {
 	var plantInput struct {
 		Name string `json:"plantName"`
 	}
-	app.infoLog.Println(plantInput.Name)
 
 	err := app.readJSON(w, r, &plantInput)
 	if err != nil {

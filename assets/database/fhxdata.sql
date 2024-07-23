@@ -1,24 +1,11 @@
 
--- Create Plant Table:
-CREATE TABLE plants (
-    plant_id VARCHAR(50) PRIMARY KEY,
-    plant VARCHAR(20),
-    created_at TIMESTAMP,
-    update_at TIMESTAMP
-);
-
--- Insert 3 plants
-INSERT INTO plants VALUES
-  ('352b9d15-fbc3-40f5-b91f-8a53ea3f5cb8', 'Penta', current_timestamp),
-  ('c15c2bdb-ab9c-4b09-9798-63b7b662cd25', 'MZA D29', current_timestamp),
-  ('d01eeedb-fd3f-4e59-8f82-7ade0ea9dac0', 'E13', current_timestamp);
 
 -- Create Operationstable
 CREATE TABLE operations (
     op_id VARCHAR(50) PRIMARY KEY,
     opname VARCHAR(50),
-    created_at TIMESTAMP,
-    updated_at TIMESTAMP
+    updated_at TIMESTAMP,
+    created_at TIMESTAMP
 );
 
 -- Create Operation TO Plant Table

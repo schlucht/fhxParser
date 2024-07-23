@@ -3,10 +3,8 @@ package models
 import (
 	"context"
 	"fmt"
-	"log"
 	"time"
 
-	"github.com/go-sql-driver/mysql"
 	"github.com/google/uuid"
 )
 
@@ -73,7 +71,7 @@ func (m *DBModel) SaveUnit(up Unit) error {
 	stmt := `INSERT INTO units 
 			(unit_id, plant_id, unit_name, unit_category, unit_pos, unit_time, unit_author, unit_descr) 
 		VALUES
-			(?,?,?,?,?,?,?,?)`
+			(?,?,?,?,?,?,?,?,?,?)`
 	_, err := m.DB.ExecContext(ctx, stmt,
 		up.ID,
 		up.PlantID,
@@ -83,16 +81,10 @@ func (m *DBModel) SaveUnit(up Unit) error {
 		up.Time,
 		up.Author,
 		up.Description,
+		time.Now(),
+		time.Now(),
 	)
 	if err != nil {
-		me, ok := err.(*mysql.MySQLError)
-		if !ok {
-			return err
-		}
-		// Eintrag in DB schon vorhanden
-		if me.Number == 1062 {
-			return nil
-		}
 		return err
 	}
 	return nil
@@ -227,7 +219,7 @@ func (m *DBModel) SaveUnitOps(up UnitOP) error {
 	stmt := `INSERT INTO unit_ops 
 			(unitop_id, unit_id, op_key,  op_name, op_descr, op_pos) 
 		VALUES
-			(?,?,?,?,?,?)`
+			(?,?,?,?,?,?,?,?)`
 	_, err := m.DB.ExecContext(ctx, stmt,
 		up.ID,
 		up.UnitID,
@@ -235,20 +227,11 @@ func (m *DBModel) SaveUnitOps(up UnitOP) error {
 		up.OpName,
 		up.OpDescription,
 		up.OpPosition,
+		time.Now(),
+		time.Now(),
 	)
 	if err != nil {
-		me, ok := err.(*mysql.MySQLError)
-		if !ok {
-			return err
-		}
-		// Eintrag in DB schon vorhanden
-		if me.Number == 1062 {
-			log.Printf("UnitOP: %v\r", me)
-			return nil
-		} else {
-			log.Printf("UnitOP: %v\r", me)
-			return me
-		}
+		return err
 	}
 	return nil
 }
@@ -301,7 +284,7 @@ func (m *DBModel) SaveUnitParameter(param UnitParameter) error {
 				origin, 
 				deferto) 
 		VALUES
-			(?,?,?,?,?,?)`
+			(?,?,?,?,?,?,?,?)`
 	_, err := m.DB.ExecContext(ctx, stmt,
 		param.ID,
 		param.UnitOPID,
@@ -309,16 +292,10 @@ func (m *DBModel) SaveUnitParameter(param UnitParameter) error {
 		param.ParamName,
 		param.Origin,
 		param.Deferto,
+		time.Now(),
+		time.Now(),
 	)
 	if err != nil {
-		me, ok := err.(*mysql.MySQLError)
-		if !ok {
-			return err
-		}
-		// Eintrag in DB schon vorhanden
-		if me.Number == 1062 {
-			return nil
-		}
 		return err
 	}
 	return nil
@@ -396,7 +373,7 @@ func (m *DBModel) SaveUnitParamValue(val UnitValue) error {
 				valueset
 				) 
 		VALUES
-			(?,?,?,?,?,?,?,?)`
+			(?,?,?,?,?,?,?,?,?,?)`
 	_, err := m.DB.ExecContext(ctx, stmt,
 		uuid.New(),
 		val.UnitID,
@@ -406,6 +383,8 @@ func (m *DBModel) SaveUnitParamValue(val UnitValue) error {
 		val.Unit,
 		val.StringValue,
 		val.Set,
+		time.Now(),
+		time.Now(),
 	)
 	if err != nil {
 		return err

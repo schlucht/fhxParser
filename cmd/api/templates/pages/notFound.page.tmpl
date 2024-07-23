@@ -5,6 +5,23 @@
 {{ end }}
 
 {{ define "content" }} 
-    <h1>Seite Funtioniert nicht</h1>
-    <hr>
+    <style>
+        .notFound {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+            & p {
+                font-size: 4rem;
+                font-weight: 700;
+                color: var(--clr-orange);
+            }
+        }
+    </style>
+    <div class="notFound">      
+        <p>404</p>  
+        <p>Seite Funtioniert nicht</p>
+        <img src="https://intranet.arxada.com/media/142808/microsoftteams-image-6.png?anchor=center&mode=crop&center=0.4495114006514658,0.3643031784841076&width=1239&height=335" alt="Delta-V">
+    </div>
+
 {{ end }}

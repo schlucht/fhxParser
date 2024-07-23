@@ -5,7 +5,6 @@ import (
 	"database/sql"
 	"time"
 
-	"github.com/go-sql-driver/mysql"
 	"github.com/google/uuid"
 )
 
@@ -72,20 +71,14 @@ func (m *DBModel) NewOP(op Operation) error {
 	stmt := `INSERT INTO operations 
 			(op_id, opname) 
 		VALUES
-			(?,?)`
+			(?,?,?,?)`
 	_, err := m.DB.ExecContext(ctx, stmt,
 		op.ID,
 		op.OPName,
+		time.Now(),
+		time.Now(),
 	)
 	if err != nil {
-		me, ok := err.(*mysql.MySQLError)
-		if !ok {
-			return err
-		}
-		// Eintrag in DB schon vorhanden
-		if me.Number == 1062 {
-			return nil
-		}
 		return err
 	}
 	return nil
@@ -197,7 +190,7 @@ func (m *DBModel) NewOPPlant(opPlant OperationPlant) error {
 	stmt := `
 		INSERT INTO op_plant
 		(opplant_id, id_op, id_plant, op_category, op_position, op_time, op_author, op_description)
-		VALUES(?,?,?,?,?,?,?,?)	`
+		VALUES(?,?,?,?,?,?,?,?,?,?)	`
 
 	_, err := m.DB.ExecContext(ctx, stmt,
 		opPlant.ID.String(),
@@ -208,6 +201,8 @@ func (m *DBModel) NewOPPlant(opPlant OperationPlant) error {
 		opPlant.OPTime,
 		opPlant.Author,
 		opPlant.Description,
+		time.Now(),
+		time.Now(),
 	)
 	if err != nil {
 		return err
@@ -230,12 +225,14 @@ func (m *DBModel) NewParam(param Parameter, opPlantID uuid.UUID) error {
 	stmt := `INSERT INTO parameters 
 			(params_id, opplant_id, params_name, params_descr) 
 		VALUES
-			(?,?,?,?)`
+			(?,?,?,?,?,?)`
 	_, err := m.DB.ExecContext(ctx, stmt,
 		param.ID.String(),
 		opPlantID.String(),
 		param.Name,
 		param.Description,
+		time.Now(),
+		time.Now(),
 	)
 	if err != nil {
 		return err

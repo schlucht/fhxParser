@@ -6,42 +6,87 @@
 
 {{ define "content" }} 
 {{ $plants := index .Data "plants" }}
-    <div class="w3-container">
-        <h2>Betrieb bearbeiten</h2>
-        <form action="/plants" method="POST" id="plant-form">
-            <div class="form-group">
-                <label for="plantName">Name</label>
-                <input type="plantName" class="form-control" id="plantName" name="plantName">
+    
+        <div class="plant-form card">
+            <header class="card-header">
+                <h2>Betrieb</h2>
+            </header>
+            <div class ="card-content">
+            <p>
+                Bearbeiten und erstellen eines neuen Betriebes.
+            </p>
+            <form action="/plants" method="POST" id="plant-form">
+                <div class="form-group">
+                    <label for="plantName">Name</label>
+                    <input type="text" class="text-input" id="plantName" name="plantName">
+                </div>
+                <div class="form-group">
+                    <a href="javascript:void(0)" onClick="savePlant()" id="savePlant" class="btn">Speichern</a>
+                </div>
+            </form>
+            </div>        
+        </div>
+        
+        <div class="card">
+            <header class="card-header">
+                <h2>Betriebe Auflistung</h2>
+            </header>
+            <div class ="card-content">
+                <table class="plant-table">
+                    <tr class="plant-table-header">
+                        <th>Betrieb</th>
+                        <th>Aktiv</th>                               
+                    </tr>
+                    {{ range $plants }}            
+                    <tr>
+                        <td class="plant-name">{{ .Name }}</td>
+                        <td class="plant-active">
+                            <button class="btn">
+                                <img class="icon" src="../assets/images/icons/prufen.svg">
+                            </button>                        
+                            <button class="btn">
+                                <img class="icon" src="../assets/images/icons/kreuz.svg">
+                            </button>
+                        </td>            
+                    </tr>
+                    {{ end }}
+                </table>
             </div>
-            <div class="form-group">
-                <a href="javascript:void(0)" onClick="savePlant()" class="w3-button w3-primary">Speichern</a>
-            </div>
-        </form>        
-    </div>
-    <div class="w3-container">
-        <h2>Betriebe</h2>
-        <table class="w3-table-all w3-hoverable">
-            <tr>
-                <th>Betrieb</th>               
-            </tr>
-            {{ range $plants }}            
-            <tr>
-                <td>{{ .Name }}</td>               
-            </tr>
-            {{ end }}
-        </table>
-    </div>
+        </div>
+ 
+ 
 {{ end }}
 
 {{ define "js"}}
 <script>
 
-    const plantForm = document.getElementById("plant-form")
+    const plantForm = document.getElementById("plant-form");
+    const savePlantBtn = document.getElementById("savePlant");
+    const plantName = document.getElementById("plantName");
+
+    if (plantName.value === "") {
+        savePlantBtn.style.pointerEvents = "none";
+        savePlantBtn.style.backgroundColor = "lightgray";
+        savePlantBtn.style.cursor = "no-drop";
+    }
+
+    plantName.addEventListener("input", () => {
+        if (plantName.value === "") {
+            savePlantBtn.style.pointerEvents = "none";
+            savePlantBtn.style.backgroundColor = "lightgray";
+            savePlantBtn.style.cursor = "no-drop";
+        } else {
+            savePlantBtn.style.pointerEvents = "auto";
+            savePlantBtn.style.backgroundColor = "var(--clr-orange)";
+            savePlantBtn.style.cursor = "pointer";
+        }
+    });
+
     async function savePlant() {
         const requestOptions = {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ plantName: document.getElementById("plantName").value }),
+            body: JSON.stringify({ plantName: plantName.value }),
         };
         await fetch("/plants/save", requestOptions);
         plantForm.reset()

@@ -23,22 +23,22 @@ document.addEventListener('DOMContentLoaded', () => {
             const res = await fetch('/plants/allPlants')
             const data = await res.json()
             for (let plant of data) {               
-                plantItems.innerHTML += `<option value="${plant.plant_id}">${plant.plant}</option>`
+                if (plant.plant === 'leer') {
+                    console.log(plant.plant)                    
+                }
             }
         } catch (error) {
             console.error("Plant load in main.js", error)
         }
-    }   
-    let plant = window.localStorage.getItem('plant')      
-    if (!plant) {
-        w.style.display = 'flex'
-        plantControl.innerHTML = '<leer>'
-        plants()
-    } else {
-        const p = JSON.parse(plant)
-        plantControl.innerHTML = p.plant
-        w.style.display = 'none'
+    } ;
+    
+   function savePlant() {
+        saveSelectItem(
+            plantItems.value,
+            plantItems[plantItems.selectedIndex].textContent,
+        )        
     }
+    plants()
     
     /**
  * Closes the window by hiding it.
@@ -49,16 +49,17 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log("Hallo")
         w.style.display = 'none'
     }
-
+    plantItems[plantItems.selectedIndex].textContent
+    plantItems.value
 /**
  * Saves the selected plant to local storage and updates the plant control element.
  *
  * @return {void} No return value.
  */
-    function savePlant() {       
+    function saveSelectItem(id, item) {       
        globalPlant = {
-        plant_id: plantItems.value, 
-        plant: plantItems[plantItems.selectedIndex].textContent
+        plant_id: id, 
+        plant: item
     }
        window.localStorage.setItem('plant', JSON.stringify(globalPlant))
        plantControl.innerHTML = globalPlant.plant

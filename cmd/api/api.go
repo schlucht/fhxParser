@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"flag"
 	"fmt"
 	"html/template"
@@ -23,7 +24,8 @@ type config struct {
 	port int
 	env  string
 	db   struct {
-		dsn string
+		dsn    string
+		driver string
 	}
 }
 
@@ -56,21 +58,30 @@ func main() {
 	tc := make(map[string]*template.Template)
 	flag.IntVar(&cfg.port, "port", 5101, "Server port to listen on")
 	flag.StringVar(&cfg.env, "env", "development", "Application enviroment { develompen | production}")
+	flag.StringVar(&cfg.db.driver, "driver", "duckdb", "duckdb")
 	flag.StringVar(&cfg.db.dsn, "dsn", "schmidschluch4:Schlucht6@tcp(db8.hostpark.net)/schmidschluch4?parseTime=true", "DB connect String")
 
 	flag.Parse()
 
-	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
-	errorLog := log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
+	infoLog := log.New(os.Stdout, "\x1b[32mINFO:\x1b[0m\t", log.Ldate|log.Ltime)
+	errorLog := log.New(os.Stdout, "\x1b[31mERROR:\x1b[0m\t", log.Ldate|log.Ltime|log.Lshortfile)
 
 	session = scs.New()
 	session.Lifetime = 24 * time.Hour
-
-	conn, err := driver.OpenDB(cfg.db.dsn)
-
-	if err != nil {
-		errorLog.Printf("%v", err)
+	var conn *sql.DB
+	var err error
+	if cfg.db.driver == "duckdb" {
+		conn, err = driver.DuckDBOpenDB("assets/database/fhxdat.db")
+		if err != nil {
+			errorLog.Printf("%v", err)
+		}
+	} else {
+		conn, err = driver.MySqlOpenDB(cfg.db.dsn)
+		if err != nil {
+			errorLog.Printf("%v", err)
+		}
 	}
+	mod := models.NewModel(conn)
 	defer conn.Close()
 
 	app := &application{
@@ -80,7 +91,7 @@ func main() {
 		templateCache: tc,
 		version:       version,
 		Session:       session,
-		DB:            models.DBModel{DB: conn},
+		DB:            mod,
 	}
 
 	err = app.serve()

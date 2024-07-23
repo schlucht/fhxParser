@@ -1,0 +1,10 @@
+.top-plant {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    font-size: 2rem;
+    color: var(--clr-white);
+    background-color: var(--clr-blue);
+}

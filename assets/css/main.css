@@ -1,8 +1,12 @@
-@import "w3.css";
 @import "fonts.css";
+@import "controls.css";
 @import "base.css";
 @import "layouts.css";
 @import "header.css";
-@import "controls.css";
 @import "window.css";
+@import "top-plant.css";
+@import "home.css";
+@import "footer.css";
+@import "plant.css";
+@import "card.css";
 

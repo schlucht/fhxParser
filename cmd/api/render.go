@@ -20,7 +20,7 @@ type templateData struct {
 	API             string
 }
 
-var defaultPartials = []string{"header", "footer", "js"} //[2]string{"header", "navigation"}
+var defaultPartials = []string{"header", "footer", "top", "js"} //[2]string{"header", "navigation"}
 var functions = template.FuncMap{}
 
 //go:embed templates

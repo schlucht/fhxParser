@@ -4,20 +4,19 @@ import (
 	"database/sql"
 	"fmt"
 
-	_ "github.com/go-sql-driver/mysql"
+	_ "github.com/marcboeker/go-duckdb"
 )
 
-func OpenDB(dsn string) (*sql.DB, error) {
-	db, err := sql.Open("mysql", dsn)
+func DuckDBOpenDB(dataBaseFile string) (*sql.DB, error) {
+	db, err := sql.Open("duckdb", dataBaseFile)
 	if err != nil {
 		return nil, err
 	}
-
 	err = db.Ping()
 	if err != nil {
 		fmt.Println(err)
 		return nil, err
 	}
-
+	fmt.Println(db.Stats().OpenConnections)
 	return db, nil
 }

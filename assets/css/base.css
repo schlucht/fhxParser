@@ -6,8 +6,17 @@
     --clr-darkblue: #0000ff;
     --clr-orangelight: #ff7947;
     --clr-orange: #FF6B33;
+    --clr-gray: #d3d3d3;
+
+    --padding: 0.5rem;
 
 }
+
+.fill-arxada-blue {
+    background-color: var(--clr-blue);
+    color: var(--clr-white);
+}
+
 html {
     font-size: 62.5%;
 }
@@ -20,7 +29,10 @@ html {
 html {
     font-size: 62.5%;
 }
-
+.w3-primary {
+    background-color: var(--clr-orange);
+    color: var(--clr-white);
+}
 body {
     font-family: "Inter", sans-serif;
     font-size: 1.6rem;
@@ -58,4 +70,14 @@ a:hover {
 
 li {
     list-style: none;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.icon {
+    height: 1.8rem;
+    width: 1.8rem;
 }

@@ -1,26 +1,23 @@
 {{ define "header" }}
-<div class="top">
-    <h3 id="plant">Anlage</h3>
-</div>
-<div class="container">
-    <header class="header">
-        <div class="logo">
-            <img src="../assets/images/arxada-blue.png" alt="Arxada logo">
-        </div>
-        <ul class="nav-left">        
-            <li><a class="active" href="/">Home</a></li>
-            <li><a href="/recipes">Rezepte</a></li>            
-        </ul>
-        <ul class="nav-admin d-none">
-            <li><a href="/fhx">Datenladen</a></li>            
-            <li><a href="/users">User</a></li>
-            <li><a href="/plants">Betrieb</a></li>
-        </ul>
-        <ul class="nav-right">
-            <li><a href="/login">Login</a></li>
-            <li class="d-none"><a href="#!">Logout</a></li>
-            <li><a href="/register">Registrieren</a></li>
-        </ul>
-    </header>
-</div>
+        <div class="header">
+            <div class="logo">
+                <img src="../assets/images/arxada-blue.png" alt="Arxada logo">
+            </div>
+            <ul class="nav-left">        
+                <li><a class="active" href="/">Home</a></li>
+                <li><a href="/operation">Operation</a></li>            
+                <li><a href="/unit">Unit</a></li>            
+                <li><a href="/recipes">Rezepte</a></li>        
+            </ul>
+            <ul class="nav-admin d-none">
+                <li><a href="/fhx">Datenladen</a></li>            
+                <li><a href="/users">User</a></li>
+                <li><a href="/plants">Betrieb</a></li>
+            </ul>
+            <ul class="nav-right">
+                <li><a href="/login">Login</a></li>
+                <li class="d-none"><a href="#!">Logout</a></li>
+                <li><a href="/register">Registrieren</a></li>
+            </ul>
+        </div>  
 {{ end }}

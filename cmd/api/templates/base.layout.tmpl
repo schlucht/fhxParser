@@ -15,28 +15,41 @@
   
 </head>
 
-<body>
-  <div id="window">    
-      <div class="wrapper">
-        <form action="" mehode="POST">
-          <div class="form-group">
-            <label for="plantName">Plants</label>
-            <p>Es ist noch kein Anlage gespeichert. Bitte eine Anlage auslesen.</p>
-            <select name="plantitem" id="plantitems"></select>
-            <a href="javascript:void(0)" class="w3-button" id="btnSavePlant">Speichern</a>
-            <button id="btnWindowClose" class="w3-button">Schliessen</button>
-          </div>
-      </div>
-  </div>
-  <div class="section">
-    {{ block "header" .}}{{end}}
-    <main>
-      {{ block "content" .}}{{end}} 
-    </main>
-    {{ block "footer" .}}{{end}} 
-  </div>
-  
-  <script src="../assets/js/main.js" type="module" defer></script>  
+<body id="page">
+        <div id="top">
+            <div class="center-content">
+                {{ block "top" .}}{{end}}
+            </div>
+        </div>
+        <header id="pageHeader">
+            <div class="center-content">
+                {{ block "header" .}}{{end}}
+            </div>
+        </header>
+        <main id="pageContent">
+            <div class=" center-content">
+                <div class="grid-content">
+                    {{ block "content" .}}{{end}}
+                </div>
+            </div>
+        </main>
+        <footer id="pageFooter">
+            <div class="center-content">
+                {{ block "footer" .}}{{end}} 
+            </div>
+        </footer>  
+  <script>
+    let createDate = `&copy;OTS - ${new Date().getMonth() + 1} / ${new Date().getFullYear()}`
+    const footer = document.querySelector(".footer p")
+    footer.innerHTML = createDate
+    function saveSelectItem(id, item) {       
+       globalPlant = {
+        plant_id: id, 
+        plant: item
+    }
+       window.localStorage.setItem('plant', JSON.stringify(globalPlant))      
+    }
+  </script>  
  {{ block "js" .}}{{end}}
 </body>
 
