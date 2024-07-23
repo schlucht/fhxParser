@@ -7,16 +7,14 @@ import (
 // Öffnet die Plant Webseite und übergibt Daten
 func (app *application) PlantPage(w http.ResponseWriter, r *http.Request) {
 
-	err := app.DB.InsertNewPlants()
-	if err != nil {
-		app.badRequest(w, r, err, "CreateTable")
-	}
-
+	// Alle Anlagen aus der Datenbank auslesen
 	plants, err := app.DB.GetPlants()
 	if err != nil {
 		app.badRequest(w, r, err, "GetPlants")
 		return
 	}
+
+	// Daten an das Frontend übergeben
 	data := make(map[string]interface{})
 	data["plants"] = plants
 

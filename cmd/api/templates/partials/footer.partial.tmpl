@@ -2,5 +2,10 @@
         <div class="footer">
                 <p>&copy;OTS - 2024</p>  
         </div>
+        <script>
+                let createDate = `&copy;OTS - ${new Date().getMonth() + 1} / ${new Date().getFullYear()}`
+                const footer = document.querySelector(".footer p")
+                footer.innerHTML = createDate
+        </script>
 {{ end }}
 

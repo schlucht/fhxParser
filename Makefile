@@ -1,5 +1,6 @@
 BINARY_NAME=fhxparser
 PORT=5101
+DB_NAME=fhxdat.db
 
 build:
 	@go build -o dist/${BINARY_NAME} ./cmd/api
@@ -28,6 +29,13 @@ install:
 	@go mod tidy
 
 run: api
+
+installdb:
+	@brew install duckdb
+
+rundb: stop
+	@duckdb ./assets/database/${DB_NAME}
+
 
 
 

@@ -1,70 +1,36 @@
-import { OtsAlertMessage } from "./OtsAlert.js";
+console.log('Start APP')
 
-let globalPlant = {}
+// Globale gespeicherte Variablen
+ let plant =  {
+    storeId: "plant",
+    plantId: "",
+    plantName: "keine",
+}
 
-document.addEventListener('DOMContentLoaded', () => {
-    
-    const plantControl = document.getElementById('plant');
-    const w= document.getElementById('window')
-    const btnWindowClose = document.getElementById('btnWindowClose')
-    const btnSavePlant = document.getElementById('btnSavePlant')
-    const plantItems = document.getElementById('plantitems')
+const plants = []
 
-    btnWindowClose.addEventListener('click', closeWindow)
-    btnSavePlant.addEventListener('click', savePlant)
+const plantH3 = document.querySelector('#plant')
+const noPlant = document.getElementById('no-plant')
 
-    /**
- * Fetches all plants from the '/plants/allPlants' endpoint and populates the 'plantItems' select element with the retrieved data.
- *
- * @return {Promise<void>} - A promise that resolves when the plants are successfully fetched and the 'plantItems' select element is populated.
- */
-    const plants = async () => {
-        try {
-            const res = await fetch('/plants/allPlants')
-            const data = await res.json()
-            for (let plant of data) {               
-                if (plant.plant === 'leer') {
-                    console.log(plant.plant)                    
-                }
-            }
-        } catch (error) {
-            console.error("Plant load in main.js", error)
+readLocalStorage()
+
+//Laden der Anlage aus dem Localstorage
+function readLocalStorage() {
+    const store = JSON.parse(localStorage.getItem(plant.storeId))    
+    if (store) {
+        plant.plantId = store.plantId
+        plant.plantName = store.plantName
+        if (plant.plantId = "") {
+            noPlant.style.display = 'flex'
+        } else {
+            noPlant.style.display = 'none'
         }
-    } ;
-    
-   function savePlant() {
-        saveSelectItem(
-            plantItems.value,
-            plantItems[plantItems.selectedIndex].textContent,
-        )        
+    } else {
+        localStorage.clear()
+        const newStore = JSON.stringify(plant)
+        localStorage.setItem('plant', newStore)
     }
-    plants()
-    
-    /**
- * Closes the window by hiding it.
- *
- * @return {void} No return value.
- */
-    function closeWindow() {
-        console.log("Hallo")
-        w.style.display = 'none'
-    }
-    plantItems[plantItems.selectedIndex].textContent
-    plantItems.value
-/**
- * Saves the selected plant to local storage and updates the plant control element.
- *
- * @return {void} No return value.
- */
-    function saveSelectItem(id, item) {       
-       globalPlant = {
-        plant_id: id, 
-        plant: item
-    }
-       window.localStorage.setItem('plant', JSON.stringify(globalPlant))
-       plantControl.innerHTML = globalPlant.plant
-       w.style.display = 'none'
-    }
-    
-    
-})
+    plantH3.innerHTML =`ANLAGE:  ${plant.plantName}`
+}
+
+

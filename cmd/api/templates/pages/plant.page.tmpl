@@ -37,18 +37,21 @@
                         <th>Betrieb</th>
                         <th>Aktiv</th>                               
                     </tr>
-                    {{ range $plants }}            
-                    <tr>
-                        <td class="plant-name">{{ .Name }}</td>
-                        <td class="plant-active">
-                            <button class="btn">
-                                <img class="icon" src="../assets/images/icons/prufen.svg">
-                            </button>                        
-                            <button class="btn">
-                                <img class="icon" src="../assets/images/icons/kreuz.svg">
-                            </button>
-                        </td>            
-                    </tr>
+                    {{ range $plants }}
+                        <!-- der Name Leer nicht anzeigen -->
+                        {{ if ne .Name "leer"}}
+                        <tr>
+                            <td class="plant-name">{{ .Name }}</td>
+                            <td class="plant-active">
+                                <button class="btn">
+                                    <img class="icon" src="../assets/images/icons/prufen.svg">
+                                </button>                        
+                                <button class="btn">
+                                    <img class="icon" src="../assets/images/icons/kreuz.svg">
+                                </button>
+                            </td>            
+                        </tr>
+                        {{ end }}
                     {{ end }}
                 </table>
             </div>

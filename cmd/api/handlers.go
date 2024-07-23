@@ -21,9 +21,28 @@ var j = jsonResponse{
 }
 
 // gibt alle Abteilungen zurück
-
 func (app *application) Home(w http.ResponseWriter, r *http.Request) {
-	if err := app.renderTemplate(w, r, "home", &templateData{}, "loadFile"); err != nil {
+
+	// Wenn nicht vorhanden Datenbank erstellen
+	err := app.DB.InsertNewPlants()
+	if err != nil {
+		app.badRequest(w, r, err, "CreateTable")
+	}
+
+	// Alle Anlagen aus der Datenbank auslesen
+	plants, err := app.DB.GetPlants()
+	if err != nil {
+		app.badRequest(w, r, err, "GetPlants")
+		return
+	}
+
+	// Daten an das Frontend übergeben
+	data := make(map[string]interface{})
+	data["plants"] = plants
+
+	if err := app.renderTemplate(w, r, "home", &templateData{
+		Data: data,
+	}); err != nil {
 		app.errorLog.Println(err)
 	}
 }
@@ -33,3 +52,4 @@ func (app *application) NotFound(w http.ResponseWriter, r *http.Request) {
 		app.errorLog.Println(err)
 	}
 }
+

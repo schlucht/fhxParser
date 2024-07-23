@@ -5,6 +5,7 @@
 {{ end }}
 
 {{ define "content" }} 
+
     <form action="" mehode="POST">
         <div class="form-group">
             <label for="fhxFile">FHX-Datei</label>
@@ -12,15 +13,23 @@
         </div>
         <div class="form-group">
             <label for="fhxPlant">Betrieb</label>
-            <select id="plantSelectItem"></select>>
+            <select id="plantSelectItem">
+                <option value="">&lt; leer &gt;</option>
+            </select>
         </div>
-        <a href="javascript:void(0)" class="button" onClick="load(event)">Laden</a>
+        <a href="javascript:void(0)" class="btn" onClick="load(event)">Laden</a>
     </form>
 {{ end }}
 
 {{ define "js" }}
 <script>
 const plantItems = document.getElementById('plantSelectItem');
+const plantWarning = document.getElementById('plant-warning')
+if (plant.plantId) {
+    plantWarning.style.display = 'none'
+} else {
+    plantWarning.style.display = 'block';
+}
 // const fhxFile = document.getElementById('fhxFile');
 // let storePlant;
 // let hasStorePlant = loadStorage()

@@ -16,6 +16,17 @@
 </head>
 
 <body id="page">
+        {{ $plants := index .Data "plants" }}
+        <div class="no-plant" id="no-plant">
+            <h3>Anlage auslesen!</h3>
+            <div class="no-plant-select">
+                {{ range $plants}}
+                    <input type="radio" id="{{ .ID }}" name="newPlant" value="{{ .Name }}">
+                    <label for="{{ .Name }}">{{ .Name }}</label>                
+                {{ end }}
+            </div>
+            <button class="btn" id="save-plant-store">OK</button>
+        </div>
         <div id="top">
             <div class="center-content">
                 {{ block "top" .}}{{end}}
@@ -38,18 +49,25 @@
                 {{ block "footer" .}}{{end}} 
             </div>
         </footer>  
+  <script src="./assets/js/main.js">   </script>
   <script>
-    let createDate = `&copy;OTS - ${new Date().getMonth() + 1} / ${new Date().getFullYear()}`
-    const footer = document.querySelector(".footer p")
-    footer.innerHTML = createDate
-    function saveSelectItem(id, item) {       
-       globalPlant = {
-        plant_id: id, 
-        plant: item
-    }
-       window.localStorage.setItem('plant', JSON.stringify(globalPlant))      
-    }
-  </script>  
+
+    // Die Ausgewählte Anlage in der Lokalstorage speichern.
+    const saveButton = document.getElementById('save-plant-store')
+    const rdB = document.querySelectorAll("input[name='newPlant']")
+  
+    saveButton.addEventListener('click', (e) => {
+        rdB.forEach(element => {            
+            if (element.checked) {           
+                plant.plantId = element.id,
+                plant.plantName = element.value,                
+                localStorage.setItem(plant.storeId, JSON.stringify(plant))
+                readLocalStorage()
+            }
+            
+        });
+    })
+  </script>
  {{ block "js" .}}{{end}}
 </body>
 
