@@ -31,7 +31,6 @@ func (app *application) SaveOperation(fhx parser.Fhx, plantID uuid.UUID) error {
 				app.errorLog.Println("Failed to create new parameter: ", err)
 				return err
 			}
-
 			// Values werden immer hinten Angehängt bei jedem Upload
 			err = app.saveValue(paramID, p)
 			if err != nil {
@@ -54,6 +53,7 @@ func (app *application) saveOP(parserUnit parser.Unit) (models.Operation, error)
 	var opModel = models.Operation{
 		OPName: parserUnit.UnitName,
 	}
+
 	op, err := app.DB.OpFromName(parserUnit.UnitName)
 	if err != nil {
 		app.errorLog.Println("Failed to get operation: ", err)
@@ -61,7 +61,6 @@ func (app *application) saveOP(parserUnit parser.Unit) (models.Operation, error)
 	}
 
 	opModel = op
-
 	if op.IsEmpty() {
 		opModel.ID = uuid.New()
 		opModel.OPName = parserUnit.UnitName
@@ -174,7 +173,7 @@ func (app *application) saveParams(opPlantID uuid.UUID, p parser.Parameter) (uui
 //
 // Return:
 //   - error
-func (app *application) saveValue(paramID uuid.UUID, p parser.Parameter) error {	
+func (app *application) saveValue(paramID uuid.UUID, p parser.Parameter) error {
 	var valueModel = models.Value{
 		ID:          uuid.New(),
 		ParamID:     paramID,

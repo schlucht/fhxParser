@@ -39,6 +39,8 @@ document.getElementById('fileLoad-title'). innerHTML = `Betrieb: ${plant.plantNa
 const fhxFile = document.getElementById('fhxFile');
 const fhxText = document.querySelector('.fileLoad-text')
 const uploadFile = document.getElementById('upload-file')
+const detailCount = document.querySelector(".fileLoad-details-count")
+const detailTitle = document.querySelector(".fileLoad-details-title")
 
 if (plant.pantId !== "") {
     fhxFile.style.backgroundColor = "red"
@@ -56,7 +58,8 @@ if (plant.pantId !== "") {
                 const data = { 
                         text: text, 
                         name: file, 
-                        plant_id: plant.plantId }
+                        plant_id: plant.plantId 
+                    };
 
                 const requestOptions = {
                     method: "POST",
@@ -64,22 +67,30 @@ if (plant.pantId !== "") {
                     body: JSON.stringify(data),
                 };
 
-                const title = readTitleName(text, "BATCH_RECIPE NAME=")
-                document.querySelector(".fileLoad-details-count")
-                    .textContent = `Grösse: ${text.length}`
-                document.querySelector(".fileLoad-details-title")
-                    .textContent = title
-                fhxText.innerHTML = `${text.substring(0, 550)}...`
-                uploadFile.disabled = false
-                uploadFile.addEventListener('click', e => {
-                    console.log(data)
-                    // Hier die Daten auf den Server Laden!
-                })
+                // Der Titel aus der Datei raussuchen
+                const title = readTitleName(text, "BATCH_RECIPE NAME=");
+                
+                detailCount.textContent = `Grösse: ${text.length}`;
+                detailTitle.textContent = title;
+                fhxText.innerHTML = `${text.substring(0, 550)}...`;
+                uploadFile.disabled = false;
+
+                // Hier die Daten auf den Server Laden!
+                uploadFile.addEventListener('click', async (e) => {
+                    console.log(data);
+                    await fetch("/fhx/readFhx", requestOptions);
+                    resetDetails()
+                });
+
             }
             fr.readAsText(files[0]);
         }
 }
-    
+function resetDetails() {
+    fhxText.textContent = " Laden Sie eine fhx Datei von einer Opertion, Unitprocedure oder Rezept, von ihrem PC hoch. Diese wird gespeichert und die Daten können dann bearbeitet werden.";
+    detailCount.textContent = `Grösse: 0`;
+    detailTitle.textContent = 'none';
+}
     
 </script>
 {{end}}

@@ -1,12 +1,9 @@
 package models
 
 import (
-	"context"
 	"database/sql"
-	"errors"
 	"log"
 	"os"
-	"time"
 )
 
 // for Database connection
@@ -25,30 +22,4 @@ func NewModel(db *sql.DB) DBModel {
 		infoLog:  infoLog,
 		errorLog: errorLog,
 	}
-}
-
-func (m *DBModel) GetQueryText(path string) (string, error) {
-	var sql = ""
-	data, err := os.ReadFile(path)
-	if err != nil {
-		return "", nil
-	}
-	if len(data) == 0 {
-		return "", errors.New("no data in sql file")
-	}
-	sql = string(data)
-	return sql, nil
-}
-
-// Funtion zum Erstellen einer Tabelle.
-// Parameter: SQL String zum erstellen der Tabelle
-// Return: error
-func (m *DBModel) CreateTable(sql string) error {
-	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
-	defer cancel()
-	_, err := m.DB.ExecContext(ctx, sql)
-	if err != nil {
-		return err
-	}
-	return nil
 }

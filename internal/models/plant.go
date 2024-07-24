@@ -20,11 +20,6 @@ func (m *DBModel) InsertNewPlants() error {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	err := m.createPlantTable()
-	if err != nil {
-		return err
-	}
-
 	// Kontrolle ob Inhalt vorhanden
 	rows, err := m.DB.QueryContext(ctx, "SELECT COUNT(*) FROM plants")
 	if err != nil {
@@ -70,10 +65,6 @@ func (m *DBModel) GetPlants() ([]Plant, error) {
 	var stmt string
 	var rows *sql.Rows
 	var err error
-	err = m.createPlantTable()
-	if err != nil {
-		return nil, err
-	}
 
 	stmt = `SELECT plant_id, plant, created_at, updated_at 
 		FROM plants`

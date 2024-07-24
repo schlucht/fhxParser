@@ -83,6 +83,16 @@ func main() {
 	}
 	mod := models.NewModel(conn)
 	defer conn.Close()
+	tables, err := mod.GetSystemTable()
+	if err != nil {
+		errorLog.Printf("%v", err)
+	}
+	if tables != 13 {
+		err = mod.InstallDB()
+		if err != nil {
+			errorLog.Printf("%v", err)
+		}
+	}
 
 	app := &application{
 		config:        cfg,

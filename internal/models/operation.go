@@ -36,8 +36,8 @@ type OperationPlant struct {
 type Parameter struct {
 	ID          uuid.UUID `json:"params_id"`
 	OPPlantID   uuid.UUID `json:"opplant_id"`
-	Name        string    `json:"params_name"`
-	Description string    `json:"params_descr"`
+	Name        string    `json:"param_name"`
+	Description string    `json:"param_desc"`
 	Value       []Value   `json:"value"`
 	CreatedAt   time.Time `json:"created_at"`
 	UpdatedAt   time.Time `json:"updated_at"`
@@ -56,6 +56,8 @@ type Value struct {
 	UpdatedAt   time.Time `json:"updated_at"`
 }
 
+// OP Tabelle einmalig erstellen
+
 // CreateNewOP inserts a new operation into the operations table in the database.
 //
 // It takes an Operation struct as a parameter, which contains the op_id, opname, created_at, and updated_at fields.
@@ -69,7 +71,7 @@ func (m *DBModel) NewOP(op Operation) error {
 	}
 
 	stmt := `INSERT INTO operations 
-			(op_id, opname) 
+			(op_id, opname, updated_at, created_at) 
 		VALUES
 			(?,?,?,?)`
 	_, err := m.DB.ExecContext(ctx, stmt,
@@ -189,7 +191,7 @@ func (m *DBModel) NewOPPlant(opPlant OperationPlant) error {
 
 	stmt := `
 		INSERT INTO op_plant
-		(opplant_id, id_op, id_plant, op_category, op_position, op_time, op_author, op_description)
+		(opplant_id, id_op, id_plant, op_category, op_position, op_time, op_author, op_description,updated_at,created_at)
 		VALUES(?,?,?,?,?,?,?,?,?,?)	`
 
 	_, err := m.DB.ExecContext(ctx, stmt,
@@ -222,8 +224,8 @@ func (m *DBModel) NewParam(param Parameter, opPlantID uuid.UUID) error {
 		param.ID = uuid.New()
 	}
 
-	stmt := `INSERT INTO parameters 
-			(params_id, opplant_id, params_name, params_descr) 
+	stmt := `INSERT INTO opparameters 
+			(params_id , opplant_id, param_name, param_desc, updated_at, created_at) 
 		VALUES
 			(?,?,?,?,?,?)`
 	_, err := m.DB.ExecContext(ctx, stmt,
@@ -250,9 +252,9 @@ func (m *DBModel) NewParam(param Parameter, opPlantID uuid.UUID) error {
 func (m *DBModel) UpdateParams(param Parameter, opPlantID uuid.UUID) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
-	stmt := `UPDATE parameters 
-		SET params_name = ?, params_descr = ?, updated_at = ? 
-		WHERE opplant_id = ? AND params_id = ?`
+	stmt := `UPDATE opparameters 
+		SET param_name = ?, param_desc = ?, updated_at = ? 
+		WHERE opplant_id = ? AND params_id  = ?`
 	_, err := m.DB.ExecContext(ctx, stmt,
 		param.Name,
 		param.Description,
@@ -350,8 +352,8 @@ func (m *DBModel) ExistParam(opPlantID uuid.UUID, paramName string) (uuid.UUID, 
 	stmt := `SELECT 
 			params_id 
 		FROM 
-			parameters 
-		WHERE opplant_id = ? AND params_name = ?`
+			opparameters 
+		WHERE opplant_id = ? AND param_name = ?`
 	res, err := m.DB.QueryContext(ctx, stmt,
 		opPlantID.String(),
 		paramName,
@@ -387,8 +389,8 @@ func (m *DBModel) ParamIdFromName(paramname string, ooplantid uuid.UUID) (uuid.U
 	stmt := `SELECT 
 			params_id 
 		FROM 
-			parameters 
-		WHERE opplant_id = ? AND params_name = ?`
+			opparameters 
+		WHERE opplant_id = ? AND param_name = ?`
 	res, err := m.DB.QueryContext(ctx, stmt,
 		ooplantid.String(),
 		paramname,
@@ -429,9 +431,9 @@ func (m *DBModel) NewValue(value Value) error {
 
 	stmt := `INSERT INTO 
 			paramvalues 
-			(value_id, params_id, high, low, cv, unit, stringvalue, valueset) 
+			(value_id, params_id, high, low, cv, unit, stringvalue, valueset,updated_at,created_at) 
 			VALUES
-			(?,?,?,?,?,?,?,?)`
+			(?,?,?,?,?,?,?,?,?,?)`
 	_, err := m.DB.ExecContext(ctx, stmt,
 		value.ID.String(),
 		value.ParamID.String(),
@@ -441,6 +443,8 @@ func (m *DBModel) NewValue(value Value) error {
 		value.Unit,
 		value.StringValue,
 		value.Set,
+		time.Now(),
+		time.Now(),
 	)
 	if err != nil {
 		return err

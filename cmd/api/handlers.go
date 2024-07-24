@@ -22,7 +22,7 @@ var j = jsonResponse{
 
 // gibt alle Abteilungen zurück
 func (app *application) Home(w http.ResponseWriter, r *http.Request) {
-
+	
 	// Wenn nicht vorhanden Datenbank erstellen
 	err := app.DB.InsertNewPlants()
 	if err != nil {
@@ -52,4 +52,3 @@ func (app *application) NotFound(w http.ResponseWriter, r *http.Request) {
 		app.errorLog.Println(err)
 	}
 }
-

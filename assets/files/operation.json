@@ -1,44 +1,285 @@
 {
   "ops": [
     {
-      "unitname": "OP_VAKPUMPE",
+      "unitname": "OP_HK",
       "unitcategory": "Recipes/Operations/BEHAELTER",
       "unitpositon": "",
-      "time": 1675757758,
-      "author": "Hutter Fredy",
-      "description": "Vakuumpumpe ",
+      "time": 1536134491,
+      "author": "BTSCHERRY",
+      "description": "\" HIGH=300 LOW=-100 SCALABLE=F CV=300 UNITS=\"°C",
       "type": "OP",
       "params": [
         {
-          "name": "FP_OPTION",
-          "description": "Einbuchen Ausbuchen und Ein- oder Ausschalten",
+          "name": "FP_BESCHREI_TEXT",
+          "description": "",
+          "value": {},
+          "unit_id": 0
+        },
+        {
+          "name": "FP_FSB_TSH",
+          "description": "",
           "value": {
-            "stringvalue": "EIN UND BUCHEN",
-            "value_set": "LGF_VAKPUMPE_OPT"
+            "high": 300,
+            "low": -100,
+            "cv": 300,
+            "unit": "°C"
           },
           "unit_id": 0
         },
         {
-          "name": "FP_BESCHREI_TEXT",
-          "description": "Einbuchen Ausbuchen und Ein- oder Ausschalten",
-          "value": {},
+          "name": "FP_FSB_TSL",
+          "description": "",
+          "value": {
+            "high": 300,
+            "low": -100,
+            "cv": -100,
+            "unit": "°C"
+          },
+          "unit_id": 0
+        },
+        {
+          "name": "FP_MANENDE",
+          "description": "",
+          "value": {
+            "stringvalue": "NEIN",
+            "value_set": "L_JA_NEIN"
+          },
+          "unit_id": 0
+        },
+        {
+          "name": "FP_OPTION",
+          "description": "",
+          "value": {
+            "stringvalue": "INNENTEMP",
+            "value_set": "LGF_HK_OPT"
+          },
+          "unit_id": 0
+        },
+        {
+          "name": "FP_OPTION_HO",
+          "description": "",
+          "value": {
+            "stringvalue": "MANTELTEMP",
+            "value_set": "LGF_HK_OPT"
+          },
+          "unit_id": 0
+        },
+        {
+          "name": "FP_RAMPE",
+          "description": "",
+          "value": {
+            "high": 10000,
+            "unit": "            "
+          },
+          "unit_id": 0
+        },
+        {
+          "name": "FP_TAH_BRUEDEN",
+          "description": "",
+          "value": {
+            "high": 300,
+            "low": -100,
+            "cv": 300,
+            "unit": "°C"
+          },
+          "unit_id": 0
+        },
+        {
+          "name": "FP_TAH_HKK",
+          "description": "",
+          "value": {
+            "high": 300,
+            "low": -100,
+            "cv": 300,
+            "unit": "°C"
+          },
+          "unit_id": 0
+        },
+        {
+          "name": "FP_TAH_INNEN",
+          "description": "",
+          "value": {
+            "high": 300,
+            "low": -100,
+            "cv": 300,
+            "unit": "°C"
+          },
+          "unit_id": 0
+        },
+        {
+          "name": "FP_TAHH_HKK",
+          "description": "",
+          "value": {
+            "high": 300,
+            "low": -100,
+            "cv": 300,
+            "unit": "°C"
+          },
+          "unit_id": 0
+        },
+        {
+          "name": "FP_TAHH_INNEN",
+          "description": "",
+          "value": {
+            "high": 300,
+            "low": -100,
+            "cv": 300,
+            "unit": "°C"
+          },
+          "unit_id": 0
+        },
+        {
+          "name": "FP_TAL_HKK",
+          "description": "",
+          "value": {
+            "high": 300,
+            "low": -100,
+            "cv": -100,
+            "unit": "°C"
+          },
+          "unit_id": 0
+        },
+        {
+          "name": "FP_TAL_INNEN",
+          "description": "",
+          "value": {
+            "high": 300,
+            "low": -100,
+            "cv": -100,
+            "unit": "°C"
+          },
+          "unit_id": 0
+        },
+        {
+          "name": "FP_TALL_HKK",
+          "description": "",
+          "value": {
+            "high": 300,
+            "low": -100,
+            "cv": -100,
+            "unit": "°C"
+          },
+          "unit_id": 0
+        },
+        {
+          "name": "FP_TALL_INNEN",
+          "description": "",
+          "value": {
+            "high": 300,
+            "low": -100,
+            "cv": -100,
+            "unit": "°C"
+          },
+          "unit_id": 0
+        },
+        {
+          "name": "FP_TC_W",
+          "description": "",
+          "value": {
+            "high": 300,
+            "low": -100,
+            "unit": "°C"
+          },
+          "unit_id": 0
+        },
+        {
+          "name": "FP_TC_W_HO",
+          "description": "",
+          "value": {
+            "high": 300,
+            "low": -100,
+            "unit": "°C"
+          },
+          "unit_id": 0
+        },
+        {
+          "name": "FP_TT_INNEN",
+          "description": "",
+          "value": {
+            "stringvalue": "OBEN - Temp Transmitter oben",
+            "value_set": "LGF_HK_OBEN_UNTE"
+          },
+          "unit_id": 0
+        },
+        {
+          "name": "FP_TT_INNEN_HO",
+          "description": "",
+          "value": {
+            "stringvalue": "UNTEN - Temp Transmitter unten",
+            "value_set": "LGF_HK_OBEN_UNTE"
+          },
+          "unit_id": 0
+        },
+        {
+          "name": "FP_W_BGR_D_H",
+          "description": "",
+          "value": {
+            "high": 400,
+            "cv": 400,
+            "unit": "°C"
+          },
+          "unit_id": 0
+        },
+        {
+          "name": "FP_W_BGR_D_L",
+          "description": "",
+          "value": {
+            "high": 400,
+            "cv": 400,
+            "unit": "°C"
+          },
+          "unit_id": 0
+        },
+        {
+          "name": "FP_W_BGR_D_L_HO",
+          "description": "",
+          "value": {
+            "high": 400,
+            "cv": 400,
+            "unit": "°C"
+          },
+          "unit_id": 0
+        },
+        {
+          "name": "FP_W_BGR_H",
+          "description": "",
+          "value": {
+            "high": 300,
+            "low": -100,
+            "cv": 300,
+            "unit": "°C"
+          },
+          "unit_id": 0
+        },
+        {
+          "name": "FP_W_BGR_L",
+          "description": "",
+          "value": {
+            "high": 300,
+            "low": -100,
+            "cv": -100,
+            "unit": "°C"
+          },
+          "unit_id": 0
+        },
+        {
+          "name": "FP_W_BGR_L_HO",
+          "description": "",
+          "value": {
+            "high": 300,
+            "low": -100,
+            "cv": -100,
+            "unit": "°C"
+          },
           "unit_id": 0
         }
       ],
       "steps": [
         {
-          "name": "START",
-          "key": "",
+          "name": "HK:1",
+          "key": "HK",
           "description": "",
-          "rec": "{ X=200 Y=50 H=40 W=100 }\r",
-          "step_parameters": [],
-          "step_attributes": []
-        },
-        {
-          "name": "VAKPUMPE:1",
-          "key": "VAKPUMPE",
-          "description": "",
-          "rec": "{ X=200 Y=50 H=40 W=100 }\r",
+          "rec": "{ X=200 Y=170 H=40 W=100 }\r",
           "step_parameters": [
             {
               "name": "FP_BESCHREI_TEXT",
@@ -47,19 +288,177 @@
               "group": ""
             },
             {
+              "name": "FP_FSB_TSH",
+              "origin": "DEFERRED\r",
+              "deferto": "FP_FSB_TSH",
+              "group": ""
+            },
+            {
+              "name": "FP_FSB_TSL",
+              "origin": "DEFERRED\r",
+              "deferto": "FP_FSB_TSL",
+              "group": ""
+            },
+            {
+              "name": "FP_MANENDE",
+              "origin": "DEFERRED\r",
+              "deferto": "FP_MANENDE",
+              "group": ""
+            },
+            {
               "name": "FP_OPTION",
               "origin": "DEFERRED\r",
               "deferto": "FP_OPTION",
-              "group": "Operating"
+              "group": ""
+            },
+            {
+              "name": "FP_OPTION_HO",
+              "origin": "DEFERRED\r",
+              "deferto": "FP_OPTION_HO",
+              "group": ""
+            },
+            {
+              "name": "FP_RAMPE",
+              "origin": "DEFERRED\r",
+              "deferto": "FP_RAMPE",
+              "group": ""
+            },
+            {
+              "name": "FP_TAH_BRUEDEN",
+              "origin": "DEFERRED\r",
+              "deferto": "FP_TAH_BRUEDEN",
+              "group": ""
+            },
+            {
+              "name": "FP_TAH_HKK",
+              "origin": "DEFERRED\r",
+              "deferto": "FP_TAH_HKK",
+              "group": ""
+            },
+            {
+              "name": "FP_TAH_INNEN",
+              "origin": "DEFERRED\r",
+              "deferto": "FP_TAH_INNEN",
+              "group": ""
+            },
+            {
+              "name": "FP_TAHH_HKK",
+              "origin": "DEFERRED\r",
+              "deferto": "FP_TAHH_HKK",
+              "group": ""
+            },
+            {
+              "name": "FP_TAHH_INNEN",
+              "origin": "DEFERRED\r",
+              "deferto": "FP_TAHH_INNEN",
+              "group": ""
+            },
+            {
+              "name": "FP_TAL_HKK",
+              "origin": "DEFERRED\r",
+              "deferto": "FP_TAL_HKK",
+              "group": ""
+            },
+            {
+              "name": "FP_TAL_INNEN",
+              "origin": "DEFERRED\r",
+              "deferto": "FP_TAL_INNEN",
+              "group": ""
+            },
+            {
+              "name": "FP_TALL_HKK",
+              "origin": "DEFERRED\r",
+              "deferto": "FP_TALL_HKK",
+              "group": ""
+            },
+            {
+              "name": "FP_TALL_INNEN",
+              "origin": "DEFERRED\r",
+              "deferto": "FP_TALL_INNEN",
+              "group": ""
+            },
+            {
+              "name": "FP_TC_W",
+              "origin": "DEFERRED\r",
+              "deferto": "FP_TC_W",
+              "group": ""
+            },
+            {
+              "name": "FP_TC_W_HO",
+              "origin": "DEFERRED\r",
+              "deferto": "FP_TC_W_HO",
+              "group": ""
+            },
+            {
+              "name": "FP_TT_INNEN",
+              "origin": "DEFERRED\r",
+              "deferto": "FP_TT_INNEN",
+              "group": ""
+            },
+            {
+              "name": "FP_TT_INNEN_HO",
+              "origin": "DEFERRED\r",
+              "deferto": "FP_TT_INNEN_HO",
+              "group": ""
+            },
+            {
+              "name": "FP_W_BGR_D_H",
+              "origin": "DEFERRED\r",
+              "deferto": "FP_W_BGR_D_H",
+              "group": ""
+            },
+            {
+              "name": "FP_W_BGR_D_L",
+              "origin": "DEFERRED\r",
+              "deferto": "FP_W_BGR_D_L",
+              "group": ""
+            },
+            {
+              "name": "FP_W_BGR_D_L_HO",
+              "origin": "DEFERRED\r",
+              "deferto": "FP_W_BGR_D_L_HO",
+              "group": ""
+            },
+            {
+              "name": "FP_W_BGR_H",
+              "origin": "DEFERRED\r",
+              "deferto": "FP_W_BGR_H",
+              "group": ""
+            },
+            {
+              "name": "FP_W_BGR_L",
+              "origin": "DEFERRED\r",
+              "deferto": "FP_W_BGR_L",
+              "group": ""
+            },
+            {
+              "name": "FP_W_BGR_L_HO",
+              "origin": "DEFERRED\r",
+              "deferto": "FP_W_BGR_L_HO",
+              "group": ""
+            },
+            {
+              "name": "RP_FSB_WART_ZEIT",
+              "origin": "CONSTANT\r",
+              "deferto": "",
+              "group": ""
             }
           ],
           "step_attributes": []
         },
         {
-          "name": "VAKPUMPE:1",
-          "key": "VAKPUMPE",
+          "name": "START",
+          "key": "HK",
           "description": "",
-          "rec": "{ X=200 Y=50 H=40 W=100 }\r",
+          "rec": "{ X=200 Y=170 H=40 W=100 }\r",
+          "step_parameters": [],
+          "step_attributes": []
+        },
+        {
+          "name": "START",
+          "key": "HK",
+          "description": "",
+          "rec": "{ X=200 Y=170 H=40 W=100 }\r",
           "step_parameters": [],
           "step_attributes": []
         }

@@ -35,6 +35,7 @@ function readLocalStorage() {
     plantH3.innerHTML =`ANLAGE:  ${plant.plantName}`
 }
 
+// Extrahiert den Titel aus einem Text aus
 function readTitleName(text, substring) {
     const lines = text.split('\n')
     const regexp = new RegExp(`${substring}"(?<f>.*)" `)

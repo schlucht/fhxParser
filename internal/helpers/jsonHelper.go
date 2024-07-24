@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"encoding/json"
 	"fmt"
+	"io"
 	"os"
 )
 
@@ -30,4 +31,20 @@ func SaveJSON(path string, data interface{}) error {
 	}
 	w.Flush()
 	return nil
+}
+
+func OpenJSON(path string) ([]byte, error) {
+
+	jsonFile, err := os.Open(path)
+	if err != nil {
+		return nil, err
+	}
+	defer jsonFile.Close()
+
+	byteJson, err := io.ReadAll(jsonFile)
+	if err != nil {
+		return nil, err
+	}
+
+	return byteJson, nil
 }
