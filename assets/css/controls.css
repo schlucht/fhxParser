@@ -20,6 +20,8 @@
 }
 .btn:disabled, .btn:disabled:hover {
     background-color: lightgray;
+    color: var(--clr-white);
+    cursor: default;
 }
 
 .btn:hover {

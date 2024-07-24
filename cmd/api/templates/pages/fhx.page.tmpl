@@ -6,92 +6,80 @@
 
 {{ define "content" }} 
 
-    <form action="" mehode="POST">
-        <div class="form-group">
-            <label for="fhxFile">FHX-Datei</label>
-            <input type="file" class="w3-input" id="fhxFile" name="fhxFile" onchange="upload(event)" accept=".fhx">
+    <div class="fileLoad">
+        <h3 id="fileLoad-title"></h3>            
+        <form action="" mehode="POST">
+            <div class="fileLoad-control">
+                <input type="file" 
+                class="fileLoad-input" 
+                id="fhxFile" 
+                name="fhxFile" 
+                onchange="upload(event)" 
+                accept=".fhx">
+                <label for="fhxFile">
+                    <img height="32" width="32" src="../assets/images/icons/download.svg" >FHX-Datei</label>
+            </div>
+        </form>
+        <div class="fileLoad-details">
+            <span class="fileLoad-details-title">none</span>
+            <span class="fileLoad-details-count">Grösse: 0</span>
         </div>
-        <div class="form-group">
-            <label for="fhxPlant">Betrieb</label>
-            <select id="plantSelectItem">
-                <option value="">&lt; leer &gt;</option>
-            </select>
+        <div class="fileLoad-text">
+            Laden Sie eine fhx Datei von einer Opertion, Unitprocedure oder Rezept, von ihrem PC hoch. Diese wird gespeichert und die Daten können dann bearbeitet werden.
         </div>
-        <a href="javascript:void(0)" class="btn" onClick="load(event)">Laden</a>
-    </form>
+        <button class="btn" id="upload-file" disabled>Datei hochladen...</button>
+    </div>
+
 {{ end }}
 
 {{ define "js" }}
 <script>
 const plantItems = document.getElementById('plantSelectItem');
-const plantWarning = document.getElementById('plant-warning')
-if (plant.plantId) {
-    plantWarning.style.display = 'none'
-} else {
-    plantWarning.style.display = 'block';
-}
-// const fhxFile = document.getElementById('fhxFile');
-// let storePlant;
-// let hasStorePlant = loadStorage()
-//   function loadStorage() {
-//     storePlant = localStorage.getItem('plant')        
-//         if (storePlant) {
-//             storePlant = JSON.parse(storePlant)   
-//         }else {
-//             let idPlant = plantItems.options[plantItems.selectedIndex].value;
-//             let valuePlant = plantItems.options[plantItems.selectedIndex].textContent;
-//             console.log(valuePlant);
-//             if (valuePlant === "leer") {                
-//                 return false;
-//             }
-//             saveSelectItem(
-//                 idPlant,
-//                 valuePlant,                        
-//             );
-//             storePlant = localStorage.getItem('plant');
-//             storePlant = JSON.parse(storePlant);
-//             return true;
-//         } 
-//   }
-  
-//   fhxFile.style.backgroundColor = hasStorePlant ? "red" : "blue";
+document.getElementById('fileLoad-title'). innerHTML = `Betrieb: ${plant.plantName}`
+const fhxFile = document.getElementById('fhxFile');
+const fhxText = document.querySelector('.fileLoad-text')
+const uploadFile = document.getElementById('upload-file')
+
+if (plant.pantId !== "") {
+    fhxFile.style.backgroundColor = "red"
    
-    // function upload(e) {
-    //         const files = e.target.files || e.dataTransfer.files;
-    //         if (!files.length) return;
-    //         const file = files[0].name;
-    //         let text = ""
-    //         const fr = new FileReader();
-    //         fr.onload = async () => {
-    //             text = fr.result;      
-    //            if (!loadStorage()) return;
-    //             const requestOptions = {
-    //                 method: "POST",
-    //                 headers: { "Content-Type": "application/json" },
-    //                 body: JSON.stringify({ text: text, name: file, plant_id: storePlant.plant_id }),
-    //             };
-    //             await fetch("/fhx/readFhx", requestOptions);
-    //         }
-    //         fr.readAsText(files[0]);
-    // }
-    document.addEventListener('DOMContentLoaded', () => {
-       
-        // const plant = document.getElementById('plant')
-        
-        const plants = async () => {
-            try {
-                const res = await fetch('/plants/allPlants')
-                const data = await res.json()
-                for (let plant of data) {           
-                    // console.log(plant.plant_id);    
-                    plantItems.innerHTML += `<option value="${plant.plant_id}">${plant.plant}</option>`;
-                }
-            } catch (error) {
-                console.error("Plant load in main.js", error)
+    function upload(e) {
+            
+            const files = e.target.files || e.dataTransfer.files;
+            if (!files.length) return;
+            const file = files[0].name;           
+            let text = ""
+            const fr = new FileReader();
+            fr.onload = async () => {
+                text = fr.result;      
+                // Daten und der Inhalt des Textfiles an Objekt übergeben
+                const data = { 
+                        text: text, 
+                        name: file, 
+                        plant_id: plant.plantId }
+
+                const requestOptions = {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data),
+                };
+
+                const title = readTitleName(text, "BATCH_RECIPE NAME=")
+                document.querySelector(".fileLoad-details-count")
+                    .textContent = `Grösse: ${text.length}`
+                document.querySelector(".fileLoad-details-title")
+                    .textContent = title
+                fhxText.innerHTML = `${text.substring(0, 550)}...`
+                uploadFile.disabled = false
+                uploadFile.addEventListener('click', e => {
+                    console.log(data)
+                    // Hier die Daten auf den Server Laden!
+                })
             }
-        }  
-        plants()       
-    });
+            fr.readAsText(files[0]);
+        }
+}
+    
     
 </script>
 {{end}}

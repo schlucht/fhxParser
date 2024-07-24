@@ -4,6 +4,8 @@
     "editor.letterSpacing": 0,
     "editor.lineHeight": 0,
     "terminal.integrated.fontFamily": "monospace",
+    "editor.stickyScroll.enabled": false,
+    
     "vim.smartRelativeLine": true,
     "vim.easymotion": true,
     "vim.incsearch": true,

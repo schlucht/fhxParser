@@ -16,11 +16,12 @@ readLocalStorage()
 
 //Laden der Anlage aus dem Localstorage
 function readLocalStorage() {
-    const store = JSON.parse(localStorage.getItem(plant.storeId))    
+    const store = JSON.parse(localStorage.getItem(plant.storeId))
+
     if (store) {
         plant.plantId = store.plantId
         plant.plantName = store.plantName
-        if (plant.plantId = "") {
+        if (plant.plantId == "") {
             noPlant.style.display = 'flex'
         } else {
             noPlant.style.display = 'none'
@@ -30,7 +31,25 @@ function readLocalStorage() {
         const newStore = JSON.stringify(plant)
         localStorage.setItem('plant', newStore)
     }
+  
     plantH3.innerHTML =`ANLAGE:  ${plant.plantName}`
 }
 
+function readTitleName(text, substring) {
+    const lines = text.split('\n')
+    const regexp = new RegExp(`${substring}"(?<f>.*)" `)
+    let res = "none"
+    if (lines.length > 0) {
+        lines.forEach(l => {
+            if (l.indexOf(substring) > -1) {
+                console.log(regexp)
+                const matches = l.match(regexp)
+                if (matches) {
+                    res = matches.groups.f
+                }
+            } 
+        })
+    }
+    return res
+}
 
