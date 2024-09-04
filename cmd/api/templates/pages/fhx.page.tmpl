@@ -42,11 +42,10 @@ const uploadFile = document.getElementById('upload-file')
 const detailCount = document.querySelector(".fileLoad-details-count")
 const detailTitle = document.querySelector(".fileLoad-details-title")
 
-console.log(plant, "ID");
 if (plant.plantName === 'keine') {  
    window.location = '/plants';   
 } else {
-    console.log('keine')
+    
     function upload(e) {
             
             const files = e.target.files || e.dataTransfer.files;
