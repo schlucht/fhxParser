@@ -17,6 +17,7 @@ func (app *application) PlantPage(w http.ResponseWriter, r *http.Request) {
 	// Daten an das Frontend übergeben
 	data := make(map[string]interface{})
 	data["plants"] = plants
+	data["counts"] = len(plants)
 
 	if err := app.renderTemplate(w, r, "plant", &templateData{
 		Data: data,
@@ -56,6 +57,45 @@ func (app *application) PlantSave(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.WriteHeader(http.StatusAccepted)
+	http.Redirect(w, r, "/plants", http.StatusSeeOther)
+}
+
+// Loeschen einer Anlage aus der Datenbank
+func (app *application) PlantDelete(w http.ResponseWriter, r *http.Request) {
+	var plantId struct {
+		ID string `json:"plantId"`
+	}
+	err := app.readJSON(w, r, &plantId)
+	if err != nil {
+		app.badRequest(w, r, err, "PlantDelete: Read JSON")
+		return
+	}
+	err = app.DB.PlantDelete(plantId.ID)
+	if err != nil {
+		app.badRequest(w, r, err, "PlantDelete: DeletePlant")
+		return
+	}
+	w.WriteHeader(http.StatusAccepted)
+	http.Redirect(w, r, "/plants", http.StatusSeeOther)
+}
+
+// Anlage aktualisieren
+func (app *application) PlantUpdate(w http.ResponseWriter, r *http.Request) {
+	var plantInput struct {
+		ID   string `json:"plantId"`
+		Name string `json:"plantName"`
+	}
+	err := app.readJSON(w, r, &plantInput)
+	if err != nil {
+		app.badRequest(w, r, err, "PlantUpdate: Read JSON")
+		return
+	}
+	err = app.DB.PlantUpdate(plantInput.Name)
+	if err != nil {
+		app.badRequest(w, r, err, "PlantUpdate: UpdatePlant")
+		return
+	}
 	w.WriteHeader(http.StatusAccepted)
 	http.Redirect(w, r, "/plants", http.StatusSeeOther)
 }

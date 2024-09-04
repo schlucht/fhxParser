@@ -12,9 +12,28 @@ import (
 // Liest einen FHX Text ein. Es muss der Text und eine ID für eine Anlage vorhanden sein.
 
 func (app *application) FhxPage(w http.ResponseWriter, r *http.Request) {
-	if err := app.renderTemplate(w, r, "fhx", &templateData{}); err != nil {
+	plants, err := app.LoadPlants()
+	if err != nil {
 		app.errorLog.Println(err)
 	}
+	if len(plants) > 0 {
+		// Daten an das Frontend übergeben
+		data := make(map[string]interface{})
+		data["plants"] = plants
+
+		if err := app.renderTemplate(w, r, "fhx", &templateData{
+			Data: data,
+		}); err != nil {
+			app.errorLog.Println(err)
+		}
+	} else {
+		if err := app.renderTemplate(w, r, "plant", &templateData{}); err != nil {
+			app.errorLog.Println(err)
+		}
+	}
+	// if err := app.renderTemplate(w, r, "fhx", &templateData{}); err != nil {
+	// 	app.errorLog.Println(err)
+	// }
 }
 
 func (app *application) ReadFhx(w http.ResponseWriter, r *http.Request) {

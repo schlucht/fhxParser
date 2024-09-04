@@ -6,22 +6,34 @@
 
 {{ define "content" }} 
 {{ $plants := index .Data "plants" }}
+{{ $count := index .Data "counts" }}
     
         <div class="plant-form card">
             <header class="card-header">
+                {{ if gt $count 0}} 
                 <h2>Betrieb</h2>
+                {{ else  }}
+                    <h2>Neuer Betrieb</h2>
+                {{ end }}
             </header>
             <div class ="card-content">
-            <p>
+            <p {{if eq $count 0}}style="color: red;"{{ end }}>
                 Bearbeiten und erstellen eines neuen Betriebes.
             </p>
             <form action="/plants" method="POST" id="plant-form">
                 <div class="form-group">
                     <label for="plantName">Name</label>
-                    <input type="text" class="text-input" id="plantName" name="plantName">
+                    <input type="text" 
+                        value="" 
+                        class="text-input" 
+                        id="plantName" 
+                        name="plantName">
                 </div>
                 <div class="form-group">
-                    <a href="javascript:void(0)" onClick="savePlant()" id="savePlant" class="btn">Speichern</a>
+                    <a href="javascript:void(0)" 
+                        onClick="savePlant()" 
+                        id="savePlant" 
+                        class="btn">Speichern</a>
                 </div>
             </form>
             </div>        
@@ -29,34 +41,43 @@
         
         <div class="card">
             <header class="card-header">
-                <h2>Betriebe Auflistung</h2>
+                <h2>Betriebe</h2>
+                <p id="plantActive"></p>
             </header>
             <div class ="card-content">
                 <table class="plant-table">
                     <tr class="plant-table-header">
                         <th>Betrieb</th>
-                        <th>Aktiv</th>                               
+                        <th>Aktiv</th> 
+                        <th>Bearbeiten</th>                              
                     </tr>
                     {{ range $plants }}
                         <!-- der Name Leer nicht anzeigen -->
-                        {{ if ne .Name "leer"}}
+                        {{ if ne .Name ""}}
                         <tr>
                             <td class="plant-name">{{ .Name }}</td>
                             <td class="plant-active">
-                                <button class="btn">
-                                    <img class="icon" src="../assets/images/icons/prufen.svg">
-                                </button>                        
-                                <button class="btn">
-                                    <img class="icon" src="../assets/images/icons/kreuz.svg">
-                                </button>
+                                <div>
+                                    <input type="checkbox" 
+                                        class="plant-activate"  
+                                        id="plant-activate_{{ .ID }}" 
+                                        onchange="activatePlant(event, {{ .ID }}, {{ .Name }})">
+                                </div>
+                            </td>
+                            <td class="plant-edit">
+                                <div>     
+                                    <button class="btn" onclick="editPlant({{ .ID }}, {{ .Name }})">
+                                        <img class="icon" src="../assets/images/icons/bearbeiten.svg">
+                                    </button>           
+                                    <input type="hidden" value="{{ .ID }}">
+                                </div>             
                             </td>            
                         </tr>
                         {{ end }}
                     {{ end }}
                 </table>
             </div>
-        </div>
- 
+        </div> 
  
 {{ end }}
 
@@ -66,6 +87,32 @@
     const plantForm = document.getElementById("plant-form");
     const savePlantBtn = document.getElementById("savePlant");
     const plantName = document.getElementById("plantName");
+    // const plantId = document.getElementById("plant-id");
+    const plantActive = document.getElementById("plantActive");
+    const btnActivates = document.querySelectorAll(".plant-activate");
+    const plantActiveName = document.querySelector(".plant-name")
+    const plantIds = document.querySelectorAll("input[type=hidden]")
+  
+    let plantId = ""
+
+    if (plant.plantId === '') {
+        plantActive.innerText = "Bitte eine Anlage auswählen!"
+    } else {
+        plantIds.forEach(element => {
+            if (plant.plantId === element.value) {
+                var ck = "plant-activate_" + element.value;
+                document.querySelector('#' + ck).checked = true;
+            }
+        });
+    }   
+
+   function editPlant(id, name) {
+       plantId = id
+       plantName.value = name
+       savePlantBtn.style.pointerEvents = "auto";
+        savePlantBtn.style.backgroundColor = "var(--clr-orange)";
+        savePlantBtn.style.cursor = "pointer";
+   }    
 
     if (plantName.value === "") {
         savePlantBtn.style.pointerEvents = "none";
@@ -85,14 +132,41 @@
         }
     });
 
-    async function savePlant() {
-        const requestOptions = {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ plantName: plantName.value }),
-        };
-        await fetch("/plants/save", requestOptions);
+    async function savePlant() {       
+        if (plantId === "") {
+            const requestOptions = {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ plantName: plantName.value }),
+            };
+            await fetch("/plants/save", requestOptions);
+            plantForm.reset()
+        } else {
+            const requestOptions = {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ plantName: plantName.value, plantId: plantId }),
+            };
+            await fetch("/plants/update", requestOptions);            
+            if (plant.plantId === plantId) {
+                console.log(plantName.value)
+            }
+        }
         plantForm.reset()
+        window.location = "/plants";
+    }
+
+    function activatePlant(e, id, name) {        
+        if(!e.target.checked) {
+            plant.plantId = "";
+            plant.plantName ="keine";
+            localStorage.setItem("plant", JSON.stringify(plant))            
+        } else {
+            plant.plantId = id;
+            plant.plantName = name;
+            localStorage.setItem("plant", JSON.stringify(plant))
+        }
+        window.location = "/plants";
     }
 
 </script>

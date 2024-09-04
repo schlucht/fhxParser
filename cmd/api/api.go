@@ -58,13 +58,13 @@ func main() {
 	tc := make(map[string]*template.Template)
 	flag.IntVar(&cfg.port, "port", 5101, "Server port to listen on")
 	flag.StringVar(&cfg.env, "env", "development", "Application enviroment { develompen | production}")
-	flag.StringVar(&cfg.db.driver, "driver", "duckdb", "duckdb")
+	// flag.StringVar(&cfg.db.driver, "driver", "duckdb", "duckdb")
 	flag.StringVar(&cfg.db.dsn, "dsn", "schmidschluch4:Schlucht6@tcp(db8.hostpark.net)/schmidschluch4?parseTime=true", "DB connect String")
 
 	flag.Parse()
 
-	infoLog := log.New(os.Stdout, "\x1b[32mINFO:\x1b[0m\t", log.Ldate|log.Ltime)
-	errorLog := log.New(os.Stdout, "\x1b[31mERROR:\x1b[0m\t", log.Ldate|log.Ltime|log.Lshortfile)
+	infoLog := log.New(os.Stdout, "\n\x1b[32mINFO:\x1b[0m\t", log.Ldate|log.Ltime)
+	errorLog := log.New(os.Stdout, "\n\x1b[31mERROR:\x1b[0m\t", log.Ldate|log.Ltime|log.Lshortfile)
 
 	session = scs.New()
 	session.Lifetime = 24 * time.Hour
@@ -83,16 +83,16 @@ func main() {
 	}
 	mod := models.NewModel(conn)
 	defer conn.Close()
-	tables, err := mod.GetSystemTable()
-	if err != nil {
-		errorLog.Printf("%v", err)
-	}
-	if tables != 13 {
-		err = mod.InstallDB()
-		if err != nil {
-			errorLog.Printf("%v", err)
-		}
-	}
+	// tables, err := mod.GetSystemTable()
+	// if err != nil {
+	// 	errorLog.Printf("%v", err)
+	// }
+	// if tables != 13 {
+	// 	err = mod.InstallDB()
+	// 	if err != nil {
+	// 		errorLog.Printf("%v", err)
+	// 	}
+	// }
 
 	app := &application{
 		config:        cfg,

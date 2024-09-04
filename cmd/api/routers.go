@@ -18,6 +18,8 @@ func (app *application) routes() http.Handler {
 		MaxAge:           300,
 	}))
 
+	//mux.Use(middleware.Logger)
+
 	mux.Get("/", app.Home)
 	mux.NotFound(app.NotFound)
 
@@ -38,8 +40,8 @@ func (app *application) routes() http.Handler {
 		mux.Get("/", app.PlantPage)
 		mux.Get("/allPlants", app.AllPlants)
 		mux.Post("/save", app.PlantSave)
-		mux.Delete("/delete", app.PlantPage)
-		mux.Put("/update", app.PlantPage)
+		mux.Delete("/delete", app.PlantDelete)
+		mux.Put("/update", app.PlantUpdate)
 	})
 
 	// Users Routes
@@ -49,6 +51,7 @@ func (app *application) routes() http.Handler {
 
 	// FHX Routes
 	mux.Route("/fhx", func(mux chi.Router) {
+		mux.Use(app.Plant)
 		mux.Get("/", app.FhxPage)
 		mux.Post("/readFhx", app.ReadFhx)
 	})

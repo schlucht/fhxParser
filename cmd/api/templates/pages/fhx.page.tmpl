@@ -42,9 +42,11 @@ const uploadFile = document.getElementById('upload-file')
 const detailCount = document.querySelector(".fileLoad-details-count")
 const detailTitle = document.querySelector(".fileLoad-details-title")
 
-if (plant.pantId !== "") {
-    fhxFile.style.backgroundColor = "red"
-   
+console.log(plant, "ID");
+if (plant.plantName === 'keine') {  
+   window.location = '/plants';   
+} else {
+    console.log('keine')
     function upload(e) {
             
             const files = e.target.files || e.dataTransfer.files;
@@ -85,7 +87,7 @@ if (plant.pantId !== "") {
             }
             fr.readAsText(files[0]);
         }
-}
+    }
 function resetDetails() {
     fhxText.textContent = " Laden Sie eine fhx Datei von einer Opertion, Unitprocedure oder Rezept, von ihrem PC hoch. Diese wird gespeichert und die Daten können dann bearbeitet werden.";
     detailCount.textContent = `Grösse: 0`;

@@ -16,17 +16,19 @@
 </head>
 
 <body id="page">
-        {{ $plants := index .Data "plants" }}
-        <div class="no-plant" id="no-plant">
-            <h3>Anlage auslesen!</h3>
-            <div class="no-plant-select">
-                {{ range $plants}}
-                    <input type="radio" id="{{ .ID }}" name="newPlant" value="{{ .Name }}">
-                    <label for="{{ .Name }}">{{ .Name }}</label>                
-                {{ end }}
-            </div>
-            <button class="btn" id="save-plant-store">OK</button>
-        </div>
+        {{ $plants := index .Data "plants" }}    
+   
+            <!-- <div class="no-plant" id="no-plant">
+                <h3>Anlage auslesen!</h3>
+                <div class="no-plant-select">
+                    {{ range $plants}}
+                        <input type="radio" id="{{ .ID }}" name="newPlant" value="{{ .Name }}">
+                        <label for="{{ .Name }}">{{ .Name }}</label>                
+                    {{ end }}
+                </div>
+                <button class="btn" id="save-plant-store">OK</button>
+            </div> -->
+
         <div id="top">
             <div class="center-content">
                 {{ block "top" .}}{{end}}

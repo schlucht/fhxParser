@@ -1,6 +1,10 @@
 package main
 
-import "net/http"
+import (
+	"net/http"
+
+	"github.com/schlucht/fhxreader/internal/models"
+)
 
 type antwort struct {
 	Id int `json:"id"`
@@ -22,21 +26,20 @@ var j = jsonResponse{
 
 // gibt alle Abteilungen zurück
 func (app *application) Home(w http.ResponseWriter, r *http.Request) {
-	
-	// Wenn nicht vorhanden Datenbank erstellen
-	err := app.DB.InsertNewPlants()
-	if err != nil {
-		app.badRequest(w, r, err, "CreateTable")
-	}
+
+	// // Wenn nicht vorhanden Datenbank erstellen
+	// err := app.DB.InsertNewPlants()
+	// if err != nil {
+	// 	app.badRequest(w, r, err, "CreateTable")
+	// }
 
 	// Alle Anlagen aus der Datenbank auslesen
-	plants, err := app.DB.GetPlants()
-	if err != nil {
-		app.badRequest(w, r, err, "GetPlants")
-		return
-	}
 
 	// Daten an das Frontend übergeben
+	plants, err := app.LoadPlants()
+	if err != nil {
+		app.errorLog.Println(err)
+	}
 	data := make(map[string]interface{})
 	data["plants"] = plants
 
@@ -51,4 +54,12 @@ func (app *application) NotFound(w http.ResponseWriter, r *http.Request) {
 	if err := app.renderTemplate(w, r, "notFound", &templateData{}); err != nil {
 		app.errorLog.Println(err)
 	}
+}
+
+func (app *application) LoadPlants() ([]models.Plant, error) {
+	plants, err := app.DB.GetPlants()
+	if err != nil {
+		return nil, err
+	}
+	return plants, nil
 }

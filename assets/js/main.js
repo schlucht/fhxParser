@@ -10,7 +10,6 @@ console.log('Start APP')
 const plants = []
 
 const plantH3 = document.querySelector('#plant')
-const noPlant = document.getElementById('no-plant')
 
 readLocalStorage()
 
@@ -20,12 +19,7 @@ function readLocalStorage() {
 
     if (store) {
         plant.plantId = store.plantId
-        plant.plantName = store.plantName
-        if (plant.plantId == "") {
-            noPlant.style.display = 'flex'
-        } else {
-            noPlant.style.display = 'none'
-        }
+        plant.plantName = store.plantName      
     } else {
         localStorage.clear()
         const newStore = JSON.stringify(plant)
@@ -33,6 +27,14 @@ function readLocalStorage() {
     }
   
     plantH3.innerHTML =`ANLAGE:  ${plant.plantName}`
+}
+
+function saveActivePlant(newPlant) {
+    localStorage.clear();
+    plant = newPlant;
+    const newStore = JSON.stringify(plant);
+    localStorage.setItem('plant', newStore);
+    plantH3.innerHTML = `ANLAGE: ${plant.plantName}`;
 }
 
 // Extrahiert den Titel aus einem Text aus
