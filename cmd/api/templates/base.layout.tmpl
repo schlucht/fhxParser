@@ -1,76 +1,86 @@
 {{define "base"}}
-
 <!doctype html>
 <html lang="de">
-
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>
-    {{ block "title" .}}
-    {{ end }}
+    {{ block "title" .}}{{ end }}
   </title>
-  <link href="../assets/css/main.css" rel="stylesheet">
-  <!-- <script src="../assets/js/alert.js" defer></script> -->
-  
+  <link href="../assets/css/main.css" rel="stylesheet"> 
 </head>
 
 <body id="page">
-        {{ $plants := index .Data "plants" }}    
-   
-            <!-- <div class="no-plant" id="no-plant">
-                <h3>Anlage auslesen!</h3>
-                <div class="no-plant-select">
-                    {{ range $plants}}
-                        <input type="radio" id="{{ .ID }}" name="newPlant" value="{{ .Name }}">
-                        <label for="{{ .Name }}">{{ .Name }}</label>                
-                    {{ end }}
-                </div>
-                <button class="btn" id="save-plant-store">OK</button>
-            </div> -->
-
-        <div id="top">
-            <div class="center-content">
-                {{ block "top" .}}{{end}}
+    {{ $plants := index .Data "plants" }}    
+    <div id="top">
+        <div class="center-content">
+            {{ block "top" .}}{{end}}
+        </div>
+    </div>
+    <header id="pageHeader">
+        <div class="center-content">
+            {{ block "header" .}}{{end}}
+        </div>
+    </header>
+    <main id="pageContent">
+        <div class=" center-content">
+            <div class="grid-content">
+                {{ block "content" .}}{{end}}
             </div>
         </div>
-        <header id="pageHeader">
-            <div class="center-content">
-                {{ block "header" .}}{{end}}
-            </div>
-        </header>
-        <main id="pageContent">
-            <div class=" center-content">
-                <div class="grid-content">
-                    {{ block "content" .}}{{end}}
-                </div>
-            </div>
-        </main>
-        <footer id="pageFooter">
-            <div class="center-content">
-                {{ block "footer" .}}{{end}} 
-            </div>
-        </footer>  
-  <script src="./assets/js/main.js">   </script>
-  <script>
+    </main>
+    <footer id="pageFooter">
+        <div class="center-content">
+            {{ block "footer" .}}{{end}} 
+        </div>
+    </footer>   
+   <script>
+    console.log("Seite: ", document.location.pathname);
+    class Plant {        
+        constructor() {
+            this.storeId = "plant";
+            this.plantId = "";
+            this.plantName = "keine";
+            this.load();
+        }
 
-    // Die Ausgewählte Anlage in der Lokalstorage speichern.
-    const saveButton = document.getElementById('save-plant-store')
-    const rdB = document.querySelectorAll("input[name='newPlant']")
-  
-    saveButton.addEventListener('click', (e) => {
-        rdB.forEach(element => {            
-            if (element.checked) {           
-                plant.plantId = element.id,
-                plant.plantName = element.value,                
-                localStorage.setItem(plant.storeId, JSON.stringify(plant))
-                readLocalStorage()
-            }
-            
-        });
-    })
-  </script>
- {{ block "js" .}}{{end}}
+        save(id, name) {
+            this.plantId = id;
+            this.plantName = name;
+            localStorage.setItem(this.storeId, JSON.stringify(this));            
+            return this;
+        }
+
+        load() {
+            const store = JSON.parse(localStorage.getItem(this.storeId));
+            if (store) {
+                this.plantId = store.plantId;
+                this.plantName = store.plantName;
+            }     
+        }
+
+        toString() {
+            return this.plantId + ' ' + this.plantName;
+        }
+
+        hasPlant() {
+            return this.plantId !== "";   
+        }
+    }
+    
+    function createNavigation(id) {
+        const leftNavs = document.querySelectorAll(".nav-left li a");
+        leftNavs.forEach((n) => {
+            let attr = n.getAttribute('href');
+            n.setAttribute('href', attr + '/' + id);
+        })
+    }
+    let plant = new Plant();
+    const plantHTML = document.getElementById("plantName");
+    plantHTML.innerHTML = "Anlage: " + plant.plantName;
+    createNavigation(plant.plantId);
+   </script>
+ 
 </body>
 
 </html>

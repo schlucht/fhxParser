@@ -1,6 +1,6 @@
 {
-    "editor.fontFamily": "New Times Roman, Verdana, Calibri light,Courier New, monospace",
-    "editor.fontSize": 13,
+    "editor.fontFamily": "Consolas, New Times Roman, Verdana, Calibri light,Courier New, monospace",
+    "editor.fontSize": 14,
     "editor.letterSpacing": 0,
     "editor.lineHeight": 0,
     "terminal.integrated.fontFamily": "monospace",

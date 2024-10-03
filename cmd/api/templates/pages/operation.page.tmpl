@@ -1,0 +1,43 @@
+{{template "base" .}}
+
+{{ define "title" }}
+    Operationen im Delta-V
+{{ end }}
+
+{{ define "content" }} 
+    <section id="operation">
+        <h2>Operationen</h2>
+        <p>Die Operationen werden mit den Rezepten und Rezeptdaten verbindet. </p>     
+        {{ $ops := index .Data "ops" }}
+        <ul>
+            {{ range $ops}}
+                <li><button onclick="importDetails({{ .OpplantId }})">{{ .OpName }}</button></li>
+            {{ end }}
+        </ul>
+    </section>
+    <code>
+        CREATE VIEW qryOPPlant AS 
+            SELECT op.opplant_id, o.opname, op.id_plant 
+                FROM `op_plant` AS op
+                INNER JOIN operations AS o ON op.id_op = o.op_id;
+    </code>
+{{ end }}
+{{ block "js" .}}{{ end }}
+{{ define "js"}}
+<script>
+     
+    async function importDetails(id) {        
+        const plantId = plant.plantId
+        console.log(plant, id);
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({id}),
+        };
+        const response = await fetch(`/operation/${plant.plantId}/save`, requestOptions);
+        const data = await response.json();
+        console.log(data);
+    }
+</script>
+{{ end }}
+

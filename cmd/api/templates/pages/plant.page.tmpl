@@ -80,7 +80,7 @@
         </div> 
  
 {{ end }}
-
+{{ block "js" .}}{{ end }}
 {{ define "js"}}
 <script>
 
@@ -94,7 +94,7 @@
     const plantIds = document.querySelectorAll("input[type=hidden]")
   
     let plantId = ""
-
+    
     if (plant.plantId === '') {
         plantActive.innerText = "Bitte eine Anlage auswählen!"
     } else {
@@ -106,6 +106,7 @@
         });
     }   
 
+    // Ändern der Anlage
    function editPlant(id, name) {
        plantId = id
        plantName.value = name
@@ -132,6 +133,7 @@
         }
     });
 
+    // Speichert die Anlage in die Datenbank
     async function savePlant() {       
         if (plantId === "") {
             const requestOptions = {
@@ -156,15 +158,14 @@
         window.location = "/plants";
     }
 
+    // Aktiviert die Anlage und speichert diese in local storage
     function activatePlant(e, id, name) {        
-        if(!e.target.checked) {
-            plant.plantId = "";
-            plant.plantName ="keine";
-            localStorage.setItem("plant", JSON.stringify(plant))            
-        } else {
-            plant.plantId = id;
-            plant.plantName = name;
-            localStorage.setItem("plant", JSON.stringify(plant))
+        if(!e.target.checked) {            
+            plant.save("", "keine");
+            plantHTML.innerHTML = "Anlage: " + plant.plantName;       
+        } else {            
+            plant.save(id, name);
+            plantHTML.innerHTML = "Anlage: " + plant.plantName;
         }
         window.location = "/plants";
     }

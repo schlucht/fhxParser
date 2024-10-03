@@ -9,6 +9,8 @@ api: build
 	@env ./dist/${BINARY_NAME} -port=${PORT} &
 	@echo "Backend running..."
 
+start: api
+
 stop:
 	@-pkill -f ${BINARY_NAME}
 	@echo "Backend stopped..."
@@ -27,8 +29,6 @@ test:
 
 install:
 	@go mod tidy
-
-run: api
 
 installdb:
 	@brew install duckdb

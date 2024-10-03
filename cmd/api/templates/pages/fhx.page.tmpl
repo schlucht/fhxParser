@@ -31,9 +31,9 @@
     </div>
 
 {{ end }}
-
+{{ block "js" .}}{{ end }}
 {{ define "js" }}
-<script>
+<script>    
 const plantItems = document.getElementById('plantSelectItem');
 document.getElementById('fileLoad-title'). innerHTML = `Betrieb: ${plant.plantName}`
 const fhxFile = document.getElementById('fhxFile');

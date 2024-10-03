@@ -56,6 +56,12 @@ func (app *application) routes() http.Handler {
 		mux.Post("/readFhx", app.ReadFhx)
 	})
 
+	// FHX Operationen Routes
+	mux.Route("/operation/{plantId}", func(mux chi.Router) {
+		mux.Get("/", app.OperationPage)
+		mux.Post("/save", app.OperationSave)
+	})
+
 	fileServer := http.FileServer(http.Dir("./assets"))
 	mux.Handle("/assets/*", http.StripPrefix("/assets", fileServer))
 

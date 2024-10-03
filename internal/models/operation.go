@@ -56,6 +56,42 @@ type Value struct {
 	UpdatedAt   time.Time `json:"updated_at"`
 }
 
+type OPPlant struct {
+	OpplantId uuid.UUID `json:"opplant_id"`
+	OpName    string    `json:"op_name"`
+}
+
+// Operation anhand der Betriebs ID auslesen
+// Parameter: uuid.UUID
+// Return: Operation struct, error
+func (m *DBModel) OpFromPlantID(plantId uuid.UUID) ([]OPPlant, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	var ops []OPPlant
+	stmt := `SELECT 
+			opplant_id, opname
+		FROM 
+			qryOPPlant
+		WHERE id_plant = ?`
+	res, err := m.DB.QueryContext(ctx, stmt, plantId)
+	if err != nil {
+		return nil, err
+	}
+	for res.Next() {
+		var op OPPlant
+		err = res.Scan(
+			&op.OpplantId,
+			&op.OpName,
+		)
+		if err != nil {
+			return nil, err
+		}
+		ops = append(ops, op)
+	}
+	return ops, nil
+}
+
 // OP Tabelle einmalig erstellen
 
 // CreateNewOP inserts a new operation into the operations table in the database.
