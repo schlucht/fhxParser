@@ -19,9 +19,10 @@ func (app *application) routes() http.Handler {
 	}))
 
 	//mux.Use(middleware.Logger)
+	fileServer := http.FileServer(http.Dir("./assets"))
+	mux.Handle("/assets/*", http.StripPrefix("/assets", fileServer))
 
 	mux.Get("/", app.Home)
-	mux.NotFound(app.NotFound)
 
 	// Register Routes
 	mux.Route("/register", func(mux chi.Router) {
@@ -57,13 +58,12 @@ func (app *application) routes() http.Handler {
 	})
 
 	// FHX Operationen Routes
-	mux.Route("/operation/{plantId}", func(mux chi.Router) {
-		mux.Get("/", app.OperationPage)
-		mux.Post("/save", app.OperationSave)
+	mux.Route("/operation", func(mux chi.Router) {
+		mux.Get("/{plantId}", app.OperationPage)
+		mux.Get("/details/{opplantId}", app.OperationDetails)
 	})
 
-	fileServer := http.FileServer(http.Dir("./assets"))
-	mux.Handle("/assets/*", http.StripPrefix("/assets", fileServer))
+	mux.NotFound(app.NotFound)
 
 	return mux
 }

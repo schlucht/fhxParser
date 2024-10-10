@@ -23,21 +23,21 @@ func (app *application) SaveNewUser(w http.ResponseWriter, r *http.Request) {
 	// Daten aus dem Body holen
 	err := app.readJSON(w, r, &userInput)
 	if err != nil {
-		app.badRequest(w, r, err, "SaveNewUser: Decode")
+		app.badRequest(w, err, "SaveNewUser: Decode", http.StatusInternalServerError)
 		return
 	}
 
 	// Passwort verschluesseln
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(userInput.Password), 12)
 	if err != nil {
-		app.badRequest(w, r, err, "SaveNewUser: GenerateFromPassword")
+		app.badRequest(w, err, "SaveNewUser: GenerateFromPassword", http.StatusNonAuthoritativeInfo)
 		return
 	}
 
 	// Daten in die Datenbank schreiben
 	err = app.DB.CreateNewUser(userInput.Name, userInput.Email, string(hashedPassword))
 	if err != nil {
-		app.badRequest(w, r, err, "SaveNewUser: CreateNewUser")
+		app.badRequest(w, err, "SaveNewUser: CreateNewUser", http.StatusInternalServerError)
 		return
 	}
 
@@ -49,7 +49,7 @@ func (app *application) SaveNewUser(w http.ResponseWriter, r *http.Request) {
 	}
 	err = app.writeJSON(w, http.StatusOK, j)
 	if err != nil {
-		app.badRequest(w, r, err, "SaveNewUser: writeJSON")
+		app.badRequest(w, err, "SaveNewUser: writeJSON", http.StatusInternalServerError)
 		return
 	}
 	// app.Session.Put(r.Context(), "userID", usr.ID)

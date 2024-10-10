@@ -191,3 +191,16 @@ func (app *application) saveValue(paramID uuid.UUID, p parser.Parameter) error {
 	}
 	return nil
 }
+
+func (app *application) opDetailsFromOp(id string) ([]models.Parameter, error) {
+	oppantId := uuid.MustParse(id)
+	var params []models.Parameter = []models.Parameter{}
+
+	params, err := app.DB.ParamFromOPPlantID(oppantId)
+	if err != nil {
+		app.errorLog.Println("Failed to create new value: ", err)
+		return params, err
+	}
+	app.infoLog.Println(params)
+	return params, nil
+}

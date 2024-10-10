@@ -30,10 +30,7 @@ func (app *application) FhxPage(w http.ResponseWriter, r *http.Request) {
 		if err := app.renderTemplate(w, r, "plant", &templateData{}); err != nil {
 			app.errorLog.Println(err)
 		}
-	}
-	// if err := app.renderTemplate(w, r, "fhx", &templateData{}); err != nil {
-	// 	app.errorLog.Println(err)
-	// }
+	}	
 }
 
 func (app *application) ReadFhx(w http.ResponseWriter, r *http.Request) {
@@ -44,7 +41,7 @@ func (app *application) ReadFhx(w http.ResponseWriter, r *http.Request) {
 	}
 	err := app.readJSON(w, r, &fhxJson)
 	if err != nil {
-		app.badRequest(w, r, err, "ReadFhx: readJson")
+		app.badRequest(w, err, "ReadFhx: readJson", http.StatusInternalServerError)
 		return
 	}
 

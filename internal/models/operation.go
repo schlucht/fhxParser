@@ -446,6 +446,39 @@ func (m *DBModel) ParamIdFromName(paramname string, ooplantid uuid.UUID) (uuid.U
 	return uid, nil
 }
 
+// Liefert alle Parameter einer OP aus der Datenbank
+//
+// Parameter:
+//   - uuid.UUID ooplantid
+//
+// Return:
+//   - []Parameter: Parameter
+//   - error: Fehlermeldung
+func (m *DBModel) ParamFromOPPlantID(id uuid.UUID) ([]Parameter, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+	param := Parameter{}
+	params := []Parameter{}
+
+	stmt := `SELECT params_id, param_name, param_desc FROM opparameters WHERE opplant_id = ?`
+	res, err := m.DB.QueryContext(ctx, stmt,
+		id.String(),
+	)
+	for res.Next() {
+		res.Scan(
+			&param.ID,
+			&param.Name,
+			&param.Description,
+		)
+		if err != nil {
+			return params, err
+		}
+		params = append(params, param)
+	}
+
+	return params, nil
+}
+
 // NewValue inserts a new value into the values table in the database.
 //
 // It takes a Value struct and a UUID representing the ID of the parameter as parameters.

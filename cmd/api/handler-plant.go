@@ -10,7 +10,7 @@ func (app *application) PlantPage(w http.ResponseWriter, r *http.Request) {
 	// Alle Anlagen aus der Datenbank auslesen
 	plants, err := app.DB.GetPlants()
 	if err != nil {
-		app.badRequest(w, r, err, "GetPlants")
+		app.badRequest(w, err, "GetPlants", http.StatusNoContent)
 		return
 	}
 
@@ -31,7 +31,7 @@ func (app *application) PlantPage(w http.ResponseWriter, r *http.Request) {
 func (app *application) AllPlants(w http.ResponseWriter, r *http.Request) {
 	plants, err := app.DB.GetPlants()
 	if err != nil {
-		app.badRequest(w, r, err, "GetPlants")
+		app.badRequest(w, err, "GetPlants", http.StatusNoContent)
 		return
 	}
 	if err = app.writeJSON(w, http.StatusOK, plants); err != nil {
@@ -48,12 +48,12 @@ func (app *application) PlantSave(w http.ResponseWriter, r *http.Request) {
 
 	err := app.readJSON(w, r, &plantInput)
 	if err != nil {
-		app.badRequest(w, r, err, "PlantSave: readJson")
+		app.badRequest(w, err, "PlantSave: readJson", http.StatusInternalServerError)
 		return
 	}
 	err = app.DB.CreateNewPlant(plantInput.Name)
 	if err != nil {
-		app.badRequest(w, r, err, "PlantSave: CreateNewPlant")
+		app.badRequest(w, err, "PlantSave: CreateNewPlant", http.StatusNoContent)
 		return
 	}
 
@@ -68,12 +68,12 @@ func (app *application) PlantDelete(w http.ResponseWriter, r *http.Request) {
 	}
 	err := app.readJSON(w, r, &plantId)
 	if err != nil {
-		app.badRequest(w, r, err, "PlantDelete: Read JSON")
+		app.badRequest(w, err, "PlantDelete: Read JSON", http.StatusNoContent)
 		return
 	}
 	err = app.DB.PlantDelete(plantId.ID)
 	if err != nil {
-		app.badRequest(w, r, err, "PlantDelete: DeletePlant")
+		app.badRequest(w, err, "PlantDelete: DeletePlant", http.StatusNoContent)
 		return
 	}
 	w.WriteHeader(http.StatusAccepted)
@@ -88,12 +88,12 @@ func (app *application) PlantUpdate(w http.ResponseWriter, r *http.Request) {
 	}
 	err := app.readJSON(w, r, &plantInput)
 	if err != nil {
-		app.badRequest(w, r, err, "PlantUpdate: Read JSON")
+		app.badRequest(w, err, "PlantUpdate: Read JSON", http.StatusInternalServerError)
 		return
 	}
 	err = app.DB.PlantUpdate(plantInput.Name)
 	if err != nil {
-		app.badRequest(w, r, err, "PlantUpdate: UpdatePlant")
+		app.badRequest(w, err, "PlantUpdate: UpdatePlant", http.StatusNoContent)
 		return
 	}
 	w.WriteHeader(http.StatusAccepted)

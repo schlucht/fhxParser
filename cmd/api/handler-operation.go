@@ -9,15 +9,16 @@ import (
 
 func (app *application) OperationPage(w http.ResponseWriter, r *http.Request) {
 	plantId := chi.URLParam(r, "plantId")
-	app.infoLog.Println(plantId)
+
 	uuid, err := uuid.Parse(plantId)
 	if err != nil {
-		app.badRequest(w, r, err, "UUID nicht IO")
+		app.badRequest(w, err, "UUID nicht IO", http.StatusInternalServerError)
 		return
 	}
+
 	plants, err := app.DB.OpFromPlantID(uuid)
 	if err != nil {
-		app.badRequest(w, r, err, "GetPlantsOp")
+		app.badRequest(w, err, "GetPlantsOp", http.StatusNoContent)
 		return
 	}
 
@@ -32,25 +33,34 @@ func (app *application) OperationPage(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (app *application) OperationSave(w http.ResponseWriter, r *http.Request) {
+func (app *application) OperationDetails(w http.ResponseWriter, r *http.Request) {
 	// TODO
-	plantId := chi.URLParam(r, "plantId")
-	opPlantId := chi.URLParam(r, "opPlantId")
-	app.infoLog.Println(plantId, opPlantId)
-
-	var body struct {
-		Id string `json:"id"`
-	}
+	opplantId := chi.URLParam(r, "opplantId")
+	app.infoLog.Println(opplantId)
+	// var body struct {
+	// 	Id string `json:"id"`
+	// }
 	// err := app.readJSON(w, r, &body)
 	// if err != nil {
-	// 	app.badRequest(w, r, err, "OperationSave: readJson")
+	// 	app.badRequest(w, r, err, "OperationDetail: readJson")
 	// 	return
 	// }
+
 	data := make(map[string]interface{})
-	data["body"] = body
+	params, err := app.opDetailsFromOp(opplantId)
+	if err != nil {
+		app.badRequest(w, err, "OperationDetail: opDetailsFromOp", http.StatusNoContent)
+		return
+	}
+
+	data["params"] = params
+	// if err = app.writeJSON(w, http.StatusOK, params); err != nil {
+	// 	app.errorLog.Println(err)
+	// }
 	if err := app.renderTemplate(w, r, "operation", &templateData{
 		Data: data,
 	}); err != nil {
 		app.errorLog.Println(err)
 	}
+	
 }

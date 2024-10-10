@@ -21,7 +21,7 @@ func (app *application) CreateAuthToken(w http.ResponseWriter, r *http.Request) 
 
 	err := app.readJSON(w, r, &userInput)
 	if err != nil {
-		app.badRequest(w, r, err, "CreateAuthToken: readJson")
+		app.badRequest(w, err, "CreateAuthToken: readJson", http.StatusBadRequest)
 		return
 	}
 
@@ -47,14 +47,14 @@ func (app *application) CreateAuthToken(w http.ResponseWriter, r *http.Request) 
 	// Token erstellen
 	token, err := models.GenerateToken(usr.ID, 24*time.Hour, models.ScopeAuthentication)
 	if err != nil {
-		app.badRequest(w, r, err, "CreateAuthToken: GenerateToken")
+		app.badRequest(w, err, "CreateAuthToken: GenerateToken", http.StatusInternalServerError)
 		return
 	}
 
 	// Token speichern
 	err = app.DB.InsertToken(token, usr)
 	if err != nil {
-		app.badRequest(w, r, err, "CreateAuthToken: InsertToken")
+		app.badRequest(w, err, "CreateAuthToken: InsertToken", http.StatusInternalServerError)
 		return
 	}
 
@@ -66,7 +66,7 @@ func (app *application) CreateAuthToken(w http.ResponseWriter, r *http.Request) 
 	}
 	err = app.writeJSON(w, http.StatusOK, j)
 	if err != nil {
-		app.badRequest(w, r, err, "CreateAuthToken: writeJSON")
+		app.badRequest(w, err, "CreateAuthToken: writeJSON", http.StatusInternalServerError)
 		return
 	}
 }

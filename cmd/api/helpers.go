@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io"
 	"net/http"
 
@@ -21,7 +22,7 @@ func (app *application) writeJSON(w http.ResponseWriter, status int, data interf
 			w.Header()[k] = v
 		}
 	}
-	
+
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
 	w.Write(out)
@@ -49,19 +50,23 @@ func (app *application) readJSON(w http.ResponseWriter, r *http.Request, data in
 }
 
 // badRequest sends a JSON response with status http.StatusBadRequest, describing the error
-func (app *application) badRequest(w http.ResponseWriter, r *http.Request, err error, method string) error {
+func (app *application) badRequest(w http.ResponseWriter, err error, method string, statuscode int) error {
 	app.errorLog.Printf("%v in %s", err, method)
+	if statuscode == 0 {
+		statuscode = http.StatusBadRequest
+	}
+
 	j := jsonResponse{
 		OK:      false,
 		Message: err.Error(),
-		Content: "{}",
+		Content: fmt.Sprintf("{\"error\": \"%s\"}", method),
 	}
 	out, err := json.MarshalIndent(j, "", "\t")
 	if err != nil {
 		return err
 	}
 	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusBadRequest)
+	w.WriteHeader(statuscode)
 	w.Write(out)
 	return nil
 }

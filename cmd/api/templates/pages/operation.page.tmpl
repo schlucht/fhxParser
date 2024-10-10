@@ -8,10 +8,11 @@
     <section id="operation">
         <h2>Operationen</h2>
         <p>Die Operationen werden mit den Rezepten und Rezeptdaten verbindet. </p>     
-        {{ $ops := index .Data "ops" }}
+        {{ $ops := index .Data "ops" }}        
         <ul>
             {{ range $ops}}
-                <li><button onclick="importDetails({{ .OpplantId }})">{{ .OpName }}</button></li>
+                <!-- <li><button onclick="importDetails({{ .OpplantId }})">{{ .OpName }}</button></li> -->
+                 <li><a href="/operation/details/{{ .OpplantId }}">{{ .OpName }}</a></li>
             {{ end }}
         </ul>
     </section>
@@ -27,14 +28,13 @@
 <script>
      
     async function importDetails(id) {        
-        const plantId = plant.plantId
-        console.log(plant, id);
+        const plantId = plant.plantId        
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({id}),
         };
-        const response = await fetch(`/operation/${plant.plantId}/save`, requestOptions);
+        const response = await fetch(`/operation/${plant.plantId}/details`, requestOptions);
         const data = await response.json();
         console.log(data);
     }
