@@ -5,20 +5,22 @@
 {{ end }}
 
 {{ define "content" }} 
-    <section id="operation">
-        <h2>Operationen</h2>
-        <p>Die Operationen werden mit den Rezepten und Rezeptdaten verbindet. </p>     
-        {{ $ops := index .Data "ops" }}        
-        <ul>
-            {{ range $ops}}
-                <!-- <li><button onclick="importDetails({{ .OpplantId }})">{{ .OpName }}</button></li> -->
-                 <li><a href="javascript:void(0)" onclick="importDetails({{ .OpplantId }})">{{ .OpName }}</a></li>
-            {{ end }}
-        </ul>
-    </section>
-    <section id="opParamdetails">
-      
-    </section>
+    <div class="operation-container">
+        <section id="operation">
+            <h2>Operationen</h2>
+            <p>Die Operationen werden mit den Rezepten und Rezeptdaten verbindet. </p>     
+            {{ $ops := index .Data "ops" }}        
+            <ul>
+                {{ range $ops}}
+                    <!-- <li><button onclick="importDetails({{ .OpplantId }})">{{ .OpName }}</button></li> -->
+                    <li><a href="javascript:void(0)" onclick="importDetails({{ .OpplantId }})">{{ .OpName }}</a></li>
+                {{ end }}
+            </ul>
+        </section>
+        <section id="opParamdetails">
+        
+        </section>
+    </div>
 {{ end }}
 {{ block "js" .}}{{ end }}
 {{ define "js"}}
@@ -43,14 +45,20 @@
         }
 
         async function renderDetails(data) {
-            let s = "Keine daten."
-          
+            let s = `<div class="tbl-param">`;    
             let d = data;
             d.forEach(element => {
                 s = s + "<p>" + element.param_name + "</p>"
+                element.value.forEach(v => {
+                    if (v.cv) {
+                        s = s + "<p><i>" + v.cv + "</i></p>"
+                    } else {
+                        s = s + "<p><i>" + v.stringvalue + "</i></p>"
+                    }
+                })
             });           
 
-            return s;
+            return `</div>${s}`;
         }
     
 </script>

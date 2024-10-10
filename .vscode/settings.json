@@ -55,18 +55,12 @@
     "editor.quickSuggestions": {
         "strings": true
       },
-    "sqltools.connections": [
+    "liveSassCompile.settings.formats": [
         {
-            "mysqlOptions": {
-                "authProtocol": "default"
-            },
-            "previewLimit": 50,
-            "server": "db8.hostpark.net",
-            "port": 3306,
-            "driver": "MariaDB",
-            "name": "fhxDB",
-            "database": "schmidschluch4",
-            "username": "schmidschluch4"
+            "format": "compressed",
+            "extensionName": ".min.css",
+            "savePath": "/assets/css",
+            "savePathReplacementPairs": null
         }
     ]
 }
