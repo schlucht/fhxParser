@@ -148,11 +148,11 @@ func (m *DBModel) GetPlantFromName(name string) ([]Plant, error) {
 	return plants, nil
 }
 
-func (m *DBModel) PlantUpdate(name string) error {
+func (m *DBModel) PlantUpdate(name string, uuid string) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
-	stmt := `UPDATE plants SET plant = ?, updated_at = ?`
-	_, err := m.DB.ExecContext(ctx, stmt, name, time.Now())
+	stmt := `UPDATE plants SET plant = ?, updated_at = ? WHERE plant_id = ?`
+	_, err := m.DB.ExecContext(ctx, stmt, name, time.Now(), uuid)
 	if err != nil {
 		return err
 	}

@@ -27,14 +27,6 @@ var j = jsonResponse{
 // gibt alle Abteilungen zurück
 func (app *application) Home(w http.ResponseWriter, r *http.Request) {
 
-	// // Wenn nicht vorhanden Datenbank erstellen
-	// err := app.DB.InsertNewPlants()
-	// if err != nil {
-	// 	app.badRequest(w, r, err, "CreateTable")
-	// }
-
-	// Alle Anlagen aus der Datenbank auslesen
-
 	// Daten an das Frontend übergeben
 	plants, err := app.LoadPlants()
 	if err != nil {

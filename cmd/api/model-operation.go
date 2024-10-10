@@ -201,6 +201,5 @@ func (app *application) opDetailsFromOp(id string) ([]models.Parameter, error) {
 		app.errorLog.Println("Failed to create new value: ", err)
 		return params, err
 	}
-	app.infoLog.Println(params)
 	return params, nil
 }

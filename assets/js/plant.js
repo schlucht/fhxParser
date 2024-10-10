@@ -1,34 +1,31 @@
 class Plant {
-    constructor() {
-        this.plantId = "";
-        this.plantName = "keine";
-        this.load();
-    }
+          constructor() {
+              this.storeId = "plant";
+              this.plantId = "";
+              this.plantName = "keine";
+              this.load();
+          }
 
-    save() {
-        localStorage.setItem(this.storeId, JSON.stringify(this));
-    }
+          save(id, name) {
+              this.plantId = id;
+              this.plantName = name;
+              localStorage.setItem(this.storeId, JSON.stringify(this));
+              return this;
+          }
 
-    load() {
-        const store = JSON.parse(localStorage.getItem(this.storeId));
-        if (store) {
-            this.plantId = store.plantId;
-            this.plantName = store.plantName;
-        }     
-    }
+          load() {
+              const store = JSON.parse(localStorage.getItem(this.storeId));
+              if (store) {
+                  this.plantId = store.plantId;
+                  this.plantName = store.plantName;
+              }
+          }
 
-    print() {
-        return this.plantId + ' ' + this.plantName;
-    }
+          toString() {
+              return this.plantId + ' ' + this.plantName;
+          }
 
-    hasPlant() {
-        return this.plantId !== "";   
-    }
-
-    // laden der Anlage aus dem Localstorage
-    // speichern der Anlage im Localstorage
-    // ändern der Anlage im Localstorage
-    // löschen der Anlage im Localstorage
-}
-
-export { Plant };
+          hasPlant() {
+              return this.plantId !== "";
+          }
+      }

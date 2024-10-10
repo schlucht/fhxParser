@@ -52,7 +52,4 @@ func (app *application) SaveNewUser(w http.ResponseWriter, r *http.Request) {
 		app.badRequest(w, err, "SaveNewUser: writeJSON", http.StatusInternalServerError)
 		return
 	}
-	// app.Session.Put(r.Context(), "userID", usr.ID)
-
-	// http.Redirect(w, r, "/login", http.StatusSeeOther)
 }

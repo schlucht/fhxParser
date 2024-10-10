@@ -71,13 +71,6 @@ func (app *application) badRequest(w http.ResponseWriter, err error, method stri
 	return nil
 }
 
-func (app *application) mysqlErrorMessages(errorNumber int) string {
-	if errorNumber == 1062 {
-		return "Eintrag existiert schon!"
-	}
-	return ""
-}
-
 func (app *application) invalidCredentials(w http.ResponseWriter) error {
 	j := jsonResponse{
 		OK:      false,

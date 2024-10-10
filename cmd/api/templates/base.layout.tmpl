@@ -1,88 +1,54 @@
 {{define "base"}}
-<!doctype html>
+<!DOCTYPE html>
 <html lang="de">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>
-    {{ block "title" .}}{{ end }}
-  </title>
-  <link href="/../assets/css/main.css" rel="stylesheet"> 
-</head>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ block "title" .}}{{ end }}</title>
+    <link href="/../assets/css/main.css" rel="stylesheet" />
+    <script src="/../assets/js/plant.js" defer></script>
+    <script src="/../assets/js/main.js" defer></script>
+  </head>
 
-<body id="page">
-    {{ $plants := index .Data "plants" }}    
+  <body id="page">
+    {{ $plants := index .Data "plants" }}
     <div id="top">
-        <div class="center-content">
-            {{ block "top" .}}{{end}}
-        </div>
+      <div class="center-content">{{ block "top" .}}{{ end }}</div>
     </div>
     <header id="pageHeader">
-        <div class="center-content">
-            {{ block "header" .}}{{end}}
-        </div>
+      <div class="center-content">{{ block "header" .}}{{ end }}</div>
     </header>
     <main id="pageContent">
-        <div class=" center-content">
-            <div class="grid-content">
-                {{ block "content" .}}{{end}}
-            </div>
-        </div>
+      <div class="center-content">
+        <div class="grid-content">{{ block "content" .}}{{ end }}</div>
+      </div>
     </main>
     <footer id="pageFooter">
-        <div class="center-content">
-            {{ block "footer" .}}{{end}} 
-        </div>
-    </footer>   
-   <script>
-    console.log("Seite: ", document.location.pathname);
-    class Plant {        
-        constructor() {
-            this.storeId = "plant";
-            this.plantId = "";
-            this.plantName = "keine";
-            this.load();
-        }
+      <div class="center-content">{{ block "footer" .}}{{ end }}</div>
+    </footer>
 
-        save(id, name) {
-            this.plantId = id;
-            this.plantName = name;
-            localStorage.setItem(this.storeId, JSON.stringify(this));            
-            return this;
-        }
+    <script>
+      
+      document.addEventListener("DOMContentLoaded", () => {
+        console.log("Seite: ", document.location.pathname);        
+        const plantHTML = document.getElementById("plantName");
+        plantHTML.innerHTML = "Anlage: " + plant.plantName;
+        createNavigation(plant.plantId);
 
-        load() {
-            const store = JSON.parse(localStorage.getItem(this.storeId));
-            if (store) {
-                this.plantId = store.plantId;
-                this.plantName = store.plantName;
-            }     
+        function createNavigation(id) {
+            const leftNavs = document.querySelectorAll(".nav-left li a");
+            leftNavs.forEach((n) => {
+            let attr = n.getAttribute("href");
+            n.setAttribute("href", attr + "/" + id);
+            });
         }
-
-        toString() {
-            return this.plantId + ' ' + this.plantName;
-        }
-
-        hasPlant() {
-            return this.plantId !== "";   
-        }
-    }
+      });
     
-    function createNavigation(id) {
-        const leftNavs = document.querySelectorAll(".nav-left li a");
-        leftNavs.forEach((n) => {
-            let attr = n.getAttribute('href');
-            n.setAttribute('href', attr + '/' + id);
-        })
-    }
-    let plant = new Plant();
-    const plantHTML = document.getElementById("plantName");
-    plantHTML.innerHTML = "Anlage: " + plant.plantName;
-    createNavigation(plant.plantId);
-   </script>
- 
-</body>
-
+      // const plantHTML = document.getElementById("plantName");
+      // plantHTML.innerHTML = "Anlage: " + plant.plantName;
+      // createNavigation(plant.plantId);
+    </script>
+  </body>
 </html>
 
-{{end}}
+{{ end }}

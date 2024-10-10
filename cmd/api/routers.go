@@ -60,7 +60,7 @@ func (app *application) routes() http.Handler {
 	// FHX Operationen Routes
 	mux.Route("/operation", func(mux chi.Router) {
 		mux.Get("/{plantId}", app.OperationPage)
-		mux.Get("/details/{opplantId}", app.OperationDetails)
+		mux.Post("/details/{opplantId}", app.OperationDetails)
 	})
 
 	mux.NotFound(app.NotFound)

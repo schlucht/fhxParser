@@ -35,32 +35,16 @@ func (app *application) OperationPage(w http.ResponseWriter, r *http.Request) {
 
 func (app *application) OperationDetails(w http.ResponseWriter, r *http.Request) {
 	// TODO
-	opplantId := chi.URLParam(r, "opplantId")
-	app.infoLog.Println(opplantId)
-	// var body struct {
-	// 	Id string `json:"id"`
-	// }
-	// err := app.readJSON(w, r, &body)
-	// if err != nil {
-	// 	app.badRequest(w, r, err, "OperationDetail: readJson")
-	// 	return
-	// }
+	opplantId := chi.URLParam(r, "opplantId")	
 
-	data := make(map[string]interface{})
 	params, err := app.opDetailsFromOp(opplantId)
 	if err != nil {
 		app.badRequest(w, err, "OperationDetail: opDetailsFromOp", http.StatusNoContent)
 		return
 	}
 
-	data["params"] = params
-	// if err = app.writeJSON(w, http.StatusOK, params); err != nil {
-	// 	app.errorLog.Println(err)
-	// }
-	if err := app.renderTemplate(w, r, "operation", &templateData{
-		Data: data,
-	}); err != nil {
+	if err = app.writeJSON(w, http.StatusOK, params); err != nil {
 		app.errorLog.Println(err)
 	}
-	
+
 }

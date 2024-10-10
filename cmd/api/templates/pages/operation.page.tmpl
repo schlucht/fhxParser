@@ -12,32 +12,47 @@
         <ul>
             {{ range $ops}}
                 <!-- <li><button onclick="importDetails({{ .OpplantId }})">{{ .OpName }}</button></li> -->
-                 <li><a href="/operation/details/{{ .OpplantId }}">{{ .OpName }}</a></li>
+                 <li><a href="javascript:void(0)" onclick="importDetails({{ .OpplantId }})">{{ .OpName }}</a></li>
             {{ end }}
         </ul>
     </section>
-    <code>
-        CREATE VIEW qryOPPlant AS 
-            SELECT op.opplant_id, o.opname, op.id_plant 
-                FROM `op_plant` AS op
-                INNER JOIN operations AS o ON op.id_op = o.op_id;
-    </code>
+    <section id="opParamdetails">
+      
+    </section>
 {{ end }}
 {{ block "js" .}}{{ end }}
 {{ define "js"}}
-<script>
-     
-    async function importDetails(id) {        
-        const plantId = plant.plantId        
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({id}),
-        };
-        const response = await fetch(`/operation/${plant.plantId}/details`, requestOptions);
-        const data = await response.json();
-        console.log(data);
-    }
+<script> 
+    document.addEventListener('DOMContentLoaded', () => {
+    });
+        async function importDetails(id) {        
+            const plantId = plant.plantId        
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }            
+            };
+            const response = await fetch(`/operation/details/${id}`, requestOptions);
+            const data = await response.json();
+            if (!data) {
+                opParamdetails.innerHTML = "Keine Daten";
+                return
+            }
+            console.log(data)
+            const s = await renderDetails(data);
+            opParamdetails.innerHTML = s;
+        }
+
+        async function renderDetails(data) {
+            let s = "Keine daten."
+          
+            let d = data;
+            d.forEach(element => {
+                s = s + "<p>" + element.param_name + "</p>"
+            });           
+
+            return s;
+        }
+    
 </script>
 {{ end }}
 

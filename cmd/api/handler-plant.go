@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 )
 
@@ -86,16 +87,27 @@ func (app *application) PlantUpdate(w http.ResponseWriter, r *http.Request) {
 		ID   string `json:"plantId"`
 		Name string `json:"plantName"`
 	}
+
 	err := app.readJSON(w, r, &plantInput)
 	if err != nil {
 		app.badRequest(w, err, "PlantUpdate: Read JSON", http.StatusInternalServerError)
 		return
 	}
-	err = app.DB.PlantUpdate(plantInput.Name)
+
+	err = app.DB.PlantUpdate(plantInput.Name, plantInput.ID)
 	if err != nil {
 		app.badRequest(w, err, "PlantUpdate: UpdatePlant", http.StatusNoContent)
 		return
 	}
-	w.WriteHeader(http.StatusAccepted)
-	http.Redirect(w, r, "/plants", http.StatusSeeOther)
+
+	j := jsonResponse{
+		OK:      true,
+		Message: "Plant saved to database",
+		Content: fmt.Sprintf("{\"id\": \"%s\"}", plantInput.Name),
+		ID:      1,
+	}
+
+	if err = app.writeJSON(w, http.StatusOK, j); err != nil {
+		app.errorLog.Println(err)
+	}
 }

@@ -8,133 +8,133 @@
 {{ $plants := index .Data "plants" }}
 {{ $count := index .Data "counts" }}
     
-        <div class="plant-form card">
-            <header class="card-header">
-                {{ if gt $count 0}} 
-                <h2>Betrieb</h2>
-                {{ else  }}
-                    <h2>Neuer Betrieb</h2>
-                {{ end }}
-            </header>
-            <div class ="card-content">
-            <p {{if eq $count 0}}style="color: red;"{{ end }}>
-                Bearbeiten und erstellen eines neuen Betriebes.
-            </p>
-            <form action="/plants" method="POST" id="plant-form">
-                <div class="form-group">
-                    <label for="plantName">Name</label>
-                    <input type="text" 
-                        value="" 
-                        class="text-input" 
-                        id="plantName" 
-                        name="plantName">
-                </div>
-                <div class="form-group">
-                    <a href="javascript:void(0)" 
-                        onClick="savePlant()" 
-                        id="savePlant" 
-                        class="btn">Speichern</a>
-                </div>
-            </form>
-            </div>        
+<div class="plant-form card">
+    <header class="card-header">
+        {{ if gt $count 0}} 
+        <h2>Betrieb</h2>
+        {{ else  }}
+            <h2>Neuer Betrieb</h2>
+        {{ end }}
+    </header>
+    <div class ="card-content">
+    <p {{if eq $count 0}}style="color: red;"{{ end }}>
+        Bearbeiten und erstellen eines neuen Betriebes.
+    </p>
+    <form action="/plants" method="POST" id="plant-form">
+        <div class="form-group">
+            <label for="plantName">Name</label>
+            <input type="text" 
+                value="" 
+                class="text-input" 
+                id="plantInput" 
+                name="plantName">
         </div>
-        
-        <div class="card">
-            <header class="card-header">
-                <h2>Betriebe</h2>
-                <p id="plantActive"></p>
-            </header>
-            <div class ="card-content">
-                <table class="plant-table">
-                    <tr class="plant-table-header">
-                        <th>Betrieb</th>
-                        <th>Aktiv</th> 
-                        <th>Bearbeiten</th>                              
-                    </tr>
-                    {{ range $plants }}
-                        <!-- der Name Leer nicht anzeigen -->
-                        {{ if ne .Name ""}}
-                        <tr>
-                            <td class="plant-name">{{ .Name }}</td>
-                            <td class="plant-active">
-                                <div>
-                                    <input type="checkbox" 
-                                        class="plant-activate"  
-                                        id="plant-activate_{{ .ID }}" 
-                                        onchange="activatePlant(event, {{ .ID }}, {{ .Name }})">
-                                </div>
-                            </td>
-                            <td class="plant-edit">
-                                <div>     
-                                    <button class="btn" onclick="editPlant({{ .ID }}, {{ .Name }})">
-                                        <img class="icon" src="../assets/images/icons/bearbeiten.svg">
-                                    </button>           
-                                    <input type="hidden" value="{{ .ID }}">
-                                </div>             
-                            </td>            
-                        </tr>
-                        {{ end }}
-                    {{ end }}
-                </table>
-            </div>
-        </div> 
+        <div class="form-group">
+            <a href="javascript:void(0)" 
+                onClick="savePlant()" 
+                id="savePlant" 
+                class="btn">Speichern</a>
+        </div>
+    </form>
+    </div>        
+</div>
+
+<div class="card">
+    <header class="card-header">
+        <h2>Betriebe</h2>
+        <p id="plantActive"></p>
+    </header>
+    <div class ="card-content">
+        <table class="plant-table">
+            <tr class="plant-table-header">
+                <th>Betrieb</th>
+                <th>Aktiv</th> 
+                <th>Bearbeiten</th>                              
+            </tr>
+            {{ range $plants }}
+                <!-- der Name Leer nicht anzeigen -->
+                {{ if ne .Name ""}}
+                <tr>
+                    <td class="plant-name">{{ .Name }}</td>
+                    <td class="plant-active">
+                        <div>
+                            <input type="checkbox" 
+                                class="plant-activate"  
+                                id="plant-activate_{{ .ID }}" 
+                                onchange="activatePlant(event, {{ .ID }}, {{ .Name }})">
+                        </div>
+                    </td>
+                    <td class="plant-edit">
+                        <div>     
+                            <button class="btn" onclick="editPlant({{ .ID }}, {{ .Name }})">
+                                <img class="icon" src="../assets/images/icons/bearbeiten.svg">
+                            </button>           
+                            <input type="hidden" value="{{ .ID }}">
+                        </div>             
+                    </td>            
+                </tr>
+                {{ end }}
+            {{ end }}
+        </table>
+    </div>
+</div> 
  
 {{ end }}
-{{ block "js" .}}{{ end }}
-{{ define "js"}}
+<!-- {{ block "js" .}}{{ end }}
+{{ define "js"}} -->
 <script>
-
     const plantForm = document.getElementById("plant-form");
     const savePlantBtn = document.getElementById("savePlant");
-    const plantName = document.getElementById("plantName");
+    const plantName = document.getElementById("plantInput");
     // const plantId = document.getElementById("plant-id");
     const plantActive = document.getElementById("plantActive");
     const btnActivates = document.querySelectorAll(".plant-activate");
     const plantActiveName = document.querySelector(".plant-name")
     const plantIds = document.querySelectorAll("input[type=hidden]")
-  
-    let plantId = ""
-    
-    if (plant.plantId === '') {
-        plantActive.innerText = "Bitte eine Anlage auswählen!"
-    } else {
-        plantIds.forEach(element => {
-            if (plant.plantId === element.value) {
-                var ck = "plant-activate_" + element.value;
-                document.querySelector('#' + ck).checked = true;
-            }
-        });
-    }   
+
+    document.addEventListener('DOMContentLoaded', () => {
+        let plantId = ""
+        
+        if (plant.plantId === '') {
+            plantActive.innerText = "Bitte eine Anlage auswählen!"
+        } else {
+            plantIds.forEach(element => {
+                if (plant.plantId === element.value) {
+                    var ck = "plant-activate_" + element.value;
+                    document.querySelector('#' + ck).checked = true;
+                }
+            });
+        }   
+    });
 
     // Ändern der Anlage
-   function editPlant(id, name) {
-       plantId = id
-       plantName.value = name
-       savePlantBtn.style.pointerEvents = "auto";
+    function editPlant(id, name) {
+        plantId = id
+        plantName.value = name       
+        savePlantBtn.style.pointerEvents = "auto";
         savePlantBtn.style.backgroundColor = "var(--clr-orange)";
-        savePlantBtn.style.cursor = "pointer";
-   }    
+        savePlantBtn.style.cursor = "pointer";        
 
-    if (plantName.value === "") {
-        savePlantBtn.style.pointerEvents = "none";
-        savePlantBtn.style.backgroundColor = "lightgray";
-        savePlantBtn.style.cursor = "no-drop";
-    }
-
-    plantName.addEventListener("input", () => {
         if (plantName.value === "") {
             savePlantBtn.style.pointerEvents = "none";
             savePlantBtn.style.backgroundColor = "lightgray";
             savePlantBtn.style.cursor = "no-drop";
-        } else {
-            savePlantBtn.style.pointerEvents = "auto";
-            savePlantBtn.style.backgroundColor = "var(--clr-orange)";
-            savePlantBtn.style.cursor = "pointer";
         }
-    });
 
+        plantName.addEventListener("input", () => {
+            if (plantName.value === "") {
+                savePlantBtn.style.pointerEvents = "none";
+                savePlantBtn.style.backgroundColor = "lightgray";
+                savePlantBtn.style.cursor = "no-drop";
+            } else {
+                savePlantBtn.style.pointerEvents = "auto";
+                savePlantBtn.style.backgroundColor = "var(--clr-orange)";
+                savePlantBtn.style.cursor = "pointer";
+            }
+        });
+    }
     // Speichert die Anlage in die Datenbank
-    async function savePlant() {       
+    async function savePlant() { 
         if (plantId === "") {
             const requestOptions = {
                 method: "POST",
@@ -143,32 +143,33 @@
             };
             await fetch("/plants/save", requestOptions);
             plantForm.reset()
-        } else {
+        } else {           
             const requestOptions = {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ plantName: plantName.value, plantId: plantId }),
             };
-            await fetch("/plants/update", requestOptions);            
-            if (plant.plantId === plantId) {
-                console.log(plantName.value)
-            }
+            const res = await fetch("/plants/update", requestOptions);
+            const data = await res.json();
+            console.log(JSON.stringify(data));          
+            plantForm.reset()
         }
-        plantForm.reset()
-        window.location = "/plants";
+        // window.location = "/plants";
     }
+        
 
     // Aktiviert die Anlage und speichert diese in local storage
-    function activatePlant(e, id, name) {        
+        
+
+    function activatePlant(e, id, name) {    
         if(!e.target.checked) {            
             plant.save("", "keine");
             plantHTML.innerHTML = "Anlage: " + plant.plantName;       
         } else {            
             plant.save(id, name);
             plantHTML.innerHTML = "Anlage: " + plant.plantName;
-        }
+        }        
         window.location = "/plants";
     }
-
 </script>
-{{end}}
+<!-- {{end}} -->

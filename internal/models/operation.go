@@ -460,19 +460,36 @@ func (m *DBModel) ParamFromOPPlantID(id uuid.UUID) ([]Parameter, error) {
 	param := Parameter{}
 	params := []Parameter{}
 
-	stmt := `SELECT params_id, param_name, param_desc FROM opparameters WHERE opplant_id = ?`
+	stmt := `SELECT 
+				params_id,
+				opplant_id,
+				param_name, 
+				param_desc,
+				updated_at,
+				created_at
+			FROM opparameters 
+			WHERE opplant_id = ? 
+			ORDER BY param_name`
 	res, err := m.DB.QueryContext(ctx, stmt,
 		id.String(),
 	)
 	for res.Next() {
 		res.Scan(
 			&param.ID,
+			&param.OPPlantID,
 			&param.Name,
 			&param.Description,
+			&param.UpdatedAt,
+			&param.CreatedAt,
 		)
 		if err != nil {
 			return params, err
 		}
+		p, err := m.ValuesFromParamId(param.ID)
+		if err != nil {
+			return params, err
+		}
+		param.Value = p
 		params = append(params, param)
 	}
 
@@ -557,4 +574,41 @@ func (m *DBModel) LastValueFromParamId(paramId uuid.UUID) (Value, error) {
 	}
 	return val, nil
 
+}
+
+func (m *DBModel) ValuesFromParamId(id uuid.UUID) ([]Value, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	val := Value{}
+	values := []Value{}
+
+	stmt := `SELECT 
+			value_id, params_id, high, low, cv, unit, stringvalue, valueset,updated_at,created_at
+		FROM 
+			paramvalues 
+		WHERE params_id = ? 
+		ORDER BY value_id DESC`
+
+	res, err := m.DB.QueryContext(ctx, stmt, id.String())
+
+	for res.Next() {
+		res.Scan(
+			&val.ID,
+			&val.ParamID,
+			&val.High,
+			&val.Low,
+			&val.Cv,
+			&val.Unit,
+			&val.StringValue,
+			&val.Set,
+			&val.UpdatedAt,
+			&val.CreatedAt,
+		)
+		if err != nil {
+			return values, err
+		}
+		values = append(values, val)
+	}
+	return values, nil
 }
