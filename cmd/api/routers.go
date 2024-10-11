@@ -63,6 +63,11 @@ func (app *application) routes() http.Handler {
 		mux.Post("/details/{opplantId}", app.OperationDetails)
 	})
 
+	// FHX Units Routes
+	mux.Route("/unit", func(mux chi.Router) {
+		mux.Get("/{plantId}", app.UnitPage)
+	})
+
 	mux.NotFound(app.NotFound)
 
 	return mux

@@ -17,6 +17,8 @@ type Unit struct {
 	Author       string    `json:"author"`
 	Description  string    `json:"description"`
 	Time         int       `json:"time"`
+	CreatedAt    time.Time `json:"created_at"`
+	UpdatedAt    time.Time `json:"updated_at"`
 }
 
 type UnitParameter struct {
@@ -69,7 +71,7 @@ func (m *DBModel) SaveUnit(up Unit) error {
 	}
 
 	stmt := `INSERT INTO units 
-			(unit_id, plant_id, unit_name, unit_category, unit_pos, unit_time, unit_author, unit_descr) 
+			(unit_id, plant_id, unit_name, unit_category, unit_pos, unit_time, unit_author, unit_descr, created_at, updated_at) 
 		VALUES
 			(?,?,?,?,?,?,?,?,?,?)`
 	_, err := m.DB.ExecContext(ctx, stmt,
@@ -149,6 +151,60 @@ func (m *DBModel) UnitIdFromName(upName string, plantID uuid.UUID) (uuid.UUID, e
 	return id, nil
 }
 
+// Alle Unit einer Anlage auslesen
+//
+// Parameters:
+//   - plantID: ID der Anlage
+//
+// Return:
+//   - []Unit: Liste der Units
+//   - error: Fehlermeldung
+func (m *DBModel) UnitIdFromPlantId(plantID uuid.UUID) ([]Unit, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	var unit Unit
+	var units = []Unit{}
+
+	stmt := `SELECT 
+			unit_id,
+			plant_id,
+			unit_name,
+			unit_category,
+			unit_pos,
+			unit_time,
+			unit_author,
+			unit_descr,
+			created_at,
+			updated_at
+		FROM units 
+		WHERE plant_id = ?`
+
+	row, err := m.DB.QueryContext(ctx, stmt, plantID.String())
+	if err != nil {
+		return units, err
+	}
+	for row.Next() {
+		err = row.Scan(
+			&unit.ID,
+			&unit.PlantID,
+			&unit.UnitName,
+			&unit.UnitCategory,
+			&unit.UnitPosition,
+			&unit.Time,
+			&unit.Author,
+			&unit.Description,
+			&unit.CreatedAt,
+			&unit.UpdatedAt,
+		)
+		if err != nil {
+			return units, err
+		}
+		units = append(units, unit)
+	}	
+	return units, nil
+}
+
 // Gibt die ID einer OP mit der Unit ID zurück
 // Anhand des OP-Namen
 //
@@ -217,7 +273,7 @@ func (m *DBModel) SaveUnitOps(up UnitOP) error {
 	}
 
 	stmt := `INSERT INTO unit_ops 
-			(unitop_id, unit_id, op_key,  op_name, op_descr, op_pos) 
+			(unitop_id, unit_id, op_key_id,  op_name, op_descr, op_pos, created_at, updated_at) 
 		VALUES
 			(?,?,?,?,?,?,?,?)`
 	_, err := m.DB.ExecContext(ctx, stmt,
@@ -277,12 +333,16 @@ func (m *DBModel) SaveUnitParameter(param UnitParameter) error {
 		param.ID = uuid.New()
 	}
 	stmt := `INSERT INTO unitparameters
-			(unitparam_id, 
+			(
+				unitparam_id, 
 				unitop_id, 
 				originValue_id, 
 				param_name, 
 				origin, 
-				deferto) 
+				deferto,
+				created_at,
+				updated_at
+				) 
 		VALUES
 			(?,?,?,?,?,?,?,?)`
 	_, err := m.DB.ExecContext(ctx, stmt,
@@ -370,7 +430,9 @@ func (m *DBModel) SaveUnitParamValue(val UnitValue) error {
 				cv,
 				unit,
 				stringvalue,
-				valueset
+				valueset,
+				created_at,
+				updated_at
 				) 
 		VALUES
 			(?,?,?,?,?,?,?,?,?,?)`

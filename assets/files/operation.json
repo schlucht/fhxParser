@@ -1,151 +1,44 @@
 {
   "ops": [
     {
-      "unitname": "OP_DRUCK",
+      "unitname": "OP_VAKPUMPE",
       "unitcategory": "Recipes/Operations/BEHAELTER",
       "unitpositon": "",
-      "time": 1675757724,
+      "time": 1675757758,
       "author": "Hutter Fredy",
-      "description": "Druck",
+      "description": "Vakuumpumpe ",
       "type": "OP",
       "params": [
         {
-          "name": "FP_FSB_PSH",
-          "description": "OP schliesst ab wenn Druck \u003c Wert",
-          "value": {
-            "high": 20000,
-            "low": -1000,
-            "cv": 150,
-            "unit": "mbar"
-          },
-          "unit_id": 0
-        },
-        {
-          "name": "FP_FSB_PSL",
-          "description": "OP schliesst ab wenn Druck \u003e Wert",
-          "value": {
-            "high": 20000,
-            "low": -1000,
-            "cv": -150,
-            "unit": "mbar"
-          },
-          "unit_id": 0
-        },
-        {
           "name": "FP_OPTION",
-          "description": "Option auf Ablufsystem oder Entlüftung offen",
+          "description": "Einbuchen Ausbuchen und Ein- oder Ausschalten",
           "value": {
-            "stringvalue": "ABLUFT1_REGLER",
-            "value_set": "LGF_DRUCK_OPT"
-          },
-          "unit_id": 0
-        },
-        {
-          "name": "FP_PAH",
-          "description": "Druck Alarm HOCH",
-          "value": {
-            "high": 20000,
-            "low": -1000,
-            "cv": 1150,
-            "unit": "mbar"
-          },
-          "unit_id": 0
-        },
-        {
-          "name": "FP_PAHH",
-          "description": "Druck Alarm HOCH HOCH [SS]",
-          "value": {
-            "high": 20000,
-            "low": -1000,
-            "cv": 1200,
-            "unit": "mbar"
-          },
-          "unit_id": 0
-        },
-        {
-          "name": "FP_PAL",
-          "description": "Druck alarm TIEF",
-          "value": {
-            "high": 20000,
-            "low": -1000,
-            "cv": -200,
-            "unit": "mbar"
-          },
-          "unit_id": 0
-        },
-        {
-          "name": "FP_PALL",
-          "description": "Druck Alarm TIEF TIEF [SS]",
-          "value": {
-            "high": 20000,
-            "low": -1000,
-            "cv": -300,
-            "unit": "mbar"
-          },
-          "unit_id": 0
-        },
-        {
-          "name": "FP_PC_W",
-          "description": "Druck Sollwert",
-          "value": {
-            "high": 20000,
-            "low": -1000,
-            "cv": 50,
-            "unit": "mbar"
-          },
-          "unit_id": 0
-        },
-        {
-          "name": "FP_PV_KENNLINIE",
-          "description": "Hinterlegte Kennlinie aktivieren",
-          "value": {
-            "stringvalue": "AUS",
-            "value_set": "L_EIN_AUS"
-          },
-          "unit_id": 0
-        },
-        {
-          "name": "FP_RAMPE",
-          "description": "Rampe 1 mbar/minute",
-          "value": {
-            "high": 20000,
-            "unit": "            "
+            "stringvalue": "EIN UND BUCHEN",
+            "value_set": "LGF_VAKPUMPE_OPT"
           },
           "unit_id": 0
         },
         {
           "name": "FP_BESCHREI_TEXT",
-          "description": "Beschreibung zur OP",
+          "description": "Einbuchen Ausbuchen und Ein- oder Ausschalten",
           "value": {},
-          "unit_id": 0
-        },
-        {
-          "name": "FP_PC_W_HO",
-          "description": "Druck Sollwert bei SS",
-          "value": {
-            "high": 20000,
-            "low": -1000,
-            "cv": 50,
-            "unit": "mbar"
-          },
-          "unit_id": 0
-        },
-        {
-          "name": "FP_OPTION_VAK_HO",
-          "description": "Zustand Vakuum bei einem SS",
-          "value": {
-            "stringvalue": "VAKUUM",
-            "value_set": "LGF_DRUCK_VAK_HO"
-          },
           "unit_id": 0
         }
       ],
       "steps": [
         {
-          "name": "DRUCK:1",
-          "key": "DRUCK",
+          "name": "START",
+          "key": "",
           "description": "",
-          "rec": "{ X=50 Y=130 H=40 W=100 }\r",
+          "rec": "{ X=200 Y=50 H=40 W=100 }\r",
+          "step_parameters": [],
+          "step_attributes": []
+        },
+        {
+          "name": "VAKPUMPE:1",
+          "key": "VAKPUMPE",
+          "description": "",
+          "rec": "{ X=200 Y=50 H=40 W=100 }\r",
           "step_parameters": [
             {
               "name": "FP_BESCHREI_TEXT",
@@ -154,99 +47,19 @@
               "group": ""
             },
             {
-              "name": "FP_FSB_PSH",
-              "origin": "DEFERRED\r",
-              "deferto": "FP_FSB_PSH",
-              "group": "Operating"
-            },
-            {
-              "name": "FP_FSB_PSL",
-              "origin": "DEFERRED\r",
-              "deferto": "FP_FSB_PSL",
-              "group": "Operating"
-            },
-            {
               "name": "FP_OPTION",
               "origin": "DEFERRED\r",
               "deferto": "FP_OPTION",
               "group": "Operating"
-            },
-            {
-              "name": "FP_OPTION_VAK_HO",
-              "origin": "DEFERRED\r",
-              "deferto": "FP_OPTION_VAK_HO",
-              "group": ""
-            },
-            {
-              "name": "FP_PAH",
-              "origin": "DEFERRED\r",
-              "deferto": "FP_PAH",
-              "group": "Operating"
-            },
-            {
-              "name": "FP_PAHH",
-              "origin": "DEFERRED\r",
-              "deferto": "FP_PAHH",
-              "group": "Operating"
-            },
-            {
-              "name": "FP_PAL",
-              "origin": "DEFERRED\r",
-              "deferto": "FP_PAL",
-              "group": "Operating"
-            },
-            {
-              "name": "FP_PALL",
-              "origin": "DEFERRED\r",
-              "deferto": "FP_PALL",
-              "group": "Operating"
-            },
-            {
-              "name": "FP_PC_W",
-              "origin": "DEFERRED\r",
-              "deferto": "FP_PC_W",
-              "group": "Operating"
-            },
-            {
-              "name": "FP_PC_W_HO",
-              "origin": "DEFERRED\r",
-              "deferto": "FP_PC_W_HO",
-              "group": "Operating"
-            },
-            {
-              "name": "FP_PV_KENNLINIE",
-              "origin": "DEFERRED\r",
-              "deferto": "FP_PV_KENNLINIE",
-              "group": "Operating"
-            },
-            {
-              "name": "FP_RAMPE",
-              "origin": "DEFERRED\r",
-              "deferto": "FP_RAMPE",
-              "group": "Operating"
-            },
-            {
-              "name": "RP_FSB_WART_ZEIT",
-              "origin": "CONSTANT\r",
-              "deferto": "",
-              "group": ""
             }
           ],
           "step_attributes": []
         },
         {
-          "name": "START",
-          "key": "DRUCK",
+          "name": "VAKPUMPE:1",
+          "key": "VAKPUMPE",
           "description": "",
-          "rec": "{ X=50 Y=130 H=40 W=100 }\r",
-          "step_parameters": [],
-          "step_attributes": []
-        },
-        {
-          "name": "START",
-          "key": "DRUCK",
-          "description": "",
-          "rec": "{ X=50 Y=130 H=40 W=100 }\r",
+          "rec": "{ X=200 Y=50 H=40 W=100 }\r",
           "step_parameters": [],
           "step_attributes": []
         }

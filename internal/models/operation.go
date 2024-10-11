@@ -354,7 +354,7 @@ func (m *DBModel) IDOPPlantFromName(name string, idPlant uuid.UUID) (uuid.UUID, 
 	stmt := `SELECT 
 			opplant_id 
 		FROM 
-			vw_opplant 
+			qryOPPlant 
 		WHERE opname = ? AND id_plant = ?`
 	res, err := m.DB.QueryContext(ctx, stmt,
 		name,
@@ -551,12 +551,22 @@ func (m *DBModel) LastValueFromParamId(paramId uuid.UUID) (Value, error) {
 	defer cancel()
 	val := Value{}
 	stmt := `SELECT 
-			value_id, params_id, high, low, cv, unit, stringvalue, valueset
+			value_id, 
+			unitparams_id, 
+			high, 
+			low, 
+			cv, 
+			unit, 
+			stringvalue, 
+			valueset,
+			updated_at,
+			created_at
 		FROM 
-			paramvalues 
-		WHERE params_id = ? 
+			unitparameters_values 
+		WHERE unitparams_id = ? 
 		ORDER BY value_id DESC
 		LIMIT 1`
+
 	err := m.DB.QueryRowContext(ctx, stmt,
 		paramId.String(),
 	).Scan(
@@ -568,12 +578,16 @@ func (m *DBModel) LastValueFromParamId(paramId uuid.UUID) (Value, error) {
 		&val.Unit,
 		&val.StringValue,
 		&val.Set,
+		&val.UpdatedAt,
+		&val.CreatedAt,
 	)
 	if err != nil {
+		if err == sql.ErrNoRows {
+			return val, nil
+		}
 		return val, err
 	}
 	return val, nil
-
 }
 
 func (m *DBModel) ValuesFromParamId(id uuid.UUID) ([]Value, error) {

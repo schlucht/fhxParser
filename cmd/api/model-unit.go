@@ -18,7 +18,7 @@ import (
 //
 // Return:
 //   - error: Fehlermeldung
-func (app *application) SaveUnit(fhx parser.Fhx, plantID uuid.UUID) error {
+func (app *application) SaveAllUnits(fhx parser.Fhx, plantID uuid.UUID) error {
 	for _, u := range fhx.Units {
 		// 1. Unit in die Tabelle speichern oder aktualisieren
 		unitId, err := app.saveUnit(u, plantID)
@@ -56,7 +56,7 @@ func (app *application) SaveUnit(fhx parser.Fhx, plantID uuid.UUID) error {
 								return err
 							}
 							id, _ := app.DB.IDUnitParamDeferTo(unitops, p.DeferTo)
-							app.infoLog.Println(p.DeferTo, id)
+							// app.infoLog.Println(p.DeferTo, id)
 							if id == uuid.Nil {
 								app.errorLog.Println("Failed to get param id: ", id, p.DeferTo)
 								// return errors.New("now id in db")
@@ -184,7 +184,7 @@ func (app *application) getValues(
 	}
 
 	unitOP, err := app.DB.OpUnitIdFromName(opName, unitid)
-	
+
 	if err != nil {
 		app.errorLog.Println("OpUnitIdFromName", err)
 		return err
@@ -199,7 +199,7 @@ func (app *application) getValues(
 	parId, _ := app.DB.ExistUnitParam(param.ID, param.ParamName)
 
 	if parId == uuid.Nil {
-		app.infoLog.Println(opId, p.Name)
+		// app.infoLog.Println(opId, p.Name)
 		err = app.DB.SaveUnitParameter(param)
 		if err != nil {
 			app.errorLog.Println("SaveUnitParemter", err)

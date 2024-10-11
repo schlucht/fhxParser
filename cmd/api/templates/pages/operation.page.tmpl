@@ -13,7 +13,9 @@
             <ul>
                 {{ range $ops}}
                     <!-- <li><button onclick="importDetails({{ .OpplantId }})">{{ .OpName }}</button></li> -->
-                    <li><a href="javascript:void(0)" onclick="importDetails({{ .OpplantId }})">{{ .OpName }}</a></li>
+                    <li>
+                        <a href="javascript:void(0)" onclick="importDetails({{ .OpplantId }})">{{ .OpName }}</a>
+                    </li>
                 {{ end }}
             </ul>
         </section>
@@ -27,39 +29,38 @@
 <script> 
     document.addEventListener('DOMContentLoaded', () => {
     });
-        async function importDetails(id) {        
-            const plantId = plant.plantId        
-            const requestOptions = {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' }            
-            };
-            const response = await fetch(`/operation/details/${id}`, requestOptions);
-            const data = await response.json();
-            if (!data) {
-                opParamdetails.innerHTML = "Keine Daten";
-                return
-            }
-            console.log(data)
-            const s = await renderDetails(data);
-            opParamdetails.innerHTML = s;
+    async function importDetails(id) {        
+        const plantId = plant.plantId        
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }            
+        };
+        const response = await fetch(`/operation/details/${id}`, requestOptions);
+        const data = await response.json();
+        if (!data) {
+            opParamdetails.innerHTML = "Keine Daten";
+            return
         }
+        console.log(data)
+        const s = await renderDetails(data);
+        opParamdetails.innerHTML = s;
+    }
 
-        async function renderDetails(data) {
-            let s = `<div class="tbl-param">`;    
-            let d = data;
-            d.forEach(element => {
-                s = s + "<p>" + element.param_name + "</p>"
-                element.value.forEach(v => {
-                    if (v.cv) {
-                        s = s + "<p><i>" + v.cv + "</i></p>"
-                    } else {
-                        s = s + "<p><i>" + v.stringvalue + "</i></p>"
-                    }
-                })
-            });           
-
-            return `</div>${s}`;
-        }
+    async function renderDetails(data) {
+        let s = `<div class="tbl-param">`;    
+        let d = data;
+        d.forEach(element => {
+            s = s + "<p>" + element.param_name + "</p>"
+            element.value.forEach(v => {
+                if (v.cv) {
+                    s = s + "<p><i>" + v.cv + "</i></p>"
+                } else {
+                    s = s + "<p><i>" + v.stringvalue + "</i></p>"
+                }
+            })
+        });
+        return `</div>${s}`;
+    }
     
 </script>
 {{ end }}

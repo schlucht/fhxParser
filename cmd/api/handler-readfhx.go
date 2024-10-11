@@ -71,7 +71,7 @@ func (app *application) ReadFhx(w http.ResponseWriter, r *http.Request) {
 		} else if f.UnitType == "UNIT_PROCEDURE" {
 			helpers.SaveJSON("assets/files/units.json", helpers.PrintJson(f))
 			// Speichern der Unit
-			err = app.SaveUnit(f, uuid.MustParse(fhxJson.PlantId))
+			err = app.SaveAllUnits(f, uuid.MustParse(fhxJson.PlantId))
 			if err != nil {
 				j.OK = false
 				j.Message = fmt.Sprintf("%v", err)
