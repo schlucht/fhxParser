@@ -8,11 +8,40 @@
     <link href="/../assets/css/main.min.css" rel="stylesheet" />
     <script src="/../assets/js/plant.js" defer></script>
     <script src="/../assets/js/main.js" defer></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        content:[],
+        theme: {
+          colors: {
+            'orangelight': '#ff7947',
+            orange: '#FF6B33',
+            blue: '#4f8ceb',
+            darkblue: '#0000ff',
+            success: '#0070f3',
+            cyan: '#79FFE1',
+            gray: {
+              100: '#f7fafc',
+              200: '#edf2f7',
+              300: '#e2e8f0',
+              400: '#cbd5e0',
+              500: '#a0aec0',
+              600: '#718096',
+              700: '#4a5568',
+              800: '#2d3748',
+              900: '#1a202c',
+            }
+          },
+          extend: {
+          },
+        }
+      }     
+    </script>
   </head>
 
   <body id="page">
     {{ $plants := index .Data "plants" }}
-    <div id="top">
+    <div id="top" class="container">
       <div class="center-content">{{ block "top" .}}{{ end }}</div>
     </div>
     <header id="pageHeader">

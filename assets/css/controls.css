@@ -1,0 +1,55 @@
+
+/**************************************************************
+/* BUTTON
+/**************************************************************/
+
+.btn {
+    padding: var(--padding) calc(var(--padding) * 2);
+    border-radius: var(--padding);
+    background-color: var(--clr-orange);
+    border: none;
+    outline: none;
+    font-family: inherit;
+    font-size: inherit;
+    text-transform: uppercase;
+    color: var(--clr-white);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn:disabled, .btn:disabled:hover {
+    background-color: lightgray;
+    color: var(--clr-white);
+    cursor: default;
+}
+
+.btn:hover {
+    background-color: var(--clr-orangelight);
+    color: var(--clr-darkblue);
+}
+
+
+/**************************************************************
+/* Input Felder 
+/**************************************************************/
+.text-input[type="text"] {
+    padding: calc(var(--padding) * 2);
+    border: solid 1px var(--clr-darkblue);
+    border-radius: var(--padding);    
+}
+
+.file-input {
+    display: none;
+}
+
+.file-label {
+    color: red;
+    cursor: pointer;
+}
+
+.form-group {
+    border: solid 1px var(--clr-darkblue);
+    border-radius: var(--padding);
+    padding: var(--padding);
+}
