@@ -5,22 +5,25 @@
 {{ end }}
 
 {{ define "content" }} 
-    <div class="operation-container">
-        <section id="operation">
+    <div class="container">
+        <section class="container-left" id="operation">
             <h2>Operationen</h2>
             <p>Die Operationen werden mit den Rezepten und Rezeptdaten verbindet. </p>     
             {{ $ops := index .Data "ops" }}        
             <ul>
                 {{ range $ops}}
-                    <!-- <li><button onclick="importDetails({{ .OpplantId }})">{{ .OpName }}</button></li> -->
                     <li>
-                        <a href="javascript:void(0)" onclick="importDetails({{ .OpplantId }})">{{ .OpName }}</a>
+                        <a class="btn" 
+                        href="javascript:void(0)" 
+                        onclick="importDetails({{ .OpplantId }})">
+                            {{ .OpName }}
+                        </a>
                     </li>
                 {{ end }}
             </ul>
         </section>
-        <section id="opParamdetails">
-        
+        <section class="container-right" id="opParamdetails">
+            
         </section>
     </div>
 {{ end }}
@@ -50,16 +53,35 @@
         let s = `<div class="tbl-param">`;    
         let d = data;
         d.forEach(element => {
-            s = s + "<p>" + element.param_name + "</p>"
+            s = s + `<div class='tbl-row'>
+                        <h4 class='tbl-param-name'>
+                            ${element.param_name}
+                        </h4>
+                        <p>${element.param_desc}</p>
+                    <div class='tbl-row-box'>`;
             element.value.forEach(v => {
+                s = s + `
+                <div class='tbl-row-detail'>
+                            <span>Erstellt am: </span>
+                            <span>${v.created_at}</span>
+                        </div>`; 
                 if (v.cv) {
-                    s = s + "<p><i>" + v.cv + "</i></p>"
+                    s = s + `<div class='tbl-row-detail'>          
+                                <span>${v.low} ${v.unit}</span>
+                                <span>${v.cv} ${v.unit}</span>
+                                <span>${v.high} ${v.unit}</span>
+                            </div>`; 
                 } else {
-                    s = s + "<p><i>" + v.stringvalue + "</i></p>"
+                    s = s + `<div class='tbl-row-detail'>
+                                <span>String Value: </span>
+                                <span>${v.stringvalue}</span>;
+                            </div>`;               
                 }
-            })
+                s = s + "<hr>";
+            });
+            s = s + "</div></div>"
         });
-        return `</div>${s}`;
+        return s + `</div>`;
     }
     
 </script>

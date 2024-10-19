@@ -1,7 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/schlucht/fhxreader/internal/models"
 )
@@ -34,6 +36,7 @@ func (app *application) Home(w http.ResponseWriter, r *http.Request) {
 	}
 	data := make(map[string]interface{})
 	data["plants"] = plants
+	data["date"] = fmt.Sprintf("%d / %d", time.Now().Month(), time.Now().Year())
 
 	if err := app.renderTemplate(w, r, "home", &templateData{
 		Data: data,

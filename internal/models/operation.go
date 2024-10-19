@@ -57,8 +57,18 @@ type Value struct {
 }
 
 type OPPlant struct {
-	OpplantId uuid.UUID `json:"opplant_id"`
-	OpName    string    `json:"op_name"`
+	IdPlant       uuid.UUID `json:"id_plant"`
+	OPId          uuid.UUID `json:"op_id"`
+	OpName        string    `json:"opname"`
+	OpplantId     uuid.UUID `json:"opplant_id"`
+	IdOP          uuid.UUID `json:"id_op"`
+	OPCategory    string    `json:"op_category"`
+	OPPosition    string    `json:"op_position"`
+	OPTime        int       `json:"op_time"`
+	OPAuthor      string    `json:"op_author"`
+	OPDescription string    `json:"op_description"`
+	UpdatedAt     time.Time `json:"updated_at"`
+	CreatedAt     time.Time `json:"created_at"`
 }
 
 // Operation anhand der Betriebs ID auslesen
@@ -70,9 +80,9 @@ func (m *DBModel) OpFromPlantID(plantId uuid.UUID) ([]OPPlant, error) {
 
 	var ops []OPPlant
 	stmt := `SELECT 
-			opplant_id, opname
+			*
 		FROM 
-			qryOPPlant
+			qry
 		WHERE id_plant = ?`
 	res, err := m.DB.QueryContext(ctx, stmt, plantId)
 	if err != nil {
@@ -81,8 +91,18 @@ func (m *DBModel) OpFromPlantID(plantId uuid.UUID) ([]OPPlant, error) {
 	for res.Next() {
 		var op OPPlant
 		err = res.Scan(
-			&op.OpplantId,
+			&op.IdPlant,
+			&op.OPId,
 			&op.OpName,
+			&op.OpplantId,
+			&op.IdOP,
+			&op.OPCategory,
+			&op.OPPosition,
+			&op.OPTime,
+			&op.OPAuthor,
+			&op.OPDescription,
+			&op.UpdatedAt,
+			&op.UpdatedAt,
 		)
 		if err != nil {
 			return nil, err
