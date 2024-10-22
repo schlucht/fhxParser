@@ -31,7 +31,8 @@
     }
     
     onMounted(async() => {
-        const res = await fetch("https://5101-schlucht-fhxparser-ai96x3m9vg1.ws-eu116.gitpod.io/plant/all");
+        console.log(api)
+        const res = await fetch(api + "/plant/all");
         const data = await res.json();  
       
         plants.value = data.data.plants;        

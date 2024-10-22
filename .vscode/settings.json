@@ -5,6 +5,10 @@
     "editor.lineHeight": 0,
     "terminal.integrated.fontFamily": "monospace",
     "editor.stickyScroll.enabled": false,
+
+    "vetur.validation.template": false,
+    "vetur.validation.script": false,
+    "vetur.validation.style": false,
     
     "vim.smartRelativeLine": true,
     "vim.easymotion": true,

@@ -77,17 +77,12 @@ func main() {
 	session.Lifetime = 24 * time.Hour
 	var conn *sql.DB
 	var err error
-	if cfg.db.driver == "duckdb" {
-		conn, err = driver.DuckDBOpenDB("assets/database/fhxdat.db")
-		if err != nil {
-			errorLog.Printf("%v", err)
-		}
-	} else {
-		conn, err = driver.MySqlOpenDB(cfg.db.dsn)
-		if err != nil {
-			errorLog.Printf("%v", err)
-		}
+	
+	conn, err = driver.MySqlOpenDB(cfg.db.dsn)
+	if err != nil {
+		errorLog.Printf("%v", err)
 	}
+	
 	mod := models.NewModel(conn)
 	defer conn.Close()
 

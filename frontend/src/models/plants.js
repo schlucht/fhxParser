@@ -1,7 +1,7 @@
 async function allPlants() {
   
     try {
-        const resp = await fetch("https://5101-schlucht-fhxparser-ai96x3m9vg1.ws-eu116.gitpod.io/plant/all");
+        const resp = await fetch("hhtps//5101-idx-fhxparsergit-1729582237031.cluster-23wp6v3w4jhzmwncf7crloq3kw.cloudworkstations.dev/plant/all");
         const data = await resp.json();
         
         var plants = [];

@@ -1,14 +1,5 @@
 <template>
-    <div id="top">
-        <div class="center-content">
-            <ots-top></ots-top>
-        </div>
-    </div>
-    <header id="pageHeader">
-        <div class="center-content">
-            <ots-header></ots-header>
-        </div>
-    </header>
+   
     <main id="pageContent">
         <div class="center-content">
             <div class="home">
@@ -23,18 +14,12 @@
             </div>
         </div>
     </main>
-    <footer id="pageFooter">
-        <div class="center-content">
-            <ots-footer></ots-footer>
-        </div>
-    </footer>
+    
 </template>
 <script setup>
 import OtsFooter from '../components/OtsFooter.vue';
 import OtsHeader from '../components/OtsHeader.vue';
 import OtsTop from '../components/OtsTop.vue';
-
-
     
 </script>
 <style lang='css' scoped>
@@ -44,4 +29,5 @@ import OtsTop from '../components/OtsTop.vue';
     align-items: center;
     justify-content: space-around;
 }
+
 </style>
