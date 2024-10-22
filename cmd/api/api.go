@@ -16,7 +16,6 @@ import (
 )
 
 const version = "1.0.0"
-const frontend_url = "127.0.0.1:5100"
 
 var session *scs.SessionManager
 
@@ -38,6 +37,14 @@ type application struct {
 	Session       *scs.SessionManager
 	DB            models.DBModel
 }
+
+type jsonResponse struct {
+	Error   bool        `json:"error"`
+	Message string      `json:"message"`
+	Data    interface{} `json:"data"`
+}
+
+type envelope map[string]interface{}
 
 func (app *application) serve() error {
 
@@ -83,16 +90,6 @@ func main() {
 	}
 	mod := models.NewModel(conn)
 	defer conn.Close()
-	// tables, err := mod.GetSystemTable()
-	// if err != nil {
-	// 	errorLog.Printf("%v", err)
-	// }
-	// if tables != 13 {
-	// 	err = mod.InstallDB()
-	// 	if err != nil {
-	// 		errorLog.Printf("%v", err)
-	// 	}
-	// }
 
 	app := &application{
 		config:        cfg,

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/google/uuid"
@@ -11,34 +10,13 @@ import (
 
 // Liest einen FHX Text ein. Es muss der Text und eine ID für eine Anlage vorhanden sein.
 
-func (app *application) FhxPage(w http.ResponseWriter, r *http.Request) {
-	plants, err := app.LoadPlants()
-	if err != nil {
-		app.errorLog.Println(err)
-	}
-	if len(plants) > 0 {
-		// Daten an das Frontend übergeben
-		data := make(map[string]interface{})
-		data["plants"] = plants
-
-		if err := app.renderTemplate(w, r, "fhx", &templateData{
-			Data: data,
-		}); err != nil {
-			app.errorLog.Println(err)
-		}
-	} else {
-		if err := app.renderTemplate(w, r, "plant", &templateData{}); err != nil {
-			app.errorLog.Println(err)
-		}
-	}	
-}
-
 func (app *application) ReadFhx(w http.ResponseWriter, r *http.Request) {
 	var fhxJson struct {
 		FileText string `json:"text"`
 		FileName string `json:"name"`
 		PlantId  string `json:"plant_id"`
 	}
+	var payload jsonResponse
 	err := app.readJSON(w, r, &fhxJson)
 	if err != nil {
 		app.badRequest(w, err, "ReadFhx: readJson", http.StatusInternalServerError)
@@ -48,9 +26,7 @@ func (app *application) ReadFhx(w http.ResponseWriter, r *http.Request) {
 	fhx, err := parser.NewFhxString(fhxJson.FileText)
 	if err != nil {
 		app.errorLog.Printf("%v, %s", err, "Fehler im FHX Parser")
-		j.OK = false
-		j.Message = fmt.Sprintf("%v", err)
-		app.writeJSON(w, http.StatusOK, j)
+		app.badRequest(w, err, "ReadFhx: NewFhxString", http.StatusInternalServerError)
 		return
 	}
 
@@ -61,32 +37,28 @@ func (app *application) ReadFhx(w http.ResponseWriter, r *http.Request) {
 			err := app.SaveOperation(f, uuid.MustParse(fhxJson.PlantId))
 			if err != nil {
 				app.errorLog.Printf("%v, %s", err, "Fehler im FHX Parser")
-				j.OK = false
-				j.Message = fmt.Sprintf("%v", err)
-				app.writeJSON(w, http.StatusOK, j)
+				app.badRequest(w, err, "ReadFhx: NewFhxString", http.StatusInternalServerError)
 				return
 			}
-			j.Message = "OK, Save Operations"
-			j.OK = true
+			payload.Message = "OK, Save Operations"
+			payload.Error = true
 		} else if f.UnitType == "UNIT_PROCEDURE" {
 			helpers.SaveJSON("assets/files/units.json", helpers.PrintJson(f))
 			// Speichern der Unit
 			err = app.SaveAllUnits(f, uuid.MustParse(fhxJson.PlantId))
 			if err != nil {
-				j.OK = false
-				j.Message = fmt.Sprintf("%v", err)
-				app.writeJSON(w, http.StatusOK, j)
+				app.badRequest(w, err, "ReadFhx: NewFhxString", http.StatusInternalServerError)
 				return
 			}
-			j.Message = "OK, Save Units"
-			j.OK = true
+			payload.Message = "OK, Save Units"
+			payload.Error = false
 		} else if f.UnitType == "PROCEDURE" {
 			helpers.SaveJSON("assets/files/procedure.json", helpers.PrintJson(f))
-			j.Message = "OK, Save Recipes"
-			j.OK = true
+			payload.Message = "OK, Save Recipes"
+			payload.Error = false
 		}
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	app.writeJSON(w, http.StatusOK, j)
+	app.writeJSON(w, http.StatusOK, payload)
 }

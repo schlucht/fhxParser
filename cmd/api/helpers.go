@@ -3,11 +3,9 @@ package main
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io"
 	"net/http"
-
-	"golang.org/x/crypto/bcrypt"
+	"strings"
 )
 
 // writeJSON writes aribtrary data out as JSON
@@ -25,8 +23,10 @@ func (app *application) writeJSON(w http.ResponseWriter, status int, data interf
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
-	w.Write(out)
-
+	_, err = w.Write(out)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -50,49 +50,35 @@ func (app *application) readJSON(w http.ResponseWriter, r *http.Request, data in
 }
 
 // badRequest sends a JSON response with status http.StatusBadRequest, describing the error
-func (app *application) badRequest(w http.ResponseWriter, err error, method string, statuscode int) error {
+func (app *application) badRequest(w http.ResponseWriter, err error, method string, statuscode ...int) error {
 	app.errorLog.Printf("%v in %s", err, method)
-	if statuscode == 0 {
-		statuscode = http.StatusBadRequest
+	status := http.StatusBadRequest
+	if len(statuscode) == 0 {
+		status = statuscode[0]
 	}
 
-	j := jsonResponse{
-		OK:      false,
-		Message: err.Error(),
-		Content: fmt.Sprintf("{\"error\": \"%s\"}", method),
+	var payload jsonResponse
+	var customErr error
+
+	switch {
+	case strings.Contains(err.Error(), "SQLSTATE 23505"):
+		customErr = errors.New("duplicate value violates unique constrain")
+		status = http.StatusForbidden
+	case strings.Contains(err.Error(), "SQLSTATE 22001"):
+		customErr = errors.New("the value you are trying to insert is to large")
+		status = http.StatusForbidden
+	case strings.Contains(err.Error(), "SQLSTATE 23403"):
+		customErr = errors.New("foreign key violation")
+		status = http.StatusForbidden
+	default:
+		customErr = err
 	}
-	out, err := json.MarshalIndent(j, "", "\t")
-	if err != nil {
+
+	payload.Error = true
+	payload.Message = customErr.Error()
+
+	if err = app.writeJSON(w, status, payload); err != nil {
 		return err
 	}
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(statuscode)
-	w.Write(out)
 	return nil
-}
-
-func (app *application) invalidCredentials(w http.ResponseWriter) error {
-	j := jsonResponse{
-		OK:      false,
-		Message: "invalid credentials",
-		Content: "{}",
-	}
-	err := app.writeJSON(w, http.StatusUnauthorized, j)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-func (app *application) passwordMatches(hash, password string) (bool, error) {
-	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
-	if err != nil {
-		switch {
-		case errors.Is(err, bcrypt.ErrMismatchedHashAndPassword):
-			return false, nil
-		default:
-			return false, err
-		}
-	}
-	return true, nil
 }

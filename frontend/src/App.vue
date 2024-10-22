@@ -1,11 +1,17 @@
-<script setup>
-
-</script>
-
-<template>
-  <h1>fhx Parser</h1>
+<template>  
+  <RouterView/>
 </template>
 
-<style scoped>
+<script setup>
+  import { store } from './store/store.js';
+  
+  const actualPlant = localStorage.getItem("plant");
+  if (actualPlant) {
+    store.plant = JSON.parse(actualPlant);
+  }
+  
+</script>
 
+<style scoped>
+  
 </style>

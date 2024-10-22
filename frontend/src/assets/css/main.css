@@ -1,13 +1,140 @@
 @import "fonts.css";
-@import "controls.css";
-@import "base.css";
-@import "layouts.css";
-@import "header.css";
-@import "window.css";
-@import "top-plant.css";
-@import "home.css";
-@import "footer.css";
-@import "plant.css";
-@import "card.css";
-@import "fhxfile.css";
+
+:root {
+    --clr-white: #ffffff;
+    --clr-black: #000;
+    --clr-bg: #f4f4f4;
+    --clr-blue: #4f8ceb;
+    --clr-darkblue: #0000ff;
+    --clr-orangelight: #ff7947;
+    --clr-orange: #FF6B33;
+    --clr-gray: #d3d3d3;
+
+    --padding: 0.5rem;   
+}
+
+.fill-arxada-blue {
+    background-color: var(--clr-blue);
+    color: var(--clr-white);
+}
+
+html {
+    font-size: 62.5%;
+}
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 62.5%;
+}
+.w3-primary {
+    background-color: var(--clr-orange);
+    color: var(--clr-white);
+}
+body {
+    font-family: "Inter", sans-serif;
+    font-size: 1.6rem;
+    background-color: var(--clr-bg);
+}
+
+i,
+cite,
+em {
+    font-family: "Spectral", sans-serif;
+    font-style: italic;
+}
+
+b,
+strong,
+h1,
+h2 {
+    font-family: "Inter", sans-serif;
+    font-weight: 400;
+}
+
+h3 {
+    font-family: "Unily", serif;
+    font-size: 3rem;
+}
+
+a {
+    color: var(--clr-orange);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--clr-orangelight);
+}
+
+li {
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: inline-block;
+}
+
+.icon {
+    height: 1.8rem;
+    width: 1.8rem;
+}
+
+/**
+    Layout
+**/
+#app {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 10vh 10vh 60vh 20vh;
+}
+
+.center-content {
+    display: grid;
+    grid-template-columns: [left-start] minmax(6rem, 1fr)[left-end content-start] minmax(min-content, 90vw) [content-end right-start] minmax(6rem, 1fr)[right-end];
+    height: 100%;
+    & > * {
+        grid-column: content-start / content-end;       
+    }
+}
+
+.grid-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    grid-template-rows: auto auto;
+    gap: calc(var(--padding) * 2);
+}
+
+#top {
+    grid-row: 1 / 1 ; 
+    background-color: var(--clr-blue);
+    display: grid;
+}
+
+#pageHeader {
+    grid-row: 2 / 2 ;  
+    background-color: var(--clr-white);
+}
+
+#pageFooter {
+    grid-row: 4 / 4 ;  
+    background-color: var(--clr-blue);
+}
+
+#pageContent {
+    grid-row: 3 / 3 ;   
+    background-color: var(--clr-bg);
+}
+
+.d-none {
+    display: none;
+}
+
+
+
 

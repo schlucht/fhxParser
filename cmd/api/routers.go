@@ -18,57 +18,15 @@ func (app *application) routes() http.Handler {
 		MaxAge:           300,
 	}))
 
-	//mux.Use(middleware.Logger)
-	fileServer := http.FileServer(http.Dir("./assets"))
-	mux.Handle("/assets/*", http.StripPrefix("/assets", fileServer))
-
-	mux.Get("/", app.Home)
-
 	// Register Routes
-	mux.Route("/register", func(mux chi.Router) {
-		mux.Get("/", app.RegisterPage)
-		mux.Post("/save", app.SaveNewUser)
+	mux.Route("/fhx/", func(mux chi.Router) {
+		mux.Get("/upload", app.ReadFhx)
+	})
+	mux.Route("/plant/", func(mux chi.Router) {
+		mux.Get("/all", app.AllPlants)
 	})
 
-	// AUTH Routes
-	mux.Route("/login", func(mux chi.Router) {
-		mux.Get("/", app.LoginPage)
-		mux.Post("/authenticate", app.CreateAuthToken)
-	})
-
-	// Plant Routes
-	mux.Route("/plants", func(mux chi.Router) {
-		mux.Get("/", app.PlantPage)
-		mux.Get("/allPlants", app.AllPlants)
-		mux.Post("/save", app.PlantSave)
-		mux.Delete("/delete", app.PlantDelete)
-		mux.Put("/update", app.PlantUpdate)
-	})
-
-	// Users Routes
-	mux.Route("/users", func(mux chi.Router) {
-		mux.Get("/", app.UserPage)
-	})
-
-	// FHX Routes
-	mux.Route("/fhx", func(mux chi.Router) {
-		mux.Use(app.Plant)
-		mux.Get("/", app.FhxPage)
-		mux.Post("/readFhx", app.ReadFhx)
-	})
-
-	// FHX Operationen Routes
-	mux.Route("/operation", func(mux chi.Router) {
-		mux.Get("/{plantId}", app.OperationPage)
-		mux.Post("/details/{opplantId}", app.OperationDetails)
-	})
-
-	// FHX Units Routes
-	mux.Route("/unit", func(mux chi.Router) {
-		mux.Get("/{plantId}", app.UnitPage)
-	})
-
-	mux.NotFound(app.NotFound)
+	// mux.NotFound(app.NotFound)
 
 	return mux
 }
