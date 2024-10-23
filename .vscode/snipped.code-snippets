@@ -18,15 +18,13 @@
 	"otsVueSetup": {
 		"prefix": "otsvue",
 		"body": [
-			"<template>",
-			"\t<div>",
-			"\t\t$1$0",
-			"\t</div>",
+			"<template>",			
+			"\t$1$0",			
 			"</template>",
 			"<script setup>",
 			"\t$2",
 			"</script>",
-			"<style lang='scss' scoped>",
+			"<style lang='css' scoped>",
 			"\t$3",
 			"</style>",
 		],

@@ -1,10 +1,15 @@
 <template>
     <div class="top-plant">
-        <h3 id="plant"></h3>
+        <h3 id="plant">{{ plant.value.plant }}</h3>
     </div>
 </template>
 <script setup>
-    
+    import { store } from '../store/store.js'; 
+    import { onMounted, ref } from 'vue';
+
+    const plant = ref(null);
+    plant.value = store.plant;    
+   
 </script>
 <style lang='css' scoped>
 .top-plant {

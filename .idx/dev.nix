@@ -3,7 +3,7 @@
     packages = [
         pkgs.gnumake
         pkgs.go_1_22
-        pkgs.docker
+        pkgs.docker       
     ];
     services.docker.enable = true;
     idx = {

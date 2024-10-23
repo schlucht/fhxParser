@@ -20,15 +20,13 @@
 		"scope": "vue",
 		"prefix": "otsVue",
 		"body": [
-			"<template>",
-    		"\t<div>",
-			"\t\t${1}${0}",
-    		"\t</div>",
+			"<template>",    		
+			"\t${1}${0}",    		
 			"</template>",
 			"<script setup>",
 			"\t${2}",
 			"</script>",
-			"<style lang='scss' scoped>",
+			"<style lang='css' scoped>",
 			"\t${3}",
 			"</style>",
 		]
@@ -95,6 +93,7 @@
 		"prefix": "otsErr",
 		"body": [		
 			"if err != nil {",
+			"app.errorLog.Println(err)",
 			"\tlog.Fatal(\"${1}\")",
 			"}",
 		]

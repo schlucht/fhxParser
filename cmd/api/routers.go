@@ -25,6 +25,9 @@ func (app *application) routes() http.Handler {
 	mux.Route("/plant/", func(mux chi.Router) {
 		mux.Get("/all", app.AllPlants)
 	})
+	mux.Route("/operation/{plantId}", func(mux chi.Router) {
+		mux.Get("/all", app.allOperations)
+	})
 
 	// mux.NotFound(app.NotFound)
 

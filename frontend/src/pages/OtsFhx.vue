@@ -1,6 +1,6 @@
 <template>
-    <div class="container">
- <form action="" method="GET" @submit.prevent>
+  <div class="center-content">
+    <form action="" method="GET" @submit.prevent>
       <fieldset class="control-group">
         <legend><span class="icomoon-folder icon-round"></span>FHX Hochladen</legend>
         <label for="file" class="btn label-file">FHX Datei auswählen</label>        
@@ -9,17 +9,17 @@
       </fieldset>
       <fieldset class="radio-button">
         <legend><span class="icomoon-factory icon-round"></span>Betrieb ausswählen:</legend>
-        <div v-for="plant in plants" :key="plant.plant_id">                  
+        <div class="radio-group" v-for="plant in plants" :key="plant.plant_id">                  
           <input
-            v-model="plantId"
+            v-model="plantId"            
             type="radio"
             name="plant"
             :value="plant.plant"
             :id="plant.plant_id"
-            :checked="plant.plant_id === store.plant.id"
+            :checked="plant.plant_id === (plantId)"
             @change="setPlant"
-          />
-          <label :for="'plant_' + plant.plant_id">{{ plant.plant }}</label>
+          /> 
+          <label :for="plant.plant_id">{{ plant.plant }}</label>
         </div>
       </fieldset>
       <fieldset class="group-button">
@@ -49,12 +49,13 @@ const fileUpload = { text: '', name: '', plantId: 0 }
 const router = useRouter();
 
 onMounted(async () => {
-    save.value.disabled = true    
-      
-    plants.value = await allPlants();   
+  save.value.disabled = true; 
+  plants.value = await allPlants(); 
+  plantId.value = store.plant.value.id || 0;
 });
 
 function setPlant(event) {
+  console.log(event.target.id);
     const ps = {
         id: event.target.id,
         plant: event.target.value,
@@ -66,7 +67,11 @@ function setPlant(event) {
 }
 
 function reset(event) {
-  console.log(plantId.value)
+  fileName.value = '';
+  fileUpload.text = '';
+  fileUpload.name = '';
+  fileUpload.plantId = 0;
+  save.value.disabled = true;
 }
 
 function uploadFile(event) {
@@ -93,15 +98,28 @@ function uploadText() {
 
 </script>
 <style scoped>
-.container {
+.radio-group {
+  display: flex;
+  flex-direction: row;  
+  margin: 3rem;
+}
+input[type=radio]{  
+  appearance: none;
+  display: flex;
+  flex-direction: row;  
+  & ~ label {
     display: flex;
     flex-direction: row;
+    font-size: 2rem;
+  }
+    &:checked ~ label::before {
+      content: '✔';
+      font-size: 2rem;
+      margin-right: 1rem;    
+    }
 }
-.radio-button {
-  display: flex;
-  flex-direction: row;
-  gap: calc(var(--padding) * 2);
-}
+
+
 button:disabled {
   background-color: var(--light-gray);
 }

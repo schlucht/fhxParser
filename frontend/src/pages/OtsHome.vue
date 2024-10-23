@@ -1,20 +1,16 @@
 <template>
-   
-    <main id="pageContent">
-        <div class="center-content">
-            <div class="home">
-                <h2>Delta-V Documentation</h2>
-                <hr>
-                <p>
-                    Parameter und Dokumentationen von Delta-V Rezepten.
-                </p>
-                <div class="content-image">
-                    <img src="../assets/images/deltav_main.jpg" alt="Delta-V">
-                </div>
+    <div class="center-content">
+        <div class="home">
+            <h2>Delta-V Documentation</h2>
+            <hr>
+            <p>
+                Parameter und Dokumentationen von Delta-V Rezepten.
+            </p>
+            <div class="content-image">
+                <img src="../assets/images/deltav_main.jpg" alt="Delta-V">
             </div>
         </div>
-    </main>
-    
+    </div>
 </template>
 <script setup>
 import OtsFooter from '../components/OtsFooter.vue';

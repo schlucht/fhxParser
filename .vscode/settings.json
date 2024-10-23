@@ -1,5 +1,5 @@
 {
-    "editor.fontFamily": "Consolas, New Times Roman, Verdana, Calibri light,Courier New, monospace",
+    "editor.fontFamily": "Consolas,New Times Roman, Verdana, Calibri light,Courier New, monospace",
     "editor.fontSize": 14,
     "editor.letterSpacing": 0,
     "editor.lineHeight": 0,
@@ -59,12 +59,5 @@
     "editor.quickSuggestions": {
         "strings": true
       },
-    "liveSassCompile.settings.formats": [
-        {
-            "format": "compressed",
-            "extensionName": ".min.css",
-            "savePath": "/assets/css",
-            "savePathReplacementPairs": null
-        }
-    ]
+   
 }

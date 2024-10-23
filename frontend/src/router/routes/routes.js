@@ -8,7 +8,7 @@ const routes =[
     {
         path: '/operation',
         name: 'operation',
-        component: () => import('../../pages/OtsHome.vue'),
+        component: () => import('../../pages/OtsOperation.vue'),
     },
     {
         path: '/unit',
@@ -49,6 +49,11 @@ const routes =[
         path: '/register',
         name: 'register',
         component: () => import('../../pages/OtsHome.vue'),
+    },
+    {
+        path: '/:pathMatch(.*)*',
+        name: 'notFound',
+        component: () => import('../../pages/OtsNotFound.vue'),
     },
 ];
 export { routes }
