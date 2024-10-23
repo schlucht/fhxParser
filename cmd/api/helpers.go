@@ -50,8 +50,7 @@ func (app *application) readJSON(w http.ResponseWriter, r *http.Request, data in
 }
 
 // badRequest sends a JSON response with status http.StatusBadRequest, describing the error
-func (app *application) badRequest(w http.ResponseWriter, err error, method string, statuscode ...int) error {
-	app.errorLog.Printf("%v in %s", err, method)
+func (app *application) badRequest(w http.ResponseWriter, err error, method string, statuscode ...int) error {	
 	status := http.StatusBadRequest
 	if len(statuscode) == 0 {
 		status = statuscode[0]
@@ -61,7 +60,7 @@ func (app *application) badRequest(w http.ResponseWriter, err error, method stri
 	var customErr error
 
 	switch {
-	case strings.Contains(err.Error(), "SQLSTATE 23505"):
+	case strings.Contains(err.Error(), "Error 1062"):
 		customErr = errors.New("duplicate value violates unique constrain")
 		status = http.StatusForbidden
 	case strings.Contains(err.Error(), "SQLSTATE 22001"):

@@ -66,7 +66,9 @@ func main() {
 	flag.IntVar(&cfg.port, "port", 5101, "Server port to listen on")
 	flag.StringVar(&cfg.env, "env", "development", "Application enviroment { develompen | production}")
 	// flag.StringVar(&cfg.db.driver, "driver", "duckdb", "duckdb")
-	flag.StringVar(&cfg.db.dsn, "dsn", "schmidschluch4:Schlucht6@tcp(db8.hostpark.net)/schmidschluch4?parseTime=true", "DB connect String")
+	// flag.StringVar(&cfg.db.dsn, "dsn", "schmidschluch4:Schlucht6@tcp(db8.hostpark.net)/schmidschluch4?parseTime=true", "DB connect String")
+	flag.StringVar(&cfg.db.dsn, "dsn", "ots:fhxdb@tcp(localhost:3306)/fhxdb?parseTime=true", "DB connect String")
+	// flag.StringVar(&cfg.db.dsn, "dsn", "schmidschluch4:Schlucht6@tcp(db8.hostpark.net)/schmidschluch4?parseTime=true", "DB connect String")
 
 	flag.Parse()
 
@@ -77,12 +79,12 @@ func main() {
 	session.Lifetime = 24 * time.Hour
 	var conn *sql.DB
 	var err error
-	
+
 	conn, err = driver.MySqlOpenDB(cfg.db.dsn)
 	if err != nil {
 		errorLog.Printf("%v", err)
 	}
-	
+
 	mod := models.NewModel(conn)
 	defer conn.Close()
 
