@@ -9,36 +9,36 @@ import (
 func (app *application) SaveOperation(fhx parser.Fhx, plantID uuid.UUID) error {
 
 	for _, o := range fhx.OPs {
-		// OP Model speichern
-		opModel, err := app.saveOP(o)
+		// OP Model speichern opModel
+		_, err := app.saveOP(o)
 		if err != nil {
 			app.errorLog.Println("Save saveOP: ", err)
 			return err
 		}
 
 		// OP anhand der Anlage speichern
-		opPlantID, err := app.saveOPPlant(opModel, plantID, o)
-		if err != nil {
-			app.errorLog.Println("Save saveOPPlant: ", err)
-			return err
-		}
+	// 	opPlantID, err := app.saveOPPlant(opModel, plantID, o)
+	// 	if err != nil {
+	// 		app.errorLog.Println("Save saveOPPlant: ", err)
+	// 		return err
+	// 	}
 
-		for _, p := range o.Parameters {
+	// 	for _, p := range o.Parameters {
 
-			// Parameter speichern
-			paramID, err := app.saveParams(opPlantID, p)
-			if err != nil {
-				app.errorLog.Println("Failed to create new parameter: ", err)
-				return err
-			}
-			// Values werden immer hinten Angehängt bei jedem Upload
-			err = app.saveValue(paramID, p)
-			if err != nil {
-				app.errorLog.Println("Failed to create new value: ", err)
-				return err
-			}
-		}
-	}
+	// 		// Parameter speichern
+	// 		paramID, err := app.saveParams(opPlantID, p)
+	// 		if err != nil {
+	// 			app.errorLog.Println("Failed to create new parameter: ", err)
+	// 			return err
+	// 		}
+	// 		// Values werden immer hinten Angehängt bei jedem Upload
+	// 		err = app.saveValue(paramID, p)
+	// 		if err != nil {
+	// 			app.errorLog.Println("Failed to create new value: ", err)
+	// 			return err
+	// 		}
+	// 	}
+	 }
 
 	return nil
 }

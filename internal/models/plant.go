@@ -10,55 +10,36 @@ import (
 
 type Plant struct {
 	ID        uuid.UUID `json:"plant_id"`
-	Name      string    `json:"plant"`
+	Plant     string    `json:"plant"`
 	UpdatedAt time.Time `json:"updated_at"`
 	CreatedAt time.Time `json:"created_at"`
 }
 
-// // Tabelle mit 3 Betrieben erstellen.
-// func (m *DBModel) nsertNewPlants() error {
-// 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
-// 	defer cancel()
-
-// 	// Kontrolle ob Inhalt vorhanden
-// 	rows, err := m.DB.QueryContext(ctx, "SELECT COUNT(*) FROM plants")
-// 	if err != nil {
-// 		return err
-// 	}
-// 	var count int
-// 	for rows.Next() {
-// 		if err := rows.Scan(&count); err != nil {
-// 			return err
-// 		}
-// 	}
-
-// 	// Wenn keine Daten in DB drei Anlagen in die DB speichern
-// 	// if count == 0 {
-// 	// 	plants := []string{"leer"}
-// 	// 	for _, p := range plants {
-// 	// 		err := m.CreateNewPlant(p)
-// 	// 		if err != nil {
-// 	// 			return err
-// 	// 		}
-// 	// 	}
-// 	// }
-// 	return nil
-// }
-
-// Neuer Betrieb speichern und in die Datenbank speichern.
-func (m *DBModel) CreateNewPlant(name string) error {
+func (m *DBModel) CreatePlantTable() error {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
-	p, err := m.GetPlantFromName(name)
+
+	stmt := `CREATE TABLE IF NOT EXISTS plants (
+		plant_id VARCHAR(50) PRIMARY KEY,
+		plant VARCHAR(50),
+		updated_at TIMESTAMP,
+		created_at TIMESTAMP
+	)`
+	_, err := m.DB.ExecContext(ctx, stmt)
 	if err != nil {
 		return err
 	}
-	if len(p) > 0 {
-		return nil
-	}
+	return nil
+}
+
+// Neuer Betrieb speichern und in die Datenbank speichern.
+func (m *DBModel) NewPlant(name string) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+	
 	id := uuid.New()
 	stmt := `INSERT INTO plants (plant_id, plant, updated_at, created_at) VALUES(?,?,?,?)`
-	_, err = m.DB.ExecContext(ctx, stmt, id.String(), name, time.Now(), time.Now())
+	_, err := m.DB.ExecContext(ctx, stmt, id.String(), name, time.Now(), time.Now())
 	if err != nil {
 		return err
 	}
@@ -86,7 +67,7 @@ func (m *DBModel) GetPlants() ([]Plant, error) {
 	for rows.Next() {
 		var p Plant
 
-		err := rows.Scan(&p.ID, &p.Name, &p.CreatedAt, &p.UpdatedAt)
+		err := rows.Scan(&p.ID, &p.Plant, &p.CreatedAt, &p.UpdatedAt)
 		if err != nil {
 			return nil, err
 		}
@@ -113,7 +94,7 @@ func (m *DBModel) GetPlantFromID(uuid string) ([]Plant, error) {
 	for rows.Next() {
 		var p Plant
 
-		err := rows.Scan(&p.ID, &p.Name, &p.CreatedAt, &p.UpdatedAt)
+		err := rows.Scan(&p.ID, &p.Plant, &p.CreatedAt, &p.UpdatedAt)
 		if err != nil {
 			return nil, err
 		}
@@ -139,7 +120,7 @@ func (m *DBModel) GetPlantFromName(name string) ([]Plant, error) {
 	for rows.Next() {
 		var p Plant
 
-		err := rows.Scan(&p.ID, &p.Name, &p.CreatedAt, &p.UpdatedAt)
+		err := rows.Scan(&p.ID, &p.Plant, &p.CreatedAt, &p.UpdatedAt)
 		if err != nil {
 			return nil, err
 		}
