@@ -15,6 +15,7 @@
                 "golang.go"
 		        "octref.vetur"
                 "eamodio.gitlens"
+                "angular.ng-template"
             ];
     };
 }
