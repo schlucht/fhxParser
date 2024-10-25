@@ -75,6 +75,7 @@ func (app *application) badRequest(w http.ResponseWriter, err error, method stri
 
 	payload.Error = true
 	payload.Message = customErr.Error()
+	payload.Data = method
 
 	if err = app.writeJSON(w, status, payload); err != nil {
 		return err

@@ -192,7 +192,7 @@ func (app *application) saveValue(paramID uuid.UUID, p parser.Parameter) error {
 	return nil
 }
 
-func (app *application) opDetailsFromOp(id string) ([]models.Parameter, error) {
+func (app *application) OpDetailsFromOp(id string) ([]models.Parameter, error) {
 	oppantId := uuid.MustParse(id)
 	var params []models.Parameter = []models.Parameter{}
 

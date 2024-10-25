@@ -17,14 +17,13 @@ func (app *application) routes() http.Handler {
 		AllowCredentials: false,
 		MaxAge:           300,
 	}))
-	
+
 	// Register Routes
 	mux.Route("/fhx/", func(mux chi.Router) {
 		mux.Post("/upload", app.ReadFhx)
 	})
 	mux.Route("/plant/", func(mux chi.Router) {
 		mux.Get("/all", app.AllPlants)
-		mux.Post("/save", app.SavePlant)
 	})
 	mux.Route("/operation/{plantId}", func(mux chi.Router) {
 		mux.Get("/all", app.allOperations)
