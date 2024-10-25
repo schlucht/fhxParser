@@ -8,17 +8,17 @@
             <a href="javascript:void(0)" class="btn btn-primary" @click="savePlant">Speichern</a>
         </form>
         <h1>Plants</h1>            
-            <ul  v-for="plant in plants" :key="plant.plant_id">                
-                <li>
-                    <input 
-                        type="checkbox" 
-                        @change=activatePlant 
-                        :value="plant.plant_id"
-                        :checked="plant.plant_id === store.plant.id"
-                        >
-                    {{ plant.plant }}
-                </li>
-            </ul>   
+        <ul  v-for="plant in plants" :key="plant.plant_id">                
+            <li>
+                <input 
+                    type="checkbox" 
+                    @change=activatePlant 
+                    :value="plant.plant_id"
+                    :checked="plant.plant_id === store.plant.id"
+                    >
+                {{ plant.plant }}
+            </li>
+        </ul>   
     </div>
 </template>
 <script setup>

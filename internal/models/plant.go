@@ -23,7 +23,8 @@ func (m *DBModel) CreatePlantTable() error {
 		plant_id VARCHAR(50) PRIMARY KEY,
 		plant VARCHAR(50),
 		updated_at TIMESTAMP,
-		created_at TIMESTAMP
+		created_at TIMESTAMP,
+		CONSTRAINT UC_Plant UINQUE (plant)
 	)`
 	_, err := m.DB.ExecContext(ctx, stmt)
 	if err != nil {
@@ -36,7 +37,7 @@ func (m *DBModel) CreatePlantTable() error {
 func (m *DBModel) NewPlant(name string) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
-	
+
 	id := uuid.New()
 	stmt := `INSERT INTO plants (plant_id, plant, updated_at, created_at) VALUES(?,?,?,?)`
 	_, err := m.DB.ExecContext(ctx, stmt, id.String(), name, time.Now(), time.Now())

@@ -1,4 +1,4 @@
-<template>  
+<template>
  	<div id="top">
     <div class="center-content">
       <ots-top></ots-top>

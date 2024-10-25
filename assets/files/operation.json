@@ -1,125 +1,116 @@
 {
   "ops": [
     {
-      "unitname": "OP_WASCHEN",
+      "unitname": "OP_DRUCK",
       "unitcategory": "Recipes/Operations",
       "unitpositon": "",
-      "time": 1525170396,
-      "author": "HH",
-      "description": "Zentrifugen waschen  OP Zentrifuge",
+      "time": 1525166552,
+      "author": "Hutter Fredy",
+      "description": "Druck",
       "type": "OP",
       "params": [
         {
-          "name": "FP_EMPF_LAH",
-          "description": "",
-          "value": {
-            "high": 100000,
-            "cv": 85,
-            "unit": "            "
-          },
-          "unit_id": 0
-        },
-        {
-          "name": "FP_EMPF_WEG",
-          "description": "",
-          "value": {
-            "stringvalue": "W1",
-            "value_set": "LGF_WEG"
-          },
-          "unit_id": 0
-        },
-        {
-          "name": "FP_FC_Y",
-          "description": "",
-          "value": {
-            "high": 120,
-            "low": -10,
-            "cv": 44,
-            "unit": "%"
-          },
-          "unit_id": 0
-        },
-        {
-          "name": "FP_FSB_FQ",
-          "description": "",
-          "value": {
-            "high": 100000,
-            "cv": 120,
-            "unit": "            "
-          },
-          "unit_id": 0
-        },
-        {
-          "name": "FP_PUMPE",
-          "description": "",
-          "value": {
-            "stringvalue": "keine Pumpe",
-            "value_set": "LP_PUMPE"
-          },
-          "unit_id": 0
-        },
-        {
-          "name": "FP_SEND",
-          "description": "",
-          "value": {
-            "stringvalue": "no UNIT",
-            "value_set": "LP_UNITS"
-          },
-          "unit_id": 0
-        },
-        {
-          "name": "FP_SEND_WEG",
-          "description": "",
-          "value": {
-            "stringvalue": "W1",
-            "value_set": "LGF_WEG"
-          },
-          "unit_id": 0
-        },
-        {
-          "name": "FP_SPUEL_LEER",
-          "description": "",
-          "value": {
-            "stringvalue": "OHNE",
-            "value_set": "LGF_FUEL_SPUE_OP"
-          },
-          "unit_id": 0
-        },
-        {
-          "name": "FP_SPUELZEIT",
-          "description": "",
-          "value": {
-            "high": 100000,
-            "cv": 30,
-            "unit": "sec"
-          },
-          "unit_id": 0
-        },
-        {
-          "name": "FP_UNTBR_MSTELLE",
-          "description": "",
-          "value": {},
-          "unit_id": 0
-        },
-        {
-          "name": "FP_UNTERBR_SH",
+          "name": "FP_FSB_PSH",
           "description": "",
           "value": {
             "high": 20000,
             "low": -1000,
-            "cv": 80,
-            "unit": "'"
+            "cv": 150,
+            "unit": "mbar"
           },
           "unit_id": 0
         },
         {
-          "name": "FP_UNTERBR_SL",
+          "name": "FP_FSB_PSL",
           "description": "",
           "value": {
             "high": 20000,
             "low": -1000,
-            "cv": 20,
-            "unit": "'"
+            "cv": -150,
+            "unit": "mbar"
+          },
+          "unit_id": 0
+        },
+        {
+          "name": "FP_OPTION",
+          "description": "",
+          "value": {
+            "stringvalue": "ABLUFT1_REGLER",
+            "value_set": "LGF_DRUCK_OPT"
+          },
+          "unit_id": 0
+        },
+        {
+          "name": "FP_PAH",
+          "description": "",
+          "value": {
+            "high": 20000,
+            "low": -1000,
+            "cv": 1150,
+            "unit": "mbar"
+          },
+          "unit_id": 0
+        },
+        {
+          "name": "FP_PAHH",
+          "description": "",
+          "value": {
+            "high": 20000,
+            "low": -1000,
+            "cv": 1200,
+            "unit": "mbar"
+          },
+          "unit_id": 0
+        },
+        {
+          "name": "FP_PAL",
+          "description": "",
+          "value": {
+            "high": 20000,
+            "low": -1000,
+            "cv": -200,
+            "unit": "mbar"
+          },
+          "unit_id": 0
+        },
+        {
+          "name": "FP_PALL",
+          "description": "",
+          "value": {
+            "high": 20000,
+            "low": -1000,
+            "cv": -300,
+            "unit": "mbar"
+          },
+          "unit_id": 0
+        },
+        {
+          "name": "FP_PC_W",
+          "description": "",
+          "value": {
+            "high": 20000,
+            "low": -1000,
+            "cv": 50,
+            "unit": "mbar"
+          },
+          "unit_id": 0
+        },
+        {
+          "name": "FP_PV_KENNLINIE",
+          "description": "",
+          "value": {
+            "stringvalue": "AUS",
+            "value_set": "L_EIN_AUS"
+          },
+          "unit_id": 0
+        },
+        {
+          "name": "FP_RAMPE",
+          "description": "",
+          "value": {
+            "high": 20000,
+            "cv": 100,
+            "unit": "            "
           },
           "unit_id": 0
         },
@@ -130,29 +121,23 @@
           "unit_id": 0
         },
         {
-          "name": "FP_MANUNTERBR",
+          "name": "FP_PC_W_HO",
           "description": "",
           "value": {
-            "stringvalue": "JA",
-            "value_set": "L_JA_NEIN"
+            "high": 20000,
+            "low": -1000,
+            "cv": 50,
+            "unit": "mbar"
           },
           "unit_id": 0
         }
       ],
       "steps": [
         {
-          "name": "START",
-          "key": "",
+          "name": "DRUCK:1",
+          "key": "DRUCK",
           "description": "",
-          "rec": "{ X=200 Y=50 H=40 W=100 }\r",
-          "step_parameters": [],
-          "step_attributes": []
-        },
-        {
-          "name": "WASCHEN:1",
-          "key": "WASCHEN",
-          "description": "Waschen",
-          "rec": "{ X=200 Y=50 H=40 W=100 }\r",
+          "rec": "{ X=50 Y=130 H=40 W=100 }\r",
           "step_parameters": [
             {
               "name": "FP_BESCHREI_TEXT",
@@ -161,91 +146,73 @@
               "group": ""
             },
             {
-              "name": "FP_EMPF_LAH",
+              "name": "FP_FSB_PSH",
               "origin": "DEFERRED\r",
-              "deferto": "FP_EMPF_LAH",
+              "deferto": "FP_FSB_PSH",
               "group": ""
             },
             {
-              "name": "FP_EMPF_WEG",
+              "name": "FP_FSB_PSL",
               "origin": "DEFERRED\r",
-              "deferto": "FP_EMPF_WEG",
+              "deferto": "FP_FSB_PSL",
               "group": ""
             },
             {
-              "name": "FP_FC_Y",
+              "name": "FP_OPTION",
               "origin": "DEFERRED\r",
-              "deferto": "FP_FC_Y",
+              "deferto": "FP_OPTION",
               "group": ""
             },
             {
-              "name": "FP_FSB_FQ",
+              "name": "FP_PAH",
               "origin": "DEFERRED\r",
-              "deferto": "FP_FSB_FQ",
+              "deferto": "FP_PAH",
               "group": ""
             },
             {
-              "name": "FP_MANUNTERBR",
+              "name": "FP_PAHH",
               "origin": "DEFERRED\r",
-              "deferto": "FP_MANUNTERBR",
+              "deferto": "FP_PAHH",
               "group": ""
             },
             {
-              "name": "FP_PUMPE",
+              "name": "FP_PAL",
               "origin": "DEFERRED\r",
-              "deferto": "FP_PUMPE",
+              "deferto": "FP_PAL",
               "group": ""
             },
             {
-              "name": "FP_SEND",
+              "name": "FP_PALL",
               "origin": "DEFERRED\r",
-              "deferto": "FP_SEND",
+              "deferto": "FP_PALL",
               "group": ""
             },
             {
-              "name": "FP_SEND_WEG",
+              "name": "FP_PC_W",
               "origin": "DEFERRED\r",
-              "deferto": "FP_SEND_WEG",
+              "deferto": "FP_PC_W",
               "group": ""
             },
             {
-              "name": "FP_SPUEL_HAND",
-              "origin": "CONSTANT\r",
-              "deferto": "",
-              "group": ""
-            },
-            {
-              "name": "FP_SPUEL_LEER",
+              "name": "FP_PC_W_HO",
               "origin": "DEFERRED\r",
-              "deferto": "FP_SPUEL_LEER",
+              "deferto": "FP_PC_W_HO",
               "group": ""
             },
             {
-              "name": "FP_SPUELZEIT",
+              "name": "FP_PV_KENNLINIE",
               "origin": "DEFERRED\r",
-              "deferto": "FP_SPUELZEIT",
+              "deferto": "FP_PV_KENNLINIE",
               "group": ""
             },
             {
-              "name": "FP_UNTBR_MSTELLE",
+              "name": "FP_RAMPE",
               "origin": "DEFERRED\r",
-              "deferto": "FP_UNTBR_MSTELLE",
+              "deferto": "FP_RAMPE",
               "group": ""
             },
             {
-              "name": "FP_UNTERBR_SH",
-              "origin": "DEFERRED\r",
-              "deferto": "FP_UNTERBR_SH",
-              "group": ""
-            },
-            {
-              "name": "FP_UNTERBR_SL",
-              "origin": "DEFERRED\r",
-              "deferto": "FP_UNTERBR_SL",
-              "group": ""
-            },
-            {
-              "name": "RP_FQ",
+              "name": "RP_FSB_WART_ZEIT",
               "origin": "CONSTANT\r",
               "deferto": "",
               "group": ""
@@ -254,10 +221,18 @@
           "step_attributes": []
         },
         {
-          "name": "WASCHEN:1",
-          "key": "WASCHEN",
-          "description": "Waschen",
-          "rec": "{ X=200 Y=50 H=40 W=100 }\r",
+          "name": "START",
+          "key": "DRUCK",
+          "description": "",
+          "rec": "{ X=50 Y=130 H=40 W=100 }\r",
+          "step_parameters": [],
+          "step_attributes": []
+        },
+        {
+          "name": "START",
+          "key": "DRUCK",
+          "description": "",
+          "rec": "{ X=50 Y=130 H=40 W=100 }\r",
           "step_parameters": [],
           "step_attributes": []
         }

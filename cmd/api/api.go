@@ -65,8 +65,6 @@ func main() {
 	tc := make(map[string]*template.Template)
 	flag.IntVar(&cfg.port, "port", 5101, "Server port to listen on")
 	flag.StringVar(&cfg.env, "env", "development", "Application enviroment { develompen | production}")
-	// flag.StringVar(&cfg.db.driver, "driver", "duckdb", "duckdb")
-	// flag.StringVar(&cfg.db.dsn, "dsn", "schmidschluch4:Schlucht6@tcp(db8.hostpark.net)/schmidschluch4?parseTime=true", "DB connect String")
 	flag.StringVar(&cfg.db.dsn, "dsn", "ots:fhxdb@tcp(localhost:3306)/fhxdb?parseTime=true", "DB connect String")
 	// flag.StringVar(&cfg.db.dsn, "dsn", "schmidschluch4:Schlucht6@tcp(db8.hostpark.net)/schmidschluch4?parseTime=true", "DB connect String")
 
@@ -103,5 +101,4 @@ func main() {
 		app.errorLog.Println(err)
 		log.Fatal(err)
 	}
-
 }
