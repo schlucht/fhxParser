@@ -5,6 +5,6 @@ import vue from '@vitejs/plugin-vue'
 export default defineConfig({
   plugins: [vue()],
   define: {
-    'api': JSON.stringify('https://5101-idx-fhxparsergit-1729582237031.cluster-23wp6v3w4jhzmwncf7crloq3kw.cloudworkstations.dev'),
+    'api': JSON.stringify('https://5101-idx-fhxparser-1729854320246.cluster-qtqwjj3wgzff6uxtk26wj7fzq6.cloudworkstations.dev'),    
   }
 })

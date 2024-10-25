@@ -15,35 +15,24 @@ type Plant struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
-// // Tabelle mit 3 Betrieben erstellen.
-// func (m *DBModel) nsertNewPlants() error {
-// 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
-// 	defer cancel()
-
-// 	// Kontrolle ob Inhalt vorhanden
-// 	rows, err := m.DB.QueryContext(ctx, "SELECT COUNT(*) FROM plants")
-// 	if err != nil {
-// 		return err
-// 	}
-// 	var count int
-// 	for rows.Next() {
-// 		if err := rows.Scan(&count); err != nil {
-// 			return err
-// 		}
-// 	}
-
-// 	// Wenn keine Daten in DB drei Anlagen in die DB speichern
-// 	// if count == 0 {
-// 	// 	plants := []string{"leer"}
-// 	// 	for _, p := range plants {
-// 	// 		err := m.CreateNewPlant(p)
-// 	// 		if err != nil {
-// 	// 			return err
-// 	// 		}
-// 	// 	}
-// 	// }
-// 	return nil
-// }
+func (m *DBModel) CreatePlantTable() error {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+	stmt := `
+		CREATE TABLE IF NOT EXISTS plants (
+			plant_id VARCHAR(255) NOT NULL PRIMARY KEY,
+			plant VARCHAR(255) NOT NULL,
+			updated_at DATETIME NOT NULL,
+			created_at DATETIME NOT NULL,
+			CONSTRAINT plants_unique UNIQUE (plant)
+		);
+	`
+	_, err := m.DB.ExecContext(ctx, stmt)
+	if err != nil {
+		return err
+	}
+	return nil
+}
 
 // Neuer Betrieb speichern und in die Datenbank speichern.
 func (m *DBModel) CreateNewPlant(name string) error {

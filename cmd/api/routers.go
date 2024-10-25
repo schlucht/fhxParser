@@ -22,8 +22,9 @@ func (app *application) routes() http.Handler {
 	mux.Route("/fhx/", func(mux chi.Router) {
 		mux.Post("/upload", app.ReadFhx)
 	})
-	mux.Route("/plant/", func(mux chi.Router) {
+	mux.Route("/plant", func(mux chi.Router) {
 		mux.Get("/all", app.AllPlants)
+		mux.Post("/save", app.SavePlant)
 	})
 	mux.Route("/operation/{plantId}", func(mux chi.Router) {
 		mux.Get("/all", app.allOperations)
