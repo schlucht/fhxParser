@@ -1,21 +1,15 @@
 <template>  
- 	<div id="top">
-    <div class="center-content">
-      <ots-top></ots-top>
-    </div>
+ 	<div class="top w3-container w3-theme-d2">
+      <ots-top></ots-top>    
   </div>
-  <header id="pageHeader">
-    <div class="center-content">
+  <header class="header w3-container">
       <ots-header></ots-header>
-    </div>
   </header>
-  <main class="center-content">
+  <main id="main">
 	  <RouterView />
   </main>
-	<footer id="pageFooter">
-    <div class="center-content">
-        <ots-footer></ots-footer>
-    </div>
+	<footer class="footer w3-container w3-theme-d2">
+    <ots-footer></ots-footer>    
   </footer>
 </template>
 
@@ -34,5 +28,10 @@
 </script>
 
 <style scoped>
-  
+  .top {
+    height: 6rem
+  }
+  .footer {
+    height: 10rem;
+  }
 </style>

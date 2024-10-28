@@ -13,11 +13,6 @@
     --padding: 0.5rem;   
 }
 
-.fill-arxada-blue {
-    background-color: var(--clr-blue);
-    color: var(--clr-white);
-}
-
 html {
     font-size: 62.5%;
 }
@@ -27,13 +22,6 @@ html {
     padding: 0;
 }
 
-html {
-    font-size: 62.5%;
-}
-.w3-primary {
-    background-color: var(--clr-orange);
-    color: var(--clr-white);
-}
 body {
     font-family: "Inter", sans-serif;
     font-size: 1.6rem;
@@ -90,45 +78,42 @@ img {
 #app {
     width: 100%;
     display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 10vh 10vh 60vh 20vh;
-}
-
-.center-content {
-    display: grid;
     grid-template-columns: [left-start] minmax(6rem, 1fr)[left-end content-start] minmax(min-content, 90vw) [content-end right-start] minmax(6rem, 1fr)[right-end];
-    height: 100%;
-    & > * {
-        grid-column: content-start / content-end;       
-    }
-}
-
-.grid-content {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-    grid-template-rows: auto auto;
-    gap: calc(var(--padding) * 2);
+    grid-template-rows: [top-start] 6rem [nav-start] 8rem [start-main] auto [start-footer] 10rem;
 }
 
 #top {
     grid-row: 1 / 1 ; 
+    grid-column: content-start / content-end;
     background-color: var(--clr-blue);
     display: grid;
 }
 
-#pageHeader {
+#header {
     grid-row: 2 / 2 ;  
+    grid-column: content-start / content-end;
     background-color: var(--clr-white);
 }
 
-#pageFooter {
+#footer {
     grid-row: 4 / 4 ;  
+    grid-column: content-start / content-end;
     background-color: var(--clr-blue);
 }
 
-#pageContent {
+#main {
     grid-row: 3 / 3 ;   
+    grid-column: content-start / content-end;
     background-color: var(--clr-bg);
+    display: grid;
+    grid-template-columns: [left-start]1fr [left-end center-start] repeat(8, minmax(1rem, 1fr)) [center-end right-start] 1fr [right-end];
+    grid-template-rows: minmax(5rem, 2rem) auto;
+}
+
+.main__title {
+    grid-row: 1 / 1;
+    grid-column: left-start / right-end;
+    text-align: center;
 }
 
 .d-none {

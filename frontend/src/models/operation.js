@@ -1,21 +1,8 @@
-import { store } from '../store/store.js';
 
-class Operation {
-    constructor(plantId) {
-        this.plantId = plantId;  
-        this.operations = [];        
-    }
-
-    async loadOperation() {
-        const res = await fetch(api + "/operation/" + this.plantId + "/all");
-        const data = await res.json();
-        this.operations = data.data;
-    }
+async function loadOperation(plantId) {
+    const res = await fetch(api + "/operation/" + plantId + "/all");
+    const data = await res.json();    
+    return data;       
 }
 
-// function allOperations(plantId) {
-//     plantId = store.plant.value.id;
-//     console.log(plantId);
-// }
-
-export { Operation };
+export { loadOperation };

@@ -1,58 +1,53 @@
 <template>
-    <div class="header">
-        <div class="logo">
-            <img src="../assets/images/arxada-blue.png" alt="logo">
-        </div>
-        <div class="header-menu">
-            <ul class="nav-left">
-                <li><router-link to="/">Home</router-link></li>
-                <li><router-link to="/operation" >Operationen</router-link></li>
-                <li><router-link to="/unit">Units</router-link></li>
-                <li><router-link to="/recipes">Rezepte</router-link></li>
-            </ul>
-            <ul class="nav-admin">
-                <li><router-link to="/fhx">Daten laden</router-link></li>
-                <li><router-link to="/users">Users</router-link></li>
-                <li><router-link to="/plant">Betrieb</router-link></li>            
-            </ul>
-            <ul class="nav-right">
-                <li><router-link to="/login">Login</router-link></li>
-                <li><router-link to="/logout">Logout</router-link></li>
-                <li><router-link to="/register">Registrieren</router-link></li>            
-            </ul>
-        </div>
+    <div class="header w3-row">      
+        <img class="header__logo w3-image w3-col l12" src="../assets/images/arxada-blue.png" alt="logo">
+        
+        <nav class="header__menu">
+            <div class="header__menu__item">
+                <router-link class="w3-button" to="/">Home</router-link>
+                <router-link class="w3-button" to="/operation" >Operationen</router-link>
+                <router-link class="w3-button" to="/unit">Units</router-link>
+                <router-link class="w3-button" to="/recipes">Rezepte</router-link>
+            </div>
+            <div class="header__menu__item">
+                <router-link class="w3-button" to="/fhx">Daten laden</router-link>
+                <router-link class="w3-button" to="/users">Users</router-link>
+                <router-link class="w3-button" to="/plant">Betrieb</router-link>            
+            </div>
+            <div class="header__menu__item">
+                <router-link class="w3-button" to="/login">Login</router-link>
+                <router-link class="w3-button" to="/logout">Logout</router-link>
+                <router-link class="w3-button" to="/register">Registrieren</router-link>            
+            </div>
+        </nav>
     </div>
 </template>
 <script setup>
     
 </script>
 <style lang='css' scoped>
-    .header {  
-    display: flex;
-    justify-content: space-between;
-    align-items: center;   
-    font-size: 2rem;    
-    margin-right: calc(var(--padding) * 6);
-    margin-left: calc(var(--padding) * 6);
-    & .logo {  
-        flex: 1;      
-        & img {
-            width: 15rem;
-        }
-    }
-    & .header-menu {
-        flex: 5;
-        width: 100%;        
+
+    .header {
+        position: relative;
+          
         display: flex;
         justify-content: space-between;
-        & ul {
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-            & li a {
-                color: inherit;
-            }
-        }        
+        
     }
-}
+   
+   .header__logo {
+        display: block;
+        height: 100%;
+        width: 10rem;
+        
+   }
+
+   .header__menu {      
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        
+   }
+ 
+
 </style>

@@ -1,8 +1,6 @@
 <template>
-    <div>
-        <div class="footer"> 
-            &copy;OTS - {{new Date().getMonth() + 1}} / {{new Date().getFullYear()}}               
-        </div>
+    <div class="footer"> 
+        &copy;OTS - {{new Date().getMonth() + 1}} / {{new Date().getFullYear()}}               
     </div>
 </template>
 <script setup>

@@ -57,16 +57,15 @@ type Value struct {
 }
 
 type OPPlant struct {
-	IdPlant       uuid.UUID `json:"id_plant"`
 	OPId          uuid.UUID `json:"op_id"`
-	OpplantId     uuid.UUID `json:"opplant_id"`
-	IdOP          uuid.UUID `json:"id_op"`
-	OpName        string    `json:"opname"`
+	OPPlantID     uuid.UUID `json:"opplant_id"`
+	IDPlant       uuid.UUID `json:"id_plant"`
+	OpName        string    `json:"op_name"`
 	OPCategory    string    `json:"op_category"`
 	OPPosition    string    `json:"op_position"`
 	OPTime        int       `json:"op_time"`
 	OPAuthor      string    `json:"op_author"`
-	OPDescription string    `json:"op_description"`
+	OPDescription string    `json:"op_descr"`
 	UpdatedAt     time.Time `json:"updated_at"`
 	CreatedAt     time.Time `json:"created_at"`
 }
@@ -163,11 +162,33 @@ func (m *DBModel) OpFromPlantID(plantId uuid.UUID) ([]OPPlant, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
+	stmt := `
+		CREATE VIEW IF NOT EXISTS qryOPPlant AS SELECT 	
+			op_id,
+			opplant_id,
+			op.id_plant,
+			op_name,
+			op.op_category,
+			op.op_position,
+			op.op_time,
+			op.op_author,
+			op.op_desc,
+			op.updated_at,
+			op.created_at 
+		FROM operations AS o
+		INNER JOIN op_plant AS op ON o.op_id = op.id_op
+	`
+
+	_, err := m.DB.ExecContext(ctx, stmt)
+	if err != nil {
+		return nil, err
+	}
+
 	var ops []OPPlant
-	stmt := `SELECT 
+	stmt = `SELECT 
 			*
 		FROM 
-			qry
+			qryOPPlant
 		WHERE id_plant = ?`
 	res, err := m.DB.QueryContext(ctx, stmt, plantId)
 	if err != nil {
@@ -176,11 +197,10 @@ func (m *DBModel) OpFromPlantID(plantId uuid.UUID) ([]OPPlant, error) {
 	for res.Next() {
 		var op OPPlant
 		err = res.Scan(
-			&op.IdPlant,
 			&op.OPId,
+			&op.OPPlantID,
+			&op.IDPlant,
 			&op.OpName,
-			&op.OpplantId,
-			&op.IdOP,
 			&op.OPCategory,
 			&op.OPPosition,
 			&op.OPTime,
