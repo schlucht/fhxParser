@@ -181,7 +181,7 @@ func (app *application) saveValue(paramID uuid.UUID, p parser.Parameter) error {
 		Low:         p.Value.Low,
 		Cv:          p.Value.Cv,
 		Unit:        p.Value.Unit,
-		Set:         p.Value.Set,
+		ValueSet:         p.Value.Set,
 		StringValue: p.Value.StringValue,
 	}
 	err := app.DB.NewValue(valueModel)

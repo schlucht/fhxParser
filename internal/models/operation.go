@@ -21,8 +21,8 @@ func (m *Operation) IsEmpty() bool {
 
 type OperationPlant struct {
 	ID          uuid.UUID   `json:"opplant_id"`
-	PlantID     uuid.UUID   `json:"plant_id"`
-	OperationID uuid.UUID   `json:"operation_id"`
+	OperationID uuid.UUID   `json:"id_op"`
+	PlantID     uuid.UUID   `json:"id_plant"`
 	Category    string      `json:"op_category"`
 	Position    string      `json:"op_position"`
 	Author      string      `json:"op_author"`
@@ -35,7 +35,7 @@ type OperationPlant struct {
 
 type Parameter struct {
 	ID          uuid.UUID `json:"params_id"`
-	OPPlantID   uuid.UUID `json:"opplant_id"`
+	OPPlantID   uuid.UUID `json:"id_opplant"`
 	Name        string    `json:"param_name"`
 	Description string    `json:"param_desc"`
 	Value       []Value   `json:"value"`
@@ -45,12 +45,12 @@ type Parameter struct {
 
 type Value struct {
 	ID          uuid.UUID `json:"value_id"`
-	ParamID     uuid.UUID `json:"params_id"`
-	StringValue string    `json:"stringvalue,omitempty"`
-	Set         string    `json:"value_set,omitempty"`
+	ParamID     uuid.UUID `json:"id_param"`
 	High        int       `json:"high,omitempty"`
 	Low         int       `json:"low,omitempty"`
 	Cv          int       `json:"cv,omitempty"`
+	StringValue string    `json:"stringvalue,omitempty"`
+	ValueSet    string    `json:"valueset,omitempty"`
 	Unit        string    `json:"unit,omitempty"`
 	CreatedAt   time.Time `json:"created_at"`
 	UpdatedAt   time.Time `json:"updated_at"`
@@ -59,9 +59,9 @@ type Value struct {
 type OPPlant struct {
 	IdPlant       uuid.UUID `json:"id_plant"`
 	OPId          uuid.UUID `json:"op_id"`
-	OpName        string    `json:"opname"`
 	OpplantId     uuid.UUID `json:"opplant_id"`
 	IdOP          uuid.UUID `json:"id_op"`
+	OpName        string    `json:"opname"`
 	OPCategory    string    `json:"op_category"`
 	OPPosition    string    `json:"op_position"`
 	OPTime        int       `json:"op_time"`
@@ -69,6 +69,91 @@ type OPPlant struct {
 	OPDescription string    `json:"op_description"`
 	UpdatedAt     time.Time `json:"updated_at"`
 	CreatedAt     time.Time `json:"created_at"`
+}
+
+func (m *DBModel) CreateOPTable() error {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	// Operation Haupttabelle
+	stmt := `
+		CREATE TABLE IF NOT EXISTS operations (
+			op_id VARCHAR(50) NOT NULL PRIMARY KEY,
+			op_name VARCHAR(50) NOT NULL,
+			updated_at DATETIME NOT NULL,
+			created_at DATETIME NOT NULL,
+			CONSTRAINT op_unique UNIQUE (op_name)
+		);
+	`
+	_, err := m.DB.ExecContext(ctx, stmt)
+	if err != nil {
+		return err
+	}
+
+	// Operation Betrieb Tabelle in Abhängikeit
+	// mit der Betriebstabelle und den Operationen
+	stmt = `
+		CREATE TABLE IF NOT EXISTS op_plant (
+			opplant_id VARCHAR(50) NOT NULL PRIMARY KEY,
+			id_op VARCHAR(50) NOT NULL,
+			id_plant VARCHAR(50) NOT NULL,
+			op_category VARCHAR(50) NULL,
+			op_position VARCHAR(50) NULL,
+			op_author VARCHAR(50) NULL,
+			op_desc TEXT NULL,
+			op_time INT NULL,
+			updated_at DATETIME NOT NULL,
+			created_at DATETIME NOT NULL,
+			FOREIGN KEY (id_op) REFERENCES operations(op_id),
+			FOREIGN KEY (id_plant) REFERENCES plants(plant_id)
+		);
+	`
+	_, err = m.DB.ExecContext(ctx, stmt)
+	if err != nil {
+		return err
+	}
+
+	// Die Parameter der Operation
+	stmt = `
+		CREATE TABLE IF NOT EXISTS opparameters (
+			params_id VARCHAR(50) NOT NULL PRIMARY KEY,
+			id_opplant VARCHAR(50) NOT NULL,
+			param_name VARCHAR(50) NOT NULL,
+			param_desc TEXT NULL,
+			updated_at DATETIME NOT NULL,
+			created_at DATETIME NOT NULL,
+			FOREIGN KEY (id_opplant) REFERENCES op_plant(opplant_id)
+		);
+	`
+	_, err = m.DB.ExecContext(ctx, stmt)
+	if err != nil {
+		return err
+	}
+
+	// Parameterwerte speichern. Die Parameter sollten
+	// eine Historie bilden.
+	stmt = `
+	CREATE TABLE IF NOT EXISTS opparamvalues (
+		value_id VARCHAR(50) NOT NULL PRIMARY KEY,
+		id_params VARCHAR(50) NOT NULL,
+		high INT NULL,
+		low INT NULL,
+		cv INT NULL,
+		stringvalue VARCHAR(50) NULL,
+		valueset VARCHAR(50) NULL,
+		unit VARCHAR(10) NULL,
+		param_desc TEXT NULL,
+		updated_at DATETIME NOT NULL,
+		created_at DATETIME NOT NULL,
+		FOREIGN KEY (id_params) REFERENCES opparameters(params_id)
+	);
+`
+	_, err = m.DB.ExecContext(ctx, stmt)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // Operation anhand der Betriebs ID auslesen
@@ -247,7 +332,17 @@ func (m *DBModel) NewOPPlant(opPlant OperationPlant) error {
 
 	stmt := `
 		INSERT INTO op_plant
-		(opplant_id, id_op, id_plant, op_category, op_position, op_time, op_author, op_description,updated_at,created_at)
+		(
+			opplant_id, 
+			id_op, 
+			id_plant, 
+			op_category, 
+			op_position, 
+			op_time, 
+			op_author, 
+			op_description,
+			updated_at,
+			created_at)
 		VALUES(?,?,?,?,?,?,?,?,?,?)	`
 
 	_, err := m.DB.ExecContext(ctx, stmt,
@@ -548,7 +643,7 @@ func (m *DBModel) NewValue(value Value) error {
 		value.Cv,
 		value.Unit,
 		value.StringValue,
-		value.Set,
+		value.ValueSet,
 		time.Now(),
 		time.Now(),
 	)
@@ -597,7 +692,7 @@ func (m *DBModel) LastValueFromParamId(paramId uuid.UUID) (Value, error) {
 		&val.Cv,
 		&val.Unit,
 		&val.StringValue,
-		&val.Set,
+		&val.ValueSet,
 		&val.UpdatedAt,
 		&val.CreatedAt,
 	)
@@ -635,7 +730,7 @@ func (m *DBModel) ValuesFromParamId(id uuid.UUID) ([]Value, error) {
 			&val.Cv,
 			&val.Unit,
 			&val.StringValue,
-			&val.Set,
+			&val.ValueSet,
 			&val.UpdatedAt,
 			&val.CreatedAt,
 		)
