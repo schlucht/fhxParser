@@ -11,15 +11,24 @@ import (
 // Liest einen FHX Text ein. Es muss der Text und eine ID für eine Anlage vorhanden sein.
 
 func (app *application) ReadFhx(w http.ResponseWriter, r *http.Request) {
+
 	var fhxJson struct {
 		FileText string `json:"text"`
 		FileName string `json:"name"`
 		PlantId  string `json:"plant_id"`
 	}
+
 	var payload jsonResponse
 	err := app.readJSON(w, r, &fhxJson)
 	if err != nil {
 		app.badRequest(w, err, "ReadFhx: readJson", http.StatusInternalServerError)
+		return
+	}
+	if fhxJson.FileText == "" {
+		payload.Data = nil
+		payload.Error = true
+		payload.Message = "keine daten vorhanden!"
+		app.writeJSON(w, 200, payload)
 		return
 	}
 

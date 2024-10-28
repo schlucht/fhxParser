@@ -7,7 +7,10 @@ import (
 )
 
 func (app *application) SaveOperation(fhx parser.Fhx, plantID uuid.UUID) error {
-
+	err := app.DB.CreateOPTable()
+	if err != nil {
+		return err
+	}
 	for _, o := range fhx.OPs {
 		// OP Model speichern
 		opModel, err := app.saveOP(o)
@@ -181,7 +184,7 @@ func (app *application) saveValue(paramID uuid.UUID, p parser.Parameter) error {
 		Low:         p.Value.Low,
 		Cv:          p.Value.Cv,
 		Unit:        p.Value.Unit,
-		ValueSet:         p.Value.Set,
+		ValueSet:    p.Value.Set,
 		StringValue: p.Value.StringValue,
 	}
 	err := app.DB.NewValue(valueModel)

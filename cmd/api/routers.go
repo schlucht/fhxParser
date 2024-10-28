@@ -19,7 +19,7 @@ func (app *application) routes() http.Handler {
 	}))
 
 	// Register Routes
-	mux.Route("/fhx/", func(mux chi.Router) {
+	mux.Route("/fhx", func(mux chi.Router) {
 		mux.Post("/upload", app.ReadFhx)
 	})
 	mux.Route("/plant", func(mux chi.Router) {

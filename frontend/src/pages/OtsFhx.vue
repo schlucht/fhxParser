@@ -29,7 +29,7 @@
       </fieldset>      
     </form>
     <div class="res">
-        <pre>{{ fileUpload.text }}</pre>
+        <pre>{{ smallText }}</pre>
     </div>
   </div>
 </template>
@@ -40,22 +40,23 @@ import { readTitleFromFhx } from '../assets/js/helpers.js';
 import { allPlants } from '../models/plants.js';
 import { Storage } from '../models/storage.js';
 import { useRouter } from 'vue-router';
+import notie from 'notie';
 
 const plants = ref(null)
 const plantId = ref(0)
 const fileName = ref('')
 const save = ref(0)
+const smallText = ref('');
 const fileUpload = { text: '', name: '', plantId: 0 }
 const router = useRouter();
 
 onMounted(async () => {
   save.value.disabled = true; 
   plants.value = await allPlants(); 
-  plantId.value = store.plant.value.id || 0;
+  plantId.value =  store.plant.id;
 });
 
 function setPlant(event) {
-  console.log(event.target.id);
     const ps = {
         id: event.target.id,
         plant: event.target.value,
@@ -90,10 +91,36 @@ function uploadFile(event) {
   fr.readAsText(files[0])
 }
 
-function uploadText() {
-    readTitleFromFhx(fileUpload.text);
-    // console.log(fileUpload.text);
-    // übergabe des Textes an die API
+async function uploadText() {
+    smallText.value =  readTitleFromFhx(fileUpload.text);
+    const body = {
+      text: fileUpload.text,
+      name: fileUpload.name,
+      plant_id: fileUpload.plantId,
+    };
+   
+    const res = await fetch(api + "/fhx/upload", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body),
+        });
+        
+    const data = await res.json();
+    console.log(data);
+    if (data.error) {
+      notie.alert({
+        type:'error',
+        text: data.message,
+      });
+      return;
+    } else {
+      notie.alert({
+        type:'success',
+        text: data.message,
+      });
+    }
 }
 
 </script>

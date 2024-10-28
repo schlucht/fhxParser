@@ -10,7 +10,7 @@ import (
 
 type Operation struct {
 	ID        uuid.UUID `json:"op_id"`
-	OPName    string    `json:"opname"`
+	OPName    string    `json:"op_name"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
@@ -212,7 +212,7 @@ func (m *DBModel) NewOP(op Operation) error {
 	}
 
 	stmt := `INSERT INTO operations 
-			(op_id, opname, updated_at, created_at) 
+			(op_id, op_name, updated_at, created_at) 
 		VALUES
 			(?,?,?,?)`
 	_, err := m.DB.ExecContext(ctx, stmt,
@@ -235,7 +235,7 @@ func (m *DBModel) UpdateOP(op Operation) error {
 	defer cancel()
 
 	stmt := `UPDATE operations 
-		SET opname = ?, updated_at = ? 
+		SET op_name = ?, updated_at = ? 
 		WHERE op_id = ?`
 	_, err := m.DB.ExecContext(ctx, stmt,
 		op.OPName,
@@ -263,7 +263,7 @@ func (m *DBModel) OPFromID(id uuid.UUID) (Operation, error) {
 
 	stmt := `SELECT 
 			op_id, 
-			opname, 
+			op_name, 
 			created_at, 
 			updated_at
 		 FROM 
@@ -294,12 +294,12 @@ func (m *DBModel) OpFromName(name string) (Operation, error) {
 
 	stmt := `SELECT 
 			op_id, 
-			opname, 
+			op_name, 
 			created_at, 
 			updated_at 
 		FROM 
 			operations 
-		WHERE opname = ?`
+		WHERE op_name = ?`
 	err := m.DB.QueryRowContext(ctx, stmt,
 		name,
 	).Scan(
@@ -340,7 +340,7 @@ func (m *DBModel) NewOPPlant(opPlant OperationPlant) error {
 			op_position, 
 			op_time, 
 			op_author, 
-			op_description,
+			op_desc,
 			updated_at,
 			created_at)
 		VALUES(?,?,?,?,?,?,?,?,?,?)	`
@@ -376,7 +376,13 @@ func (m *DBModel) NewParam(param Parameter, opPlantID uuid.UUID) error {
 	}
 
 	stmt := `INSERT INTO opparameters 
-			(params_id , opplant_id, param_name, param_desc, updated_at, created_at) 
+			(
+				params_id , 
+				id_opplant, 
+				param_name, 
+				param_desc, 
+				updated_at, 
+				created_at) 
 		VALUES
 			(?,?,?,?,?,?)`
 	_, err := m.DB.ExecContext(ctx, stmt,
@@ -405,7 +411,7 @@ func (m *DBModel) UpdateParams(param Parameter, opPlantID uuid.UUID) error {
 	defer cancel()
 	stmt := `UPDATE opparameters 
 		SET param_name = ?, param_desc = ?, updated_at = ? 
-		WHERE opplant_id = ? AND params_id  = ?`
+		WHERE id_opplant = ? AND params_id  = ?`
 	_, err := m.DB.ExecContext(ctx, stmt,
 		param.Name,
 		param.Description,
@@ -470,7 +476,7 @@ func (m *DBModel) IDOPPlantFromName(name string, idPlant uuid.UUID) (uuid.UUID, 
 			opplant_id 
 		FROM 
 			qryOPPlant 
-		WHERE opname = ? AND id_plant = ?`
+		WHERE op_name = ? AND id_plant = ?`
 	res, err := m.DB.QueryContext(ctx, stmt,
 		name,
 		idPlant,
@@ -504,7 +510,7 @@ func (m *DBModel) ExistParam(opPlantID uuid.UUID, paramName string) (uuid.UUID, 
 			params_id 
 		FROM 
 			opparameters 
-		WHERE opplant_id = ? AND param_name = ?`
+		WHERE id_opplant = ? AND param_name = ?`
 	res, err := m.DB.QueryContext(ctx, stmt,
 		opPlantID.String(),
 		paramName,
@@ -541,7 +547,7 @@ func (m *DBModel) ParamIdFromName(paramname string, ooplantid uuid.UUID) (uuid.U
 			params_id 
 		FROM 
 			opparameters 
-		WHERE opplant_id = ? AND param_name = ?`
+		WHERE id_opplant = ? AND param_name = ?`
 	res, err := m.DB.QueryContext(ctx, stmt,
 		ooplantid.String(),
 		paramname,
@@ -577,13 +583,13 @@ func (m *DBModel) ParamFromOPPlantID(id uuid.UUID) ([]Parameter, error) {
 
 	stmt := `SELECT 
 				params_id,
-				opplant_id,
+				id_opplant,
 				param_name, 
 				param_desc,
 				updated_at,
 				created_at
 			FROM opparameters 
-			WHERE opplant_id = ? 
+			WHERE id_opplant = ? 
 			ORDER BY param_name`
 	res, err := m.DB.QueryContext(ctx, stmt,
 		id.String(),
@@ -631,8 +637,18 @@ func (m *DBModel) NewValue(value Value) error {
 	}
 
 	stmt := `INSERT INTO 
-			paramvalues 
-			(value_id, params_id, high, low, cv, unit, stringvalue, valueset,updated_at,created_at) 
+			opparamvalues 
+			(
+				value_id, 
+				id_params, 
+				high, 
+				low, 
+				cv, 
+				unit, 
+				stringvalue, 
+				valueset,
+				updated_at,
+				created_at) 
 			VALUES
 			(?,?,?,?,?,?,?,?,?,?)`
 	_, err := m.DB.ExecContext(ctx, stmt,
@@ -713,9 +729,18 @@ func (m *DBModel) ValuesFromParamId(id uuid.UUID) ([]Value, error) {
 	values := []Value{}
 
 	stmt := `SELECT 
-			value_id, params_id, high, low, cv, unit, stringvalue, valueset,updated_at,created_at
+			value_id, 
+			id_params, 
+			high, 
+			low, 
+			cv, 
+			unit, 
+			stringvalue, 
+			valueset,
+			updated_at,
+			created_at
 		FROM 
-			paramvalues 
+			opparamvalues 
 		WHERE params_id = ? 
 		ORDER BY value_id DESC`
 

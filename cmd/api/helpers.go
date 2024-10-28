@@ -33,13 +33,12 @@ func (app *application) writeJSON(w http.ResponseWriter, status int, data interf
 // readJSON reads json from request body into data. We only accept a single json value in the body
 func (app *application) readJSON(w http.ResponseWriter, r *http.Request, data interface{}) error {
 	maxBytes := 1048576 // max one megabyte in request body
-	r.Body = http.MaxBytesReader(w, r.Body, int64(maxBytes))
+	r.Body = http.MaxBytesReader(w, r.Body, int64(maxBytes))	
 	dec := json.NewDecoder(r.Body)
 	err := dec.Decode(data)
 	if err != nil {
 		return err
 	}
-
 	// we only allow one entry in the json file
 	err = dec.Decode(&struct{}{})
 	if err != io.EOF {
