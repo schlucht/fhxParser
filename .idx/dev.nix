@@ -15,6 +15,8 @@
                 "golang.go"
 		        "octref.vetur"
                 "eamodio.gitlens"
+                "Angular.ng-template"
+                "bradlc.vscode-tailwindcss"
             ];
     };
 }
