@@ -17,6 +17,7 @@
                 "eamodio.gitlens"
                 "Angular.ng-template"
                 "bradlc.vscode-tailwindcss"
+                "esbenp.prettier-vscode"
             ];
     };
 }

@@ -5,6 +5,14 @@
     "editor.lineHeight": 0,
     "terminal.integrated.fontFamily": "monospace",
     "editor.stickyScroll.enabled": false,
+    "editor.tabSize": 4,
+
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "[javascript, html, css, typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true
+    },
+     
 
     "vetur.validation.template": false,
     "vetur.validation.script": false,
@@ -59,5 +67,7 @@
     "editor.quickSuggestions": {
         "strings": true
       },
-   
+    "prettier.singleQuote": true,
+    "prettier.tabWidth": 4,
+    "prettier.useTabs": true   
 }

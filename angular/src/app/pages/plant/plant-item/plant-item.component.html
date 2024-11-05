@@ -1,0 +1,17 @@
+<div class="flex flex-row">
+    <input 
+      [id]="plant.plant_id" 
+      type="radio" 
+      name="plant" 
+      [value]="plant.plant_id"
+      (change)="onChange(plant)"
+    />
+    <label 
+      class="label relative" 
+      [for]="plant.plant_id">{{plant.plant}}
+        <span 
+          (click)="onSelectPlant(plant.plant)"  
+          class="absolute top-0.5 text-xs cursor-pointer">💬
+        </span>
+    </label>
+</div>
