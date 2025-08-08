@@ -1,0 +1,8 @@
+<h1>Hello Lothar</h1>
+<% users.forEach(user => { %>
+    <p style="<%= !user.premium ? 'color:red' : '' %>"><%= user.name %></p>
+    <p><%= user.age %></p>
+    <% if(user.premium) {%>
+        <p style="color:red"><%=user.name%></p>
+    <%}%>
+<%})%>

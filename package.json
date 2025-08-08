@@ -1,0 +1,33 @@
+{
+  "name": "fhxparser",
+  "version": "1.0.0",
+  "description": "",  
+  "main": "./src/server.ts",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.ss",
+    "dev": "nodemon",
+    "clean": "rm -rf dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/schlucht/fhxParser.git"
+  },
+  "author": "Schmid Lothar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/schlucht/fhxParser/issues"
+  },
+  "homepage": "https://github.com/schlucht/fhxParser#readme",
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.2.0",
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^5.1.0"
+  }
+}

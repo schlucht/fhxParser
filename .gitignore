@@ -1,0 +1,21 @@
+# Node modules (lokale Abhängigkeiten)
+node_modules/
+
+# TypeScript build output
+dist/
+
+# Umgebungsvariablen
+.env
+
+# Logs
+*.log
+logs/
+
+# Betriebssystem-/Editor-Dateien
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Docker
+docker-compose.override.yml
