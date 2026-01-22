@@ -24,22 +24,5 @@ services:
     restart: always
     ports:
       - 8081:80
-  
-  webapp:
-    build: .
-    container_name: webapp
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./views:/app/views
-      - ./public:/app/public
-    depends_on:
-      - db
-    environment:
-      DB_HOST: db
-      DB_USER: ots
-      DB_PASSWORD: fhxdb
-      DB_NAME: fhxdb
-
 volumes:
   dbdata:
