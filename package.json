@@ -2,10 +2,10 @@
   "name": "fhxparser",
   "version": "1.0.0",
   "description": "",  
-  "main": "./src/server.ts",
+  "main": "./src/main.ts",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/server.ts",
+    "start": "node dist/main.js",
     "dev": "nodemon",
     "clean": "rm -rf dist"
   },
@@ -26,8 +26,7 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2"
   },
-  "dependencies": {
-    "ejs": "^3.1.10",
+  "dependencies": {    
     "express": "^5.1.0"
   }
 }
