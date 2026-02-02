@@ -1,6 +1,6 @@
-import main from "./parser/main";
+import fhx from "./parser";
 
 const path = '/home/user/fhxParser/files/OP_DRUCK.fhx';
-main(path);
+fhx.create(path);
 
-console.log("Hello Docker")
+console.log("Hello FHX Parser");

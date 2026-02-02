@@ -1,12 +1,18 @@
 
 import { Locale } from "../models/document/locale";
 import { Meta } from "../models/meta";
-import { matchStr } from "../utils";
+import { Regex } from "../utils/const";
+import { matchStrR } from "../utils/utils";
 import { parseMeta } from "./parseMeta";
 
 export function parseLocale(localeLines: string[]): Locale {
-    let meta: Meta = parseMeta(localeLines[0]);
-    let locale = matchStr(/LOCALE="([^"]+)"/, localeLines[1]) || '';
+    const locale: Locale = {meta: {user: '', time: 0}, locale: ''};
 
-    return {meta, locale};
+    const meta: Meta = parseMeta(localeLines[1]);   
+    if(meta) locale.meta = meta;
+
+    const loc = matchStrR(Regex.local, localeLines[2]);    
+    if(loc.ok) locale.locale = loc.value;
+
+    return locale;
 }

@@ -1,6 +1,6 @@
 import { Rect } from "../fhx";
 
-type FormulaParameterType = 'BATCH_PARAMETER_REAL' | 'ENUMERATION_VALUE' | 'UNICODE_STRING';
+export type FormulaParameterType = 'BATCH_PARAMETER_REAL' | 'ENUMERATION_VALUE' | 'UNICODE_STRING';
 
 export interface FormulaParameter {
   name: string;

@@ -2,31 +2,46 @@
 import { Meta } from "../models/meta";
 import { Schema } from "../models/document/schema";
 import { Version } from "../models/document/version";
-import { matchNum, matchStr } from "../utils";
+import { matchNumR, matchStrR } from "../utils/utils";
 import { parseMeta } from "./parseMeta";
+import { Regex } from "../utils/const";
 
 export function parseSchema(schemaLines: string[]): Schema {    
     const version: Version = {};
-    let meta: Meta = parseMeta(schemaLines[0]);
+    const meta: Meta =  schemaLines.length > 1 
+        ? parseMeta(schemaLines[1])
+        : {user: '', time: 0};
+
     for(const line of schemaLines) {
-        let m = matchNum(/VERSION=([0-9]+)(?:\/\*\s*"([^"]+)"\s*\*\/)?/, line) || undefined;
-        if(m) version.versionRaw = m
-        let b = matchStr(/VERSION=([0-9]+)(?:\/\*\s*"([^"]+)"\s*\*\/)?/, line, 2) || undefined;
-        if (b) version.versionRawDateStr = b;
-        m = matchNum(/MAJOR_VERSION=([0-9]+)/, line) || undefined;
-        if (m) version.major = m;
-        m = matchNum(/MINOR_VERSION=([0-9]+)/, line) || undefined;
-        if (m) version.minor = m
-        m = matchNum(/MAINTENANCE_VERSION=([0-9]+)/, line) || undefined;
-        if(m) version.maintenance = m;
-        m = matchNum(/BUILD_VERSION=([0-9]+)/, line) || undefined;
-        if(m) version.build = m;
-        b = matchStr(/BUILD_ID="([^"]+)"/, line) || undefined;
-        if(b) version.buildId = b;
-        b = matchStr(/VERSION_STR="([^"]+)"/, line) || undefined;
-        if(b) version.versionStr = b;
-        version.onlineUpgrade = (matchStr(/ONLINE_UPGRADE=([A-Z]+)/, line) === 'F' ? true : false) || undefined;       
+        const trimmed = line.trim();
+        if(trimmed.length === 0) continue;
         
+        const versRaw = matchNumR(Regex.version, line);
+        if(versRaw.ok) version.versionRaw = versRaw.value;
+        
+        const versStr = matchStrR(Regex.versionStr, line, 2);
+        if (versStr.ok) version.versionStr = versStr.value;
+
+        const maj = matchNumR(Regex.major, line);
+        if(maj.ok) version.major = maj.value;
+
+        const min = matchNumR(Regex.minor, line);
+        if(min.ok) version.minor = min.value;
+
+        const maint = matchNumR(Regex.maintenance, line);
+        if(maint.ok) version.maintenance = maint.value
+
+        const build = matchNumR(Regex.build, line);
+        if(build.ok) version.build = build.value;
+
+        const buildId = matchStrR(Regex.buildId, line);
+        if(buildId.ok) version.buildId = buildId.value;
+        
+        const versionStr = matchStrR(Regex.versionStr, line, 2);
+        if(versionStr.ok) version.versionStr = versionStr.value;
+        
+        const onlineUpg = matchStrR(Regex.upgrade, line);
+        if(onlineUpg.ok) version.onlineUpgrade = onlineUpg.value === 'F' ? false : true;
     }
     return {meta, version}
 }

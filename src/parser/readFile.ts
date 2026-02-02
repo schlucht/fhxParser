@@ -1,12 +1,12 @@
 
 import {promises as fs} from 'fs';
-import { parseFhx } from './parseFhx';
+import { parseFhx } from './document/parseFhx';
 
 async function readFhxFile(path: string) {
     try {
         const data = await fs.readFile(path);
         const text = decodeWithBom(data);
-        const lines = text.split('\r\n');
+        const lines = text.split(/\r?\n/);
         parseFhx(lines);
     } catch(err) {
         console.error(err);

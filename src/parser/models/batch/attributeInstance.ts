@@ -1,27 +1,23 @@
-import { BoolFlag } from "../fhx";
+import { BoolFlag } from '../fhx';
 
 export interface AttributeInstance {
-    name: string;
-    value: AttributeValue;
-  }
+	name: string;
+	value: NumericAttr | EnumAttr | StringAttr;
+}
 
-  type AttributeValue =
-    | {
-        // numerisch skalierte Werte
-        description?: string;
-        high?: number;
-        low?: number;
-        scalable?: BoolFlag;
-        cv?: number;              // Current Value
-        units?: string;
-      }
-    | {
-        // Enum/String-Werte
-        set?: string;
-        stringValue?: string;
-        changeable?: BoolFlag;
-      }
-    | {
-        // einfache String CV
-        cv?: string;
-      };
+export interface NumericAttr {	
+	description?: string;
+	high?: number;
+	low?: number;
+	scalable?: BoolFlag;
+	cv?: number; // Current Value
+	units?: string;
+}
+export interface EnumAttr {	
+	set?: string;
+	stringValue?: string;
+	changeable?: BoolFlag;
+}
+export interface StringAttr {	
+	cv?: string;
+}
