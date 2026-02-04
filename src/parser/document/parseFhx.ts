@@ -15,7 +15,7 @@ export function parseFhx(txtFhx: string[]): FhxDocument | null {
     const locale = parseLocale(localLines[0]);
     const recipes = parseRecipe(txtFhx);
 
-    // console.log("Recipes");
+    
 
-    return {header, schema, locale, recipes: []};
+    return {header, schema, locale, recipes};
 }

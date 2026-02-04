@@ -11,8 +11,7 @@ describe('util/matchNumR', () => {
     });
 
     it('test wenn user vorhanden ist', () => {
-        const result = matchNumR(Regex.time, 'time=13245681' ) as MatchResult<number>;
-        console.log("Result", result)
+        const result = matchNumR(Regex.time, 'time=13245681' ) as MatchResult<number>;        
         expect(result.ok).toBe(true); 
         if(result.ok) expect(result.value).toBe(13245681);       
     });

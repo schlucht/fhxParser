@@ -2,6 +2,12 @@ import { EnumAttr, NumericAttr, StringAttr} from "../models/batch/attributeInsta
 import { matchStrR, rxExec } from "../utils/utils";
 import { Regex } from "../utils/const";
 
+// Parst den Numeric Wert eines Attributes:
+// ATTRIBUTE_INSTANCE NAME="FP_PAHH"
+//   {
+//     VALUE { DESCRIPTION="" HIGH=20000 LOW=-1000 SCALABLE=F CV=1200 UNITS="mbar" }
+//   }
+// return: { description: '', high: 20000, low: -1000, scalable: false, cv: 1200}
 export function parseValueNumeric(line: string): NumericAttr {
     const trimmed = line.trim();
     const numAttr = {
@@ -12,8 +18,7 @@ export function parseValueNumeric(line: string): NumericAttr {
         cv: 0,
         units: ''
     }
-    const num = rxExec(Regex.numAttr.numeric, trimmed);
-    console.log(num)
+    const num = rxExec(Regex.numAttr.numeric, trimmed);    
     if(num) {
         numAttr.description = num[1];
         numAttr.high = parseInt(num[2]);
@@ -26,6 +31,17 @@ export function parseValueNumeric(line: string): NumericAttr {
     return numAttr;
 }
 
+// Parst enum Values aus Attribute
+// ATTRIBUTE_INSTANCE NAME="FP_PV_KENNLINIE"
+//   {
+//     VALUE
+//     {
+//       SET="L_EIN_AUS"
+//       STRING_VALUE="AUS"
+//       CHANGEABLE=F
+//     }
+//   }
+// return: { set: 'L_EIN_AUS', stringValue: 'AUS', changeable: false }
 export function parseValueEnum(lines: string[]): EnumAttr{
     
     if(lines.length === 0) throw new Error("Kein Daten übergeben!");
@@ -52,4 +68,23 @@ export function parseValueEnum(lines: string[]): EnumAttr{
             }            
         }
         return en;
+}
+
+// Parst den String Wert eines Attributes:
+// ATTRIBUTE_INSTANCE NAME="FP_BESCHREI_TEXT"
+// {
+//   VALUE { CV="" }
+// }
+// return: { cv: '' }
+export function parseValueString(line: string): StringAttr {
+    const trimmed = line.trim();
+    const str = {
+        cv: ''
+    }
+    const cv = matchStrR(Regex.cv, trimmed);
+
+    if(cv.ok) {
+        str.cv = cv.value;
+    }
+    return str;
 }

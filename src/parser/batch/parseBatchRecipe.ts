@@ -2,16 +2,21 @@ import { parseMeta } from "../document/parseMeta";
 import { BatchRecipe } from "../models/batch/batchRecipe";
 import { Blocks, Regex } from "../utils/const";
 import { matchNumR, matchStrR, readBlock } from "../utils/utils";
-import { parseFormulaParameter } from "./parseFormulaParameter";
+import { parseAttributeInstance, parseFormulaParameter } from "./parseFormulaParameter";
+import { parsePFC } from "./pfcAlgorithm";
 
-export function parseRecipe(txtFhx: string[]): BatchRecipe | null {
-
-    const recipe = readBlock(Blocks.recipe, txtFhx);
-    const header = readHeader(recipe[0]);
-    const formualParameter = parseFormulaParameter(txtFhx);
+export function parseRecipe(txtFhx: string[]): BatchRecipe[]{
     
+    const recipe = readBlock(Blocks.recipe, txtFhx);
+    const batchRecipe = readHeader(recipe[0]);
+    const formualParameter = parseFormulaParameter(txtFhx);
+    const attributeInstance = parseAttributeInstance(txtFhx);
+    const pfcAlgo = parsePFC(txtFhx);
 
-    return null;
+    batchRecipe.formulaParameters = formualParameter || undefined;
+    batchRecipe.attributeInstances = attributeInstance || undefined;
+    batchRecipe.pfcAlgorithm = pfcAlgo || undefined;    
+    return [batchRecipe];
 }
 
 function readHeader(recipe: string[]): BatchRecipe {

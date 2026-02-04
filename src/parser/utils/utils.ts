@@ -9,7 +9,7 @@ export function rxExec(regex: RegExp, str: string): RegExpExecArray | null {
   
 export function matchStrR(regex: RegExp, str: string, group = 1): MatchResult<string> {
   const m = rxExec(regex, str);
-  if (!m || group < 0 || group >= m.length) return { ok: false };
+  if (!m || group < 0 || group >= m.length) return { ok: false };  
   const v = m[group];
   return typeof v === 'string' ? { ok: true, value: v } : { ok: false };
 }
@@ -56,3 +56,22 @@ export function readBlock(blockName: string, lines: string[]): string[][] {
     return blocks;
 }
 
+export function readSection(lines: string[], start: string, end: string = "" ): string[] {
+    const sectionFormula: string[] = [];
+    let isForumla = false;
+    for(const line of lines) {
+        const trimming = line.trim();
+        if(!isForumla) {
+            if(line.includes(start)) {
+                isForumla = true;
+                sectionFormula.push(trimming);
+            }
+        } else {
+            if (end != "") {
+                if(line.includes(end)) break;
+            }
+            sectionFormula.push(trimming);
+        }
+    }
+    return sectionFormula;
+}

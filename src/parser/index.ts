@@ -1,7 +1,7 @@
 import { readFhxFile } from "./readFile";
 
 const fhx = {
-    create: (path: string) => readFhxFile(path)
+    create: async (path: string) => await readFhxFile(path)
 }
 
 export default fhx;

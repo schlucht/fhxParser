@@ -1,4 +1,4 @@
-import { Rect } from "../models/fhx";
+import { Pos, Rect } from "../models/fhx";
 
 export function parseRectangle(rec: string): Rect {  
 
@@ -17,5 +17,21 @@ export function parseRectangle(rec: string): Rect {
         y: Number(y),
         h: Number(h),
         w: Number(w),    
+    };
+}
+
+export function parsePosition(pos: string): Pos {    
+    if(!pos) throw new Error("Kein Daten übergeben!");
+    if(!pos.includes("POSITION")) throw new Error("Kein Position vorhanden");
+
+    const POSREGEX = /POSITION\s*=\s*\{\s*X\s*=\s*(-?\d+)\s+Y\s*=\s*(-?\d+)\s+}/i;
+    const posi: Pos = { x: 0, y: 0 };
+    const m = POSREGEX.exec(pos.trim());
+    if (!m) return posi
+
+    const [, x, y] = m;
+    return {
+        x: Number(x),
+        y: Number(y),           
     };
 }

@@ -18,13 +18,24 @@ export const Regex = {
     formParam: /FORMULA_PARAMETER NAME="([^"]+)"\s+TYPE=([^"]+)/,
     connection: /CONNECTION=([^"]+)/,
     group: /GROUP="([^"]+)/,
-
+    step:{
+        name: /STEP NAME="([^"]+)"\s+DEFINITION="([^"]*)"/,
+        paramName: /STEP_PARAMETER NAME="([^"]*)"/,
+        initialName: /INITIAL_STEP="([^"]*)"/,
+        origin: /ORIGIN=([^"]+)/,
+        defered: /DEFERRED_TO="([^"]+)"/,    
+        transition: /TRANSITION NAME="([^"]+)"/,    
+        termination: /TERMINATION=([A-Z])/,    
+        expression: /EXPRESSION="([^"]*)"/,
+        stepTrans: /STEP_TRANSITION_CONNECTION STEP="([^"]+)"\s+TRANSITION=([^"]+)/,
+        transStep: /TRANSITION_STEP_CONNECTION TRANSITION="([^"]+)"\s+STEP=([^"]+)/,
+            
+    },
     stringAttr: {
         set: /SET="([^"]+)/,
         sv: /STRING_VALUE="([^"]+)/,
         ch: /CHANGEABLE=([A-Z])/,
     },
-
     numAttr: {
        numeric: /DESCRIPTION="([^"]*)"\s+HIGH=(-?\d+)\s+LOW=(-?\d+)\s+SCALABLE=([A-Z])\s+CV=(\d+)\s+UNITS="([^"]+)"/
     },

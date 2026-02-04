@@ -1,8 +1,9 @@
 import { describe, it, expect } from "vitest";
-import { parseRectangle } from "../../../src/parser/batch/rectangel";
+import { parsePosition, parseRectangle } from "../../../src/parser/batch/rectangel";
 
 describe("batch/rectangle", () => {
     const input = 'RECTANGLE= { X=-50 Y=-50 H=1 W=1 }';
+    const inputPos = 'POSITION= { X=90 Y=100 }';
 
      it.each([
         {
@@ -29,5 +30,14 @@ describe("batch/rectangle", () => {
             h: 1,  
             w: 1
         });        
-    })
-})
+    });
+
+    it("parsen Position", () => {
+      const result = parsePosition(inputPos);
+      expect(result).toMatchObject({
+        x: 90,
+        y: 100
+      });
+    });
+    
+});

@@ -1,44 +1,30 @@
 import { FormulaParameter, FormulaParameterType } from "../models/batch/formualParameter";
-import { matchStrR, readBlock } from "../utils/utils";
+import { matchStrR, readBlock, readSection } from "../utils/utils";
 import { Regex } from "../utils/const";
 import { parseRectangle } from "./rectangel";
 import { AttributeInstance } from "../models/batch/attributeInstance";
-import { parseValueEnum, parseValueNumeric } from "./parseAttributeParams";
+import { parseValueEnum, parseValueNumeric, parseValueString } from "./parseAttributeParams";
 
-export function parseFormulaParameter(lines: string[]): FormulaParameter[] | null{
+export function parseFormulaParameter(lines: string[]): FormulaParameter[]{
     
-    const sectionFormula = readSection(lines,'FORMULA_PARAMETER', 'ATTRIBUTE_INSTANCE');
-    const sectionAttribute = readSection(lines, 'ATTRIBUTE_INSTANCE', 'PFC_ALGORITHM' );
-    // const sectionPfc = readSection(lines, 'PFC_ALGORITHM');
+    const sectionFormula = readSection(lines,'FORMULA_PARAMETER', 'ATTRIBUTE_INSTANCE'); 
 
     const blockFormula = readBlock('FORMULA_PARAMETER',sectionFormula);
-    const blockAttribute = readBlock('ATTRIBUTE_INSTANCE',sectionAttribute);   
-    // console.log(blockAttribute)
+  
     const parseFormula : FormulaParameter[] = parseFormulaBlock(blockFormula);
-    //const parseAttribute : FormulaParameter[] = parseFormulaBlock(blockAttribute);
     
-    return null
+    
+    return parseFormula
 }
 
-function readSection(lines: string[], start: string, end: string = "" ): string[] {
-    const sectionFormula: string[] = [];
-    let isForumla = false;
-    for(const line of lines) {
-        const trimming = line.trim();
-        if(!isForumla) {
-            if(line.includes(start)) {
-                isForumla = true;
-                sectionFormula.push(trimming);
-            }
-        } else {
-            if (end != "") {
-                if(line.includes(end)) break;
-            }
-            sectionFormula.push(trimming);
-        }
-    }
-    return sectionFormula;
+export function parseAttributeInstance(lines: string[]): AttributeInstance[]{
+    const sectionAttribute = readSection(lines, 'ATTRIBUTE_INSTANCE', 'PFC_ALGORITHM' );
+    const blockAttribute = readBlock('ATTRIBUTE_INSTANCE',sectionAttribute);   
+    const parseAttribute : AttributeInstance[] = parseAttributeBlock(blockAttribute);    
+    return parseAttribute;
 }
+
+
 
 export function parseAttributeBlock(block: string[][]): AttributeInstance[] {
     if (block.length === 0) 
@@ -73,10 +59,8 @@ export function parseAttributeBlock(block: string[][]): AttributeInstance[] {
             }
 
             if(trimmed.startsWith('VALUE { CV="" }')) {
-                const value = matchStrR(Regex.cv, trimmed);
-                if(value.ok) {
-                    attribute.value = { cv: value.value };
-                }
+                const value = parseValueString(trimmed);
+                attribute.value = value;
             }
         }
         attributeInstances.push(attribute);

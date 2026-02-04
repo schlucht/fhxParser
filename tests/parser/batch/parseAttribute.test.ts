@@ -59,8 +59,7 @@ describe("parseAttributeBlock – DDT Tests", () => {
     const result3 = parseAttributeBlock(input3);    
 
     // Beispielprüfungen für den ersten Block
-    const res = result1[0]
-    console.log(res);
+    const res = result1[0]   
     expect(res).toMatchObject({
       name: "FP_PAHH",   
       value: {
